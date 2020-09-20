@@ -1,5 +1,7 @@
 # Hydra
 
+[![Join the chat at https://gitter.im/cloudideaas-hydra/community](https://badges.gitter.im/cloudideaas-hydra/community.svg)](https://gitter.im/cloudideaas-hydra/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes.
 
 ![Hydra Splash](https://www.cloudideaas.com/images/HydraSplashNarrow.png)
