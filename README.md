@@ -51,7 +51,7 @@ dull, and drone.  It does this while at the same time, allowing for creativity a
     - [Business Model Input Files](http://cloudideaas.com/hydra/businessmodeltemplate.htm)
     - [Generate an Entity Domain Model](http://cloudideaas.com/hydra/generateentities.htm)
     - [Entity Domain Model Input Files](http://cloudideaas.com/hydra/entitydomainmodeltemplate.htm)
-    - [Entity Domain Model Attributes](http://cloudideaas.com/hydra/entitydomainmodel.htm)
+    - [Entity Domain Model Attributes](http://cloudideaas.com/hydra/entitydomainmodelattributes.htm)
     - [Generate App](http://cloudideaas.com/hydra/generateapp.htm)
     - [package.json Configuration](http://cloudideaas.com/hydra/packagejson.htm)
     - [Writing custom UI's with Razor syntax](http://cloudideaas.com/hydra/razorUI.htm)
