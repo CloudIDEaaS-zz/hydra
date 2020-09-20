@@ -49,7 +49,7 @@ dull, and drone.  It does this while at the same time, allowing for creativity a
     - [Generating a Workspace](http://cloudideaas.com/hydra/generateworkspace.htm)
     - [Generating a Business Model](http://cloudideaas.com/hydra/generatebusinessmodel.htm)
     - [Business Model Input Files](http://cloudideaas.com/hydra/businessmodeltemplate.htm)
-    - [Entity Domain Model Input Files](http://cloudideaas.com/hydra/generateentities.htm)
+    - [Generate an Entity Domain Model](http://cloudideaas.com/hydra/generateentities.htm)
     - [Entity Domain Model Input Files](http://cloudideaas.com/hydra/entitydomainmodeltemplate.htm)
     - [Entity Domain Model Attributes](http://cloudideaas.com/hydra/entitydomainmodel.htm)
     - [Generate App](http://cloudideaas.com/hydra/generateapp.htm)
