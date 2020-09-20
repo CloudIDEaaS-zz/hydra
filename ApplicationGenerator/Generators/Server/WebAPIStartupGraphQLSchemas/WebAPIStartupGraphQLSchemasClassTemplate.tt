@@ -1,0 +1,59 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ import namespace="AbstraX" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.String" name="RootNamespace" #>
+<#@ parameter type="System.String[]" name="Schemas" #>
+using Microsoft.AspNetCore.Builder;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using GraphQL;
+using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
+using Microsoft.Extensions.DependencyInjection;
+using <#= this.RootNamespace #>.GraphQL;
+
+
+namespace <#= this.RootNamespace #>.Services
+{
+    public static class StartupSchemasExtensions
+    {
+        public static IApplicationBuilder AddSchemas(this IApplicationBuilder app)
+        {
+<#
+    foreach (var schema in this.Schemas)
+    {
+#>
+            app.UseGraphQL<<#= schema #>Schema>();
+<#
+    }
+#>
+
+            return app;
+        }
+
+        public static IServiceCollection AddSchemas(this IServiceCollection services)
+        {
+<#
+    foreach (var schema in this.Schemas)
+    {
+#>
+            services.AddScoped<<#= schema #>Schema>();
+<#
+    }
+#>
+
+            return services;
+        }
+    }
+}

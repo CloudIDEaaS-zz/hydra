@@ -1,0 +1,33 @@
+<div [ngStyle]="{ 'padding': getPadding() }" tabindex="0">
+  <div #nodeElements *ngFor="let node of nodes" class="divitem">
+    <ion-grid>
+      <ion-row>
+        <ion-col class="treeNodeArrow">
+          <button *ngIf="node.__treeNode__.childNodes" ion-item detail-none no-lines (click)="expandCollapseNode($event, node)" icon-left>
+            <ion-icon [color]="node.__treeNode__.isExpanded ? 'primary' : 'gray'" [name]="node.__treeNode__.isExpanded ? 'ios-arrow-down' : 'ios-arrow-forward'"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col class="treeNodeIcon">
+            <ion-icon *ngIf="node.__treeNode__.icon" name="{{ node.__treeNode__.icon }}" color="dark"></ion-icon>
+            <img *ngIf="node.__treeNode__.image" [src]="node.__treeNode__.image">
+        </ion-col>
+        <ion-col class="treeNodeText">
+          <editLabel (click)="selectNode($event, node)" class="unselected" selectedStyle="selected" [attr.style]="node.__treeNode__.style" (onchange)="onLabelChange(node, $event)" (onEndEdit)="onLabelBlur(node)">
+            {{ node.__treeNode__.title }}
+          </editLabel>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <!-- Recursive call -->
+    <tree-view
+      #childTree
+      *ngIf="node.__treeNode__.childNodes"
+      [treeView]="rootTreeView || this"
+      (onCreate)="this.childTree.onCreate(node)"
+      [thisNode]="node"
+      [configuration]="configuration"
+      [nodes]="node.__treeNode__.childNodes"
+      [hidden]="!isExpanded(node)">
+    </tree-view>
+  </div>
+</div>

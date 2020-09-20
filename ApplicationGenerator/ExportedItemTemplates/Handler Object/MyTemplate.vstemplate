@@ -1,0 +1,14 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>HandlerObject.cs</DefaultName>
+    <Name>Hydra Handler Object</Name>
+    <Description>Class to serve as passed in object to generators</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>10</SortOrder>
+    <Icon>HandlerObject.png</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+    <ProjectItem SubType="" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">HandlerObject.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

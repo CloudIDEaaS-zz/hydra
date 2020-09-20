@@ -1,0 +1,477 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MCTrainingPresentationDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Media">
+          <Key>
+            <PropertyRef Name="MediaId" />
+          </Key>
+          <Property Name="MediaId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SlideId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ParentGroupId" Type="uniqueidentifier" />
+          <Property Name="PresentationShapeId" Type="int" Nullable="false" />
+          <Property Name="AutoShapeType" Type="varchar(max)" Nullable="false" />
+          <Property Name="ShapeName" Type="varchar(max)" Nullable="false" />
+          <Property Name="Type" Type="varchar(max)" Nullable="false" />
+          <Property Name="Title" Type="varchar(max)" />
+          <Property Name="Text" Type="varchar(max)" />
+          <Property Name="AltText" Type="varchar(max)" />
+          <Property Name="Term" Type="varchar(max)" />
+          <Property Name="Mnemonic" Type="varchar(max)" />
+          <Property Name="TargetFileName" Type="varchar(max)" />
+          <Property Name="LastWriteTime" Type="datetime" />
+          <Property Name="FileHash" Type="varchar(max)" />
+          <Property Name="TargetFileContents" Type="image" />
+        </EntityType>
+        <EntityType Name="MetadataProperty">
+          <Key>
+            <PropertyRef Name="MetadataPropertyId" />
+          </Key>
+          <Property Name="MetadataPropertyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MediaId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PropertyName" Type="varchar(max)" Nullable="false" />
+          <Property Name="PropertyValueBytes" Type="image" Nullable="false" />
+          <Property Name="PropertyValueText" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="PresentationSource">
+          <Key>
+            <PropertyRef Name="PresentationSourceId" />
+          </Key>
+          <Property Name="PresentationSourceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FileName" Type="varchar(max)" Nullable="false" />
+          <Property Name="LastWriteTime" Type="datetime" Nullable="false" />
+          <Property Name="Title" Type="varchar(max)" Nullable="false" />
+          <Property Name="Subject" Type="varchar(max)" Nullable="false" />
+          <Property Name="Author" Type="varchar(max)" Nullable="false" />
+          <Property Name="Keywords" Type="varchar(max)" />
+          <Property Name="Comments" Type="varchar(max)" />
+          <Property Name="DocumentVersion" Type="varchar(max)" />
+          <Property Name="RevisionNumber" Type="varchar(max)" />
+          <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Slide">
+          <Key>
+            <PropertyRef Name="SlideId" />
+          </Key>
+          <Property Name="SlideId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PresentationSourceId" Type="uniqueidentifier" />
+          <Property Name="PresentationSlideId" Type="int" />
+          <Property Name="TopicId" Type="uniqueidentifier" />
+          <Property Name="HeaderText" Type="varchar(max)" />
+          <Property Name="SlideIndex" Type="int" />
+          <Property Name="SlideName" Type="varchar(max)" />
+          <Property Name="SlideNumber" Type="int" />
+          <Property Name="Notes" Type="text" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="TopicId" />
+          </Key>
+          <Property Name="TopicId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PresentationSourceId" Type="uniqueidentifier" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="SlideCount" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Media_ToMedia">
+          <End Role="Media" Type="Self.Media" Multiplicity="0..1" />
+          <End Role="Media1" Type="Self.Media" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Media">
+              <PropertyRef Name="MediaId" />
+            </Principal>
+            <Dependent Role="Media1">
+              <PropertyRef Name="ParentGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Media_ToSlide">
+          <End Role="Slide" Type="Self.Slide" Multiplicity="1" />
+          <End Role="Media" Type="Self.Media" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Slide">
+              <PropertyRef Name="SlideId" />
+            </Principal>
+            <Dependent Role="Media">
+              <PropertyRef Name="SlideId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MetadataProperty_ToMedia">
+          <End Role="Media" Type="Self.Media" Multiplicity="1" />
+          <End Role="MetadataProperty" Type="Self.MetadataProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Media">
+              <PropertyRef Name="MediaId" />
+            </Principal>
+            <Dependent Role="MetadataProperty">
+              <PropertyRef Name="MediaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Slide_ToPresentationSource">
+          <End Role="PresentationSource" Type="Self.PresentationSource" Multiplicity="0..1" />
+          <End Role="Slide" Type="Self.Slide" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PresentationSource">
+              <PropertyRef Name="PresentationSourceId" />
+            </Principal>
+            <Dependent Role="Slide">
+              <PropertyRef Name="PresentationSourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Slide_ToTopic">
+          <End Role="Topic" Type="Self.Topic" Multiplicity="0..1" />
+          <End Role="Slide" Type="Self.Slide" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="TopicId" />
+            </Principal>
+            <Dependent Role="Slide">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Topic_ToPresentationSource">
+          <End Role="PresentationSource" Type="Self.PresentationSource" Multiplicity="0..1" />
+          <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PresentationSource">
+              <PropertyRef Name="PresentationSourceId" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="PresentationSourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MCTrainingPresentationDataModelStoreContainer">
+          <EntitySet Name="Media" EntityType="Self.Media" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MetadataProperty" EntityType="Self.MetadataProperty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PresentationSource" EntityType="Self.PresentationSource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Slide" EntityType="Self.Slide" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Topic" EntityType="Self.Topic" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Media_ToMedia" Association="Self.FK_Media_ToMedia">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="Media1" EntitySet="Media" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Media_ToSlide" Association="Self.FK_Media_ToSlide">
+            <End Role="Slide" EntitySet="Slide" />
+            <End Role="Media" EntitySet="Media" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MetadataProperty_ToMedia" Association="Self.FK_MetadataProperty_ToMedia">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="MetadataProperty" EntitySet="MetadataProperty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Slide_ToPresentationSource" Association="Self.FK_Slide_ToPresentationSource">
+            <End Role="PresentationSource" EntitySet="PresentationSource" />
+            <End Role="Slide" EntitySet="Slide" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Slide_ToTopic" Association="Self.FK_Slide_ToTopic">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="Slide" EntitySet="Slide" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Topic_ToPresentationSource" Association="Self.FK_Topic_ToPresentationSource">
+            <End Role="PresentationSource" EntitySet="PresentationSource" />
+            <End Role="Topic" EntitySet="Topic" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MCTrainingPresentationDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MCTrainingPresentationDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Media" EntityType="MCTrainingPresentationDataModel.Medium" />
+          <EntitySet Name="MetadataProperties" EntityType="MCTrainingPresentationDataModel.MetadataProperty" />
+          <EntitySet Name="PresentationSources" EntityType="MCTrainingPresentationDataModel.PresentationSource" />
+          <EntitySet Name="Slides" EntityType="MCTrainingPresentationDataModel.Slide" />
+          <EntitySet Name="Topics" EntityType="MCTrainingPresentationDataModel.Topic" />
+          <AssociationSet Name="FK_Media_ToMedia" Association="MCTrainingPresentationDataModel.FK_Media_ToMedia">
+            <End Role="Medium" EntitySet="Media" />
+            <End Role="Medium1" EntitySet="Media" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Media_ToSlide" Association="MCTrainingPresentationDataModel.FK_Media_ToSlide">
+            <End Role="Slide" EntitySet="Slides" />
+            <End Role="Medium" EntitySet="Media" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MetadataProperty_ToMedia" Association="MCTrainingPresentationDataModel.FK_MetadataProperty_ToMedia">
+            <End Role="Medium" EntitySet="Media" />
+            <End Role="MetadataProperty" EntitySet="MetadataProperties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Slide_ToPresentationSource" Association="MCTrainingPresentationDataModel.FK_Slide_ToPresentationSource">
+            <End Role="PresentationSource" EntitySet="PresentationSources" />
+            <End Role="Slide" EntitySet="Slides" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Topic_ToPresentationSource" Association="MCTrainingPresentationDataModel.FK_Topic_ToPresentationSource">
+            <End Role="PresentationSource" EntitySet="PresentationSources" />
+            <End Role="Topic" EntitySet="Topics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Slide_ToTopic" Association="MCTrainingPresentationDataModel.FK_Slide_ToTopic">
+            <End Role="Topic" EntitySet="Topics" />
+            <End Role="Slide" EntitySet="Slides" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Medium">
+          <Key>
+            <PropertyRef Name="MediaId" />
+          </Key>
+          <Property Name="MediaId" Type="Guid" Nullable="false" />
+          <Property Name="SlideId" Type="Guid" Nullable="false" />
+          <Property Name="ParentGroupId" Type="Guid" />
+          <Property Name="PresentationShapeId" Type="Int32" Nullable="false" />
+          <Property Name="AutoShapeType" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ShapeName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AltText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Term" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Mnemonic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TargetFileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastWriteTime" Type="DateTime" Precision="3" />
+          <Property Name="TargetFileContents" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Media1" Relationship="MCTrainingPresentationDataModel.FK_Media_ToMedia" FromRole="Medium" ToRole="Medium1" />
+          <NavigationProperty Name="Medium1" Relationship="MCTrainingPresentationDataModel.FK_Media_ToMedia" FromRole="Medium1" ToRole="Medium" />
+          <NavigationProperty Name="Slide" Relationship="MCTrainingPresentationDataModel.FK_Media_ToSlide" FromRole="Medium" ToRole="Slide" />
+          <NavigationProperty Name="MetadataProperties" Relationship="MCTrainingPresentationDataModel.FK_MetadataProperty_ToMedia" FromRole="Medium" ToRole="MetadataProperty" />
+          <Property Name="FileHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MetadataProperty">
+          <Key>
+            <PropertyRef Name="MetadataPropertyId" />
+          </Key>
+          <Property Name="MetadataPropertyId" Type="Guid" Nullable="false" />
+          <Property Name="MediaId" Type="Guid" Nullable="false" />
+          <Property Name="PropertyName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyValueBytes" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="PropertyValueText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Medium" Relationship="MCTrainingPresentationDataModel.FK_MetadataProperty_ToMedia" FromRole="MetadataProperty" ToRole="Medium" />
+        </EntityType>
+        <EntityType Name="PresentationSource">
+          <Key>
+            <PropertyRef Name="PresentationSourceId" />
+          </Key>
+          <Property Name="PresentationSourceId" Type="Guid" Nullable="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastWriteTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Author" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Keywords" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentVersion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="RevisionNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Slides" Relationship="MCTrainingPresentationDataModel.FK_Slide_ToPresentationSource" FromRole="PresentationSource" ToRole="Slide" />
+          <NavigationProperty Name="Topics" Relationship="MCTrainingPresentationDataModel.FK_Topic_ToPresentationSource" FromRole="PresentationSource" ToRole="Topic" />
+        </EntityType>
+        <EntityType Name="Slide">
+          <Key>
+            <PropertyRef Name="SlideId" />
+          </Key>
+          <Property Name="SlideId" Type="Guid" Nullable="false" />
+          <Property Name="PresentationSourceId" Type="Guid" />
+          <Property Name="PresentationSlideId" Type="Int32" />
+          <Property Name="TopicId" Type="Guid" />
+          <Property Name="HeaderText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SlideIndex" Type="Int32" />
+          <Property Name="SlideName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SlideNumber" Type="Int32" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Media" Relationship="MCTrainingPresentationDataModel.FK_Media_ToSlide" FromRole="Slide" ToRole="Medium" />
+          <NavigationProperty Name="PresentationSource" Relationship="MCTrainingPresentationDataModel.FK_Slide_ToPresentationSource" FromRole="Slide" ToRole="PresentationSource" />
+          <NavigationProperty Name="Topic" Relationship="MCTrainingPresentationDataModel.FK_Slide_ToTopic" FromRole="Slide" ToRole="Topic" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="TopicId" />
+          </Key>
+          <Property Name="TopicId" Type="Guid" Nullable="false" />
+          <Property Name="PresentationSourceId" Type="Guid" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SlideCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PresentationSource" Relationship="MCTrainingPresentationDataModel.FK_Topic_ToPresentationSource" FromRole="Topic" ToRole="PresentationSource" />
+          <NavigationProperty Name="Slides" Relationship="MCTrainingPresentationDataModel.FK_Slide_ToTopic" FromRole="Topic" ToRole="Slide" />
+        </EntityType>
+        <Association Name="FK_Media_ToMedia">
+          <End Type="MCTrainingPresentationDataModel.Medium" Role="Medium" Multiplicity="0..1" />
+          <End Type="MCTrainingPresentationDataModel.Medium" Role="Medium1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medium">
+              <PropertyRef Name="MediaId" />
+            </Principal>
+            <Dependent Role="Medium1">
+              <PropertyRef Name="ParentGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Media_ToSlide">
+          <End Type="MCTrainingPresentationDataModel.Slide" Role="Slide" Multiplicity="1" />
+          <End Type="MCTrainingPresentationDataModel.Medium" Role="Medium" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Slide">
+              <PropertyRef Name="SlideId" />
+            </Principal>
+            <Dependent Role="Medium">
+              <PropertyRef Name="SlideId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MetadataProperty_ToMedia">
+          <End Type="MCTrainingPresentationDataModel.Medium" Role="Medium" Multiplicity="1" />
+          <End Type="MCTrainingPresentationDataModel.MetadataProperty" Role="MetadataProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medium">
+              <PropertyRef Name="MediaId" />
+            </Principal>
+            <Dependent Role="MetadataProperty">
+              <PropertyRef Name="MediaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Slide_ToPresentationSource">
+          <End Type="MCTrainingPresentationDataModel.PresentationSource" Role="PresentationSource" Multiplicity="0..1" />
+          <End Type="MCTrainingPresentationDataModel.Slide" Role="Slide" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PresentationSource">
+              <PropertyRef Name="PresentationSourceId" />
+            </Principal>
+            <Dependent Role="Slide">
+              <PropertyRef Name="PresentationSourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Topic_ToPresentationSource">
+          <End Type="MCTrainingPresentationDataModel.PresentationSource" Role="PresentationSource" Multiplicity="0..1" />
+          <End Type="MCTrainingPresentationDataModel.Topic" Role="Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PresentationSource">
+              <PropertyRef Name="PresentationSourceId" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="PresentationSourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Slide_ToTopic">
+          <End Type="MCTrainingPresentationDataModel.Topic" Role="Topic" Multiplicity="0..1" />
+          <End Type="MCTrainingPresentationDataModel.Slide" Role="Slide" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="TopicId" />
+            </Principal>
+            <Dependent Role="Slide">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MCTrainingPresentationDataModelStoreContainer" CdmEntityContainer="MCTrainingPresentationDataEntities">
+          <EntitySetMapping Name="Media">
+            <EntityTypeMapping TypeName="MCTrainingPresentationDataModel.Medium">
+              <MappingFragment StoreEntitySet="Media">
+                <ScalarProperty Name="FileHash" ColumnName="FileHash" />
+                <ScalarProperty Name="TargetFileContents" ColumnName="TargetFileContents" />
+                <ScalarProperty Name="LastWriteTime" ColumnName="LastWriteTime" />
+                <ScalarProperty Name="TargetFileName" ColumnName="TargetFileName" />
+                <ScalarProperty Name="Mnemonic" ColumnName="Mnemonic" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+                <ScalarProperty Name="AltText" ColumnName="AltText" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ShapeName" ColumnName="ShapeName" />
+                <ScalarProperty Name="AutoShapeType" ColumnName="AutoShapeType" />
+                <ScalarProperty Name="PresentationShapeId" ColumnName="PresentationShapeId" />
+                <ScalarProperty Name="ParentGroupId" ColumnName="ParentGroupId" />
+                <ScalarProperty Name="SlideId" ColumnName="SlideId" />
+                <ScalarProperty Name="MediaId" ColumnName="MediaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MetadataProperties">
+            <EntityTypeMapping TypeName="MCTrainingPresentationDataModel.MetadataProperty">
+              <MappingFragment StoreEntitySet="MetadataProperty">
+                <ScalarProperty Name="PropertyValueText" ColumnName="PropertyValueText" />
+                <ScalarProperty Name="PropertyValueBytes" ColumnName="PropertyValueBytes" />
+                <ScalarProperty Name="PropertyName" ColumnName="PropertyName" />
+                <ScalarProperty Name="MediaId" ColumnName="MediaId" />
+                <ScalarProperty Name="MetadataPropertyId" ColumnName="MetadataPropertyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PresentationSources">
+            <EntityTypeMapping TypeName="MCTrainingPresentationDataModel.PresentationSource">
+              <MappingFragment StoreEntitySet="PresentationSource">
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="RevisionNumber" ColumnName="RevisionNumber" />
+                <ScalarProperty Name="DocumentVersion" ColumnName="DocumentVersion" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Keywords" ColumnName="Keywords" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="LastWriteTime" ColumnName="LastWriteTime" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="PresentationSourceId" ColumnName="PresentationSourceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Slides">
+            <EntityTypeMapping TypeName="MCTrainingPresentationDataModel.Slide">
+              <MappingFragment StoreEntitySet="Slide">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="SlideNumber" ColumnName="SlideNumber" />
+                <ScalarProperty Name="SlideName" ColumnName="SlideName" />
+                <ScalarProperty Name="SlideIndex" ColumnName="SlideIndex" />
+                <ScalarProperty Name="HeaderText" ColumnName="HeaderText" />
+                <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+                <ScalarProperty Name="PresentationSlideId" ColumnName="PresentationSlideId" />
+                <ScalarProperty Name="PresentationSourceId" ColumnName="PresentationSourceId" />
+                <ScalarProperty Name="SlideId" ColumnName="SlideId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Topics">
+            <EntityTypeMapping TypeName="MCTrainingPresentationDataModel.Topic">
+              <MappingFragment StoreEntitySet="Topic">
+                <ScalarProperty Name="SlideCount" ColumnName="SlideCount" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PresentationSourceId" ColumnName="PresentationSourceId" />
+                <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

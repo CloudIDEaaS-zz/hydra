@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{26A1D510-0816-46CA-9E9C-8CD64D11D2DC}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>AbstraX</RootNamespace>
+    <AssemblyName>Generators</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbtraXExtensions.cs" />
+    <Compile Include="Extensions\ExtensionMethods.cs" />
+    <Compile Include="Models\Base.cs" />
+    <Compile Include="Models\EntitiesRoot.cs" />
+    <Compile Include="Models\Entity.cs" />
+    <Compile Include="Models\EntityContainer.cs" />
+    <Compile Include="Models\EntityProperty.cs" />
+    <Compile Include="Models\EntitySet.cs" />
+    <Compile Include="Models\IEntityParent.cs" />
+    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\NavigationProperty.cs" />
+    <Compile Include="NavigationItem.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerInterfaces\IGetSetProperty.cs" />
+    <Compile Include="ServerInterfaces\ServerInterfaces.cs" />
+    <Compile Include="TypeMappings\AttributeTypes.cs" />
+    <Compile Include="TypeMappings\Constructs.cs" />
+    <Compile Include="TypeMappings\Mapping.cs" />
+    <Compile Include="TypeMappings\Schemas\Schema.cs" />
+    <Compile Include="TypeMappings\Transform.cs" />
+    <Compile Include="TypeMappings\TypeMappings.cs" />
+    <Compile Include="XPathBuilder\XPathAxisElement.cs" />
+    <Compile Include="XPathBuilder\XPathPredicate.cs" />
+    <Compile Include="XPathBuilder\XPathStringBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EmbeddedResource Include="TypeMappings\Schemas\XMLSchema.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="TypeMappings\Schemas\XMLSchema.xsx">
+      <DependentUpon>XMLSchema.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Utils\Utils.csproj">
+      <Project>{a4763b8b-f945-4c4c-9727-7e970e02f662}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XPathParser\XPathParser.csproj">
+      <Project>{a8072758-e8d2-4551-89c2-564bde162403}</Project>
+      <Name>XPathParser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TypeMappings\Mappings\DataTypes.xslt" />
+    <EmbeddedResource Include="TypeMappings\Mappings\DotNetTypes.xslt" />
+    <EmbeddedResource Include="TypeMappings\Mappings\ObjectTypes.xslt" />
+    <EmbeddedResource Include="TypeMappings\Mappings\ScriptTypes.xslt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

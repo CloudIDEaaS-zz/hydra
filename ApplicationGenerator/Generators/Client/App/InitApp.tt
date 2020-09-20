@@ -1,0 +1,65 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.String" name="IdentityProvider" #>
+
+    let userProvider = this.injector.get(<#= this.IdentityProvider #>);
+
+    this.n = NavControllerBase.prototype["_viewTest"];
+    NavControllerBase.prototype["_viewTest"] = (o, p, e) => {
+
+    return userProvider.canView(o, p, e).then((b) => {
+
+        if (b) {
+        return Promise.resolve(this.n(o, p, e));
+        }
+        else {
+        return Promise.resolve(true);
+        }
+    }).catch(() => {
+        return Promise.reject("Unauthorized view!");
+    });
+    };
+
+    window['_getComponentByName'] = (name: string, makeGlobal?: (string|boolean)): Promise<any> =>
+    this.getAllModules()
+    .then((modules) => {
+      let moduleList = new List<Object>(Object.keys(modules).map(key => modules[key]));
+      let exports = moduleList.selectMany((m : any) => {
+        let exports = Object.keys(m.exports).map(key => m.exports[key]);
+        let exportList = new List<Object>(exports);
+
+        return exportList;
+      });
+
+      let modulesWithName = exports.where((e : any) => {
+        if (e !== null && typeof e == "function") {
+          let functionName = e.name;
+          if (functionName == name) {
+            return true;
+          }
+        }
+        return false;
+      });
+
+      if (modulesWithName.count() == 1) {
+        let module = modulesWithName.single();
+        return module;
+      }
+      else {
+
+        let count = modulesWithName.count();
+
+        return Promise.reject(`Searching for module with name: '${ name }' turned up ${ count } results when expecting 1.`)
+      }
+    })
+    .catch(e => {
+      console.error(e);
+    });

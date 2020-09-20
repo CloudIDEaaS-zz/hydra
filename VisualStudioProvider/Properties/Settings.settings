@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Hydra.Web.IntegrationTests.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Start" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\u164225\Documents\Hydra\Binaries\NUnit\bin\nunit.exe</Value>
+    </Setting>
+    <Setting Name="CommandLine" Type="System.String" Scope="User">
+      <Value Profile="(Default)">"C:\Users\u164225\Documents\Hydra\Tests\Hydra.Web.IntegrationTests\bin\Debug\Hydra.Web.IntegrationTests.dll" /run /fixture:IntegrationTests.VSTemplateProviderTests</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

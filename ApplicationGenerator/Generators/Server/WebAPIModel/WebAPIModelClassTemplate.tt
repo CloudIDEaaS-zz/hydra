@@ -1,0 +1,164 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<Generators.EntityProperty>" name="EntityProperties" #>
+<#@ parameter type="System.String" name="ModelName" #>
+<#@ parameter type="System.String" name="EntityName" #>
+<#@ parameter type="System.String" name="RootNamespace" #>
+<#@ parameter type="System.String" name="NamespaceSuffix" #>
+<#@ parameter type="System.Boolean" name="IsGeneratedModel" #>
+<# 
+    var count = this.EntityProperties.Count;
+    var x = 0;
+#>
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using GraphQL.Types;
+
+<#
+    if (this.NamespaceSuffix == null)
+    {
+#>
+namespace <#= this.RootNamespace #>.Services.Models
+<#
+    }
+    else
+    {
+#>
+namespace <#= this.RootNamespace #>.Models.<#= this.NamespaceSuffix #>
+<#
+    }
+#>
+{
+    [DebuggerDisplay(" { DebugInfo } ")]
+    public class <#= this.ModelName #>
+    {
+<#
+    foreach (var entityProperty in this.EntityProperties)
+    {
+        if (this.IsGeneratedModel)
+        {
+#>
+        <#= entityProperty.GetPropertyAttributeSectionString() #>
+        public <#= entityProperty.DataType #> <#= entityProperty.Name #> { get; set; }
+<#
+        }
+        else
+        {
+#>
+        public <#= entityProperty.DataType #> <#= entityProperty.Name #> { get; set; }
+<#
+        }
+    }
+#>
+
+        internal string DebugInfo
+        {
+            get
+            {
+                return string.Format(
+<#
+    foreach (var entityProperty in this.EntityProperties)
+    {
+        if (x < count - 1)
+        {
+#>
+                    "<#= entityProperty.Name #>: {<#= x #>}\r\n" +
+<#
+        }
+        else
+        {
+#>
+                    "<#= entityProperty.Name #>: {<#= x #>}",
+<#
+        }
+
+        x++;
+    }
+
+    x = 0;
+
+    foreach (var entityProperty in this.EntityProperties)
+    {
+        if (x < count - 1)
+        {
+            if (entityProperty.DataType == "string")
+            {
+#>
+                    this.<#= entityProperty.Name #>,
+<#
+            }
+            else
+            {
+#>
+                    this.<#= entityProperty.Name #>.ToString(),
+<#
+            }
+        }
+        else
+        {
+            if (entityProperty.DataType == "string")
+            {
+#>
+                    this.<#= entityProperty.Name #>
+<#
+            }
+            else
+            {
+#>
+                    this.<#= entityProperty.Name #>.ToString()
+<#
+            }
+        }
+
+        x++;
+    }
+#>
+                );
+            }
+        }
+
+        public override string ToString()
+        {
+            return this.DebugInfo;
+        }
+    }
+
+    [DebuggerDisplay(" { DebugInfo } ")]
+    public class <#= this.ModelName #>Type : ObjectGraphType<<#= this.ModelName #>>
+    {
+        public <#= this.ModelName #>Type()
+        {
+<#
+    foreach (var entityProperty in this.EntityProperties)
+    {
+        if (entityProperty.IsKey)
+        {
+#>
+            Field(c => c.<#= entityProperty.Name #>, type: typeof(IdGraphType));
+<#
+        }
+        else
+        {
+#>
+            Field(c => c.<#= entityProperty.Name #>);
+<#
+        }
+    }
+#>
+        }
+    }
+}

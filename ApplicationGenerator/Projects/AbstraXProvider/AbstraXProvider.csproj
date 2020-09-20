@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D46535EA-3C71-45F3-95FD-EE0BB811E819}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AbstraX</RootNamespace>
+    <AssemblyName>AbstraXProvider</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsTransformationParserLibrary">
+      <HintPath>..\Binaries\CSParserSigned\CsTransformationParserLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Polenter.SharpSerializer, Version=2.18.0.0, Culture=neutral, PublicKeyToken=8f4f20011571ee5f, processorArchitecture=MSIL">
+      <HintPath>../Polenter/SharpSerializer.Library/bin/Debug/Polenter.SharpSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="CustomMarshalers" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AbstraX.ClientInterfaces\BindingsFolderNames.cs">
+      <Link>BindingsFolderNames.cs</Link>
+    </Compile>
+    <None Include="..\AbstraX.ClientInterfaces\ClientInterfaces.cs">
+      <Link>Contracts\ClientInterfaces.cs</Link>
+    </None>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\BindingEnums.cs">
+      <Link>Bindings\Interfaces\BindingEnums.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\BindingExtensions.cs">
+      <Link>Bindings\Interfaces\BindingExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\BindingsTree.cs">
+      <Link>Bindings\Interfaces\BindingsTree.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\BindingsTreeProxy.cs">
+      <Link>Bindings\Interfaces\BindingsTreeProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\IAbstraXBindingSource.cs">
+      <Link>Bindings\Interfaces\IAbstraXBindingSource.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\IBindingSource.cs">
+      <Link>Bindings\Interfaces\IBindingSource.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\IBindingsTree.cs">
+      <Link>Bindings\Interfaces\IBindingsTree.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\IBindingsTreeNode.cs">
+      <Link>Bindings\Interfaces\IBindingsTreeNode.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\IBindingsTreeNodeReference.cs">
+      <Link>Bindings\Interfaces\IBindingsTreeNodeReference.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\IDataContextObject.cs">
+      <Link>Bindings\Interfaces\IDataContextObject.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\IPropertyBinding.cs">
+      <Link>Bindings\Interfaces\IPropertyBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\IQuery.cs">
+      <Link>Bindings\Interfaces\IQuery.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\IQueryBindingSource.cs">
+      <Link>Bindings\Interfaces\IQueryBindingSource.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Bindings\Interfaces\ISyntaxTree.cs">
+      <Link>Bindings\Interfaces\ISyntaxTree.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\BuildErrorEventArgs.cs">
+      <Link>BuildEvents\BuildErrorEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\BuildEventArgs.cs">
+      <Link>BuildEvents\BuildEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\BuildEventContext.cs">
+      <Link>BuildEvents\BuildEventContext.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\BuildFinishedEventArgs.cs">
+      <Link>BuildEvents\BuildFinishedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\BuildMessageEventArgs.cs">
+      <Link>BuildEvents\BuildMessageEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\BuildStartedEventArgs.cs">
+      <Link>BuildEvents\BuildStartedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\BuildStatusEventArgs.cs">
+      <Link>BuildEvents\BuildStatusEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\BuildWarningEventArgs.cs">
+      <Link>BuildEvents\BuildWarningEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\CustomBuildEventArgs.cs">
+      <Link>BuildEvents\CustomBuildEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\LazyFormattedBuildEventArgs.cs">
+      <Link>BuildEvents\LazyFormattedBuildEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\MessageImportance.cs">
+      <Link>BuildEvents\MessageImportance.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\ProjectFinishedEventArgs.cs">
+      <Link>BuildEvents\ProjectFinishedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\ProjectStartedEventArgs.cs">
+      <Link>BuildEvents\ProjectStartedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\TargetFinishedEventArgs.cs">
+      <Link>BuildEvents\TargetFinishedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\TargetStartedEventArgs.cs">
+      <Link>BuildEvents\TargetStartedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\TaskFinishedEventArgs.cs">
+      <Link>BuildEvents\TaskFinishedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildEvents\TaskStartedEventArgs.cs">
+      <Link>BuildEvents\TaskStartedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildWizard\IBuildProxy.cs">
+      <Link>Contracts\BuildWizard\IBuildProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildWizard\IWizardContainer.cs">
+      <Link>Contracts\BuildWizard\IWizardContainer.cs</Link>
+    </Compile>
+    <None Include="..\AbstraX.ClientInterfaces\BuildWizard\IWizardContainerWindow.cs">
+      <Link>Contracts\BuildWizard\IWizardContainerWindow.cs</Link>
+    </None>
+    <Compile Include="..\AbstraX.ClientInterfaces\BuildWizard\IWizardFrame.cs">
+      <Link>Contracts\BuildWizard\IWizardFrame.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Contracts\ComponentModel\ComponentInterfaces.cs">
+      <Link>Contracts\ComponentModel\ComponentInterfaces.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\Contracts\IProviderClientService.cs">
+      <Link>Contracts\IProviderClientService.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\EventMessageHelper.cs">
+      <Link>EventMessageHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\RemotableException.cs">
+      <Link>RemotableException.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\TypeMappings\AttributeTypes.cs">
+      <Link>TypeMappings\AttributeTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\TypeMappings\Constructs.cs">
+      <Link>TypeMappings\Constructs.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\TypeMappings\Mapping.cs">
+      <Link>TypeMappings\Mapping.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\TypeMappings\Schemas\Schema.cs">
+      <Link>TypeMappings\Schemas\Schema.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\TypeMappings\Transform.cs">
+      <Link>TypeMappings\Transform.cs</Link>
+    </Compile>
+    <Compile Include="..\AbstraX.ClientInterfaces\TypeMappings\TypeMappings.cs">
+      <Link>TypeMappings\TypeMappings.cs</Link>
+    </Compile>
+    <Compile Include="AbstraXExtensionAttribute.cs" />
+    <Compile Include="AbstraXProviderMessageInspector.cs" />
+    <Compile Include="AbstraXVisitor.cs" />
+    <Compile Include="AbtraXExtensions.cs" />
+    <Compile Include="AssemblyInterfaces\Extensions\ExtensionMethods.cs" />
+    <Compile Include="AssemblyInterfaces\IGetSetProperty.cs" />
+    <Compile Include="AssemblyInterfaces\IGetSetPropertyAttribute.cs" />
+    <Compile Include="AssemblyInterfaces\IGetSetPropertyElement.cs" />
+    <Compile Include="AttributeTypes.cs" />
+    <Compile Include="AssemblyInterfaces\IAssemblyProviderService.cs" />
+    <Compile Include="AbstraXDomainService.cs" />
+    <Compile Include="BindingsTreeCachedNodes.cs" />
+    <Compile Include="BindingsTreeEntities\AbstraXBindingSource.cs" />
+    <Compile Include="BindingsTreeEntities\AttributeProperty.cs" />
+    <Compile Include="BindingsTreeEntities\BaseNode.cs" />
+    <Compile Include="BindingsTreeEntities\BindingsTreeNode.cs" />
+    <Compile Include="BindingsTreeEntities\BindingsTreeNodeReference.cs" />
+    <Compile Include="BindingsTreeEntities\CachedBindingsTree.cs" />
+    <Compile Include="BindingsTreeEntities\SurrogateElement.cs" />
+    <Compile Include="BindingsTreeEntities\Operation.cs" />
+    <Compile Include="BindingsTreeEntities\PropertyBinding.cs" />
+    <Compile Include="BindingsTreeEntities\NodeProperty.cs" />
+    <Compile Include="BindingsTreeEntities\DataContextObject.cs" />
+    <Compile Include="BindingsTreeEntities\Element.cs" />
+    <Compile Include="BindingsTreeEntities\Folder.cs" />
+    <Compile Include="BindingsTreeEntities\QueryBindingSource.cs" />
+    <Compile Include="BindingsTreeExtensions.cs" />
+    <Compile Include="Bindings\BindingsNodeList.cs" />
+    <Compile Include="Bindings\Interfaces\IBindingsGenerator.cs" />
+    <Compile Include="BindingsTreeEntities\BindingsTreeEntity.cs" />
+    <Compile Include="Bindings\Interfaces\IBindingsTreeCache.cs" />
+    <Compile Include="Bindings\Interfaces\IBindingsTreeService.cs" />
+    <Compile Include="BuildInfo.cs" />
+    <Compile Include="CommittedState.cs" />
+    <Compile Include="Contracts\ISilverlightApp.cs" />
+    <Compile Include="Contracts\IVSProjectElement.cs" />
+    <Compile Include="Contracts\IVSProjectMetadataElement.cs" />
+    <Compile Include="Contracts\IVSProjectProperty.cs" />
+    <Compile Include="Contracts\IBuildInfo.cs" />
+    <Compile Include="BuildUIQueueEntry.cs" />
+    <Compile Include="Contracts\CodeParsers\ICodeClassStruct.cs" />
+    <Compile Include="Contracts\CodeParsers\ICodeDelegate.cs" />
+    <Compile Include="Contracts\CodeParsers\ICodeFile.cs" />
+    <Compile Include="Contracts\CodeParsers\ICodeNode.cs" />
+    <Compile Include="Contracts\CodeParsers\ICompilationUnit.cs" />
+    <Compile Include="Contracts\IAbstraXDatabaseProxy.cs" />
+    <Compile Include="Contracts\IBindingsBuilder.cs" />
+    <Compile Include="Contracts\IArchitectureLayer.cs" />
+    <Compile Include="Contracts\IBuildFilter.cs" />
+    <Compile Include="Contracts\IBuildService.cs" />
+    <Compile Include="Contracts\IBuildUIDaemon.cs" />
+    <Compile Include="Contracts\CodeParsers\ICodeEditPackage.cs" />
+    <Compile Include="Contracts\ICodeGenerationPackage.cs" />
+    <Compile Include="Contracts\CodeParsers\ICodeParser.cs" />
+    <Compile Include="Contracts\ICodeTemplate.cs" />
+    <Compile Include="Contracts\ICodeTemplateParameters.cs" />
+    <Compile Include="Contracts\ICodeReference.cs" />
+    <Compile Include="Contracts\ICodeWriter.cs" />
+    <Compile Include="Contracts\ICustomFields.cs" />
+    <Compile Include="Contracts\IElementBuild.cs" />
+    <Compile Include="Contracts\IEventsService.cs" />
+    <Compile Include="Contracts\IGenerator.cs" />
+    <Compile Include="Contracts\IDomainHostApplication.cs" />
+    <Compile Include="Contracts\IPipelineService.cs" />
+    <Compile Include="Contracts\IPipelineStep.cs" />
+    <Compile Include="Contracts\IPipelineTemplateEngineHost.cs" />
+    <Compile Include="Contracts\IProgrammingLanguage.cs" />
+    <Compile Include="Contracts\IProjectRoot.cs" />
+    <Compile Include="Contracts\IProjectStructure.cs" />
+    <Compile Include="Contracts\IVSProject.cs" />
+    <Compile Include="Contracts\IVSSolution.cs" />
+    <Compile Include="Contracts\IVSProjectItem.cs" />
+    <Compile Include="Contracts\ICodeTemplateProject.cs" />
+    <Compile Include="Contracts\ICodeTemplateProjectItem.cs" />
+    <Compile Include="NodeImageAttribute.cs" />
+    <Compile Include="Contracts\Packages\IPackageServiceType.cs" />
+    <Compile Include="Contracts\ProviderListItem.cs" />
+    <Compile Include="Contracts\Views\IViewsTemplateBase.cs" />
+    <Compile Include="Contracts\Views\IViewInstance.cs" />
+    <Compile Include="Contracts\Views\IViewsItemTemplate.cs" />
+    <Compile Include="Contracts\Views\IViewsBase.cs" />
+    <Compile Include="Contracts\Views\IViewsProjectTemplate.cs" />
+    <Compile Include="Contracts\Views\IViewsRoot.cs" />
+    <Compile Include="Contracts\Views\IViewsNavigationTemplate.cs" />
+    <Compile Include="CustomTemplateLocation.cs" />
+    <Compile Include="EventMessage.cs" />
+    <Compile Include="GeneratorExtensions.cs" />
+    <Compile Include="IAbstraXExtension.cs" />
+    <Compile Include="IoC.cs" />
+    <Compile Include="Expressions\BaseExpressionNode.cs" />
+    <Compile Include="Expressions\IValueNode.cs" />
+    <Compile Include="Expressions\ListItemNode.cs" />
+    <Compile Include="Expressions\MemberNode.cs" />
+    <Compile Include="Expressions\MethodNode.cs" />
+    <Compile Include="Expressions\BinaryExpressionNode.cs" />
+    <Compile Include="Expressions\PrimitiveNode.cs" />
+    <Compile Include="ExpressionVisitor.cs" />
+    <Compile Include="Contracts\ServerInterfaces.cs" />
+    <Compile Include="AssemblyInterfaces\IAssembliesRoot.cs" />
+    <Compile Include="AssemblyInterfaces\IAssembly.cs" />
+    <Compile Include="AssemblyInterfaces\IAssemblyType.cs" />
+    <Compile Include="AssemblyInterfaces\IConstructorOperation.cs" />
+    <Compile Include="AssemblyInterfaces\IEventOperation.cs" />
+    <Compile Include="AssemblyInterfaces\IFieldAttribute.cs" />
+    <Compile Include="AssemblyInterfaces\IMethodOperation.cs" />
+    <Compile Include="AssemblyInterfaces\IOperation.cs" />
+    <Compile Include="AssemblyInterfaces\IOperatorOperation.cs" />
+    <Compile Include="AssemblyInterfaces\IPropertyAttribute.cs" />
+    <Compile Include="AssemblyInterfaces\IPropertyElement.cs" />
+    <Compile Include="NavigationItem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AbstraXProviderConfigurationSection.cs" />
+    <Compile Include="AbstraXProviderMainEntryPoint.cs" />
+    <Compile Include="AbstraXProvider.cs" />
+    <Compile Include="AbstraXProviderCollection.cs" />
+    <Compile Include="QueryCache\CacheItem.cs" />
+    <Compile Include="QueryCache\QueryHistoryItem.cs" />
+    <Compile Include="QueryCache\QueryCache.cs" />
+    <Compile Include="QueryProviders\CachableQueryProvider.cs" />
+    <Compile Include="QueryProviders\ExpressionTraceableHierarchy.cs" />
+    <Compile Include="QueryProviders\PathTraceableHierarchy.cs" />
+    <Compile Include="QueryProviders\XPathTraceableHierarchy.cs" />
+    <Compile Include="Services\BindingsTreeService.cs" />
+    <Compile Include="Services\EventsService.cs" />
+    <Compile Include="Contracts\IProviderListService.cs" />
+    <Compile Include="Services\ProviderListService.cs" />
+    <Compile Include="XPathBuilder\XPathAxisElement.cs" />
+    <Compile Include="XPathBuilder\XPathPredicate.cs" />
+    <Compile Include="XPathBuilder\XPathStringBuilder.cs" />
+    <EmbeddedResource Include="..\AbstraX.ClientInterfaces\TypeMappings\Schemas\XMLSchema.xsd">
+      <Link>TypeMappings\Schemas\XMLSchema.xsd</Link>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="..\AbstraX.ClientInterfaces\TypeMappings\Schemas\XMLSchema.xsx">
+      <Link>TypeMappings\Schemas\XMLSchema.xsx</Link>
+      <DependentUpon>XMLSchema.xsd</DependentUpon>
+    </None>
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\AbstraX.ClientInterfaces\TypeMappings\Mappings\DataTypes.xslt">
+      <Link>TypeMappings\Mappings\DataTypes.xslt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\AbstraX.ClientInterfaces\TypeMappings\Mappings\DotNetTypes.xslt">
+      <Link>TypeMappings\Mappings\DotNetTypes.xslt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\AbstraX.ClientInterfaces\TypeMappings\Mappings\ObjectTypes.xslt">
+      <Link>TypeMappings\Mappings\ObjectTypes.xslt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\AbstraX.ClientInterfaces\TypeMappings\Mappings\ScriptTypes.xslt">
+      <Link>TypeMappings\Mappings\ScriptTypes.xslt</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Bindings\BindingsTreeStructure.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{a4763b8b-f945-4c4c-9727-7e970e02f662}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XPathParser\XPathParser.csproj">
+      <Project>{a8072758-e8d2-4551-89c2-564bde162403}</Project>
+      <Name>XPathParser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>58675</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

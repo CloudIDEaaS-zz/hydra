@@ -1,0 +1,13 @@
+using AbstraX.ImportHandlers.Packages;
+
+namespace AbstraX.ImportHandlers
+{
+    [ImportHandler(ModuleImports.AGGRID_HANDLER_ID)]
+    public class AgGridImportHandler : BaseImportHandler<AgGridPackage>
+    {
+        public override void AddImport(ulong moduleId)
+        {
+            base.AddImport((AgGridModules)moduleId);
+        }
+    }
+}

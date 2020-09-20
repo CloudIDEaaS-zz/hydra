@@ -1,0 +1,19 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>Name</DefaultName>
+    <Name>Hydra Module Generator</Name>
+    <Description>A starter generator class and corresponding T4 templates for an Angular Module.  For file name, just enter base name, without the word Module and/or Generator</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>10</SortOrder>
+    <Icon>ModuleGenerator.png</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <CustomParameters>
+      <CustomParameter Name="$basename$" Value="$fileinputname$"/>
+    </CustomParameters>
+    <References />
+    <ProjectItem SubType="" TargetFileName="$fileinputname$ModuleGenerator.cs" ReplaceParameters="true">ModuleGenerator.cs</ProjectItem>
+    <ProjectItem SubType="" CustomTool="TextTemplatingFilePreProcessor" TargetFileName="$fileinputname$ModuleClassTemplate.tt" ReplaceParameters="true">ClassTemplate.tt</ProjectItem>
+    <ProjectItem SubType="" TargetFileName="MOVE_FILE_UNDER_ModuleKindHandlers_AND_DELETE_THIS_FOLDER\$fileinputname$ModuleKindHandler.cs" ReplaceParameters="true">ModuleKindHandler.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

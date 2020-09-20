@@ -1,0 +1,19 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>Name</DefaultName>
+    <Name>Hydra Angular Provider Generator</Name>
+    <Description>A starter generator class and corresponding T4 templates for an Angular Provider.  For file name, just enter base name, without the word Page and/or Generator</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>10</SortOrder>
+    <Icon>ProviderGenerator.png</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <CustomParameters>
+      <CustomParameter Name="$basename$" Value="$fileinputname$"/>
+    </CustomParameters>
+    <References />
+    <ProjectItem SubType="" TargetFileName="$fileinputname$ProviderGenerator.cs" ReplaceParameters="true">ProviderGenerator.cs</ProjectItem>
+    <ProjectItem SubType="" CustomTool="TextTemplatingFilePreProcessor" TargetFileName="$fileinputname$ProviderClassTemplate.tt" ReplaceParameters="true">ClassTemplate.tt</ProjectItem>
+    <ProjectItem SubType="" TargetFileName="DELETE_OR_MOVE_FILE_UNDER_FacetHandlers_AND_DELETE_THIS_FOLDER\$fileinputname$ProviderFacetHandler.cs" ReplaceParameters="true">FacetHandler.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

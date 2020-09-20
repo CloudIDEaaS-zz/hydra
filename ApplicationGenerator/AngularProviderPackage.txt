@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class AngularProviderPackage : Package
+    {
+        public AngularProviderPackage()
+        {
+            this.PackageInstalls = new string[] { "angularprovider" };
+        }
+    }
+}

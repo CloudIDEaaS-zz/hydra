@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "hydradevopsinfo.fullname" . }}
+  labels:
+    app: {{ template "hydradevopsinfo.name" . }}
+    chart: {{ template "hydradevopsinfo.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ template "hydradevopsinfo.name" . }}
+    release: {{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: sql-service-port
+spec:
+ type: NodePort
+ ports:
+ - port: 1433
+   targetPort: 1433
+---
+kind: Service
+apiVersion: v1
+metadata:
+ name: sql-service
+spec:
+ type: ExternalName
+ externalName: cloudideaas.database.windows.net
+---
+kind: Service
+apiVersion: v1
+metadata:
+ name: azure-service-port
+spec:
+ type: NodePort
+ ports:
+ - port: 443
+   targetPort: 443
+---
+kind: Service
+apiVersion: v1
+metadata:
+ name: azure-service
+spec:
+ type: ExternalName
+ externalName: dev.azure.com

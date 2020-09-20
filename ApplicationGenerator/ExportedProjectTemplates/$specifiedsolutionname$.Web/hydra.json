@@ -1,0 +1,5 @@
+{
+  "servicesProjectPath": "$specifiedsolutionname$.Services.csproj",
+  "entitiesProjectPath": "$specifiedsolutionname$.Entities.csproj",
+  "packageCachePath": "%APPDATA%\\hydra\\cache"
+}

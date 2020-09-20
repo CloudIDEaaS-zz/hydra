@@ -1,0 +1,45 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="AbstraX.LanguageSpecificDictionary" name="Dictionary" #>
+{
+<# 
+    var builder = new StringBuilder();
+    var startGroup = true;
+
+    foreach (var groupPair in this.Dictionary.LanguageTranslationsGroups)
+    {
+        var groupName = groupPair.Key;
+        var languageTranslations = groupPair.Value;
+
+        builder.AppendWithLeadingIfLength(",\r\n", string.Empty);
+        startGroup = true;
+
+        foreach (var translationPair in languageTranslations)
+        {
+            var translationKey = translationPair.Key;
+            var translationValue = translationPair.Value;
+
+            if (startGroup)
+            {
+                builder.AppendWithLeadingIfLength("\r\n", "\t\"{0}\": \"{1}\"", translationKey, translationValue);
+                startGroup = false;
+            }
+            else
+            {
+                builder.AppendWithLeadingIfLength(",\r\n", "\t\"{0}\": \"{1}\"", translationKey, translationValue);
+            }
+
+        }
+    }
+
+    this.WriteLine(builder.ToString());
+#>
+}

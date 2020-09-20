@@ -1,0 +1,64 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase" #>
+<#@ output extension=".ts" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<FormField>" name="FormFields" #>
+<#@ parameter type="System.String" name="PageName" #>
+<#@ parameter type="System.String" name="EntityName" #>
+<#
+    var modelVariable = this.EntityName.ToCamelCase();
+#>
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ userAction }}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+
+  <form [formGroup]="<#= modelVariable #>Form" (ngSubmit)="submit(<#= modelVariable #>Form)">
+    <ion-list>
+<#
+    foreach (var formField in this.FormFields.GetDisplayed())
+    {
+        var validationSet = formField.ValidationSet;
+        var validationElement = validationSet.PreferredValidationElement;
+        var validationMask = validationSet.PreferredValidationMask;
+        var tagName = validationElement.TagName;
+        var inputType = validationElement.InputType;
+        var builder = new StringBuilder();
+
+        if (validationMask != null)
+        {
+            validationElement.Attributes.Add(new KeyValuePair<string, string>("[textMask]", string.Format("{{mask: masks.{0}}}", validationMask.Name)));
+        }
+
+        foreach (var attributePair in validationElement.Attributes)
+        {
+            builder.AppendWithLeadingIfLength(", ", string.Format("{0}=\"{1}\"", attributePair.Key, attributePair.Value));
+        }
+#>
+      <ion-item>
+        <ion-label floating>{{ '<#= formField.TranslationKey #>' | translate }}</ion-label>
+        <<#= tagName #> formControlName="<#= this.MakeVariable(modelVariable, formField.Name) #>" type="<#= inputType #>"<#= builder.ToString() #>></<#= tagName #>>
+      </ion-item>
+      <ion-item *ngIf="<#= modelVariable #>Validator.hasValidationErrors('<#= this.MakeVariable(modelVariable, formField.Name) #>')">
+        <div class="error" *ngFor="let error of <#= modelVariable #>Validator.getValidationErrors('<#= this.MakeVariable(modelVariable, formField.Name) #>')">
+          {{ error }}
+        </div>
+      </ion-item>
+<#
+    }
+#>
+      <ion-item>
+        <button ion-button item-right type="submit" [disabled]="<#= modelVariable #>Form.invalid">Save</button>
+      </ion-item>
+    </ion-list>
+  </form>
+
+</ion-content>

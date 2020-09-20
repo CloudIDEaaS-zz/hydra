@@ -1,0 +1,31 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ import namespace="AbstraX" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.String" name="Name" #>
+<#@ parameter type="System.String" name="RootNamespace" #>
+using GraphQL;
+using GraphQL.Types;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace <#= this.RootNamespace #>.GraphQL
+{
+    public class <#= this.Name #>Schema : Schema
+    {
+        public <#= this.Name #>Schema(IDependencyResolver resolver)
+        {
+            Query = resolver.Resolve<<#= this.Name #>Query>();
+        }
+    }
+}

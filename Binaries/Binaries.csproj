@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{57C95515-CDE5-4D01-ACC0-7B3A01B6D761}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="CSParserSigned\CsTransformationParserLibrary.dll" />
+    <Content Include="CsTransformationParserLibrary.dll" />
+    <Content Include="Fare.1.0.3\lib\net35\Fare.dll" />
+    <Content Include="HtmlAgilityPack\HtmlAgilityPack.dll" />
+    <Content Include="ICSharpCode.SharpZipLib.dll" />
+    <Content Include="ImpromptuInterface.dll" />
+    <Content Include="log4net.dll" />
+    <Content Include="Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll" />
+    <Content Include="Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll" />
+    <Content Include="Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll" />
+    <Content Include="Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll" />
+    <Content Include="Microsoft.TeamFoundation.Client.dll" />
+    <Content Include="Microsoft.TeamFoundation.VersionControl.Client.dll" />
+    <Content Include="Packages\EnvDTE.8.0.2\lib\net10\EnvDTE.dll" />
+    <Content Include="Packages\EnvDTE80.8.0.3\lib\net10\EnvDTE80.dll" />
+    <Content Include="Packages\EnvDTE90.9.0.3\lib\net10\EnvDTE90.dll" />
+    <Content Include="Packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll" />
+    <Content Include="Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.dll" />
+    <Content Include="Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.Engine.dll" />
+    <Content Include="Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.Framework.dll" />
+    <Content Include="Packages\Microsoft.VisualStudio.TextTemplating.12.0\Microsoft.VisualStudio.TextTemplating.12.0.dll" />
+    <Content Include="Packages\Microsoft.VisualStudio.TextTemplating.12.0\Microsoft.VisualStudio.TextTemplating.Interfaces.12.0.dll" />
+    <Content Include="Packages\RazorEngine.4.5.1-alpha001\lib\net451\RazorEngine.dll" />
+    <Content Include="Packages\RIAServices.Server.4.2.0\lib\Net40\System.ServiceModel.DomainServices.Server.dll" />
+    <Content Include="Packages\VSSDK.Shell.10.10.0.4\lib\net40\Microsoft.VisualStudio.Shell.10.0.dll" />
+    <Content Include="RtfHtml\log4net.dll" />
+    <Content Include="RtfHtml\nunit-console-runner.dll" />
+    <Content Include="RtfHtml\nunit.framework.dll" />
+    <Content Include="SolutionLibraries\ApplicationGeneratorBuildTasks.dll" />
+    <Content Include="TransformerBuildTask\TransformerBuildTask.dll" />
+    <Content Include="VSPublicAssemblies\Microsoft.VisualStudio.OLE.Interop.dll" />
+    <Content Include="VSPublicAssemblies\Microsoft.VisualStudio.Shell.Interop.10.0.dll" />
+    <Content Include="VSPublicAssemblies\Microsoft.VisualStudio.Shell.Interop.8.0.dll" />
+    <Content Include="VSPublicAssemblies\Microsoft.VisualStudio.Shell.Interop.9.0.dll" />
+    <Content Include="VSPublicAssemblies\Microsoft.VisualStudio.Shell.Interop.dll" />
+    <Content Include="VSPublicAssemblies\Microsoft.VisualStudio.TextManager.Interop.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\x86\Debug\TempPE\" />
+  </ItemGroup>
+  <Target Name="Build">
+  </Target>
+  <Target Name="Rebuild">
+  </Target>
+</Project>

@@ -1,0 +1,44 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<RelatedEntity>" name="RelatedEntities" #>
+<#@ parameter type="System.String" name="ControllerName" #>
+<#@ parameter type="System.String" name="EntityName" #>
+<# 
+    var pageName = this.PageName.ToCamelCase();
+    var className = this.PageName + "Page";
+    var component = new Page(className);
+
+    this.Declarations.Add(component);
+    this.Exports.Add(component);
+
+    foreach (var import in this.Imports)
+    {
+        this.WriteLine(import.DeclarationCode);
+    }
+#>
+using Ripley.Entities;
+using Ripley.Services.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+using Course = Ripley.Services.Models.<#= this.EntityName #>;
+
+namespace Ripley.Services.Controllers
+{
+    public class <#= this.ControllerName #>Controller : ApiController
+    {
+    }
+}

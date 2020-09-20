@@ -1,0 +1,2 @@
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\msbuild.exe" "D:\MC\CloudIDEaaS\root\CloudIDEaaS.sln" /nologo /p:platform="Any CPU" /p:configuration="Release" /p:VisualStudioVersion="16.0"
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\msbuild.exe" "D:\MC\CloudIDEaaS\root\ApplicationGeneratorBuildTasks.sln" /nologo /p:platform="Any CPU" /p:configuration="Release" /p:VisualStudioVersion="16.0"

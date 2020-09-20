@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class AngularTextMaskPackage : Package
+    {
+        public AngularTextMaskPackage()
+        {
+            this.PackageInstalls = new string[] { "angulartextmask" };
+        }
+    }
+}

@@ -1,0 +1,145 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ import namespace="AbstraX" #>
+<#@ import namespace="AbstraX.Models.Interfaces" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<IEntitySet>" name="EntitySets" #>
+<#@ parameter type="System.Collections.Generic.List<System.String>" name="GraphQLTypes" #>
+<#@ parameter type="System.String" name="DataContext" #>
+<#@ parameter type="System.String" name="DataContextNamespace" #>
+<#@ parameter type="System.String" name="Name" #>
+<#@ parameter type="System.String" name="RootNamespace" #>
+using GraphQL.Types;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
+using System.Text;
+using Utils;
+using <#= this.DataContextNamespace #>;
+
+namespace <#= this.RootNamespace #>.GraphQL
+{
+    public class <#= this.Name #>Query : ObjectGraphType
+    {
+        public <#= this.Name #>Query(<#= this.DataContext #> dataContext)
+        {
+<#
+    foreach (var entitySet in this.EntitySets)
+    {
+        var entity = entitySet.Entities.Single();
+        var entityVariable = entity.Name.ToCamelCase();
+#>
+            Field<ListGraphType<<#= entity.Name #>Type>>("<#= entityVariable #>",
+                arguments: new QueryArguments(new List<QueryArgument>
+                {
+<#
+        foreach (var property in entity.Properties)
+        {
+            string argumentType;
+            var propertyName = property.Name;
+            var argument = propertyName.ToCamelCase();
+
+            if (property.IsKey())
+            {
+                argumentType = "Id";
+            }
+            else
+            {
+                argumentType = property.DataType.Name;
+            }
+
+            if (this.GraphQLTypes.Contains(argumentType + "GraphType"))
+            {
+#>
+                    new QueryArgument<<#= argumentType #>GraphType>
+                    {
+                        Name = "<#= argument #>"
+                    },
+<#
+            }
+        }
+#>
+                }),
+                resolve: context =>
+                {
+<#
+        foreach (var property in entity.Properties)
+        {
+            Type type;
+            string shortType;
+            var propertyName = property.Name;
+            var variable = propertyName.ToCamelCase();
+
+            type = Type.GetType(property.DataType.FullyQualifiedName);
+            shortType = type.GetShortName();
+
+            this.WriteLineFormatSpaceIndent(20, "{0} {1};", shortType, variable);
+        }
+#>
+                    string expressionText;
+                    Expression<Func<<#= entity.Name #>, bool>> expression;
+                    Func<<#= entity.Name #>, bool> lambda;
+                    IEnumerable<<#= entity.Name #>> result;
+                    var <#= entityVariable #> = dataContext.<#= entitySet.Name #>;
+                    var builder = new StringBuilder();
+<#
+        foreach (var property in entity.Properties)
+        {
+            Type type;
+            string shortType;
+            var propertyName = property.Name;
+            var variable = propertyName.ToCamelCase();
+
+            type = Type.GetType(property.DataType.FullyQualifiedName);
+            shortType = type.GetShortName();
+#>
+
+                    if (context.HasArgument("<#= variable #>"))
+                    {
+                        <#= variable #> = context.GetArgument<<#= shortType #>>("<#= variable #>");
+
+<#
+            switch (shortType)
+            {
+                case "string":
+#>
+                        builder.AppendWithLeadingIfLength(" && ", "<#= propertyName #> == \"{0}\"", <#= variable #>);
+<#
+                    break;
+
+                default:
+#>
+                        builder.AppendWithLeadingIfLength(" && ", "<#= propertyName #> == {0}", <#= variable #>);
+<#
+                    break;
+            }
+#>
+                    }
+<#
+        }
+#>
+
+                    expressionText = builder.ToString();
+                    expression = DynamicExpressionParser.ParseLambda<<#= entity.Name #>, bool>(null, false, expressionText);
+                    lambda = expression.Compile();
+                    result = <#= entityVariable #>.Where(lambda);
+
+                    return result;
+                });
+<#
+    }
+#>
+        }
+    }
+}

@@ -1,0 +1,46 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<IdentityField>" name="IdentityFields" #>
+<#@ parameter type="System.String" name="PageName" #>
+<#@ parameter type="System.String" name="EntityName" #>
+<#@ parameter type="System.String" name="LoginTitleTranslationKey" #>
+<#@ parameter type="System.String" name="LoginButtonTranslationKey" #>
+<# 
+    var userNameField = this.IdentityFields.GetIdentityField(IdentityFieldKind.UserName);
+    var userPasswordField = this.IdentityFields.GetIdentityField(IdentityFieldKind.PasswordHash);
+#>
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ '<#= this.LoginTitleTranslationKey #>' | translate }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <form (submit)="doLogin()">
+    <ion-list>
+
+      <ion-item>
+        <ion-label fixed>{{ '<#= userNameField.TranslationKey #>' | translate }}</ion-label>
+        <ion-input type="text" [(ngModel)]="account.userName" name="userName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label fixed>{{ '<#= userPasswordField.TranslationKey #>' | translate }}</ion-label>
+        <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
+      </ion-item>
+      <div padding>
+        <button ion-button color="primary" block>{{ '<#= this.LoginButtonTranslationKey #>' | translate }}</button>
+      </div>
+    </ion-list>
+  </form>
+</ion-content>

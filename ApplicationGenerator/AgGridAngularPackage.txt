@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class AgGridAngularPackage : Package
+    {
+        public AgGridAngularPackage()
+        {
+            this.PackageInstalls = new string[] { "aggridangular" };
+        }
+    }
+}

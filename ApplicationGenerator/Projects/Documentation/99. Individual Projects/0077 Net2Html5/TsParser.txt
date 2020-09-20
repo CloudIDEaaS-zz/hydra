@@ -1,0 +1,10 @@
+function createSourceFile(fileName, sourceText, languageVersion, setParentNodes, scriptKind) {
+function parseSourceFileWorker(fileName, languageVersion, setParentNodes, scriptKind) {
+
+            "program": "${workspaceRoot}/HydraCompiler.js",
+            "stopOnEntry": false,
+            "args": ["C:/Projects/MC/RazorViewsDesigner/TestProject/SimpleClass.ts"],
+
+            "program": "${workspaceRoot}/lib/tsc.js",
+            "stopOnEntry": false,
+            "args": ["C:/Projects/MC/RazorViewsDesigner/TestProject/SimpleClass.ts"],

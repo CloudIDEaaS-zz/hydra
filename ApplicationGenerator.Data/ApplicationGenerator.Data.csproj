@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>ApplicationGenerator</RootNamespace>
+    <AssemblyName>ApplicationGenerator.Data</AssemblyName>
+    <Configurations>Debug;Release;DebugAll</Configurations>
+    <AssemblyVersion>1.0.0.858</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AbstraxDataProviderServiceProvider.cs" />
+    <Compile Remove="AbstraXProviderDatabaseFacade.cs" />
+    <Compile Remove="AbstraXProviderDataServices.cs" />
+    <Compile Remove="AbstraxProviderDbContextOptions.cs" />
+    <Compile Remove="AbstraxProviderServices.cs" />
+    <Compile Remove="Interfaces\IAbstraXProviderLocatorService.cs" />
+    <Compile Remove="Options\AbstraXProviderDbContextOptions.cs" />
+    <Compile Remove="Project.cs" />
+    <Compile Remove="Services\AbstraXProviderDbContextServices.cs" />
+    <Compile Remove="Services\AbstraXProviderDbSetInitializer.cs" />
+    <Compile Remove="Services\AbstraXProviderLocatorService.cs" />
+    <Compile Remove="Services\AbstraXProviderModel.cs" />
+    <Compile Remove="Services\AbstraXProviderOptionsInitializer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Project.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Handlebars.Net" Version="1.10.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Utils.Core\Utils.Core.csproj" />
+  </ItemGroup>
+  
+</Project>

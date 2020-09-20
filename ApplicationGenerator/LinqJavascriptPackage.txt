@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class LinqJavascriptPackage : Package
+    {
+        public LinqJavascriptPackage()
+        {
+            this.PackageInstalls = new string[] { "linqjavascript" };
+        }
+    }
+}

@@ -1,0 +1,173 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ output extension=".html" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<FormField>" name="FormFields" #>
+<#@ parameter type="System.Collections.Generic.IEnumerable<ModuleImportDeclaration>" name="Imports" #>
+<#@ parameter type="System.Collections.Generic.List<ESModule>" name="Exports" #>
+<#@ parameter type="System.Collections.Generic.List<IDeclarable>" name="Declarations" #>
+<#@ parameter type="System.String" name="PageName" #>
+<#@ parameter type="System.String" name="Authorize" #>
+<#@ parameter type="System.String" name="EntityName" #>
+<# 
+    var pageName = this.PageName.ToCamelCase();
+    var className = "Edit" + this.PageName + "Page";
+    var component = new Page(className);
+    var modelVariable = this.EntityName.ToCamelCase();
+    var builder = new StringBuilder();
+
+    this.Declarations.Add(component);
+    this.Exports.Add(component);
+
+    foreach (var import in this.Imports)
+    {
+        this.WriteLine(import.DeclarationCode);
+    }
+#>
+
+@IonicPage()
+<# if (this.Authorize.Length > 0)
+   {
+#>
+@Authorize("<#= this.Authorize #>")
+<# 
+   }
+#>
+@Component({
+  selector: 'page-edit-<#= pageName #>',
+  templateUrl: 'edit-<#= pageName #>.html'
+})
+export class <#= className #> extends UsablePopover {
+
+  userAction: string;
+  <#= modelVariable #>Form: FormGroup;
+  masks: any;
+<#
+    foreach (var formField in this.FormFields.GetKeyOrDisplayed())
+    {
+#>
+  <#= this.MakeVariable(modelVariable, formField.Name) #>: string;
+<#
+    }
+#>
+
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public toastCtrl: ToastController,
+    public <#= modelVariable #>Provider: <#= this.EntityName #>Provider,
+    public <#= modelVariable #>Validator: <#= this.EntityName #>Validator,
+    public viewCtrl: ViewController,
+    public translateService: TranslateService) {
+
+      super();
+
+      this.masks = {
+<#
+    foreach (var formField in this.FormFields.GetMasked())
+    {
+        var validationSet = formField.ValidationSet;
+        var validationElement = validationSet.PreferredValidationElement;
+        var validationMask = validationSet.PreferredValidationMask;
+#>
+        <#= validationMask.Name #>: <#= validationMask.MaskExpression #>,
+<#
+    }
+#>
+      };
+
+      this.<#= modelVariable #>Form = null;
+  }
+
+  ngOnInit() {
+
+    var <#= modelVariable #> = <<#= this.EntityName #>>this.navParams.get("<#= modelVariable #>");
+
+    if (<#= modelVariable #> !== undefined) {
+<#
+    foreach (var formField in this.FormFields.GetKeyOrDisplayed())
+    {
+#>
+        this.<#= this.MakeVariable(modelVariable, formField.Name) #> = <#= modelVariable #>.<#= this.MakeVariable(modelVariable, formField.Name) #>
+<#
+    }
+#>
+    }
+
+<#
+    foreach (var formField in this.FormFields.GetDisplayed())
+    {
+        builder.AppendWithLeadingIfLength(", ", string.Format("this.{0}", this.MakeVariable(modelVariable, formField.Name)));
+    }
+#>
+
+    this.userAction = this.navParams.get("userAction");
+    this.<#= modelVariable #>Form = this.<#= modelVariable #>Validator.create<#= this.EntityName #>Form(<#= builder.ToString() #>);
+  }
+
+  ionViewDidLoad() {
+    super.ionViewDidLoad();
+  }
+
+  submit({ value, valid }: { value: any, valid: boolean }) {
+
+    let providerFunction: (<#= modelVariable #>: <#= this.EntityName #>) => Observable<ArrayBuffer>;
+
+    if (this.userAction == "New <#= this.EntityName #>") {
+      providerFunction = this.<#= modelVariable #>Provider.create<#= this.EntityName #>;
+    }
+    else if (this.userAction == "Edit <#= this.EntityName #>") {
+      providerFunction = this.<#= modelVariable #>Provider.update<#= this.EntityName #>;
+    }
+    else {
+      throw "Invalid user action";
+    }
+
+    providerFunction = providerFunction.bind(this.<#= modelVariable #>Provider);
+
+    if (!this.<#= modelVariable #>Form.invalid) {
+
+      let observable = providerFunction(new <#= this.EntityName #>(
+      {
+<#
+    foreach (var formField in this.FormFields.GetKeyOrDisplayed())
+    {
+        var parmName = formField.Name.ToCamelCase();
+        var name = formField.Name;
+        var mask = formField.ValidationSet.PreferredValidationMask;
+
+        if (mask != null)
+        {
+#>
+          <#= parmName #>: this.<#= modelVariable #>Form.get("<#= this.MakeVariable(modelVariable, name) #>").value.replace(<#= mask.UnmaskExpression #>, ""),
+<#
+        }
+        else
+        {
+#>
+          <#= parmName #>: this.<#= modelVariable #>Form.get("<#= this.MakeVariable(modelVariable, name) #>").value,
+<#
+        }
+    }
+#>
+      }));
+
+      observable.subscribe((response) => {
+        this.viewCtrl.dismiss();
+      }, err => {
+        let toast = this.toastCtrl.create({
+          message: err.message,
+          duration: 3000,
+          position: "top"
+        });
+        toast.present();
+      });
+    }
+  }
+}

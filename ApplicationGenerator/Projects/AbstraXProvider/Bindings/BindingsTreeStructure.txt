@@ -1,0 +1,51 @@
+﻿BindingsTree 
+
+    BindingsTreeNode 
+	ParentSourceElement				- this points to the parent of the node, since a parent DataContext can hold more than one Element, this points to the right one in the DataContext collection
+	DataContext 
+		ContextObject				- this is typically an object or a list providing the source of data (i.e. Customer)
+	PropertyBinding 
+		Property				- this is typically a property of a control (i.e. txtCustomerName.Text)
+		BindingSource 
+			AbstraXBindingSource		- this is the field (property) binding of the data source (i.e. Customer.CustomerName)
+			QueryBindingSource 
+	ChildNodes 
+		BindingsTreeNode 
+
+
+
+BindingsTree
+  BindingsTreeNode
+    ParentSourceElement	(Folder)
+      Element
+    DataContextList (Folder)
+      DataContext
+        ContextObject (Folder)
+          Element
+        SupportedOperations (Folder)
+          Operation (Property)
+        RemoteCalls (Folder)
+          IOperation
+    PropertyBindings (Folder)
+      PropertyBinding
+        Property
+        BindingSource (Folder)
+          AbstraXBindingSource
+            BindingAttribute (Attribute)
+            IsSearchable (Property)
+          QueryBindingSource
+        BindingMode (Property)
+    ChildNodes (Folder)
+      BindingsTreeNode
+
+
+BindingsTree
+  BindingsTreeNode
+    Folder
+      Element
+      DataContext
+          Property
+      PropertyBinding
+        AttributeProperty
+          AbstraXBindingSource
+          QueryBindingSource

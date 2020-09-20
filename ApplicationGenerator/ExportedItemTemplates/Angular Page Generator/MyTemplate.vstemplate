@@ -1,0 +1,20 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>Name</DefaultName>
+    <Name>Hydra Angular Page Generator</Name>
+    <Description>A starter generator class and corresponding T4 templates for an Angular Page.  For file name, just enter base name, without the word Page and/or Generator</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>10</SortOrder>
+    <Icon>PageGenerator.png</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <CustomParameters>
+      <CustomParameter Name="$basename$" Value="$fileinputname$"/>
+    </CustomParameters>
+    <References />
+    <ProjectItem SubType="" TargetFileName="$fileinputname$PageGenerator.cs" ReplaceParameters="true">PageGenerator.cs</ProjectItem>
+    <ProjectItem SubType="" CustomTool="TextTemplatingFilePreProcessor" TargetFileName="$fileinputname$PageTemplate.tt" ReplaceParameters="true">PageTemplate.tt</ProjectItem>
+    <ProjectItem SubType="" CustomTool="TextTemplatingFilePreProcessor" TargetFileName="$fileinputname$ClassTemplate.tt" ReplaceParameters="true">ClassTemplate.tt</ProjectItem>
+    <ProjectItem SubType="" TargetFileName="MOVE_FILE_UNDER_FacetHandlers_AND_DELETE_THIS_FOLDER\$fileinputname$PageFacetHandler.cs" ReplaceParameters="true">FacetHandler.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

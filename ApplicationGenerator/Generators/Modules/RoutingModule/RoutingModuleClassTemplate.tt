@@ -1,0 +1,26 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<Angular.Routes.Route>" name="Routes" #>
+<#@ parameter type="System.Boolean" name="IsRoot" #>
+<#@ parameter type="System.String" name="ModuleName" #>
+import { NgModule } from '@angular/core';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = <#= this.Routes.GetRoutesArrayCode() #>;
+
+@NgModule({
+  imports: [
+    RouterModule.for<#= this.IsRoot ? "Route" : "Child" #>(routes)
+  ],
+  exports: [RouterModule]
+})
+export class <#= this.ModuleName #> { }

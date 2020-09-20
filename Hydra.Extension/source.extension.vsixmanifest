@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+    <Metadata>
+        <Identity Id="Hydra.Extension.544d4448-7cc9-47b5-950c-2a7274d24cc3" Version="1.1" Language="en-US" Publisher="CloudIDEaaS Inc" />
+        <DisplayName>Hydra.Extension</DisplayName>
+        <Description xml:space="preserve">Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes.</Description>
+        <Icon>Hydra.ico</Icon>
+        <PreviewImage>Hydra.png</PreviewImage>
+        <Tags>App Generation, Code Generation, Code Scaffolding, .NET., .NET Core, SQL Server, Mobile App, Docker, Helm, Azure Devops, Kubernetes</Tags>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.0, 17.0)" />
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    </Dependencies>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,17.0)" DisplayName="Visual Studio core editor" />
+    </Prerequisites>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    </Assets>
+</PackageManifest>

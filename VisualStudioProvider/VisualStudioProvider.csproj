@@ -1,0 +1,1246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1E47EEAF-EC79-4D70-AA27-AC653FD40CC2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VisualStudioProvider</RootNamespace>
+    <AssemblyName>VisualStudioProvider</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'LeanAndMean|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\LeanAndMean\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsTransformationParserLibrary, Version=4.0.0.212, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\CsTransformationParserLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\Binaries\Packages\EnvDTE.8.0.2\lib\net10\EnvDTE.dll</HintPath>
+    </Reference>
+    <Reference Include="EnvDTE80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\Binaries\Packages\EnvDTE80.8.0.3\lib\net10\EnvDTE80.dll</HintPath>
+    </Reference>
+    <Reference Include="EnvDTE90, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\Binaries\Packages\EnvDTE90.9.0.3\lib\net10\EnvDTE90.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ImpromptuInterface">
+      <HintPath>..\Binaries\ImpromptuInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build">
+      <HintPath>..\Binaries\Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Engine">
+      <HintPath>..\Binaries\Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Framework">
+      <HintPath>..\Binaries\Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\VSPublicAssemblies\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\Packages\VSSDK.Shell.10.10.0.4\lib\net40\Microsoft.VisualStudio.Shell.10.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\VSPublicAssemblies\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\Binaries\VSPublicAssemblies\Microsoft.VisualStudio.Shell.Interop.10.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\VSPublicAssemblies\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\VSPublicAssemblies\Microsoft.VisualStudio.Shell.Interop.9.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\VSPublicAssemblies\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="CustomMarshalers" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.DomainServices.Server, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\Binaries\Packages\RIAServices.Server.4.2.0\lib\Net40\System.ServiceModel.DomainServices.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeParsers\CodeParser.cs" />
+    <Compile Include="CodeParsers\CodeClassStruct.cs" />
+    <Compile Include="CodeParsers\CodeEditPackage.cs" />
+    <Compile Include="CodeParsers\CodeFile.cs" />
+    <Compile Include="CodeParsers\CodeNode.cs" />
+    <Compile Include="CodeParsers\CompilationUnit.cs" />
+    <Compile Include="CodePoint.cs" />
+    <Compile Include="CommandSet.cs" />
+    <Compile Include="CommandTargetType.cs" />
+    <Compile Include="PDB\Headers\FullComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>FullComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\AccessSpecifierDecl.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>AccessSpecifierDecl.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\BinaryOperator.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>BinaryOperator.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\BlockCommandComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>BlockCommandComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\BlockCommandCommentArgument.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>BlockCommandCommentArgument.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\BuiltinTypeExpression.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>BuiltinTypeExpression.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\CallExpr.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>CallExpr.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\ClassTemplate.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>ClassTemplate.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\ClassTemplatePartialSpecialization.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>ClassTemplatePartialSpecialization.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\ClassTemplateSpecialization.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>ClassTemplateSpecialization.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\CXXConstructExpr.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>CXXConstructExpr.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Expression.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Expression.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Friend.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Friend.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\FunctionTemplate.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>FunctionTemplate.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\ArrayType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>ArrayType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\AttributedType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>AttributedType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\BuiltinType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>BuiltinType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\DecayedType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>DecayedType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\DependentNameType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>DependentNameType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\DependentTemplateSpecializationType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>DependentTemplateSpecializationType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\FunctionTemplateSpecialization.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>FunctionTemplateSpecialization.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\FunctionType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>FunctionType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\HeaderExtensions.cs" />
+    <Compile Include="PDB\HeaderEntityExtensions.cs" />
+    <Compile Include="PDB\Headers\HTMLStartTagCommentAttribute.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>HTMLStartTagCommentAttribute.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\InlineCommandCommentArgument.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>InlineCommandCommentArgument.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\InlineContentComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>InlineContentComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\MacroDefinition.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>MacroDefinition.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\MacroExpansion.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>MacroExpansion.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\ParagraphComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>ParagraphComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\ParamCommandComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>ParamCommandComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\PointerType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>PointerType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\InjectedClassNameType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>InjectedClassNameType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\MemberPointerType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>MemberPointerType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\PackExpansionType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>PackExpansionType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Statement.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Statement.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TemplateArgument.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TemplateArgument.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TemplateParameter.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TemplateParameter.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TParamCommandComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TParamCommandComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TypeDefNameDecl.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TypeDefNameDecl.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TypeTemplateParameter.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TypeTemplateParameter.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\NonTypeTemplateParameter.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>NonTypeTemplateParameter.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\VerbatimBlockComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>VerbatimBlockComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\VerbatimBlockLineComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>VerbatimBlockLineComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\VerbatimLineComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>VerbatimLineComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\HeaderWhereClauseExtensions.cs" />
+    <None Include="PDB\HeaderWhereClauseExtensions_AutoGen.cs" />
+    <Compile Include="PDB\Headers\HTMLEndTagComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>HTMLEndTagComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\HTMLStartTagComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>HTMLStartTagComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\HTMLTagComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>HTMLTagComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\InlineCommandComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>InlineCommandComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\ParserProgressEventHandler.cs" />
+    <Compile Include="PDB\diaapi\DiaDataSource.cs" />
+    <Compile Include="PDB\diaapi\DiaSymbol.cs" />
+    <Compile Include="PDB\diaapi\DiaTable.cs" />
+    <Compile Include="PDB\diaapi\EnumObjects.cs" />
+    <Compile Include="PDB\diaapi\NativeMethods.cs" />
+    <Compile Include="PDB\EventArgsXml.cs" />
+    <Compile Include="PDB\Headers\BaseClassSpecifier.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>BaseClassSpecifier.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\BlockContentComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>BlockContentComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Class.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Class.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\ClassLayout.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>ClassLayout.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Comment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Comment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Declaration.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Declaration.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\EnumerationItem.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>EnumerationItem.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Field.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Field.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\IntegerValue.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>IntegerValue.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Method.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Method.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Namespace.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Namespace.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Enumeration.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Enumeration.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Function.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Function.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Header.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Header.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\DeclarationContext.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>DeclarationContext.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Parameter.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Parameter.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\PreprocessedEntity.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>PreprocessedEntity.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\QualifiedType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>QualifiedType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Template.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Template.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Type.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Type.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TypeAlias.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TypeAlias.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TypeDef.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TypeDef.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\Variable.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>Variable.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\VTableComponent.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>VTableComponent.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\VTableLayout.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>VTableLayout.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\LibraryInfoEventHandler.cs" />
+    <Compile Include="PDB\ParserDiagnosticsEventArgsXml.cs" />
+    <Compile Include="PDB\ParserProgressEventArgsXml.cs" />
+    <Compile Include="PDB\Headers\RawComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>RawComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\raw\BasicType.cs" />
+    <Compile Include="PDB\raw\DataKind.cs" />
+    <Compile Include="PDB\raw\IDiaDataSource.cs" />
+    <Compile Include="PDB\raw\IDiaEnumDebugStreamData.cs" />
+    <Compile Include="PDB\raw\IDiaEnumDebugStreams.cs" />
+    <Compile Include="PDB\raw\IDiaEnumInjectedSources.cs" />
+    <Compile Include="PDB\raw\IDiaEnumLineNumbers.cs" />
+    <Compile Include="PDB\raw\IDiaEnumSourceFiles.cs" />
+    <Compile Include="PDB\raw\IDiaEnumSymbols.cs" />
+    <Compile Include="PDB\raw\IDiaEnumSymbolsByAddr.cs" />
+    <Compile Include="PDB\raw\IDiaEnumTables.cs" />
+    <Compile Include="PDB\raw\IDiaLoadCallback.cs" />
+    <Compile Include="PDB\raw\IDiaSession.cs" />
+    <Compile Include="PDB\raw\IDiaSourceFile.cs" />
+    <Compile Include="PDB\raw\IDiaSymbol.cs" />
+    <Compile Include="PDB\raw\IDiaTable.cs" />
+    <Compile Include="PDB\raw\IEnumUnknown.cs" />
+    <Compile Include="PDB\raw\Language.cs" />
+    <Compile Include="PDB\raw\LocationType.cs" />
+    <Compile Include="PDB\raw\SymTagEnum.cs" />
+    <Compile Include="PDB\SDKSymbolResolver.cs" />
+    <Compile Include="PDB\Headers\TagType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TagType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TemplateParameterSubstitutionType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TemplateParameterSubstitutionType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TemplateParameterType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TemplateParameterType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TemplateSpecializationType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TemplateSpecializationType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TypedefType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TypedefType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\UnaryTransformType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>UnaryTransformType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\VectorType.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>VectorType.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TemplateTemplateParameter.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TemplateTemplateParameter.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TranslationUnit.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TranslationUnit.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TypeAliasTemplate.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TypeAliasTemplate.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TypeDefDecl.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TypeDefDecl.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\VarTemplate.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>VarTemplate.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\VarTemplatePartialSpecialization.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>VarTemplatePartialSpecialization.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\VarTemplateSpecialization.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>VarTemplateSpecialization.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="PDB\Headers\TextComment.cs">
+      <Generator>DiaHeadersSqlTransformer</Generator>
+      <LastGenOutput>TextComment.sql</LastGenOutput>
+    </Compile>
+    <Compile Include="SDKLibraryConnection.cs" />
+    <Compile Include="VsComObjectUtility.cs" />
+    <Compile Include="Configuration\VSConfigIndexOptions.cs" />
+    <Compile Include="Configuration\VSEnvironmentService.cs" />
+    <Compile Include="Configuration\Services\Interfaces\IClassFactory.cs" />
+    <Compile Include="Configuration\Services\VsLocalRegistry.cs" />
+    <Compile Include="Configuration\Services\VsShell.cs" />
+    <Compile Include="Configuration\VSPackageService.cs" />
+    <Compile Include="Configuration\VSService.cs" />
+    <Compile Include="DocumentInfo.cs" />
+    <Compile Include="DocumentText.cs" />
+    <Compile Include="GlobalCommandTargetAction.cs" />
+    <Compile Include="GlobalCommandTargetBase.cs" />
+    <Compile Include="OleComponent.cs" />
+    <Compile Include="OutputGlobalCommandTarget.cs" />
+    <Compile Include="PDB\coreapi\AppDomain.cs" />
+    <Compile Include="PDB\coreapi\AppDomainEnumerator.cs" />
+    <Compile Include="PDB\coreapi\Assembly.cs" />
+    <Compile Include="PDB\coreapi\AssemblyEnumerator.cs" />
+    <Compile Include="PDB\coreapi\Breakpoint.cs" />
+    <Compile Include="PDB\coreapi\BreakpointEnumerator.cs" />
+    <Compile Include="PDB\coreapi\ChainEnumerator.cs" />
+    <Compile Include="PDB\coreapi\Class.cs" />
+    <Compile Include="PDB\coreapi\Constants.cs" />
+    <Compile Include="PDB\coreapi\Controller.cs" />
+    <Compile Include="PDB\coreapi\CorMetadata.cs" />
+    <Compile Include="PDB\coreapi\CorPublish.cs" />
+    <Compile Include="PDB\coreapi\Debugger.cs" />
+    <Compile Include="PDB\coreapi\ErrorInfoEnumerator.cs" />
+    <Compile Include="PDB\coreapi\Eval.cs" />
+    <Compile Include="PDB\coreapi\FunctionBreakpoint.cs" />
+    <Compile Include="PDB\coreapi\HResults.cs" />
+    <Compile Include="PDB\coreapi\IDiaReadExeAtRVACallback.cs" />
+    <Compile Include="PDB\coreapi\IldbSymbols.cs" />
+    <Compile Include="PDB\coreapi\ISymBinder2.cs" />
+    <Compile Include="PDB\coreapi\ISymConstant.cs" />
+    <Compile Include="PDB\coreapi\ISymEncMethod.cs" />
+    <Compile Include="PDB\coreapi\ISymENCUpdate.cs" />
+    <Compile Include="PDB\coreapi\ISymReader2.cs" />
+    <Compile Include="PDB\coreapi\ISymScope2.cs" />
+    <Compile Include="PDB\coreapi\ISymSearchInfo.cs" />
+    <Compile Include="PDB\coreapi\ISymWriter2.cs" />
+    <Compile Include="PDB\coreapi\MetadataFieldInfo.cs" />
+    <Compile Include="PDB\coreapi\MetadataLocator.cs" />
+    <Compile Include="PDB\coreapi\MetadataParameterInfo.cs" />
+    <Compile Include="PDB\coreapi\MetadataType.cs" />
+    <Compile Include="PDB\coreapi\Module.cs" />
+    <Compile Include="PDB\coreapi\ModuleBreakpoint.cs" />
+    <Compile Include="PDB\coreapi\ModuleEnumerator.cs" />
+    <Compile Include="PDB\coreapi\ModuleRVAReader.cs" />
+    <Compile Include="PDB\coreapi\ObjectEnumerator.cs" />
+    <Compile Include="PDB\coreapi\Process.cs" />
+    <Compile Include="PDB\coreapi\ProcessEnumerator.cs" />
+    <Compile Include="PDB\coreapi\RegisterSet.cs" />
+    <Compile Include="PDB\coreapi\RemoteTarget.cs" />
+    <Compile Include="PDB\coreapi\StackWalk.cs" />
+    <Compile Include="PDB\coreapi\Stepper.cs" />
+    <Compile Include="PDB\coreapi\StepperEnumerator.cs" />
+    <Compile Include="PDB\coreapi\SymAccess.cs" />
+    <Compile Include="PDB\coreapi\symbinder.cs" />
+    <Compile Include="PDB\coreapi\SymConstant.cs" />
+    <Compile Include="PDB\coreapi\SymDocument.cs" />
+    <Compile Include="PDB\coreapi\SymDocumentWriter.cs" />
+    <Compile Include="PDB\coreapi\symmethod.cs" />
+    <Compile Include="PDB\coreapi\SymNamespace.cs" />
+    <Compile Include="PDB\coreapi\SymReader.cs" />
+    <Compile Include="PDB\coreapi\SymScope.cs" />
+    <Compile Include="PDB\coreapi\SymSearchInfo.cs" />
+    <Compile Include="PDB\coreapi\SymSearchPolicyAttributes.cs" />
+    <Compile Include="PDB\coreapi\symvariable.cs" />
+    <Compile Include="PDB\coreapi\SymWriter.cs" />
+    <Compile Include="PDB\coreapi\Thread.cs" />
+    <Compile Include="PDB\coreapi\ThreadEnumerator.cs" />
+    <Compile Include="PDB\coreapi\Type.cs" />
+    <Compile Include="PDB\coreapi\TypeEnumerator.cs" />
+    <Compile Include="PDB\coreapi\utility.cs" />
+    <Compile Include="PDB\coreapi\Value.cs" />
+    <Compile Include="PDB\coreapi\ValueBreakpoint.cs" />
+    <Compile Include="PDB\coreapi\WrapperBase.cs" />
+    <Compile Include="PDB\NativeDebugWrappers\amd64Context.cs" />
+    <Compile Include="PDB\NativeDebugWrappers\context.cs" />
+    <Compile Include="PDB\NativeDebugWrappers\DumpReader.cs" />
+    <Compile Include="PDB\NativeDebugWrappers\ia64Context.cs" />
+    <Compile Include="PDB\NativeDebugWrappers\NativeImports.cs" />
+    <Compile Include="PDB\NativeDebugWrappers\PEReader.cs" />
+    <Compile Include="PDB\NativeDebugWrappers\x86Context.cs" />
+    <Compile Include="PDB\pdbreader.cs" />
+    <Compile Include="PDB\pefile.cs" />
+    <Compile Include="PDB\raw\ICorDebugWrappers.cs" />
+    <Compile Include="PDB\raw\ICorPublishWrappers.cs" />
+    <Compile Include="PDB\raw\IMetadataImport.cs" />
+    <Compile Include="PDB\raw\RawAssemblyAttributes.cs" />
+    <Compile Include="PDB\raw\WindowsImports.cs" />
+    <Compile Include="PDB\symboldata.cs" />
+    <Compile Include="PDB\symboldatareader.cs" />
+    <Compile Include="PDB\symboldatawriter.cs" />
+    <Compile Include="PDB\util.cs" />
+    <Compile Include="RunningDocumentTable.cs" />
+    <Compile Include="Silverlight\SilverlightApp.cs" />
+    <Compile Include="TextChangeInfo.cs" />
+    <Compile Include="VSDebug.cs" />
+    <Compile Include="VSEnvironment.cs" />
+    <Compile Include="VSHierarchyItem.cs" />
+    <Compile Include="VSProjectElement.cs" />
+    <Compile Include="VSProjectMetadataElement.cs" />
+    <Compile Include="VSProjectProperty.cs" />
+    <Compile Include="GACWrap.cs" />
+    <Compile Include="MSBuild\Build\CommandLine\CommandLineSwitches.cs" />
+    <Compile Include="MSBuild\Build\CommandLine\CommandLineSwitchException.cs" />
+    <Compile Include="MSBuild\Build\CommandLine\DistributedLoggerRecord.cs" />
+    <Compile Include="MSBuild\Build\CommandLine\InitializationException.cs" />
+    <Compile Include="MSBuild\Build\CommandLine\MSBuildApp.cs" />
+    <Compile Include="MSBuild\Build\CommandLine\ProjectSchemaValidationHandler.cs" />
+    <Compile Include="MSBuild\Build\Shared\AssemblyResources.cs" />
+    <Compile Include="MSBuild\Build\Shared\DirectoryExists.cs" />
+    <Compile Include="MSBuild\Build\Shared\DirectoryGetFiles.cs" />
+    <Compile Include="MSBuild\Build\Shared\ErrorUtilities.cs" />
+    <Compile Include="MSBuild\Build\Shared\EscapingUtilities.cs" />
+    <Compile Include="MSBuild\Build\Shared\EventArgsFormatting.cs" />
+    <Compile Include="MSBuild\Build\Shared\ExceptionHandling.cs" />
+    <Compile Include="MSBuild\Build\Shared\FileCopy.cs" />
+    <Compile Include="MSBuild\Build\Shared\FileCreate.cs" />
+    <Compile Include="MSBuild\Build\Shared\FileDelete.cs" />
+    <Compile Include="MSBuild\Build\Shared\FileExists.cs" />
+    <Compile Include="MSBuild\Build\Shared\FileUtilities.cs" />
+    <Compile Include="MSBuild\Build\Shared\FileUtilitiesRegex.cs" />
+    <Compile Include="MSBuild\Build\Shared\GetDirectories.cs" />
+    <Compile Include="MSBuild\Build\Shared\InternalErrorException.cs" />
+    <Compile Include="MSBuild\Build\Shared\NativeMethodsShared.cs" />
+    <Compile Include="MSBuild\Build\Shared\QuotingUtilities.cs" />
+    <Compile Include="MSBuild\Build\Shared\ResourceUtilities.cs" />
+    <Compile Include="MSBuild\Build\Shared\XMakeAttributes.cs" />
+    <Compile Include="MSBuild\Internal\Performance\CodeMarkerApp.cs" />
+    <Compile Include="MSBuild\Internal\Performance\CodeMarkerEvent.cs" />
+    <Compile Include="MSBuild\Internal\Performance\CodeMarkers.cs" />
+    <Compile Include="MSBuild\Internal\Performance\CodeMarkerStartEnd.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <DependentUpon>Settings.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Configuration\Services\VsProfferService.cs" />
+    <Compile Include="Configuration\Services\VsRegisterProjectTypes.cs" />
+    <Compile Include="Configuration\Services\VsServiceProvider.cs" />
+    <Compile Include="Configuration\Services\VsSolution.cs" />
+    <Compile Include="Configuration\Services\VsUIHostLocale.cs" />
+    <Compile Include="SolutionParser.cs" />
+    <Compile Include="Configuration\VSItemTemplate.cs" />
+    <Compile Include="Configuration\VSItemTemplateDirectory.cs" />
+    <Compile Include="Configuration\ProjectTypeMappings.cs" />
+    <Compile Include="Configuration\VSConfigProvider.cs" />
+    <Compile Include="Configuration\VSPackage.cs" />
+    <Compile Include="Configuration\VSProjectTemplate.cs" />
+    <Compile Include="Configuration\VSProjectFactoryProject.cs" />
+    <Compile Include="Configuration\VSTemplateDirectory.cs" />
+    <Compile Include="Configuration\VSTemplateParameters.cs" />
+    <Compile Include="Configuration\VSConfig.cs" />
+    <Compile Include="Configuration\VSTemplateProject.cs" />
+    <Compile Include="Configuration\VSTemplateProjectItem.cs" />
+    <Compile Include="Configuration\VSTemplateReference.cs" />
+    <Compile Include="VSProject.cs" />
+    <Compile Include="VSProjectItem.cs" />
+    <Compile Include="VSShellExtensions.cs" />
+    <Compile Include="VSSolution.cs" />
+    <Compile Include="Configuration\VSTemplate.cs" />
+    <Compile Include="VSWaitDialog.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeInterfaces\CodeInterfaces.csproj">
+      <Project>{A1D569A5-690C-4479-93BC-795FE6EC3C88}</Project>
+      <Name>CodeInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CppParser\CppParser.csproj">
+      <Project>{91B287FE-0858-444E-8E87-0F3D4783BBBC}</Project>
+      <Name>CppParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SDKInterfaceLibrary.Entities\SDKInterfaceLibrary.Entities.csproj">
+      <Project>{3843F6DB-55A6-441E-BDC7-43CF8AD7B6C5}</Project>
+      <Name>SDKInterfaceLibrary.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{A4763B8B-F945-4C4C-9727-7E970E02F662}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PDB\Headers\_ClassDiagram.cd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MSBuild.Strings.resources" />
+    <EmbeddedResource Include="MSBuild.Strings.shared.resources" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\..\Program Files %28x86%29\Microsoft Visual Studio 10.0\DIA SDK\include\dia2.h">
+      <Link>PDB\raw\dia2.h</Link>
+    </Content>
+    <Content Include="PDB\Headers\AccessSpecifierDecl.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccessSpecifierDecl.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\ArrayType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ArrayType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\AttributedType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AttributedType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\BaseClassSpecifier.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseClassSpecifier.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\BinaryOperator.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BinaryOperator.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\BlockCommandComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlockCommandComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\BlockCommandCommentArgument.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlockCommandCommentArgument.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\BlockContentComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlockContentComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\BuiltinType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BuiltinType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\BuiltinTypeExpression.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BuiltinTypeExpression.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\CallExpr.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CallExpr.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Class.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Class.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\ClassLayout.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ClassLayout.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\ClassTemplate.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ClassTemplate.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\ClassTemplatePartialSpecialization.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ClassTemplatePartialSpecialization.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\ClassTemplateSpecialization.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ClassTemplateSpecialization.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Comment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Comment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\CXXConstructExpr.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CXXConstructExpr.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\DecayedType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DecayedType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Declaration.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Declaration.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\DeclarationContext.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DeclarationContext.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\DependentNameType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DependentNameType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\DependentTemplateSpecializationType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DependentTemplateSpecializationType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Enumeration.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Enumeration.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\EnumerationItem.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnumerationItem.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Expression.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Expression.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Field.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Field.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Friend.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Friend.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\FullComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FullComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Function.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Function.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\FunctionTemplate.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FunctionTemplate.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\FunctionTemplateSpecialization.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FunctionTemplateSpecialization.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\FunctionType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FunctionType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Header.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Header.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\HTMLEndTagComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HTMLEndTagComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\HTMLStartTagComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HTMLStartTagComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\HTMLStartTagCommentAttribute.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HTMLStartTagCommentAttribute.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\HTMLTagComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HTMLTagComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\InjectedClassNameType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InjectedClassNameType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\InlineCommandComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InlineCommandComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\InlineCommandCommentArgument.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InlineCommandCommentArgument.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\InlineContentComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InlineContentComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\IntegerValue.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IntegerValue.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\MacroDefinition.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MacroDefinition.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\MacroExpansion.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MacroExpansion.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\MemberPointerType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MemberPointerType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Method.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Method.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Namespace.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Namespace.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\NonTypeTemplateParameter.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NonTypeTemplateParameter.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\PackExpansionType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PackExpansionType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\ParagraphComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParagraphComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\ParamCommandComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParamCommandComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Parameter.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Parameter.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\PointerType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PointerType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\PreprocessedEntity.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PreprocessedEntity.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\QualifiedType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QualifiedType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\RawComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RawComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Statement.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Statement.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TagType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TagType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Template.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Template.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TemplateArgument.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateArgument.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TemplateParameter.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateParameter.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TemplateParameterSubstitutionType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateParameterSubstitutionType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TemplateParameterType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateParameterType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TemplateSpecializationType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateSpecializationType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TemplateTemplateParameter.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateTemplateParameter.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TextComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TParamCommandComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TParamCommandComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TranslationUnit.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TranslationUnit.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Type.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Type.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TypeAlias.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TypeAlias.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TypeAliasTemplate.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TypeAliasTemplate.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TypeDef.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TypeDef.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TypeDefDecl.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TypeDefDecl.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TypeDefNameDecl.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TypeDefNameDecl.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TypedefType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TypedefType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\TypeTemplateParameter.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TypeTemplateParameter.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\UnaryTransformType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UnaryTransformType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\Variable.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Variable.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\VarTemplate.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VarTemplate.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\VarTemplatePartialSpecialization.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VarTemplatePartialSpecialization.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\VarTemplateSpecialization.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VarTemplateSpecialization.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\VectorType.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VectorType.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\VerbatimBlockComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VerbatimBlockComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\VerbatimBlockLineComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VerbatimBlockLineComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\VerbatimLineComment.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VerbatimLineComment.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\VTableComponent.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VTableComponent.cs</DependentUpon>
+    </Content>
+    <Content Include="PDB\Headers\VTableLayout.sql">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VTableLayout.cs</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup>
+    <TransformerBuildTaskFile>$(MSBuildProjectDirectory)\..\Binaries\TransformerBuildTask\TransformerBuildTask.dll</TransformerBuildTaskFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ApplicationGenerator|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ApplicationGenerator\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>7.1</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugAll|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugAll\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>7.1</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!--<UsingTask AssemblyFile="$(TransformerBuildTaskFile)" TaskName="CopyOrderDiaHeaderScripts" />
+  <Target Name="AfterBuild">
+    <Message Text="Running CopyOrderDiaHeaderScripts task from $(TransformerBuildTaskFile)" />
+    <CopyOrderDiaHeaderScripts RegenerateAll="false" />
+  </Target>-->
+  <PropertyGroup>
+    <PostBuildEvent Condition=" '$(solutionTargetPath)' == '' ">
+      rem "$(SolutionDir)Binaries\SolutionLibraries\HydraCopy.exe" "$(TargetDir)*.*" "$(SolutionDir)Tests\Hydra.Web.IntegrationTests\bin\Debug"
+      rem "$(SolutionDir)Binaries\SolutionLibraries\HydraCopy.exe" "$(TargetDir)*.*" "$(SolutionDir)Binaries\SolutionLibraries"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+      rem "$(SolutionDir)Binaries\SolutionLibraries\HydraCopy.exe" "$(TargetDir)*.*" "$(SolutionDir)Tests\Hydra.Web.IntegrationTests\bin\Debug"
+      rem "$(SolutionDir)Binaries\SolutionLibraries\HydraCopy.exe" "$(TargetDir)*.*" "$(SolutionDir)Binaries\SolutionLibraries"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="{C8AC7615-0A11-4EC9-940E-C24BB6DC9E7A}" Name="Hydra" Language="1033" Version="1.0.0.0" Manufacturer="CloudIDEaaS" UpgradeCode="3fd43fa3-9ac6-4e2b-ad1d-7710ba38333b">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Manufacturer="CloudIDEaaS" Comments="Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes." Keywords="App Generation, Code Generation, Code Scaffolding, .NET., .NET Core, SQL Server, Mobile App, Docker, Helm, Azure Devops, Kubernetes" Description="Hydra" />
+    <Property Id="ARPURLUPDATEINFO" Value="http://www.cloudideaas.com/hydra/update" />
+    <Property Id="ARPURLINFOABOUT" Value="http://www.cloudideaas.com/support" />
+    <Property Id="ARPHELPTELEPHONE" Value="(888) 647-4019" />
+    <Property Id="ARPREADME" Value="Hydra" />
+    <Property Id="ARPHELPLINK" Value="http://www.cloudideaas.com/hydra" />
+    <Property Id="ARPNOREPAIR" Value="no" Secure="yes" />
+    <Property Id="ARPCOMMENTS" Value="Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes." />
+    <Property Id="ARPCONTACT" Value="CloudIDEaaS" />
+    <Property Id="ARPPRODUCTICON">_2778D68E2983</Property>
+    <Icon Id="_2778D68E2983" SourceFile="Hydra.ico" />
+    <CustomAction Id="DIRCA_TARGETDIR" Property="TARGETDIR" Value="[ProgramFilesFolder][Manufacturer]\[ProductName]" Execute="firstSequence" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+    <Feature Id="ProductFeature" Title="Hydra.InstallerStandalone" Level="1">
+      <ComponentGroupRef Id="ApplicationGenerator.Binaries" />
+      <ComponentRef Id="comp_63D9DCDE_03A9_4C53_833F_9F50E2079C84" />
+      <ComponentRef Id="comp_AE041861_61E9_4D92_86FC_57FC4B52DF2F" />
+      <ComponentRef Id="comp_C408DA07_7CA7_4C76_A3B3_E00FC23BA0C9" />
+      <ComponentRef Id="comp_FFA15B61_2D18_4590_A5A8_68D7BD1344C2" />
+      <ComponentRef Id="comp_1458C40B_DACD_468A_AAEE_DFE4B1A4A3EC" />
+      <ComponentRef Id="comp_68CFFD21_87F1_4A6B_87AB_95E8704DBA1D" />
+      <ComponentRef Id="comp_EB42EAD6_69C2_4025_93C5_D8DF8C6FA374" />
+      <ComponentRef Id="comp_E0477351_51D8_45D3_B617_6ABB062EFEED" />
+      <ComponentRef Id="comp_65BFCC3F_64E8_46F8_B273_3A2CE22016E7" />
+      <ComponentRef Id="comp_991511E6_2951_4A0F_A753_020222BC4D25" />
+      <ComponentRef Id="comp_58F0B051_583C_4C5B_9887_F6FC8A78F068" />
+      <ComponentRef Id="comp_B5185832_4484_4E70_8079_5E9FCE4C6E93" />
+      <ComponentRef Id="comp_A1825871_7379_4B65_980D_2C6969FDCF75" />
+      <ComponentRef Id="comp_0D70353F_BB00_472C_8E3F_D94ADFE679BA" />
+      <ComponentRef Id="comp_DAC54AA3_8B8F_43F4_BB21_C980D04AB019" />
+      <ComponentRef Id="comp_5588FAAC_522F_4A04_AB4D_BA7DC0D6F7CE" />
+      <ComponentRef Id="comp_57C502D3_D47F_4F4F_9468_5E526CC0ABE5" />
+      <ComponentRef Id="comp_8167E3ED_C9CF_4DFE_98E2_D0B01C82DF80" />
+      <ComponentRef Id="comp_33152818_BC5B_483C_AE63_F6205669B1CD" />
+      <ComponentRef Id="comp_4DA0258D_1F2B_4BAC_97BB_9DCBB81C9B4F" />
+      <ComponentRef Id="comp_98C0904F_4BE2_4FE2_9A98_9CC8FE3C70C7" />
+      <ComponentRef Id="comp_19C04B83_1B54_4099_A55E_1A136518FC5E" />
+      <ComponentRef Id="comp_35037B81_0277_4A0B_A7FA_4F12F4EFEC7F" />
+      <ComponentRef Id="comp_143E4072_0D08_4809_BD8E_B33CB35AA1F0" />
+      <ComponentRef Id="comp_8A52ECAD_D879_44FB_87E2_3FF590028B47" />
+      <ComponentRef Id="comp_8106D23B_912E_40A8_84E8_3C75E0A2D24D" />
+      <ComponentRef Id="comp_687F4820_D71B_40AB_A4F2_43087C2EDC91" />
+      <ComponentRef Id="comp_74048714_0410_418C_BEB9_4418F52058C0" />
+      <ComponentRef Id="comp_2C43DB1D_E87C_4B18_A6AF_9DD4A7B7100D" />
+      <ComponentRef Id="comp_5AD3005D_0C1B_41F7_B375_BC5137F9568F" />
+      <ComponentRef Id="comp_BBAEF69E_9B99_43D6_B11D_8088AEDC2316" />
+      <ComponentRef Id="comp_48C9299D_3EE0_44D4_9535_9925A7362554" />
+      <ComponentRef Id="comp_62A3F4E2_9959_4FF8_91E0_BC47C7735571" />
+      <ComponentRef Id="comp_20B7CA39_6DA8_46D2_918A_6DCD8F13A3A1" />
+      <ComponentRef Id="comp_41B9E684_C923_40DC_87EB_8DC4C709F4A3" />
+      <ComponentRef Id="comp_11979DCC_B644_4A69_962C_745EA3CED60B" />
+      <ComponentRef Id="comp_384159F6_092D_43E1_8DC1_E14C40EEA46E" />
+      <ComponentRef Id="comp_18E8B9A4_3DCE_4DE4_9529_D09C99FD6177" />
+      <ComponentRef Id="comp_0195BAE0_D50F_4D27_9F8A_F48B20A00EDB" />
+      <ComponentRef Id="comp_D1C7FD81_E57B_4EF0_A050_FEBF2F37B26F" />
+      <ComponentRef Id="comp_910469DC_2040_484D_8510_A501AEE043D0" />
+      <ComponentRef Id="comp_0585BEC5_1F7A_46C4_BBB6_DB25273CE6A9" />
+      <ComponentRef Id="comp_BAFE755F_EA88_4A6C_AA1F_5F7BA32034BF" />
+      <ComponentRef Id="comp_AC1B55E9_9CA5_43F8_9F14_02AC691717F3" />
+      <ComponentRef Id="comp_8B529905_764F_4FF6_BB54_EA0D7AD67880" />
+      <ComponentRef Id="comp_87F197C9_1D7D_4C5C_AE27_0FCB412EB2A0" />
+      <ComponentRef Id="comp_0E3B3290_DB17_4D59_955D_B055FEE81619" />
+      <ComponentRef Id="comp_089624F2_3CC2_4931_B63B_BC0721461FDB" />
+      <ComponentRef Id="comp_445384EA_8AC2_461C_AD96_175DB7E0A726" />
+      <ComponentRef Id="comp_BA2AA268_868A_4B74_9570_9C1A3E250FDF" />
+      <ComponentRef Id="comp_C186C692_B742_430C_A312_792B6C09B9B1" />
+      <ComponentRef Id="comp_A04489F1_5AB2_4FB1_B8CA_F149DDD232E1" />
+      <ComponentRef Id="comp_04CB22A2_5F41_4ACE_A3D9_CB833689755D" />
+      <ComponentRef Id="comp_C53E0D32_5A91_4432_A678_9DA233C618ED" />
+      <ComponentRef Id="comp_39A2780C_9C68_48DB_B38F_FCD1A82A395D" />
+      <ComponentRef Id="comp_73CD3ED4_6A61_4F82_A361_CB78976D0076" />
+      <ComponentRef Id="comp_71BD1C19_B6EE_4285_81F5_4783B1402C76" />
+      <ComponentRef Id="comp_86828EB7_18E8_419A_BB07_DC1D5E452C6F" />
+      <ComponentRef Id="comp_7FD587AC_E7BA_4611_B82A_2C1AD6A19B9C" />
+      <ComponentRef Id="comp_E4E2AF6B_DA43_4BAA_AF3B_FC9FABD53475" />
+      <ComponentRef Id="comp_7FD07176_A53F_425A_8632_483F3BE20526" />
+      <ComponentRef Id="comp_63F6EC9F_BA48_4B18_B705_63CDDF5BD33D" />
+      <ComponentRef Id="comp_A6E4E982_0EC4_46F1_95C5_DAC39BCE049C" />
+      <ComponentRef Id="comp_8EE87600_528C_4CF3_BFAB_BC8DCC425D30" />
+      <ComponentRef Id="comp_45E6A99A_6033_4C9F_8AEB_2304681284B8" />
+      <ComponentRef Id="comp_BA9AAC8E_B1E2_49A7_AC07_88AF5CAD370F" />
+      <ComponentRef Id="comp_D82630B9_06DB_4C6D_AD36_ADB74369179C" />
+      <ComponentRef Id="comp_0E7E288D_E635_44AB_A122_3EF6E64845F8" />
+      <ComponentRef Id="comp_CF47C931_CADD_49E9_B67A_436162BF8EFB" />
+      <ComponentRef Id="comp_46D3A128_7120_422C_AB0F_E35910210E9E" />
+      <ComponentRef Id="comp_4C794F1F_EA43_429A_87A2_1F603C328DC6" />
+      <ComponentRef Id="comp_B7F23B2A_9030_4072_A913_A98A95F6BA32" />
+      <ComponentRef Id="comp_B950021D_1FF1_4612_B7BD_8D021C28980F" />
+      <ComponentRef Id="comp_9D150076_5ADC_4C68_A67C_C2CF213DF80E" />
+      <ComponentRef Id="comp_61952922_EBAC_4CB9_8446_75924711CFBB" />
+      <ComponentRef Id="comp_19ECB5FC_F714_4C55_886F_B76DA390F960" />
+      <ComponentRef Id="comp_6BDE3F2D_DF34_4922_8215_B027AEF5B494" />
+      <ComponentRef Id="comp_BAC195D5_3D5A_449E_BD93_8E8EA43B1967" />
+      <ComponentRef Id="comp_808C1686_9A11_47FD_A973_56B5D3B8E6CB" />
+      <ComponentRef Id="comp_03486722_6B6B_4A0C_A54A_837E259F152D" />
+      <ComponentRef Id="comp_458404D0_AD09_42A2_BA29_74D4CCC54730" />
+      <ComponentRef Id="comp_31DCAA72_75F0_4D0C_A747_9C49150DE87B" />
+      <ComponentRef Id="comp_7F0773DB_96F1_40AC_A8FD_6A8D2EE308A5" />
+      <ComponentRef Id="comp_EAA7FDDD_8F5E_4EC9_830D_011E308E52DC" />
+      <ComponentRef Id="comp_CC85490E_4484_4449_B0E4_76DB3BA46D9B" />
+      <ComponentRef Id="comp_D16F83ED_8C29_40C4_96ED_0824D9EEC078" />
+      <ComponentRef Id="comp_6CBBC7B9_8605_4059_B57F_691CE39FADA1" />
+      <ComponentRef Id="comp_DDD483EB_DE9E_435F_A7D1_F99ED67E0679" />
+      <ComponentRef Id="comp_D951F98A_ADE2_4A0F_A621_0C009B2B43C7" />
+      <ComponentRef Id="comp_BE4E3B9C_9763_4FEF_94BD_49F69AD31705" />
+      <ComponentRef Id="comp_CD7D7FF5_C251_4EBB_B31B_4DF641260D87" />
+      <ComponentRef Id="comp_5CF5BAF0_F39F_4968_A2F8_533631C92425" />
+      <ComponentRef Id="comp_A66E6D06_F908_427D_A1D6_950405C9C04A" />
+      <ComponentRef Id="comp_33EFEF4F_0797_4038_AC81_9662A8228EF0" />
+      <ComponentRef Id="comp_E261F38B_9514_41E0_ACD8_8AC85027E906" />
+      <ComponentRef Id="comp_69E3E5DB_FB7B_4412_93F7_A0FC2F9B8CAB" />
+      <ComponentRef Id="comp_6B01EE4F_70DF_4BAE_9800_1C79C65A894C" />
+      <ComponentRef Id="comp_97500E52_F95B_40E1_9C09_E3C8E210B21C" />
+      <ComponentRef Id="comp_64109B5C_B5D4_417D_9F3F_B424C95CEE8A" />
+      <ComponentRef Id="comp_77E957CB_D5B7_4DA5_A96C_10D6093DD297" />
+      <ComponentRef Id="comp_B988D366_533B_41AE_BF6A_5427B4725DD7" />
+      <ComponentRef Id="comp_D5599CA8_CD6B_4F8F_8ED5_705C71F8F6D1" />
+      <ComponentRef Id="comp_45F6D01F_F0FD_4CB7_8168_3FC5F2680BA8" />
+      <ComponentRef Id="comp_D6490548_32A5_4AF7_B067_02431E1E7A07" />
+      <ComponentRef Id="comp_9866F0CF_64C2_45C8_B722_0E9911081E3B" />
+      <ComponentRef Id="comp_067EF291_FD5D_45E3_A172_FB0A35DDD4A8" />
+      <ComponentRef Id="comp_48BADEDA_562B_49EE_96E5_38B9F97233C9" />
+      <ComponentRef Id="comp_DAF89F34_745C_4EE2_A820_606438AB60ED" />
+      <ComponentRef Id="comp_7B81CA03_8EA7_41D4_AFD4_56A373E08CA1" />
+      <ComponentRef Id="comp_FABBD7D1_7C6E_4D2E_AC6C_3CC4B1F7E2C6" />
+      <ComponentRef Id="comp_E38DB582_64F7_435D_A97A_0F3AD1B087F8" />
+      <ComponentRef Id="comp_A46C809E_6B80_465F_B2FB_9111F2F28D08" />
+      <ComponentRef Id="comp_B6B1C502_8590_42BF_89DE_9A2CED12A776" />
+    </Feature>
+    <InstallExecuteSequence>
+      <Custom Action="DIRCA_TARGETDIR" Before="CostInitialize"><![CDATA[TARGETDIR=""]]></Custom>
+    </InstallExecuteSequence>
+    <InstallUISequence>
+      <Custom Action="DIRCA_TARGETDIR" Before="CostInitialize"><![CDATA[TARGETDIR=""]]></Custom>
+      <Custom Action="ERRCA_UIANDADVERTISED" Sequence="5"><![CDATA[ProductState=1]]></Custom>
+      <Custom Action="VSDCA_FolderForm_AllUsers" Sequence="997"><![CDATA[Installed="" AND NOT RESUME AND ALLUSERS=1]]></Custom>
+      <Show Dialog="UserExitForm" OnExit="cancel" />
+      <Show Dialog="FatalErrorForm" OnExit="error"><![CDATA[NOT HideFatalErrorForm]]></Show>
+      <Show Dialog="MaintenanceForm" Sequence="999"><![CDATA[Installed<>""]]></Show>
+      <Show Dialog="ResumeForm" Sequence="998"><![CDATA[Installed="" AND RESUME]]></Show>
+      <Show Dialog="FinishedForm" OnExit="success" />
+    </InstallUISequence>
+    <AdminUISequence>
+      <Custom Action="DIRCA_TARGETDIR" Before="CostInitialize"><![CDATA[TARGETDIR=""]]></Custom>
+      <Show Dialog="UserExitForm" OnExit="cancel" />
+      <Show Dialog="FatalErrorForm" OnExit="error"><![CDATA[NOT HideFatalErrorForm]]></Show>
+      <Show Dialog="MaintenanceForm" Sequence="999"><![CDATA[Installed<>""]]></Show>
+      <Show Dialog="ResumeForm" Sequence="998"><![CDATA[Installed="" AND RESUME]]></Show>
+      <Show Dialog="FinishedForm" OnExit="success" />
+    </AdminUISequence>
+    <CustomAction Id="VSDCA_FolderForm_AllUsers" Property="FolderForm_AllUsers" Value="ALL" />
+    <UIRef Id="SplashDlg" />
+    <UIRef Id="FinishedDlg" />
+    <UIRef Id="WelcomeDlg" />
+    <UIRef Id="FolderDlg" />
+    <UIRef Id="LicenseDlg" />
+    <UIRef Id="ConfirmDlg" />
+    <UIRef Id="ProgressDlg" />
+    <UI Id="Base">
+      <Property Id="VSDNETURLMSG" Value="This setup requires the .NET Framework version [1].  Please install the .NET Framework and run this setup again.  The .NET Framework can be obtained from the web.  Would you like to do this now?" />
+      <Property Id="VSDIISMSG" Value="This setup requires Internet Information Server 5.1 or higher and Windows XP or higher.  This setup cannot be installed on Windows 2000.  Please install Internet Information Server or a newer operating system and run this setup again." />
+      <Property Id="VSDUIANDADVERTISED" Value="This advertised application will not be installed because it might be unsafe. Contact your administrator to change the installation user interface option of the package to basic." />
+      <Property Id="VSDNETMSG" Value="This setup requires the .NET Framework version [1].  Please install the .NET Framework and run this setup again." />
+      <Property Id="VSDINVALIDURLMSG" Value="The specified path '[2]' is unavailable. The Internet Information Server might not be running or the path exists and is redirected to another machine. Please check the status of this virtual directory in the Internet Services Manager." />
+      <Property Id="VSDVERSIONMSG" Value="Unable to install because a newer version of this product is already installed." />
+    </UI>
+    <CustomAction Id="ERRCA_UIANDADVERTISED" Error="[VSDUIANDADVERTISED]" />
+    <UI Id="BasicDialogs">
+      <Binary Id="NewFldrBtn" SourceFile="Resources\WiXNewFolderBtn.ico" />
+      <Binary Id="UpFldrBtn" SourceFile="Resources\WiXUpFolderBtn.ico" />
+      <Property Id="ErrorDialog" Value="ErrorDialog" />
+      <Property Id="SFF_UpFldrBtn" Value="UpFldrBtn" />
+      <Property Id="SFF_NewFldrBtn" Value="NewFldrBtn" />
+      <TextStyle Id="VSI_MS_Sans_Serif13.0_0_0" FaceName="MS Sans Serif" Size="9" Red="0" Green="0" Blue="0" />
+      <TextStyle Id="VSI_MS_Sans_Serif16.0_1_0" FaceName="MS Sans Serif" Size="12" Red="0" Green="0" Blue="0" Bold="yes" />
+      <TextStyle Id="VSI_MS_Shell_Dlg13.0_0_0" FaceName="MS Shell Dlg" Size="9" Red="0" Green="0" Blue="0" />
+      <Dialog Id="Cancel" X="50" Y="50" Width="271" Height="78" Title="[ProductName]" NoMinimize="yes">
+        <Control Id="NoButton" Type="PushButton" X="198" Y="48" Width="65" Height="21" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;No" TabSkip="no" Default="yes" Cancel="yes">
+          <Publish Event="EndDialog" Value="Return" />
+        </Control>
+        <Control Id="YesButton" Type="PushButton" X="126" Y="48" Width="65" Height="21" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Yes" TabSkip="no">
+          <Publish Event="EndDialog" Value="Exit" />
+        </Control>
+        <Control Id="BodyText" Type="Text" X="6" Y="9" Width="258" Height="24" Text="{\VSI_MS_Sans_Serif13.0_0_0}The installation is not yet complete. Are you sure you want to exit?" TabSkip="yes" NoPrefix="yes" />
+      </Dialog>
+      <Dialog Id="ConfirmRemoveDialog" X="50" Y="50" Width="271" Height="78" Title="Remove [ProductName]" NoMinimize="yes">
+        <Control Id="NoButton" Type="PushButton" X="198" Y="48" Width="65" Height="21" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;No" TabSkip="no" Default="yes" Cancel="yes">
+          <Publish Property="WelcomeForm_ConfirmRemove" Value="No" />
+          <Publish Event="EndDialog" Value="Return" />
+        </Control>
+        <Control Id="YesButton" Type="PushButton" X="126" Y="48" Width="65" Height="21" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Yes" TabSkip="no">
+          <Publish Property="WelcomeForm_ConfirmRemove" Value="Yes" />
+          <Publish Event="EndDialog" Value="Return" />
+        </Control>
+        <Control Id="BodyText" Type="Text" X="6" Y="9" Width="258" Height="24" Text="{\VSI_MS_Sans_Serif13.0_0_0}You have chosen to remove [ProductName] from your computer. Are you sure you want to remove it?" TabSkip="yes" NoPrefix="yes" />
+      </Dialog>
+      <Dialog Id="DiskCost" X="50" Y="50" Width="361" Height="192" Title="[ProductName] Disk Space" NoMinimize="yes" TrackDiskSpace="yes">
+        <Control Id="OKButton" Type="PushButton" X="288" Y="165" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}OK" TabSkip="no" Default="yes" Cancel="yes">
+          <Publish Event="EndDialog" Value="Return" />
+        </Control>
+        <Control Id="VolumeCostList1" Type="VolumeCostList" X="6" Y="39" Width="348" Height="114" Text="{\VSI_MS_Sans_Serif13.0_0_0}{116}{80}{80}{80}{80}" TabSkip="no" Sunken="yes" Removable="yes" Fixed="yes" Remote="yes" />
+        <Control Id="AvailableBodyText" Type="Text" X="6" Y="9" Width="348" Height="24" Text="{\VSI_MS_Sans_Serif13.0_0_0}The list below includes the drives you can install [ProductName] to, along with each drive's available and required disk space." TabSkip="yes" NoPrefix="yes">
+          <Condition Action="show"><![CDATA[OutOfDiskSpace<>1]]></Condition>
+          <Condition Action="hide"><![CDATA[OutOfDiskSpace=1]]></Condition>
+        </Control>
+        <Control Id="RequiredBodyText" Type="Text" X="6" Y="9" Width="348" Height="24" Text="{\VSI_MS_Sans_Serif13.0_0_0}The amount of required disk space exceeds the amount of available disk space. The highlighted items indicate the drives with insufficient disk space." TabSkip="yes" NoPrefix="yes">
+          <Condition Action="show"><![CDATA[OutOfDiskSpace=1]]></Condition>
+          <Condition Action="hide"><![CDATA[OutOfDiskSpace<>1]]></Condition>
+        </Control>
+      </Dialog>
+      <Dialog Id="FilesInUse" X="50" Y="50" Width="361" Height="177" Title="[ProductName] Files in Use" NoMinimize="yes">
+        <Control Id="RetryButton" Type="PushButton" X="99" Y="150" Width="81" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Try Again" TabSkip="no" Default="yes">
+          <Publish Event="EndDialog" Value="Retry" />
+        </Control>
+        <Control Id="ContinueButton" Type="PushButton" X="186" Y="150" Width="81" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Continue" TabSkip="no">
+          <Publish Event="EndDialog" Value="Ignore" />
+        </Control>
+        <Control Id="ExitButton" Type="PushButton" X="273" Y="150" Width="81" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}E&amp;xit Installation" TabSkip="no" Cancel="yes">
+          <Publish Event="EndDialog" Value="Exit" />
+        </Control>
+        <Control Id="ListFilesInUse" Type="ListBox" X="6" Y="51" Width="348" Height="90" Property="FileInUseProcess" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiFilesInUse" TabSkip="no" Sunken="yes" Sorted="yes" />
+        <Control Id="InstallBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="{\VSI_MS_Sans_Serif13.0_0_0}The following applications are using files which the installer must update. You can either close the applications and click &quot;Try Again&quot;, or click &quot;Continue&quot; so that the installer continues the installation, and replaces these files when your system restarts." TabSkip="yes" NoPrefix="yes">
+          <Condition Action="show"><![CDATA[REMOVE=""]]></Condition>
+          <Condition Action="hide"><![CDATA[REMOVE<>""]]></Condition>
+        </Control>
+        <Control Id="RemoveBodyText" Type="Text" X="6" Y="9" Width="345" Height="36" Text="{\VSI_MS_Sans_Serif13.0_0_0}The following applications are using files which the installer must remove. You can either close the applications and click &quot;Try Again&quot;, or click &quot;Continue&quot; so that the installer continues the installation, and replaces these files when your system restarts." TabSkip="yes" NoPrefix="yes">
+          <Condition Action="show"><![CDATA[REMOVE<>""]]></Condition>
+          <Condition Action="hide"><![CDATA[REMOVE=""]]></Condition>
+        </Control>
+      </Dialog>
+      <Dialog Id="SelectFolderDialog" X="50" Y="50" Width="313" Height="223" Title="Browse for Folder" NoMinimize="yes">
+        <Control Id="OKButton" Type="PushButton" X="168" Y="198" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}OK" TabSkip="no" Default="yes">
+          <Publish Event="SetTargetPath" Value="[SelectFolderDialog_Property]">1</Publish>
+          <Publish Event="EndDialog" Value="Return">1</Publish>
+        </Control>
+        <Control Id="CancelButton" Type="PushButton" X="240" Y="198" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}Cancel" TabSkip="no" Cancel="yes">
+          <Publish Event="Reset" Value="{}">1</Publish>
+          <Publish Event="EndDialog" Value="Return">1</Publish>
+        </Control>
+        <Control Id="BrowseText" Type="Text" X="6" Y="9" Width="60" Height="12" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Browse:" TabSkip="no" />
+        <Control Id="FolderCombo" Type="DirectoryCombo" X="66" Y="6" Width="198" Height="120" Property="SelectFolderDialog_Property" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiDirectoryCombo" TabSkip="no" Indirect="yes" Removable="yes" Fixed="yes" Remote="yes" RAMDisk="yes" Floppy="yes" />
+        <Control Id="FolderUpButton" Type="PushButton" X="270" Y="6" Width="18" Height="18" Text="[SFF_UpFldrBtn]" TabSkip="no" IconSize="16" FixedSize="yes" Icon="yes">
+          <Publish Event="DirectoryListUp" Value="{}">1</Publish>
+        </Control>
+        <Control Id="NewFolderButton" Type="PushButton" X="288" Y="6" Width="18" Height="18" Text="[SFF_NewFldrBtn]" TabSkip="no" IconSize="16" FixedSize="yes" Icon="yes">
+          <Publish Event="DirectoryListNew" Value="{}">1</Publish>
+        </Control>
+        <Control Id="FolderList" Type="DirectoryList" X="6" Y="30" Width="300" Height="129" Property="SelectFolderDialog_Property" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiDirectoryList" TabSkip="no" Sunken="yes" Indirect="yes" />
+        <Control Id="FolderText" Type="Text" X="6" Y="171" Width="60" Height="12" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Folder:" TabSkip="no" />
+        <Control Id="FolderPathEdit" Type="PathEdit" X="66" Y="168" Width="240" Height="18" Property="SelectFolderDialog_Property" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiPathEdit" TabSkip="no" Sunken="yes" Indirect="yes" />
+      </Dialog>
+      <Dialog Id="ErrorDialog" X="50" Y="50" Width="330" Height="101" Title="[ProductName]" ErrorDialog="yes">
+        <Control Id="ErrorText" Type="Text" X="6" Y="9" Width="318" Height="48" Text="{\VSI_MS_Sans_Serif13.0_0_0}" TabSkip="no" Disabled="yes" NoPrefix="yes" />
+        <Control Id="Y" Type="PushButton" X="240" Y="72" Width="81" Height="21" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Yes" TabSkip="yes">
+          <Publish Event="EndDialog" Value="ErrorYes" />
+        </Control>
+        <Control Id="A" Type="PushButton" X="0" Y="72" Width="81" Height="21" Text="{\VSI_MS_Sans_Serif13.0_0_0}E&amp;xit Installation" TabSkip="yes">
+          <Publish Event="EndDialog" Value="ErrorAbort" />
+        </Control>
+        <Control Id="C" Type="PushButton" X="42" Y="72" Width="81" Height="21" Text="{\VSI_MS_Sans_Serif13.0_0_0}Cancel" TabSkip="yes">
+          <Publish Event="EndDialog" Value="ErrorCancel" />
+        </Control>
+        <Control Id="I" Type="PushButton" X="81" Y="72" Width="81" Height="21" Text="{\VSI_MS_Sans_Serif13.0_0_0}C&amp;ontinue" TabSkip="yes">
+          <Publish Event="EndDialog" Value="ErrorIgnore" />
+        </Control>
+        <Control Id="N" Type="PushButton" X="120" Y="72" Width="81" Height="21" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;No" TabSkip="yes">
+          <Publish Event="EndDialog" Value="ErrorNo" />
+        </Control>
+        <Control Id="O" Type="PushButton" X="159" Y="72" Width="81" Height="21" Text="{\VSI_MS_Sans_Serif13.0_0_0}OK" TabSkip="yes">
+          <Publish Event="EndDialog" Value="ErrorOk" />
+        </Control>
+        <Control Id="R" Type="PushButton" X="198" Y="72" Width="81" Height="21" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Try Again" TabSkip="yes">
+          <Publish Event="EndDialog" Value="ErrorRetry" />
+        </Control>
+      </Dialog>
+    </UI>
+    <UI Id="UserInterface">
+      <Binary Id="_57365B7E_7DB9_402C_AD28_6B0B78B65220" SourceFile="HydraBanner.bmp" />
+      <Binary Id="DefBannerBitmap" SourceFile="Resources\WiXDefBannerBitmap.bmp" />
+      <Property Id="DefaultUIFont" Value="VsdDefaultUIFont.524F4245_5254_5341_4C45_534153783400" />
+      <TextStyle Id="VsdDefaultUIFont.524F4245_5254_5341_4C45_534153783400" FaceName="MS Sans Serif" Size="9" Red="0" Green="0" Blue="0" />
+      <UIText Id="MenuLocal"><![CDATA[Will be installed on local hard drive]]></UIText>
+      <UIText Id="SelParentCostNegNeg"><![CDATA[This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive.]]></UIText>
+      <UIText Id="SelNetworkNetwork"><![CDATA[This feature will remain to be run from the network]]></UIText>
+      <UIText Id="SelNetworkLocal"><![CDATA[This feature will change from run from network state to be installed on the local hard drive]]></UIText>
+      <UIText Id="SelNetworkAdvertise"><![CDATA[This feature will change from run from network state to set to be installed when required]]></UIText>
+      <UIText Id="SelNetworkAbsent"><![CDATA[This feature will be uninstalled completely, you won't be able to run it from the network]]></UIText>
+      <UIText Id="SelAbsentAbsent"><![CDATA[This feature will remain uninstalled]]></UIText>
+      <UIText Id="ScriptInProgress"><![CDATA[Gathering required information...]]></UIText>
+      <UIText Id="MenuCD"><![CDATA[Will be installed to run from CD]]></UIText>
+      <UIText Id="SelChildCostNeg"><![CDATA[This feature frees up [1] on your hard drive.]]></UIText>
+      <UIText Id="SelCDLocal"><![CDATA[This feature will change from run from CD state to be installed on the local hard drive]]></UIText>
+      <UIText Id="MenuAbsent"><![CDATA[Entire feature will be unavailable]]></UIText>
+      <UIText Id="SelCDAdvertise"><![CDATA[This feature will change from run from CD state to set to be installed when required]]></UIText>
+      <UIText Id="MenuAllNetwork"><![CDATA[Entire feature will be installed to run from network]]></UIText>
+      <UIText Id="SelLocalNetwork"><![CDATA[This feature will be removed from your local hard drive, but will be still available to run from the network]]></UIText>
+      <UIText Id="SelAdvertiseNetwork"><![CDATA[This feature will be available to run from the network]]></UIText>
+      <UIText Id="MenuAllLocal"><![CDATA[Entire feature will be installed on local hard drive]]></UIText>
+      <UIText Id="SelAdvertiseLocal"><![CDATA[This feature will be installed on your local hard drive]]></UIText>
+      <UIText Id="MenuAllCD"><![CDATA[Entire feature will be installed to run from CD]]></UIText>
+      <UIText Id="SelCDAbsent"><![CDATA[This feature will be uninstalled completely, you won't be able to run it from CD]]></UIText>
+      <UIText Id="MenuAdvertise"><![CDATA[Feature will be installed when required]]></UIText>
+      <UIText Id="SelAdvertiseCD"><![CDATA[This feature will be available to run from CD]]></UIText>
+      <UIText Id="bytes"><![CDATA[bytes]]></UIText>
+      <UIText Id="SelAdvertiseAdvertise"><![CDATA[Will be installed when required]]></UIText>
+      <UIText Id="AbsentPath" />
+      <UIText Id="MB"><![CDATA[MB]]></UIText>
+      <UIText Id="SelAdvertiseAbsent"><![CDATA[This feature will become unavailable]]></UIText>
+      <UIText Id="KB"><![CDATA[KB]]></UIText>
+      <UIText Id="GB"><![CDATA[GB]]></UIText>
+      <UIText Id="SelAbsentNetwork"><![CDATA[This feature will be installed to run from the network]]></UIText>
+      <UIText Id="SelAbsentCD"><![CDATA[This feature will be installed to run from CD]]></UIText>
+      <UIText Id="SelAbsentAdvertise"><![CDATA[This feature will be set to be installed when required]]></UIText>
+      <UIText Id="SelAbsentLocal"><![CDATA[This feature will be installed on the local hard drive]]></UIText>
+      <UIText Id="SelCDCD"><![CDATA[This feature will remain to be run from CD]]></UIText>
+      <UIText Id="NewFolder"><![CDATA[Folder|New Folder]]></UIText>
+      <UIText Id="MenuNetwork"><![CDATA[Will be installed to run from network]]></UIText>
+      <UIText Id="SelLocalCD"><![CDATA[This feature will be removed from your local hard drive, but will be still available to run from CD]]></UIText>
+      <UIText Id="SelLocalAbsent"><![CDATA[This feature will be completely removed]]></UIText>
+      <UIText Id="SelCostPending"><![CDATA[Compiling cost for this feature...]]></UIText>
+      <UIText Id="SelLocalLocal"><![CDATA[This feature will remain on you local hard drive]]></UIText>
+      <UIText Id="SelChildCostPos"><![CDATA[This feature requires [1] on your hard drive.]]></UIText>
+      <UIText Id="SelLocalAdvertise"><![CDATA[This feature will be removed from your local hard drive, but will be set to be installed when required]]></UIText>
+      <UIText Id="SelParentCostNegPos"><![CDATA[This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures require [4] on your hard drive.]]></UIText>
+      <UIText Id="SelParentCostPosNeg"><![CDATA[This feature requires [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive.]]></UIText>
+      <UIText Id="SelParentCostPosPos"><![CDATA[This feature requires [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures require [4] on your hard drive.]]></UIText>
+      <UIText Id="TimeRemaining"><![CDATA[Time remaining: {[1] minutes }{[2] seconds}]]></UIText>
+      <UIText Id="VolumeCostAvailable"><![CDATA[Available]]></UIText>
+      <UIText Id="VolumeCostDifference"><![CDATA[Difference]]></UIText>
+      <UIText Id="VolumeCostRequired"><![CDATA[Required]]></UIText>
+      <UIText Id="VolumeCostSize"><![CDATA[Disk Size]]></UIText>
+      <UIText Id="VolumeCostVolume"><![CDATA[Volume]]></UIText>
+    </UI>
+    <UI Id="FinishedDlg">
+      <Property Id="MaintenanceForm_Action" Value="Repair" />
+      <RadioButtonGroup Property="MaintenanceForm_Action">
+        <RadioButton Height="17" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Repair [ProductName]" Value="Repair" Width="348" X="0" Y="0" />
+        <RadioButton Height="17" Text="{\VSI_MS_Sans_Serif13.0_0_0}Re&amp;move [ProductName]" Value="Remove" Width="348" X="0" Y="18" />
+      </RadioButtonGroup>
+      <Dialog Id="UserExitForm" X="50" Y="50" Width="373" Height="287" Title="[ProductName]">
+        <Control Id="CloseButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Close" TabSkip="no" Default="yes" Cancel="yes">
+          <Publish Event="EndDialog" Value="Return"><![CDATA[1]]></Publish>
+        </Control>
+        <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}Cancel" TabSkip="no" Disabled="yes" />
+        <Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+        <Control Id="BannerBmp" Type="Bitmap" X="0" Y="0" Width="375" Height="52" Text="DefBannerBitmap" TabSkip="no" Disabled="yes" />
+        <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+        <Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+        <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\VSI_MS_Sans_Serif16.0_1_0}Installation Interrupted" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+        <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="180" Text="{\VSI_MS_Sans_Serif13.0_0_0}The installer was interrupted before [ProductName] could be removed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes" NoPrefix="yes">
+          <Condition Action="show"><![CDATA[REMOVE<>""]]></Condition>
+          <Condition Action="hide"><![CDATA[REMOVE=""]]></Condition>
+        </Control>
+        <Control Id="BodyTextInstall" Type="Text" X="18" Y="63" Width="342" Height="24" Text="{\VSI_MS_Sans_Serif13.0_0_0}The installation was interrupted before [ProductName] could be installed. You need to restart the installer to try again." TabSkip="yes" NoPrefix="yes">
+          <Condition Action="show"><![CDATA[REMOVE=""]]></Condition>
+          <Condition Action="hide"><![CDATA[REMOVE<>""]]></Condition>
+        </Control>
+      </Dialog>
+      <Dialog Id="FatalErrorForm" X="50" Y="50" Width="373" Height="287" Title="[ProductName]">
+        <Control Id="CloseButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Close" TabSkip="no" Default="yes" Cancel="yes">
+          <Publish Event="EndDialog" Value="Return"><![CDATA[1]]></Publish>
+        </Control>
+        <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}Cancel" TabSkip="no" Disabled="yes" />
+        <Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+        <Control Id="BannerBmp" Type="Bitmap" X="0" Y="0" Width="375" Height="52" Text="DefBannerBitmap" TabSkip="no" Disabled="yes" />
+        <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+        <Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+        <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\VSI_MS_Sans_Serif16.0_1_0}Installation Incomplete" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+        <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="180" Text="{\VSI_MS_Sans_Serif13.0_0_0}The installer was interrupted before [ProductName] could be installed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes" NoPrefix="yes">
+          <Condition Action="show"><![CDATA[REMOVE=""]]></Condition>
+          <Condition Action="hide"><![CDATA[REMOVE<>""]]></Condition>
+        </Control>
+        <Control Id="BodyTextInstall" Type="Text" X="9" Y="63" Width="354" Height="180" Text="{\VSI_MS_Sans_Serif13.0_0_0}The installer was interrupted before [ProductName] could be removed. You need to restart the installer to try again.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes" NoPrefix="yes">
+          <Condition Action="show"><![CDATA[REMOVE<>""]]></Condition>
+          <Condition Action="hide"><![CDATA[REMOVE=""]]></Condition>
+        </Control>
+      </Dialog>
+      <Dialog Id="MaintenanceForm" X="50" Y="50" Width="373" Height="287" Title="[ProductName]">
+        <Control Id="FinishButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Finish" TabSkip="no" Default="yes">
+          <Publish Property="REINSTALL" Value="ALL"><![CDATA[MaintenanceForm_Action="Repair"]]></Publish>
+          <Publish Event="Reinstall" Value="ALL"><![CDATA[MaintenanceForm_Action="Repair"]]></Publish>
+          <Publish Property="REMOVE" Value="ALL"><![CDATA[MaintenanceForm_Action="Remove"]]></Publish>
+          <Publish Event="Remove" Value="ALL"><![CDATA[MaintenanceForm_Action="Remove"]]></Publish>
+          <Publish Event="EndDialog" Value="Return"><![CDATA[1]]></Publish>
+        </Control>
+        <Control Id="RepairRadioGroup" Type="RadioButtonGroup" X="18" Y="108" Width="348" Height="48" Property="MaintenanceForm_Action" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiRadioButtonGroup" TabSkip="no" />
+        <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}Cancel" TabSkip="no" Cancel="yes">
+          <Publish Event="SpawnDialog" Value="Cancel" />
+        </Control>
+        <Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+        <Control Id="BannerBmp" Type="Bitmap" X="0" Y="0" Width="375" Height="52" Text="DefBannerBitmap" TabSkip="no" Disabled="yes" />
+        <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+        <Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+        <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\VSI_MS_Sans_Serif16.0_1_0}Welcome to the [ProductName] Setup Wizard" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+        <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="42" Text="{\VSI_MS_Sans_Serif13.0_0_0}Select whether you want to repair or remove [ProductName]." TabSkip="yes" NoPrefix="yes" />
+      </Dialog>
+      <Dialog Id="ResumeForm" X="50" Y="50" Width="373" Height="287" Title="[ProductName]">
+        <Control Id="FinishButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Finish" TabSkip="no" Default="yes">
+          <Publish Event="EndDialog" Value="Return"><![CDATA[1]]></Publish>
+        </Control>
+        <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}Cancel" TabSkip="no" Cancel="yes">
+          <Publish Event="SpawnDialog" Value="Cancel" />
+        </Control>
+        <Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+        <Control Id="BannerBmp" Type="Bitmap" X="0" Y="0" Width="375" Height="52" Text="DefBannerBitmap" TabSkip="no" Disabled="yes" />
+        <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+        <Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+        <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\VSI_MS_Sans_Serif16.0_1_0}Welcome to the [ProductName] Setup Wizard" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+        <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="180" Text="{\VSI_MS_Sans_Serif13.0_0_0}The installer will resume the installation of [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Finish&quot; to continue." TabSkip="yes" NoPrefix="yes" />
+      </Dialog>
+      <Dialog Id="FinishedForm" X="50" Y="50" Width="373" Height="287" Title="[ProductName]">
+        <Control Id="CloseButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Close" TabSkip="no" Default="yes" Cancel="yes">
+          <Publish Event="EndDialog" Value="Return"><![CDATA[1]]></Publish>
+        </Control>
+        <Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}Cancel" TabSkip="no" Disabled="yes" />
+        <Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&lt; &amp;Back" TabSkip="no" Disabled="yes" />
+        <Control Id="BannerBmp" Type="Bitmap" X="0" Y="0" Width="375" Height="52" Text="DefBannerBitmap" TabSkip="no" Disabled="yes" />
+        <Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+        <Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+        <Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\VSI_MS_Sans_Serif16.0_1_0}Installation Complete" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+        <Control Id="BodyTextRemove" Type="Text" X="9" Y="63" Width="354" Height="138" Text="{\VSI_MS_Sans_Serif13.0_0_0}[ProductName] has been successfully removed.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes" NoPrefix="yes">
+          <Condition Action="show"><![CDATA[REMOVE<>""]]></Condition>
+          <Condition Action="hide"><![CDATA[REMOVE=""]]></Condition>
+        </Control>
+        <Control Id="UpdateText" Type="Text" X="9" Y="216" Width="354" Height="36" Text="{\VSI_MS_Sans_Serif13.0_0_0}Please use Windows Update to check for any critical updates to the .NET Framework." TabSkip="yes" NoPrefix="yes">
+          <Condition Action="show"><![CDATA[REMOVE=""]]></Condition>
+          <Condition Action="hide"><![CDATA[REMOVE<>""]]></Condition>
+        </Control>
+        <Control Id="BodyText" Type="Text" X="9" Y="63" Width="354" Height="138" Text="{\VSI_MS_Sans_Serif13.0_0_0}[ProductName] has been successfully installed.&#xD;&#xA;&#xD;&#xA;Click &quot;Close&quot; to exit." TabSkip="yes" NoPrefix="yes">
+          <Condition Action="show"><![CDATA[REMOVE=""]]></Condition>
+          <Condition Action="hide"><![CDATA[REMOVE<>""]]></Condition>
+        </Control>
+      </Dialog>
+    </UI>
+  </Product>
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Component Id="comp_63D9DCDE_03A9_4C53_833F_9F50E2079C84" Guid="32E2C828-94D1-4D48-94BA-681862AC6F50" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_CD620444_EFE5_483B_871E_42E31C1FBD88" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="ApplicationGenerator.Interfaces.dll" Source="..\ApplicationGenerator.Interfaces\bin\Debug\ApplicationGenerator.Interfaces.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_AE041861_61E9_4D92_86FC_57FC4B52DF2F" Guid="9C0A592F-B5F3-4775-92F8-80295F194294" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_7ACA7305_DCFA_43C7_B501_316C447B412A" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="BouncyCastle.Crypto.dll" Source="..\packages\Portable.BouncyCastle.1.8.5\lib\net40\BouncyCastle.Crypto.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_C408DA07_7CA7_4C76_A3B3_E00FC23BA0C9" Guid="DD65468B-5441-45E0-B5DB-C249E04C18F4" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_4DBF535A_B4B8_4AED_BE6A_8B3DE7D7F92E" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="BrotliSharpLib.dll" Source="..\packages\BrotliSharpLib.0.3.3\lib\net451\BrotliSharpLib.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_FFA15B61_2D18_4590_A5A8_68D7BD1344C2" Guid="F9779CC3-AA99-4C75-8F4D-C550E4158D3F" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_C8A75997_79C3_4042_AE54_44ECE3622CEF" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="CodeInterfaces.dll" Source="..\CodeInterfaces\bin\Debug\CodeInterfaces.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_1458C40B_DACD_468A_AAEE_DFE4B1A4A3EC" Guid="2893430B-A727-421E-A62C-A5DF40EAF1ED" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_E58EC3CF_8E55_4380_B5CF_DF3E3919AECE" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="EntityFramework.dll" Source="..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_68CFFD21_87F1_4A6B_87AB_95E8704DBA1D" Guid="BDCF6D44-B19A-4644-8FC9-B98FE9B109E3" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_C4B1E80F_A1CD_4761_ACC0_BED75A89D091" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="EntityFramework.SqlServer.dll" Source="..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_EB42EAD6_69C2_4025_93C5_D8DF8C6FA374" Guid="EBBF40EA-7CBD-4C34-AD1C-2CB6E88DD369" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_339FD6A5_A266_4864_BE6A_F93C75CD7894" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="HtmlAgilityPack.dll" Source="..\Binaries\HtmlAgilityPack\HtmlAgilityPack.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_E0477351_51D8_45D3_B617_6ABB062EFEED" Guid="873AF792-DFB4-431C-BCD0-04E249095E56" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_09738FFE_8921_490E_B430_07E5B5C035F3" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Build.dll" Source="..\Binaries\Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_65BFCC3F_64E8_46F8_B273_3A2CE22016E7" Guid="A50FB0C2-0462-4098-8386-7DDB5155DBBE" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_25BCF723_FEDC_47B5_AFC9_E4C94A879B7D" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Build.Engine.dll" Source="..\Binaries\Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.Engine.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_991511E6_2951_4A0F_A753_020222BC4D25" Guid="6F2EAB10-5F3F-43FA-97DE-CD7CF5DEC560" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_6A381FB7_487D_4113_9AC7_2736B6FE2A2C" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Build.Framework.dll" Source="..\Binaries\Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.Framework.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_58F0B051_583C_4C5B_9887_F6FC8A78F068" Guid="91B40A0D-2B7F-4816-836B-090C7C3252A8" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_E0238DAA_3DAF_42ED_A86C_C7AD7FF74EFC" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.CodeAnalysis.CSharp.dll" Source="..\packages\Microsoft.CodeAnalysis.CSharp.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_B5185832_4484_4E70_8079_5E9FCE4C6E93" Guid="56132FB0-C19B-4902-964E-C0A9D6F4A228" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_251989C9_EEC3_41C2_89A5_C3DAD6792B86" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.CodeAnalysis.CSharp.Scripting.dll" Source="..\packages\Microsoft.CodeAnalysis.CSharp.Scripting.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.Scripting.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_A1825871_7379_4B65_980D_2C6969FDCF75" Guid="E75B9986-62C3-42BB-8308-FAA1FEE794BA" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_597B7D5F_70B6_430C_89FC_F2C0DD156A02" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.CodeAnalysis.CSharp.Workspaces.dll" Source="..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.Workspaces.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_0D70353F_BB00_472C_8E3F_D94ADFE679BA" Guid="44BAF490-5771-4972-892E-9387610BC18B" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_270351F0_BBCD_45C2_885E_7F3AE02EAB25" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.CodeAnalysis.dll" Source="..\packages\Microsoft.CodeAnalysis.Common.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_DAC54AA3_8B8F_43F4_BB21_C980D04AB019" Guid="636C3B77-6492-481C-9727-930F1F9FD4D2" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_718E5627_0C19_414F_99B1_8BCF509F21F2" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.CodeAnalysis.Scripting.dll" Source="..\packages\Microsoft.CodeAnalysis.Scripting.Common.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.Scripting.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_5588FAAC_522F_4A04_AB4D_BA7DC0D6F7CE" Guid="68148CEF-3C36-4FE7-B7A9-88E9BC83DC35" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_05BD3D86_CEC2_46AC_AC1E_7340CFCFAACE" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.CodeAnalysis.VisualBasic.dll" Source="..\packages\Microsoft.CodeAnalysis.VisualBasic.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.VisualBasic.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_57C502D3_D47F_4F4F_9468_5E526CC0ABE5" Guid="69971B75-ADF7-4EB2-B849-2CD2C7F3A51F" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_975AB377_C3CC_48FB_A853_B22EF822DDF2" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.CodeAnalysis.VisualBasic.Workspaces.dll" Source="..\packages\Microsoft.CodeAnalysis.VisualBasic.Workspaces.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.VisualBasic.Workspaces.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_8167E3ED_C9CF_4DFE_98E2_D0B01C82DF80" Guid="47D7F0AF-BB65-437A-AAFB-E77171E7DD3D" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_CBAE1C35_CAE8_4F9D_9338_7FFB17A8FFB4" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.CodeAnalysis.Workspaces.Desktop.dll" Source="..\packages\Microsoft.CodeAnalysis.Workspaces.Common.2.10.0\lib\net46\Microsoft.CodeAnalysis.Workspaces.Desktop.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_33152818_BC5B_483C_AE63_F6205669B1CD" Guid="B4C2B58B-B26A-45FE-8470-54B4EEC59E3E" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_EC1E2E34_B060_4962_8F1E_F767B30DA8FA" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.CodeAnalysis.Workspaces.dll" Source="..\packages\Microsoft.CodeAnalysis.Workspaces.Common.2.10.0\lib\net46\Microsoft.CodeAnalysis.Workspaces.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_4DA0258D_1F2B_4BAC_97BB_9DCBB81C9B4F" Guid="D4DCB536-DE54-44E2-BC49-44CDD40921DF" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_10F972B9_0C87_4523_AA00_298B55E51968" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" Source="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_98C0904F_4BE2_4FE2_9A98_9CC8FE3C70C7" Guid="8327A26A-47CF-4A3F-A0DA-9167691CF8E7" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_55448CC2_C3A7_4142_98AD_0D0D4DCB0C2D" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.DotNet.PlatformAbstractions.dll" Source="..\packages\Microsoft.DotNet.PlatformAbstractions.1.1.1\lib\net451\Microsoft.DotNet.PlatformAbstractions.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_19C04B83_1B54_4099_A55E_1A136518FC5E" Guid="EBA0FCFA-F1DA-4E7A-A1AD-9390FDE35F93" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_40DBCB34_3E08_4325_B219_4B78D7E2E200" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.Caching.Abstractions.dll" Source="..\packages\Microsoft.Extensions.Caching.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.Caching.Abstractions.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_35037B81_0277_4A0B_A7FA_4F12F4EFEC7F" Guid="15558450-2553-4EE3-82ED-A530BD852263" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_F5EBAEA5_7162_4159_9749_18B5AA5CACC7" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.Caching.Memory.dll" Source="..\packages\Microsoft.Extensions.Caching.Memory.1.1.1\lib\net451\Microsoft.Extensions.Caching.Memory.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_143E4072_0D08_4809_BD8E_B33CB35AA1F0" Guid="D3372878-3B0B-4D99-8C73-6E151665DA4C" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_7FFE9AF9_0D69_4997_BCA1_AF06FBE28E63" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.Configuration.Abstractions.dll" Source="..\packages\Microsoft.Extensions.Configuration.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_8A52ECAD_D879_44FB_87E2_3FF590028B47" Guid="405032CA-B85A-4735-AA0E-CAB957D1F226" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_6E3BDD42_654B_4C03_95B9_22D54F48C352" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Source="..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.0\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_8106D23B_912E_40A8_84E8_3C75E0A2D24D" Guid="BD7651C3-1FFD-4D6B-911F-B177F49AC114" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_C7CE15A1_AA40_452A_BFD7_8FFE92F952E6" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.DependencyModel.dll" Source="..\packages\Microsoft.Extensions.DependencyModel.1.1.1\lib\net451\Microsoft.Extensions.DependencyModel.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_687F4820_D71B_40AB_A4F2_43087C2EDC91" Guid="1BE21B9A-4EED-4BE9-8A22-DA219D4728C0" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_F953853E_7BF8_470E_A035_AB0A761838B3" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.FileProviders.Abstractions.dll" Source="..\packages\Microsoft.Extensions.FileProviders.Abstractions.1.1.0\lib\netstandard1.0\Microsoft.Extensions.FileProviders.Abstractions.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_74048714_0410_418C_BEB9_4418F52058C0" Guid="26B7D82E-1182-4DBA-AA0C-74C664FDA78D" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_ADA12FFC_A7F4_4975_9BE0_624B43C4B776" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.FileProviders.Composite.dll" Source="..\packages\Microsoft.Extensions.FileProviders.Composite.1.1.0\lib\netstandard1.0\Microsoft.Extensions.FileProviders.Composite.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_2C43DB1D_E87C_4B18_A6AF_9DD4A7B7100D" Guid="B43B3081-C169-468F-A539-B5B2C7B19F67" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_56A121E8_B662_48C7_B1EB_79E24FE8B6C3" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.FileProviders.Physical.dll" Source="..\packages\Microsoft.Extensions.FileProviders.Physical.1.1.0\lib\net451\Microsoft.Extensions.FileProviders.Physical.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_5AD3005D_0C1B_41F7_B375_BC5137F9568F" Guid="16E9D666-7A88-41E5-BCE1-E8BA3802FE7B" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_4315618E_81F9_47FD_8CF6_9C0791C5E537" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.FileSystemGlobbing.dll" Source="..\packages\Microsoft.Extensions.FileSystemGlobbing.1.1.0\lib\net45\Microsoft.Extensions.FileSystemGlobbing.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_BBAEF69E_9B99_43D6_B11D_8088AEDC2316" Guid="7FB91B21-BC42-40EF-8EF9-A0F68DF714F5" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_145BE803_9B39_4591_B46C_2CDE197E46F2" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.Localization.Abstractions.dll" Source="..\packages\Microsoft.Extensions.Localization.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.Localization.Abstractions.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_48C9299D_3EE0_44D4_9535_9925A7362554" Guid="072B3980-0E99-4DC3-A772-A26362C7EC9C" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_260D582C_E6E9_48A7_B94C_19D168745DCA" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.Localization.dll" Source="..\packages\Microsoft.Extensions.Localization.1.1.1\lib\net451\Microsoft.Extensions.Localization.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_62A3F4E2_9959_4FF8_91E0_BC47C7735571" Guid="7BCA0EAD-1541-426F-9339-2A7AB76FF0E5" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_54AFE318_E54E_4A42_8CE2_53A8F8865DD2" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.Logging.Abstractions.dll" Source="..\packages\Microsoft.Extensions.Logging.Abstractions.1.1.1\lib\netstandard1.1\Microsoft.Extensions.Logging.Abstractions.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_20B7CA39_6DA8_46D2_918A_6DCD8F13A3A1" Guid="69489279-4375-4A38-AAEA-E1024AC0F401" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_30C7934E_7B15_4013_9029_8B11C4783829" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.ObjectPool.dll" Source="..\packages\Microsoft.Extensions.ObjectPool.1.1.0\lib\net451\Microsoft.Extensions.ObjectPool.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_41B9E684_C923_40DC_87EB_8DC4C709F4A3" Guid="3DB98590-DAA1-40DB-94C2-1FC7D0360BF6" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_DC348ECB_20EB_4536_A120_31E0127F9F12" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.Options.dll" Source="..\packages\Microsoft.Extensions.Options.1.1.1\lib\netstandard1.0\Microsoft.Extensions.Options.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_11979DCC_B644_4A69_962C_745EA3CED60B" Guid="394B073A-B007-4091-B860-684CEC34D6F1" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_C309213E_6B9F_41B9_928D_5B44950694E6" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.PlatformAbstractions.dll" Source="..\packages\Microsoft.Extensions.PlatformAbstractions.1.1.0\lib\net451\Microsoft.Extensions.PlatformAbstractions.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_384159F6_092D_43E1_8DC1_E14C40EEA46E" Guid="0F678A06-2EFF-4551-AE12-C5486B240612" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_07856F75_85BB_404D_A8C0_22D96685A033" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.Primitives.dll" Source="..\packages\Microsoft.Extensions.Primitives.1.1.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_18E8B9A4_3DCE_4DE4_9529_D09C99FD6177" Guid="1D76C382-4A9B-400A-B379-AE1718C2A9DA" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_139E33E8_E12B_441B_A39C_9DAED5D4B1A9" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Extensions.WebEncoders.dll" Source="..\packages\Microsoft.Extensions.WebEncoders.1.1.1\lib\netstandard1.0\Microsoft.Extensions.WebEncoders.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_0195BAE0_D50F_4D27_9F8A_F48B20A00EDB" Guid="1BA1EDED-4220-4B9A-BD46-78011CD3D1FC" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_603429E3_F897_4DE0_B799_F611686A7C46" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Net.Http.Headers.dll" Source="..\packages\Microsoft.Net.Http.Headers.1.1.1\lib\netstandard1.1\Microsoft.Net.Http.Headers.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_D1C7FD81_E57B_4EF0_A050_FEBF2F37B26F" Guid="4C5A2125-B428-4902-B751-771489BE6ACA" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_CB199544_F83F_49D0_B22F_E878C963D10F" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Owin.Diagnostics.dll" Source="..\packages\Microsoft.Owin.Diagnostics.4.0.1\lib\net45\Microsoft.Owin.Diagnostics.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_910469DC_2040_484D_8510_A501AEE043D0" Guid="76572C20-B7B6-4224-A7EE-9A2E51D71735" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_42DC6CCA_5EBF_4DB3_A805_0D9F715331A9" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Owin.dll" Source="..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_0585BEC5_1F7A_46C4_BBB6_DB25273CE6A9" Guid="CF7C7E43-15F1-4509-9EB2-7DBDD213EF74" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_C0ECC88E_B916_4464_9598_3E48F5F305BB" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Owin.Host.HttpListener.dll" Source="..\packages\Microsoft.Owin.Host.HttpListener.4.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_BAFE755F_EA88_4A6C_AA1F_5F7BA32034BF" Guid="7C145A31-E839-46CE-8125-ED6F3A243772" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_DD003557_A00B_4608_AD0E_5B4099F96E9E" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.Owin.Hosting.dll" Source="..\packages\Microsoft.Owin.Hosting.4.0.1\lib\net45\Microsoft.Owin.Hosting.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_AC1B55E9_9CA5_43F8_9F14_02AC691717F3" Guid="E437CC15-D72E-4950-A491-EB3B2CA95E1D" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_870F75F2_B62C_48A2_8EED_53E14A4E9E83" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.VisualStudio.CoreUtility.dll" Source="..\..\packages\Microsoft.VisualStudio.CoreUtility.15.6.27740\lib\net46\Microsoft.VisualStudio.CoreUtility.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_8B529905_764F_4FF6_BB54_EA0D7AD67880" Guid="F2298923-1159-4254-BD2A-C0579D88EA2C" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_9F06CBB4_92B8_4661_BD17_2DD5D3AC219F" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.VisualStudio.Shell.Framework.dll" Source="..\..\packages\Microsoft.VisualStudio.Shell.Framework.15.9.28307\lib\net45\Microsoft.VisualStudio.Shell.Framework.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_87F197C9_1D7D_4C5C_AE27_0FCB412EB2A0" Guid="99A4E851-F990-40B5-9FE2-B3704F1710B0" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_6EA05D4C_A32F_4C0C_9954_BB2B61D0071C" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.VisualStudio.TextTemplating.12.0.dll" Source="..\Binaries\Packages\Microsoft.VisualStudio.TextTemplating.12.0\Microsoft.VisualStudio.TextTemplating.12.0.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_0E3B3290_DB17_4D59_955D_B055FEE81619" Guid="4BE1B325-455C-4406-A99A-57D306BED010" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_10214AEF_DD3B_4A90_9C71_2B23CA795F84" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.VisualStudio.Threading.dll" Source="..\..\packages\Microsoft.VisualStudio.Threading.15.6.31\lib\net46\Microsoft.VisualStudio.Threading.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_089624F2_3CC2_4931_B63B_BC0721461FDB" Guid="EFC95356-7130-4763-8307-35E9CE17A235" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_E8F8C04B_F324_4B9D_BCF4_2F2C8B4A7BA4" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.VisualStudio.Utilities.dll" Source="..\..\packages\Microsoft.VisualStudio.Utilities.15.9.28307\lib\net46\Microsoft.VisualStudio.Utilities.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_445384EA_8AC2_461C_AD96_175DB7E0A726" Guid="3C7508EF-257D-4998-9B87-01C727D0B891" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_E5DE84C1_99E8_4D92_971A_47B4DD49622A" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.VisualStudio.Validation.dll" Source="..\..\packages\Microsoft.VisualStudio.Validation.15.3.15\lib\net45\Microsoft.VisualStudio.Validation.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_BA2AA268_868A_4B74_9570_9C1A3E250FDF" Guid="B63E1384-3F6B-4FFD-A3BD-538D01E6BBA6" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_F70E47D8_5FD7_4CD1_AF71_9644725E423C" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="ModuleImportsHelper.dll" Source="..\ModuleImportsHelper\bin\Debug\ModuleImportsHelper.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_C186C692_B742_430C_A312_792B6C09B9B1" Guid="A41E01B7-0662-4285-A7E9-63207698DCA4" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_F00F1D91_30A6_4BE4_802B_7BCE2D78122F" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="netfx.force.conflicts.dll" Source="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\netfx.force.conflicts.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_A04489F1_5AB2_4FB1_B8CA_F149DDD232E1" Guid="91DEFFAF-C449-463C-9852-6125BB991C33" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_E27B73A6_C741_441D_9B47_4F59C331B132" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="netstandard.dll" Source="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\netstandard.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_04CB22A2_5F41_4ACE_A3D9_CB833689755D" Guid="2677BB02-AD12-4351-AA61-C4201ACBB170" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_5479E047_AD34_4315_9F86_4BEB8AD26622" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Owin.dll" Source="..\packages\Owin.1.0\lib\net40\Owin.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_C53E0D32_5A91_4432_A678_9DA233C618ED" Guid="A9199F07-0513-4BC5-827D-FBB60CA1FD90" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_A3E607B9_7771_41ED_A206_F950A2DBB153" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Retyped.javascript-obfuscator.dll" Source="..\packages\Retyped.javascript-obfuscator.0.1.6733\lib\net40\Retyped.javascript-obfuscator.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_39A2780C_9C68_48DB_B38F_FCD1A82A395D" Guid="B0CEF57F-389E-4205-91F0-DA77C69CA763" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_D225D2A1_0D3A_4417_B56E_D5C9AEC99737" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Ripley.Entities.dll" Source="..\Ripley.Entities\bin\Debug\Ripley.Entities.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_73CD3ED4_6A61_4F82_A361_CB78976D0076" Guid="BF2D7B9F-89CE-4052-AFFA-20A2254F1A37" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_D689E18C_9AB4_4FD6_94E2_8A36D958B418" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="SQLitePCLRaw.batteries_green.dll" Source="..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\net45\SQLitePCLRaw.batteries_green.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_71BD1C19_B6EE_4285_81F5_4783B1402C76" Guid="84C3387E-EE22-4723-B292-4413EEF4220E" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_75E3A00B_F397_4F2A_8AA1_3C133973BFA5" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="SQLitePCLRaw.batteries_v2.dll" Source="..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\net45\SQLitePCLRaw.batteries_v2.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_86828EB7_18E8_419A_BB07_DC1D5E452C6F" Guid="09687DFF-7872-4ECE-A386-41432A8758EB" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_6F21C003_C2F7_45F2_8F6D_12522E7824AD" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="SQLitePCLRaw.core.dll" Source="..\packages\SQLitePCLRaw.core.1.1.2\lib\net45\SQLitePCLRaw.core.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_7FD587AC_E7BA_4611_B82A_2C1AD6A19B9C" Guid="42BCA77C-C8D7-492C-BF98-8793513F7EA9" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_55E06D07_0747_45A3_A87E_9ADBA79C9B0E" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="SQLitePCLRaw.provider.e_sqlite3.dll" Source="..\packages\SQLitePCLRaw.provider.e_sqlite3.net45.1.1.2\lib\net45\SQLitePCLRaw.provider.e_sqlite3.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_E4E2AF6B_DA43_4BAA_AF3B_FC9FABD53475" Guid="12EB2C71-2809-42A0-875E-BCD3A9A070A7" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_587F571E_2218_472B_8743_229E29D0752F" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="StreamJsonRpc.dll" Source="..\..\packages\StreamJsonRpc.1.3.23\lib\net45\StreamJsonRpc.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_7FD07176_A53F_425A_8632_483F3BE20526" Guid="3E82217E-CB17-4ACC-A851-E4D326A192F1" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_EA3FF595_10F7_49BA_A605_4228471025AF" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Buffers.dll" Source="..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_63F6EC9F_BA48_4B18_B705_63CDDF5BD33D" Guid="C770C881-E73F-41F8-B0BE-A1067B6572DD" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_5A1834AE_0BFE_4D43_BAD0_5B49345E1173" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Composition.AttributedModel.dll" Source="..\packages\System.Composition.AttributedModel.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_A6E4E982_0EC4_46F1_95C5_DAC39BCE049C" Guid="15DA851B-DAE3-4724-A346-F57AC8655C43" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_5EC30731_F9A6_41DD_8BFC_77208BB58E57" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Composition.Runtime.dll" Source="..\packages\System.Composition.Runtime.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_8EE87600_528C_4CF3_BFAB_BC8DCC425D30" Guid="68E86B74-F985-4F72-BF15-B456ED31785D" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_52CB116C_EF07_4A72_9EFF_96686797B2C3" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Diagnostics.DiagnosticSource.dll" Source="..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_45E6A99A_6033_4C9F_8AEB_2304681284B8" Guid="9D527D9C-3B45-4BFA-BC9B-62F80EAD2A35" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_F5462837_D81D_434A_B56E_F6335ADB39DB" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Net.Http.Formatting.dll" Source="..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_BA9AAC8E_B1E2_49A7_AC07_88AF5CAD370F" Guid="C07996FF-0D49-472A-A5C5-263B1AD96040" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_222CAEEB_038A_4260_8CAC_2C1041A37891" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Security.AccessControl.dll" Source="..\..\packages\System.Security.AccessControl.4.5.0\lib\net461\System.Security.AccessControl.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_D82630B9_06DB_4C6D_AD36_ADB74369179C" Guid="3407A693-AFB4-4B63-8F17-44694B2FEFE8" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_3EEAD2EC_61BC_49F4_A369_509EDEAB7110" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Security.Principal.Windows.dll" Source="..\..\packages\System.Security.Principal.Windows.4.5.1\lib\net461\System.Security.Principal.Windows.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_0E7E288D_E635_44AB_A122_3EF6E64845F8" Guid="6F7A369A-64B5-45F9-89EE-FC653E6A15C8" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_AD729737_E6B8_4387_A44E_532590439EB3" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Text.Encodings.Web.dll" Source="..\packages\System.Text.Encodings.Web.4.3.0\lib\netstandard1.0\System.Text.Encodings.Web.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_CF47C931_CADD_49E9_B67A_436162BF8EFB" Guid="E78E6FDA-8959-47FB-A12A-70D8CB9CA006" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_E5A801C8_6BF3_42EC_AE63_08445E9B5F86" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Threading.Tasks.Extensions.dll" Source="..\..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_46D3A128_7120_422C_AB0F_E35910210E9E" Guid="4764D80A-1574-4728-B80E-43A2BC8FF9BA" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_E54FBEBD_2DB2_450C_B708_1626BD398DA8" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.ValueTuple.dll" Source="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.ValueTuple.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_4C794F1F_EA43_429A_87A2_1F603C328DC6" Guid="48E46016-83EC-4C24-8104-5FE7C6C7ED0A" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_6BC061AB_B1D5_49B9_8543_AA38703EEBAE" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Web.Helpers.dll" Source="..\Binaries\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_B7F23B2A_9030_4072_A913_A98A95F6BA32" Guid="1C55FBF5-60D5-4C80-B555-B835590715DB" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_DA15C0F4_D21E_48FA_AF14_65423F7E9E62" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Web.Http.dll" Source="..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_B950021D_1FF1_4612_B7BD_8D021C28980F" Guid="4206FEC2-67AD-4A52-B4E6-D51CE15A0BF4" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_82062F8F_680B_45EA_8473_B4D2D43B3568" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Web.Http.Owin.dll" Source="..\packages\Microsoft.AspNet.WebApi.Owin.5.2.7\lib\net45\System.Web.Http.Owin.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_9D150076_5ADC_4C68_A67C_C2CF213DF80E" Guid="87C2FE44-0DEC-420E-AC8C-12E325FDEC12" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_FCE5440A_B9C6_492F_A8D7_292166C39FCB" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Web.Http.WebHost.dll" Source="..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.4\lib\net45\System.Web.Http.WebHost.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_61952922_EBAC_4CB9_8446_75924711CFBB" Guid="78ED3039-085C-4CC5-BBC6-4E7231C77CCB" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_C0DB2457_8878_4F7D_954C_908FC9678125" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Web.Razor.dll" Source="..\Binaries\Packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_19ECB5FC_F714_4C55_886F_B76DA390F960" Guid="6227D03B-D218-4FA0-ACAD-1A258753441E" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_6F7B0F53_F811_4224_8A18_6B009ED287CF" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Web.WebPages.Deployment.dll" Source="..\Binaries\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_6BDE3F2D_DF34_4922_8215_B027AEF5B494" Guid="821141B6-F6E9-4D70-9C59-C652B0559911" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_C463789A_0AC2_48C2_AB76_6B9F33C5902A" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Web.WebPages.dll" Source="..\Binaries\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_BAC195D5_3D5A_449E_BD93_8E8EA43B1967" Guid="4C37918B-A635-4425-A5DC-9274ABE77FFA" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_21FADA16_1AC8_4152_B3FD_F8006039FBB7" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Titanium.Web.Proxy.dll" Source="..\packages\Titanium.Web.Proxy.3.1.1021\lib\netstandard2.0\Titanium.Web.Proxy.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_808C1686_9A11_47FD_A973_56B5D3B8E6CB" Guid="57FD64CB-B131-4AE6-A055-241B7CC95CBD" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_21DF2403_3ECE_48D1_AC8C_FFC71B604DAA" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="TypeScriptAST.dll" Source="..\TypeScriptAST\bin\Debug\TypeScriptAST.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_03486722_6B6B_4A0C_A54A_837E259F152D" Guid="695A4CC1-D0A5-463D-9056-E2D3317C67C4" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_54F09768_37A1_479E_BA78_C81CE46E577A" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Unity.Abstractions.dll" Source="..\packages\Unity.5.8.6\lib\net46\Unity.Abstractions.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_458404D0_AD09_42A2_BA29_74D4CCC54730" Guid="73D94208-32AF-428E-8232-C2873383855D" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_11DECA82_7628_4015_A0C3_F69F4961FF83" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Unity.Container.dll" Source="..\packages\Unity.5.8.6\lib\net46\Unity.Container.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_31DCAA72_75F0_4D0C_A747_9C49150DE87B" Guid="3FA0E6B4-3C42-49BC-9C3E-D4B18F7B335C" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_71FB34CC_21D7_4F6C_8655_49E3A91DC66F" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Utils.dll" Source="..\Utils\bin\Debug\Utils.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_7F0773DB_96F1_40AC_A8FD_6A8D2EE308A5" Guid="C65C5216-0603-4786-9DBC-622CAB60860F" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_662B6355_094D_4619_A572_7B4D6F50D371" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="VisualStudioProvider.dll" Source="..\VisualStudioProvider\bin\Debug\VisualStudioProvider.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_EAA7FDDD_8F5E_4EC9_830D_011E308E52DC" Guid="0DBD98AE-F72E-4030-8936-D27198B0C3D9" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_FB985C57_A8D9_4EC9_A713_3A18A8DA8F25" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="XPathParser.dll" Source="..\XPathParser\bin\Debug\XPathParser.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_CC85490E_4484_4449_B0E4_76DB3BA46D9B" Guid="1F5E6DE5-0FE9-4EE6-B897-E8803BCA36C9" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_4224B789_CD55_472E_8030_F44AAF6320AB" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.VisualBasic.dll" Source="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Microsoft.VisualBasic.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_D16F83ED_8C29_40C4_96ED_0824D9EEC078" Guid="21841711-1210-4DB4-854A-A8A0D24FEC0A" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_130DB76E_9AB7_43EB_A101_6F7580CCCCB2" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Newtonsoft.Json.dll" Source="..\ApplicationGenerator.Interfaces\bin\Debug\Newtonsoft.Json.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_6CBBC7B9_8605_4059_B57F_691CE39FADA1" Guid="D2109FC2-0807-484B-B8CB-4893B496DD05" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_9CA7DFB4_6F9C_4074_AC6E_7CAB802B3E6A" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="GraphQL.dll" Source="..\ApplicationGenerator.Interfaces\bin\Debug\GraphQL.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_DDD483EB_DE9E_435F_A7D1_F99ED67E0679" Guid="4D9EC412-33E0-4D41-8CA0-D18BA3944EC4" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_551833CD_9AAA_432E_A4C2_A4CA954603A4" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.ServiceModel.DomainServices.Server.dll" Source="..\CodeInterfaces\bin\Debug\System.ServiceModel.DomainServices.Server.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_D951F98A_ADE2_4A0F_A621_0C009B2B43C7" Guid="4C8E6577-2C84-4776-8311-CDA3F994F835" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_2374B77A_F1C2_4949_A278_A6442DB020DA" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="log4net.dll" Source="..\CodeInterfaces\bin\Debug\log4net.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_BE4E3B9C_9763_4FEF_94BD_49F69AD31705" Guid="806741C0-0BAF-4F23-AB38-BC283D532D8D" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_8D9FC620_0C8D_44BB_95DE_BD93C6A12075" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="CsTransformationParserLibrary.dll" Source="..\CodeInterfaces\bin\Debug\CsTransformationParserLibrary.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_CD7D7FF5_C251_4EBB_B31B_4DF641260D87" Guid="0467B406-2BEE-4F72-AE95-D1E2093781AF" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_DE0AAA12_0E92_440F_810E_353F853D2B9B" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="ProcessDiagnosticsLibrary.dll" Source="..\Utils\bin\Debug\ProcessDiagnosticsLibrary.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_5CF5BAF0_F39F_4968_A2F8_533631C92425" Guid="F62E9610-9E1A-4225-9FFC-ACBB226C6613" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_6699F977_B497_4FE0_B26F_D68165E4E0A2" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="ColorMine.dll" Source="..\Utils\bin\Debug\ColorMine.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_A66E6D06_F908_427D_A1D6_950405C9C04A" Guid="55776329-7A61-4D4C-B2A2-3F33F83CC2AB" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_01A80898_5956_49B0_9CC9_E4852466E20F" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Itenso.Rtf.Converter.Html.dll" Source="..\Utils\bin\Debug\Itenso.Rtf.Converter.Html.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_33EFEF4F_0797_4038_AC81_9662A8228EF0" Guid="E70AA034-611B-48F5-8D53-8960EC37FC29" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_36A2576E_965E_475B_8432_CD9990D95122" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Itenso.Rtf.Parser.dll" Source="..\Utils\bin\Debug\Itenso.Rtf.Parser.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_E261F38B_9514_41E0_ACD8_8AC85027E906" Guid="39B8F503-59B7-44C8-B1CF-82D64DBADC73" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_2324640A_413C_472C_B62D_9DE9942B3877" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Itenso.Rtf.Interpreter.dll" Source="..\Utils\bin\Debug\Itenso.Rtf.Interpreter.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_69E3E5DB_FB7B_4412_93F7_A0FC2F9B8CAB" Guid="E5FEA42D-EDAD-4927-A2D7-89903905A7B8" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_FE2FF80E_27A5_4D21_9727_E9653AC0B059" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Fare.dll" Source="..\Utils\bin\Debug\Fare.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_6B01EE4F_70DF_4BAE_9800_1C79C65A894C" Guid="D0CE73D4-4174-4970-8B26-BBA7E3BAB53A" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_2F9843FA_D8B9_41C9_B9B3_D394CE81B9F3" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.TeamFoundation.Client.dll" Source="..\Utils\bin\Debug\Microsoft.TeamFoundation.Client.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_97500E52_F95B_40E1_9C09_E3C8E210B21C" Guid="0D7E1B7F-C189-490E-8691-BAF65E6B04B6" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_AFD34C0C_87ED_40F6_BBBF_582AE3A8CF9E" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.TeamFoundation.VersionControl.Client.dll" Source="..\Utils\bin\Debug\Microsoft.TeamFoundation.VersionControl.Client.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_64109B5C_B5D4_417D_9F3F_B424C95CEE8A" Guid="E5A47F3F-005E-4ABB-A62A-FA111E5B0BA2" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_DFC1EC64_2242_4229_9FEB_0BCEB9C92808" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Polenter.SharpSerializer.dll" Source="..\Utils\bin\Debug\Polenter.SharpSerializer.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_77E957CB_D5B7_4DA5_A96C_10D6093DD297" Guid="F677DE68-C455-484A-98C3-E91DC60E1B64" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_AEA5D962_A524_48E4_8B01_7E3E89B0DCF6" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="SDKInterfaceLibrary.Entities.dll" Source="..\VisualStudioProvider\bin\Debug\SDKInterfaceLibrary.Entities.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_B988D366_533B_41AE_BF6A_5427B4725DD7" Guid="34182F03-5328-4A89-8298-BC21DD2A21EB" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_BF4E2A8A_7ED2_4D37_BD33_4B1D21D75266" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.VisualStudio.Shell.10.0.dll" Source="..\VisualStudioProvider\bin\Debug\Microsoft.VisualStudio.Shell.10.0.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_D5599CA8_CD6B_4F8F_8ED5_705C71F8F6D1" Guid="1B30BC7C-A59F-4070-B376-76AB03A0BEE5" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_E7DC5925_51E2_4593_B644_46CFA194FFEE" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="ICSharpCode.SharpZipLib.dll" Source="..\VisualStudioProvider\bin\Debug\ICSharpCode.SharpZipLib.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_45F6D01F_F0FD_4CB7_8168_3FC5F2680BA8" Guid="25473BBC-0735-45CA-93F2-BB0DD6CDF4D7" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_15442940_2521_450E_BB6E_83313A6CDF8A" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="CppParser.dll" Source="..\VisualStudioProvider\bin\Debug\CppParser.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_D6490548_32A5_4AF7_B067_02431E1E7A07" Guid="1B92F1F0-FD64-4343-8740-E705D70A486B" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_D2E3D39C_2B91_46E0_B0CB_CA075C6D9226" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.VisualStudio.TextTemplating.Interfaces.11.0.dll" Source="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.TextTemplating.Interfaces.11.0.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_9866F0CF_64C2_45C8_B722_0E9911081E3B" Guid="3DF1D591-F0DF-486D-982A-8499A2C823F7" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_E1C85872_EB10_49BE_ACA4_EDDF5EF29573" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.VisualStudio.TextTemplating.Interfaces.10.0.dll" Source="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.TextTemplating.Interfaces.10.0.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_067EF291_FD5D_45E3_A172_FB0A35DDD4A8" Guid="7523B7EF-9E69-4C33-A32D-7B92B021D387" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_53FAEC44_5430_4FA3_9C46_ED313DC04166" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="GraphQL-Parser.dll" Source="..\ApplicationGenerator.Interfaces\bin\Debug\GraphQL-Parser.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_48BADEDA_562B_49EE_96E5_38B9F97233C9" Guid="4CA698A5-1D1D-40F2-9ED9-0D601497742E" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_3AD731EA_BD58_4B35_8B9B_AD122CA487F6" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Itenso.Sys.dll" Source="..\Utils\bin\Debug\Itenso.Sys.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_DAF89F34_745C_4EE2_A820_606438AB60ED" Guid="98F3966C-4398-438A-ABC9-2C692A7A8828" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_D1B446DF_DA24_40CB_A63D_289DC56A705E" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.VisualStudio.Shell.Immutable.10.0.dll" Source="..\VisualStudioProvider\bin\Debug\Microsoft.VisualStudio.Shell.Immutable.10.0.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_7B81CA03_8EA7_41D4_AFD4_56A373E08CA1" Guid="424F27CE-F531-44E2-87B8-096CA12EBDFC" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_602A738F_CAE6_424C_8728_21904ADB7A51" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="System.Design.dll" Source="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Design.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_FABBD7D1_7C6E_4D2E_AC6C_3CC4B1F7E2C6" Guid="4A4C2990-5B6C-4382-BFB7-2FBB4360401B" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_E4BD0AB7_340C_42C2_98D7_802DD034B0C7" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="Microsoft.VisualStudio.Settings.dll" Source="C:\WINDOWS\Microsoft.Net\assembly\GAC_32\Microsoft.VisualStudio.Settings\v4.0_10.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.Settings.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_E38DB582_64F7_435D_A97A_0F3AD1B087F8" Guid="48A98F7D-BF77-41D7-AF5E-FD0F4183D61D" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_B85FD606_24AE_4621_82DD_D383EBB0383D" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="nunit.framework.dll" Source="..\Utils\bin\Debug\nunit.framework.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_A46C809E_6B80_465F_B2FB_9111F2F28D08" Guid="38F3107A-C9D0-43C8-BD5B-EE8DC754B054" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_A04F5D83_691F_4257_B103_711AD459633C" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="nunit-console-runner.dll" Source="..\Utils\bin\Debug\nunit-console-runner.dll" KeyPath="yes" />
+      </Component>
+      <Component Id="comp_B6B1C502_8590_42BF_89DE_9A2CED12A776" Guid="AE081417-6701-496A-A70F-F2C1B5FEF9D2" Permanent="no" SharedDllRefCount="no" Transitive="no">
+        <File Id="_CC7D4FBF_58F1_4D7B_89B6_4C985C034B51" DiskId="1" Hidden="no" ReadOnly="no" TrueType="no" System="no" Vital="yes" Name="HydraBanner.bmp" Source="HydraBanner.bmp" KeyPath="yes" />
+      </Component>
+      <Directory Id="ApplicationGenerator.Binaries" />
+    </Directory>
+  </Fragment>
+  <Fragment>
+  </Fragment>
+</Wix>

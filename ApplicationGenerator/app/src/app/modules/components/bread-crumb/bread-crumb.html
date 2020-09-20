@@ -1,0 +1,15 @@
+<ion-toolbar>
+  <ion-buttons>
+    <span *ngFor="let view of getViews()">
+      <button *ngIf="view.isNotLast; else isLast" ion-button>
+        {{ view.text }}
+      </button>
+      <ng-template #isLast>
+        <div class="isLast">
+          {{ view.text }}
+        </div>
+      </ng-template>      
+      <ion-icon *ngIf="view.isNotLast" name="arrow-dropright"></ion-icon>
+    </span>
+  </ion-buttons>
+</ion-toolbar>

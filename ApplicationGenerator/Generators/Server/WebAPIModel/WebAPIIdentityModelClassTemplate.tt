@@ -1,0 +1,381 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<Generators.EntityProperty>" name="EntityProperties" #>
+<#@ parameter type="System.Boolean" name="IsIdentityEntity" #>
+<#@ parameter type="System.String" name="ModelName" #>
+<#@ parameter type="System.String" name="EntityName" #>
+<#@ parameter type="System.String" name="RootNamespace" #>
+<# 
+    var clientIdentityProperties = this.EntityProperties.GetClientIdentityProperties().ToList();
+    var clientCount = clientIdentityProperties.Count;
+    var registerIdentityProperties = this.EntityProperties.GetRegisterIdentityProperties().ToList();
+    var registerCount = registerIdentityProperties.Count;
+    var serverIdentityProperties = this.EntityProperties.GetServerIdentityProperties().ToList();
+    var serverCount = serverIdentityProperties.Count;
+    var userIdProperty = this.EntityProperties.GetIdentityField(IdentityFieldKind.UserId);
+    var userNameProperty = this.EntityProperties.GetIdentityField(IdentityFieldKind.UserName);
+    var userPasswordProperty = this.EntityProperties.GetIdentityField(IdentityFieldKind.PasswordHash);
+    var x = 0;
+
+#>
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using Microsoft.AspNet.Identity;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace <#= this.RootNamespace #>.Services.Models
+{
+<#
+    // client identity *****************************************************************************
+#>
+    [DebuggerDisplay(" { DebugInfo } ")]
+    public class Client<#= this.ModelName #>
+    {
+<#
+    foreach (var entityProperty in clientIdentityProperties)
+    {
+#>
+        public <#= entityProperty.DataType #> <#= entityProperty.Name #> { get; set; }
+<#
+    }
+#>
+
+        internal string DebugInfo
+        {
+            get
+            {
+
+                return string.Format(
+<#
+    foreach (var entityProperty in clientIdentityProperties)
+    {
+        if (x < clientCount - 1)
+        {
+#>
+                    "<#= entityProperty.Name #>: {<#= x #>}\r\n" +
+<#
+        }
+        else
+        {
+#>
+                    "<#= entityProperty.Name #>: {<#= x #>}",
+<#
+        }
+
+        x++;
+    }
+
+    x = 0;
+
+    foreach (var entityProperty in clientIdentityProperties)
+    {
+        if (x < clientCount - 1)
+        {
+            if (entityProperty.DataType == "string")
+            {
+#>
+                    this.<#= entityProperty.Name #>,
+<#
+            }
+            else
+            {
+#>
+                    this.<#= entityProperty.Name #>.ToString(),
+<#
+            }
+        }
+        else
+        {
+            if (entityProperty.DataType == "string")
+            {
+#>
+                    this.<#= entityProperty.Name #>
+<#
+            }
+            else
+            {
+#>
+                    this.<#= entityProperty.Name #>.ToString()
+<#
+            }
+        }
+
+        x++;
+    }
+#>
+                );
+            }
+        }
+
+        public override string ToString()
+        {
+            return this.DebugInfo;
+        }
+    }
+<#
+    // register identity *****************************************************************************
+#>
+
+    [DebuggerDisplay(" { DebugInfo } ")]
+    public class Register<#= this.ModelName #>
+    {
+<#
+    foreach (var entityProperty in registerIdentityProperties)
+    {
+        if (entityProperty.IsPasswordHash)
+        {
+#>
+        public <#= entityProperty.DataType #> <#= entityProperty.RegisterTitle #> { get; set; }
+<#
+        }
+        else
+        {
+#>
+        public <#= entityProperty.DataType #> <#= entityProperty.Name #> { get; set; }
+<#
+        }
+    }
+#>
+
+        internal string DebugInfo
+        {
+            get
+            {
+
+                return string.Format(
+<#
+    x = 0;
+
+    foreach (var entityProperty in registerIdentityProperties)
+    {
+        if (x < registerCount - 1)
+        {
+            if (entityProperty.IsPasswordHash)
+            {
+#>
+                    "<#= entityProperty.RegisterTitle #>: {<#= x #>}\r\n" +
+<#
+            }
+            else
+            {
+#>
+                    "<#= entityProperty.Name #>: {<#= x #>}\r\n" +
+<#
+            }
+        }
+        else
+        {
+            if (entityProperty.IsPasswordHash)
+            {
+#>
+                    "<#= entityProperty.RegisterTitle #>: {<#= x #>}",
+<#
+            }
+            else
+            {
+#>
+                    "<#= entityProperty.Name #>: {<#= x #>}",
+<#
+            }
+        }
+
+        x++;
+    }
+
+    x = 0;
+
+    foreach (var entityProperty in registerIdentityProperties)
+    {
+        if (x < registerCount - 1)
+        {
+            if (entityProperty.DataType == "string")
+            {
+                if (entityProperty.IsPasswordHash)
+                {
+#>
+                    this.<#= entityProperty.RegisterTitle #>,
+<#
+                }
+                else
+                {
+#>
+                    this.<#= entityProperty.Name #>,
+<#
+                }
+            }
+            else
+            {
+                if (entityProperty.IsPasswordHash)
+                {
+#>
+                    this.<#= entityProperty.RegisterTitle #>.ToString(),
+<#
+                }
+                else
+                {
+#>
+                    this.<#= entityProperty.Name #>.ToString(),
+<#
+                }
+            }
+        }
+        else
+        {
+            if (entityProperty.DataType == "string")
+            {
+                if (entityProperty.IsPasswordHash)
+                {
+#>
+                    this.<#= entityProperty.RegisterTitle #>
+<#
+                }
+                else
+                {
+#>
+                    this.<#= entityProperty.Name #>
+<#
+                }
+            }
+            else
+            {
+                if (entityProperty.IsPasswordHash)
+                {
+#>
+                    this.<#= entityProperty.RegisterTitle #>.ToString()
+<#
+                }
+                else
+                {
+#>
+                    this.<#= entityProperty.Name #>.ToString()
+<#
+                }
+            }
+        }
+
+        x++;
+    }
+#>
+                );
+            }
+        }
+
+        public override string ToString()
+        {
+            return this.DebugInfo;
+        }
+    }
+<#
+    // user identity *****************************************************************************
+#>
+
+    [DebuggerDisplay(" { DebugInfo } ")]
+    public class <#= this.ModelName #> : IUser<string>
+    {
+<#
+    foreach (var entityProperty in serverIdentityProperties)
+    {
+#>
+        public <#= entityProperty.DataType #> <#= entityProperty.Name #> { get; set; }
+<#
+    }
+#>
+        public string Id => this.<#= userIdProperty.Name #>.ToString();
+        public List<string> Roles { get; set; }
+
+        internal string DebugInfo
+        {
+            get
+            {
+
+                return string.Format(
+<#
+    x = 0;
+
+    foreach (var entityProperty in serverIdentityProperties)
+    {
+        if (x < serverCount - 1)
+        {
+#>
+                    "<#= entityProperty.Name #>: {<#= x #>}\r\n" +
+<#
+        }
+        else
+        {
+#>
+                    "<#= entityProperty.Name #>: {<#= x #>}",
+<#
+        }
+
+        x++;
+    }
+
+    x = 0;
+
+    foreach (var entityProperty in serverIdentityProperties)
+    {
+        if (x < serverCount - 1)
+        {
+            if (entityProperty.DataType == "string")
+            {
+#>
+                    this.<#= entityProperty.Name #>,
+<#
+            }
+            else
+            {
+#>
+                    this.<#= entityProperty.Name #>.ToString(),
+<#
+            }
+        }
+        else
+        {
+            if (entityProperty.DataType == "string")
+            {
+#>
+                    this.<#= entityProperty.Name #>
+<#
+            }
+            else
+            {
+#>
+                    this.<#= entityProperty.Name #>.ToString()
+<#
+            }
+        }
+
+        x++;
+    }
+#>
+                );
+            }
+        }
+
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager, string authenticationType)
+        {
+            var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
+
+            return userIdentity;
+        }
+
+        public override string ToString()
+        {
+            return this.DebugInfo;
+        }
+    }
+}

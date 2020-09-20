@@ -1,0 +1,95 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<object>" name="inputObjects" #> <# // TODO - change this #>
+<#@ parameter type="System.Collections.Generic.IEnumerable<ModuleImportDeclaration>" name="Imports" #>
+<#@ parameter type="System.Collections.Generic.List<ESModule>" name="Exports" #>
+<#@ parameter type="System.Collections.Generic.List<IDeclarable>" name="Declarations" #>
+<#@ parameter type="System.String" name="ModelName" #>
+<#@ parameter type="System.String" name="EntityName" #>
+<# 
+    var modelName = this.ModelName.ToCamelCase();
+    var className = this.ModelName;
+    var modelVariable = this.EntityName.ToCamelCase();
+    var builder = new StringBuilder();
+    var lambdaParameter = modelVariable.Left(1);
+    
+    this.Declarations.Add(provider);
+    this.Exports.Add(provider);
+
+    foreach (var import in this.Imports)
+    {
+        this.WriteLine(import.DeclarationCode);
+    }
+#>
+
+export class <#= className #> {
+<#
+    foreach (var formField in this.FormFields)
+    {
+        var variableName = formField.Name.ToCamelCase();
+        var name = formField.Name;
+        var type = formField.DataType;
+
+        builder.AppendWithLeadingIfLength(", ", string.Format("{0}: {1}", variableName, type));
+#>
+  public <#= this.MakeVariable(modelVariable, variableName) #>: <#= type #>;
+<#
+    }
+#>
+
+  constructor(options: { <#= builder.ToString() #> })
+  constructor(c: any)
+  {
+<#
+    foreach (var formField in this.FormFields)
+    {
+        var variableName = formField.Name.ToCamelCase();
+        var name = formField.Name;
+        var type = formField.DataType;
+
+        builder.AppendWithLeadingIfLength(" && ", string.Format("{0}.{1} !== undefined", lambdaParameter, variableName));
+    }
+#>
+    if (<#= builder.ToString() #>) {
+<#
+    foreach (var formField in this.FormFields)
+    {
+        var variableName = formField.Name.ToCamelCase();
+        var name = formField.Name;
+        var type = formField.DataType;
+
+        builder.AppendWithLeadingIfLength(", ", string.Format("{0}: {1}", variableName, type));
+#>
+      this.<#= this.MakeVariable(modelVariable, variableName) #> = <#= lambdaParameter #>.<#= variableName #>;
+<#
+    }
+#>
+    }
+    else if (<#= lambdaParameter #> !== undefined) {
+      (<any>Object).assign(this, <#= lambdaParameter #>);
+    } else {
+      throw new TypeError("Unexpected arguments to Course constructor")
+    }
+  }
+<#
+    foreach (var formField in this.FormFields)
+    {
+        var variableName = formField.Name.ToCamelCase();
+        var name = formField.Name;
+        var type = formField.DataType;
+
+        builder.AppendWithLeadingIfLength(", ", string.Format("{0}{1}: this.{0}{1}", modelVariable, variableName));
+    }
+#>
+  public get <#= modelVariable #>Data() {
+    return { <#= builder.ToString() #> };
+  }
+}

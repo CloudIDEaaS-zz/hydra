@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+	<Bundle Name="Hydra Suite" UpgradeCode="{B2B314D7-4FAA-4669-B801-5373BA46AE0A}" Version="1.0.0.0">
+		<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+			<bal:WixStandardBootstrapperApplication SuppressOptionsUI="yes" LicenseUrl="https://policies.google.com/terms" /> 
+			<!--LicenseFile="path\to\license.rtf" ThemeFile="path\to\customtheme.xml"-->
+		</BootstrapperApplicationRef>
+    <Chain>
+			<PackageGroupRef Id="HydraSuite" />
+    </Chain>
+  </Bundle>
+	<Fragment>
+		<PackageGroup Id="HydraSuite">
+			<MsiPackage Id="PythonPackage"
+				SourceFile="Installers/python-2.7.amd64.msi">
+			</MsiPackage>
+			<MsiPackage Id="HydraPackage" After="PythonPackage" DisplayInternalUI="yes" 
+				SourceFile="Installers/Hydra.InstallerStandalone.msi">
+			</MsiPackage>
+		</PackageGroup>
+	</Fragment>
+</Wix>

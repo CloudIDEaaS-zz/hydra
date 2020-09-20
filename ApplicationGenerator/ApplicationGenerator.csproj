@@ -1,0 +1,1785 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Microsoft.VSSDK.BuildTools.16.7.3069\build\Microsoft.VSSDK.BuildTools.props" Condition="Exists('..\..\packages\Microsoft.VSSDK.BuildTools.16.7.3069\build\Microsoft.VSSDK.BuildTools.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.8.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.8.2\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3456306A-15F0-4A45-9045-3AFDF9208FA7}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>AbstraX</RootNamespace>
+    <AssemblyName>ApplicationGenerator</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptEnabled>false</TypeScriptEnabled>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptEnabled>false</TypeScriptEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptEnabled>false</TypeScriptEnabled>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Hydra.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ApplicationGenerator|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ApplicationGenerator\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugAll|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.5\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="BrotliSharpLib, Version=0.3.2.0, Culture=neutral, PublicKeyToken=3f4e2a1cd615fcb7, processorArchitecture=MSIL">
+      <HintPath>..\packages\BrotliSharpLib.0.3.3\lib\net451\BrotliSharpLib.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\Binaries\HtmlAgilityPack\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build">
+      <HintPath>..\Binaries\Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Engine">
+      <HintPath>..\Binaries\Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Framework">
+      <HintPath>..\Binaries\Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis, Version=2.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=2.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Scripting, Version=2.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.Scripting.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces, Version=2.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.Workspaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.Scripting, Version=2.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Scripting.Common.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic, Version=2.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces, Version=2.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.VisualBasic.Workspaces.2.10.0\lib\netstandard1.3\Microsoft.CodeAnalysis.VisualBasic.Workspaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.Workspaces, Version=2.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Workspaces.Common.2.10.0\lib\net46\Microsoft.CodeAnalysis.Workspaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.Workspaces.Desktop, Version=2.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Workspaces.Common.2.10.0\lib\net46\Microsoft.CodeAnalysis.Workspaces.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.DotNet.PlatformAbstractions.1.1.1\lib\net451\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Memory.1.1.1\lib\net451\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.0\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyModel, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyModel.1.1.1\lib\net451\Microsoft.Extensions.DependencyModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.1.1.0\lib\netstandard1.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Composite, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Composite.1.1.0\lib\netstandard1.0\Microsoft.Extensions.FileProviders.Composite.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Physical.1.1.0\lib\net451\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileSystemGlobbing.1.1.0\lib\net45\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Localization, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Localization.1.1.1\lib\net451\Microsoft.Extensions.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Localization.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Localization.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.Localization.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.1.1.1\lib\netstandard1.1\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.ObjectPool.1.1.0\lib\net451\Microsoft.Extensions.ObjectPool.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.1.1.1\lib\netstandard1.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.PlatformAbstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.PlatformAbstractions.1.1.0\lib\net451\Microsoft.Extensions.PlatformAbstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.1.1.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.WebEncoders, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.WebEncoders.1.1.1\lib\netstandard1.0\Microsoft.Extensions.WebEncoders.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.1.1.1\lib\netstandard1.1\Microsoft.Net.Http.Headers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.CoreUtility.15.6.27740\lib\net46\Microsoft.VisualStudio.CoreUtility.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.OLE.Interop.16.7.30328.74\lib\net45\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Framework, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Framework.15.9.28307\lib\net45\Microsoft.VisualStudio.Shell.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.16.7.30328.74\lib\net45\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.TextManager.Interop.16.7.30328.74\lib\net45\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.12.0">
+      <HintPath>..\Binaries\Packages\Microsoft.VisualStudio.TextTemplating.12.0\Microsoft.VisualStudio.TextTemplating.12.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Threading, Version=15.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Threading.15.6.31\lib\net46\Microsoft.VisualStudio.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Utilities, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Utilities.15.9.28307\lib\net46\Microsoft.VisualStudio.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Validation, Version=15.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Validation.15.3.15\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Registry, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Win32.Registry.4.5.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Retyped.javascript-obfuscator">
+      <HintPath>..\packages\Retyped.javascript-obfuscator.0.1.6733\lib\net40\Retyped.javascript-obfuscator.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a84b7dcfb1391f7f, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\net45\SQLitePCLRaw.batteries_green.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8226ea5df37bcae9, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\net45\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1488e028ca7ab535, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.core.1.1.2\lib\net45\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.e_sqlite3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9c301db686d0bd12, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.provider.e_sqlite3.net45.1.1.2\lib\net45\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="StreamJsonRpc, Version=1.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\StreamJsonRpc.1.3.23\lib\net45\StreamJsonRpc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Composition.AttributedModel, Version=1.0.31.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.AttributedModel.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Convention, Version=1.0.31.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.Convention.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Hosting, Version=1.0.31.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.Hosting.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Runtime, Version=1.0.31.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.Runtime.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.TypedParts, Version=1.0.31.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.TypedParts.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.FileVersionInfo, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.FileVersionInfo.4.3.0\lib\net46\System.Diagnostics.FileVersionInfo.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.StackTrace, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.StackTrace.4.3.0\lib\net46\System.Diagnostics.StackTrace.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tracing, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.Tracing.4.3.0\lib\net462\System.Diagnostics.Tracing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata, Version=1.4.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.Metadata.1.6.0\lib\netstandard2.0\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.Extensions.4.3.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.4.3.0\lib\net462\System.Runtime.InteropServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.AccessControl.4.5.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Principal.Windows.4.5.1\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.4.3.0\lib\net46\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.3.0\lib\netstandard1.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Thread, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Thread.4.3.0\lib\net46\System.Threading.Thread.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\Binaries\Packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XmlDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.XmlDocument.4.3.0\lib\net46\System.Xml.XmlDocument.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.XPath, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.XPath.4.3.0\lib\net46\System.Xml.XPath.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.XPath.XDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.XPath.XDocument.4.3.0\lib\net46\System.Xml.XPath.XDocument.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AngularModuleKindHandlerAttribute.cs" />
+    <Compile Include="Angular\AngularModule.cs" />
+    <Compile Include="Angular\AngularModuleAssemblyProperties.cs" />
+    <Compile Include="Angular\Component.cs" />
+    <Compile Include="Angular\Directive.cs" />
+    <Compile Include="Angular\ExportedFunction.cs" />
+    <Compile Include="Angular\IPageOrComponent.cs" />
+    <Compile Include="Angular\Pipe.cs" />
+    <Compile Include="Angular\Provider.cs" />
+    <Compile Include="Angular\Page.cs" />
+    <Compile Include="Angular\IDeclarable.cs" />
+    <Compile Include="Angular\ESModule.cs" />
+    <Compile Include="Angular\EntityProvider.cs" />
+    <Compile Include="Angular\Routes\LoadChildren.cs" />
+    <Compile Include="Angular\Routes\Route.cs" />
+    <Compile Include="Angular\Validator.cs" />
+    <Compile Include="App.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>App.resx</DependentUpon>
+    </Compile>
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Entities\Models\%24specifiedsolutionname%24Context.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileTypeHandler.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\DirectiveSyntaxWalker.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Extensions.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Nodes\ElifBlock.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Nodes\EndIfBlock.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Nodes\ElseBlock.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Nodes\IfBlock.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Nodes\IfDirectiveBlock.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Nodes\IfDirectiveNodeBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestPreprocessors.cs" />
+    <Compile Include="GeneratorEngines\BusinessModelGeneratorEngine.cs" />
+    <Compile Include="GeneratorEngines\EntitiesGeneratorEngine.cs" />
+    <Compile Include="WorkspaceTemplateParameters.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Extensions.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Extensions.Server.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Providers\AnalyticsTrackingHandler.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Providers\ApplicationServices.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Providers\Filters\HttpResponseExceptionFilter.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Providers\LoginTimeoutService.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Providers\ServiceAuthorizationHandler.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Providers\WebApiProviderExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.sln" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\Program.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\Startup.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ADOExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\AlertingExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ArrayExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\AspCoreExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\AspectMethodServiceAttribute.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\AspectServiceExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\AspectServiceImporter.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\AspectServiceKinds.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\AspectTypeServiceAttribute.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\AssemblyAttributes.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\AssemblyExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\AssemblyNameParts.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BaseDictionary.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BaseList.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BaseThreadedService.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BitExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\BTree\BTree.BTreeAlgorithm.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\BTree\BTree.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\BTree\BTree.TreeNode.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\BTree\Collection.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\BTree\Common\BTreeEnums.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\BTree\Common\IBTree.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\BTree\Common\SingleThreadAccess.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\BTree\Common\Synchronizer.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\BTree\ThreadSafeBTree.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\Generics\BTree.BTreeAlgorithm.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\Generics\BTree.BTreeKeys.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\Generics\BTree.BTreeValues.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\Generics\BTree.TreeNode.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\Generics\BTreeDictionary.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\Generics\Count.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\Generics\IBTreeDictionary.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\Generics\PartialComparer.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\CaselessString.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\CommandLineParser.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\CommandLineParserAttributes.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\CompareExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\CompareWith.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\DateTimeExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\DebugUtils.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\DefaultEqualityComparer.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\DefaultHttpMessageHandlerFactory.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\DisposableBase.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\DisposableExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\DnsProviderFactory.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\DynamicObject.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\EnumerableExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\EnumExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\EventArgsT.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\EventExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\EventHandlerT.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ExceptionExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\FileCompare.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\FileSystemInfoStatus.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\FileUtilities\FileUtilities.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\FixedDictionary.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\GuidExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\IAppLoaderPlugin.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\IDiagnostics.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\IDnsProvider.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\IDnsProviderFactory.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ILogWriter.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\IManagedLockObject.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ImpersonationLogon.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\InjectAttribute.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\InterprocessVariables.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\IOExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ITemplateEngineBasePartialClass.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\JsonExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\KeyValuePairFactory.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\LineTracker.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ListConverter.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\LockManager.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\LoggerExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\LoggerRelay.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\LoggerRelayCaptureMethodAssembly.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\LoggerRelayCaptureMethodsEntry.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\LoggerRelayCaptureMethodType.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\LoggerRelayEvent.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\LoggerRelayEventSink.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\LoggerRelayEventSinkConfigArgs.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Logging\LineLogger.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Logging\LineLoggerProvider.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ManagedBuffer.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ManagedLock.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ManagedLockDoOnceAction.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ManagedLockObject.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\MockExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\NetworkExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\NumberExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ObjectExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ObjectHashCodeComparer.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ObjectTree.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ObjectTreeItem.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\OneTimeThreadTimer.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\OneTimeTimer.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Oscillator.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\OscillatorNotifyItem.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\PluginAssemblyLoadingContext.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ProcessExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\PropertyChangeExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\PropertyInjectorExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Queryable\IQueryProviderUtility.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Queryable\Query.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Queryable\QueryProvider.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Queryable\TypeSystem.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\RegistryKeyEnumerableAttribute.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\RegistryKeyExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\RegistryKeyInterfaces.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\RegistryNonStringValueAttribute.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\RegistryPropertySaveAttribute.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\RegistrySettingsBase.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\RunspaceFactory.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ServerUtils.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\SocketFactory.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\StatusEntry.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\StreamReset.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\StringExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\SwitchExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\SystemInfo.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\TagHandler.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\TemplateEngineExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\TemplateEngineHost.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ThreadDisposable.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\ThreadExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\TraceExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\TraceLogEventSink.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\TraceLogEventSinkConfigArgs.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\TypeExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\WaitHandleExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\WebSocketConnectionManager.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\WebSocketExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\WebSocketHandler.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\WebSocketManagerMiddleware.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Wrappers\Implementations\Pipeline.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Wrappers\Implementations\PipelineReader.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Wrappers\Implementations\Runspace.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Wrappers\Implementations\Socket.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Wrappers\Implementations\SocketWrapped.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Wrappers\Interfaces\IPipeline.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Wrappers\Interfaces\IPipelineReader.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Wrappers\Interfaces\IRunspace.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Wrappers\Interfaces\IRunspaceFactory.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Wrappers\Interfaces\ISocket.cs" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Wrappers\Interfaces\ISocketFactory.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\HttpResponseException.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Program.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Startup.cs" />
+    <Compile Include="GeneratorEngines\WorkspaceGeneratorEngine.cs" />
+    <Compile Include="ContainerAction.cs" />
+    <Compile Include="Controllers\StatusController.cs" />
+    <Compile Include="GeneratorOverridesSection.cs" />
+    <Compile Include="Generators\Client\App\AppComponentPageTemplate.cs">
+      <DependentUpon>AppComponentPageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\App\InitApp.cs">
+      <DependentUpon>InitApp.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\App\PageIndexTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PageIndexTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Client\Internationalization\LanguageTranslationFileTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LanguageTranslationFileTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Client\Internationalization\LanguageTranslationGenerator.cs" />
+    <Compile Include="Generators\IdentityField.cs" />
+    <Compile Include="Generators\Modules\AppModule\BlankAppModuleClassTemplate.cs">
+      <DependentUpon>BlankAppModuleClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Modules\RoutingModule\RoutingModuleClassTemplate.cs">
+      <DependentUpon>RoutingModuleClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Modules\StandardModule\StandardModuleClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StandardModuleClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Modules\StandardModule\StandardModuleGenerator.cs" />
+    <Compile Include="Generators\Pages\BlankPage\BlankClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlankClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Pages\BlankPage\BlankPageGenerator.cs" />
+    <Compile Include="Generators\Pages\BlankPage\BlankPageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlankPageTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Pages\LoginPage\LoginClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LoginClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Pages\LoginPage\LoginPageGenerator.cs" />
+    <Compile Include="Generators\Pages\LoginPage\LoginPageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LoginPageTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Pages\RepeaterPage\RepeaterClassTemplate.cs">
+      <DependentUpon>RepeaterClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Pages\RepeaterPage\RepeaterPageGenerator.cs" />
+    <Compile Include="Generators\Pages\RepeaterPage\RepeaterPageTemplate.cs">
+      <DependentUpon>RepeaterPageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Pages\WelcomePage\WelcomeClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WelcomeClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Pages\WelcomePage\WelcomePageGenerator.cs" />
+    <Compile Include="Generators\Pages\WelcomePage\WelcomePageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WelcomePageTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Server\ConfigJson\ConfigJsonTemplate.cs">
+      <DependentUpon>ConfigJsonTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Server\ConfigJson\ConfigJsonGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.cs">
+      <DependentUpon>WebAPIRestControllerClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIGraphQLSchema\WebAPIGraphQLSchemaGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIGraphQLSchema\WebAPIGraphQLQueryClassTemplate.cs">
+      <DependentUpon>WebAPIGraphQLQueryClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIGraphQLSchema\WebAPIGraphQLSchemaClassTemplate.cs">
+      <DependentUpon>WebAPIGraphQLSchemaClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIStartupGraphQLSchemas\GraphQLSchema.cs" />
+    <Compile Include="Generators\Server\WebAPIStartupGraphQLSchemas\WebAPIStartupGraphQLSchemasGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIStartupGraphQLSchemas\WebAPIStartupGraphQLSchemasClassTemplate.cs">
+      <DependentUpon>WebAPIStartupGraphQLSchemasClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIRestProviderDataContext\WebAPIRestProviderDataContextGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIRestProviderDataContext\WebAPIRestProviderDataContextClassTemplate.cs">
+      <DependentUpon>WebAPIRestProviderDataContextClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIRestConfigJson\WebAPIRestConfigJsonTemplate.cs">
+      <DependentUpon>WebAPIRestConfigJsonTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIRestConfigJson\WebAPIRestConfigJsonGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIRestServiceProvider\ServiceMethod.cs" />
+    <Compile Include="Generators\Server\WebAPIRestServiceProvider\WebAPIRestServiceProviderClassTemplate.cs">
+      <DependentUpon>WebAPIRestServiceProviderClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIRestServiceProvider\WebAPIRestServiceProviderGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIController\WebAPIIdentityControllerClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebAPIIdentityControllerClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIModel\WebAPIIdentityModelClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebAPIIdentityModelClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\EntityAddInHandlers\AddInEntitiesMetadataReflectionHandler.cs" />
+    <Compile Include="Handlers\ExpressionHandlers\RestExpressionHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\BlankPageFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\CustomComponentFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\LoginPageFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\ConfigJsonFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIRestProviderDataContextFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIStartupGraphQLSchemasFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIGraphQLSchemaFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIRestConfigJsonFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIRestServiceProviderFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WelcomePageFacetHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicPageBuiltInImportHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\EditPopupModuleKindHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\StandardModuleKindHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\SlidingTabsModuleKindHandler.cs" />
+    <Compile Include="Generators\Modules\SlidingTabsModule\SlidingTabsModuleClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SlidingTabsModuleClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Modules\SlidingTabsModule\SlidingTabsModuleGenerator.cs" />
+    <Compile Include="Generators\Pages\SlidingTabPage\SlidingTab.cs" />
+    <Compile Include="Handlers\FacetHandlers\SlidingTabsPageFacetHandler.cs" />
+    <Compile Include="Generators\Pages\SlidingTabPage\SlidingTabClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SlidingTabClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Pages\SlidingTabPage\SlidingTabPageGenerator.cs" />
+    <Compile Include="Generators\Pages\SlidingTabPage\SlidingTabPageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SlidingTabPageTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\CommandHandlers\CommandAttribute.cs" />
+    <Compile Include="Handlers\CommandHandlers\GeneratorHandler.cs" />
+    <Compile Include="Handlers\CommandHandlers\ICommandHandler.cs" />
+    <Compile Include="EntityCount.cs" />
+    <Compile Include="Handlers\ViewLayoutHandlers\BaseViewLayoutHandler.cs" />
+    <Compile Include="Handlers\ViewLayoutHandlers\RepeaterLayoutHandler.cs" />
+    <Compile Include="Response.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewEngine\PartialViewEventHandler.cs" />
+    <Compile Include="ViewEngine\RazorParserVisitor.cs" />
+    <Compile Include="ViewEngine\RazorSemanticVisitor.cs" />
+    <Compile Include="ViewEngine\SemanticTree\AssignmentNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\BaseNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\HelperExpressionNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\ModelInvocationNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\ScriptExpressionNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\CodeNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\CommentNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\CodeExpressionNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\Extensions.cs" />
+    <Compile Include="ViewEngine\SemanticTree\MarkupBlockNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\PropertyNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\CustomScriptsSectionNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\SectionNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\VariableNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\ViewBagNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\ViewDataNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\RenderNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\DirectiveNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\MarkupNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\ModelNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\NodeKind.cs" />
+    <Compile Include="ViewEngine\SemanticTree\RootNode.cs" />
+    <Compile Include="ViewEngine\View.cs" />
+    <Compile Include="ViewEngine\ViewProject.cs" />
+    <Compile Include="WebApiService.cs" />
+    <Content Include="AngularFormsImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularFormsPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularProviderImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularProviderPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularTextMaskImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularTextMaskPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularValidationPageBuiltInImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularValidationPageBuiltInPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularValidatorImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularValidatorPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Compile Include="Handlers\ImportHandlers\Packages\SuperTabsPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\SuperTabsImportHandler.cs" />
+    <Content Include="app\src\app\app.html" />
+    <Content Include="app\src\app\jasmine\tests.html" />
+    <Content Include="app\src\app\modules\components\bread-crumb\bread-crumb.html" />
+    <Content Include="app\src\app\modules\components\edit-delete\edit-delete.html" />
+    <Content Include="app\src\app\modules\components\tree-view\tree-view.html" />
+    <Content Include="app\src\app\modules\utils\jQueryUtils.js" />
+    <Content Include="app\src\assets\icon\favicon.ico" />
+    <Content Include="app\src\assets\imgs\Error.png" />
+    <Content Include="app\src\assets\imgs\Jasmine.png" />
+    <Content Include="app\src\assets\imgs\logo.png" />
+    <Content Include="app\src\assets\imgs\Success.png" />
+    <Content Include="app\src\assets\imgs\Suite.png" />
+    <Content Include="app\src\assets\imgs\Test.png" />
+    <Content Include="app\src\JasmineTests.html" />
+    <Content Include="app\src\app\jasmine\tests.scss" />
+    <Content Include="app\src\app\modules\components\bread-crumb\bread-crumb.scss" />
+    <Content Include="app\src\app\modules\components\edit-delete\edit-delete.scss" />
+    <Content Include="app\src\app\modules\components\edit-label\edit-label.scss" />
+    <Content Include="app\src\app\modules\components\tree-view\tree-view.scss" />
+    <Content Include="app\src\assets\i18n\ar.json" />
+    <Content Include="app\src\assets\i18n\bs.json" />
+    <Content Include="app\src\assets\i18n\by.json" />
+    <Content Include="app\src\assets\i18n\da.json" />
+    <Content Include="app\src\assets\i18n\de.json" />
+    <Content Include="app\src\assets\i18n\el.json" />
+    <Content Include="app\src\assets\i18n\en.json" />
+    <Content Include="app\src\assets\i18n\es-eu.json" />
+    <Content Include="app\src\assets\i18n\es.json" />
+    <Content Include="app\src\assets\i18n\fil.json" />
+    <Content Include="app\src\assets\i18n\fr.json" />
+    <Content Include="app\src\assets\i18n\he.json" />
+    <Content Include="app\src\assets\i18n\it.json" />
+    <Content Include="app\src\assets\i18n\ja.json" />
+    <Content Include="app\src\assets\i18n\nb_NO.json" />
+    <Content Include="app\src\assets\i18n\nl.json" />
+    <Content Include="app\src\assets\i18n\pl.json" />
+    <Content Include="app\src\assets\i18n\pt-br.json" />
+    <Content Include="app\src\assets\i18n\pt-PT.json" />
+    <Content Include="app\src\assets\i18n\ru.json" />
+    <Content Include="app\src\assets\i18n\sk.json" />
+    <Content Include="app\src\assets\i18n\sl.json" />
+    <Content Include="app\src\assets\i18n\sn.json" />
+    <Content Include="app\src\assets\i18n\sv.json" />
+    <Content Include="app\src\assets\i18n\th.json" />
+    <Content Include="app\src\assets\i18n\tr.json" />
+    <Content Include="app\src\assets\i18n\ua.json" />
+    <Content Include="app\src\assets\i18n\zh-cmn-Hans.json" />
+    <Content Include="app\src\assets\i18n\zh-cmn-Hant.json" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Entities\MyTemplate.vstemplate" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Entities\__TemplateIcon.ico" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\templates\NOTES.txt" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\MyTemplate.vstemplate" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\css\site.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\EmailVerification.html" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\EntityConfig.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\EntityConfigTest.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\favicon.ico" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\Functions.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\js\site.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery\dist\jquery.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery\dist\jquery.min.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery\LICENSE.txt" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\__TemplateIcon.ico" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\.gitignore" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\.gitignore" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\e2e\protractor.conf.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\app.component.html" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\counter\counter.component.html" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\fetch-data\fetch-data.component.html" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\home\home.component.html" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\nav-menu\nav-menu.component.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\nav-menu\nav-menu.component.html" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\index.html" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\karma.conf.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\styles.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\MyTemplate.vstemplate" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\wwwroot\favicon.ico" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\__TemplateIcon.ico" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\MyTemplate.vstemplate" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Utils.Core.csproj.vspscc" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\__TemplateIcon.ico" />
+    <Content Include="Generators\Modules\RoutingModule\RoutingModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>RoutingModuleClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Client\App\AppComponentPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>AppComponentPageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIRestControllerClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Server\WebAPIGraphQLSchema\WebAPIGraphQLQueryClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIGraphQLQueryClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Server\WebAPIGraphQLSchema\WebAPIGraphQLSchemaClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIGraphQLSchemaClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Server\WebAPIStartupGraphQLSchemas\WebAPIStartupGraphQLSchemasClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIStartupGraphQLSchemasClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Server\WebAPIRestProviderDataContext\WebAPIRestProviderDataContextClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIRestProviderDataContextClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Server\WebAPIRestConfigJson\WebAPIRestConfigJsonTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIRestConfigJsonTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Server\WebAPIRestServiceProvider\WebAPIRestServiceProviderClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIRestServiceProviderClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Images\HydraPackageCacheStatus.png" />
+    <Content Include="Images\Hydra.ico" />
+    <Content Include="Images\Hydra.png" />
+    <Content Include="IonicPageBuiltInImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicPageBuiltInPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="SuperTabsImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="SuperTabsPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\IonicApplicationPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="app.zip" />
+    <Content Include="Generators\Client\App\InitApp.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>InitApp.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Client\App\PageIndexTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>PageIndexTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Modules\StandardModule\StandardModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>StandardModuleClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\BlankPage\BlankClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>BlankClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\BlankPage\BlankPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>BlankPageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\LoginPage\LoginClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>LoginClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\LoginPage\LoginPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>LoginPageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\WelcomePage\WelcomeClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WelcomeClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\WelcomePage\WelcomePageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WelcomePageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Server\ConfigJson\ConfigJsonTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>ConfigJsonTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Server\WebAPIController\WebAPIIdentityControllerClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIIdentityControllerClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Server\WebAPIModel\WebAPIIdentityModelClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIIdentityModelClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Response.json" />
+    <Content Include="ViewEngine\SemanticTree\_ClassDiagram.cd" />
+    <Content Include="ExportedItemTemplates\Angular Module Generator\ModuleKindHandler.cs" />
+    <Compile Include="Generators\Modules\AppModule\AppModuleClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppModuleClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Modules\AppModule\AppModuleGenerator.cs" />
+    <Compile Include="Generators\Pages\SassPage\SassStyleSheetTemplate.cs">
+      <DependentUpon>SassStyleSheetTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Handlers\FacetHandlers\BasePageFacetHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicApplicationImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\IonicApplicationPackage.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\RootModuleKindHandler.cs" />
+    <Compile Include="Generators\Modules\RootModule\RootModuleClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RootModuleClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Modules\RootModule\RootModuleGenerator.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\AppModuleKindHandler.cs" />
+    <Compile Include="Generators\Modules\NavigationGridModule\NavigationGridModuleClassTemplate.cs">
+      <DependentUpon>NavigationGridModuleClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Modules\NavigationGridModule\NavigationGridModuleGenerator.cs" />
+    <Compile Include="Generators\Modules\EditModule\EditModuleClassTemplate.cs">
+      <DependentUpon>EditModuleClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Modules\EditModule\EditModuleGenerator.cs" />
+    <Compile Include="ModuleKind.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\NavigationGridModuleKindHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\EditModuleKindHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIModelFacetHandler.cs" />
+    <Compile Include="Generators\Server\WebAPIModel\WebAPIModelClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebAPIModelClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIModel\WebAPIModelGenerator.cs" />
+    <Compile Include="Handlers\ImportHandlers\AngularProviderImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\AngularValidationPageBuiltInImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\AngularValidatorImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicEditPageBuiltInImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicEditPageImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\RxJsObservableImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\RxJsPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\AngularFormsImportHandler.cs" />
+    <Content Include="ExportedItemTemplates\Angular Module Generator\ModuleGenerator.png" />
+    <Compile Include="Handlers\ImportHandlers\AngularTextMaskImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\AngularTextMaskPackage.cs" />
+    <Content Include="Images\ModuleGenerator.png" />
+    <Content Include="RxJsObservableImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="RxJsObservablePackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <EmbeddedResource Include="App.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>App.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Content Include="ExportedItemTemplates\Angular Client Model Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Angular Client Model Generator\ClientModelGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Angular Client Model Generator\FacetHandler.cs" />
+    <Content Include="ExportedItemTemplates\Angular Client Model Generator\ModelGenerator.png" />
+    <Content Include="ExportedItemTemplates\Angular Client Model Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Provider Generator\FacetHandler.cs" />
+    <Content Include="ExportedItemTemplates\Angular Component Generator\FacetHandler.cs" />
+    <Content Include="ExportedItemTemplates\Web API Controller Generator\FacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\EntityProviderFacetHandler.cs" />
+    <Compile Include="Generators\Client\App\EmbeddedFilesGenerator.cs" />
+    <Compile Include="Generators\Client\ClientModel\ClientModelClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ClientModelClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Client\ClientModel\ClientModelGenerator.cs" />
+    <Compile Include="Handlers\FacetHandlers\ClientModelFacetHandler.cs" />
+    <Compile Include="Generators\Client\EntityProvider\EntityProviderClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EntityProviderClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Client\EntityProvider\EntityProviderGenerator.cs" />
+    <Compile Include="Generators\EntityProperty.cs" />
+    <Compile Include="Generators\ModulesExtractor.cs" />
+    <Compile Include="Generators\RelatedEntity.cs" />
+    <Compile Include="Generators\Client\Validator\ValidatorClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValidatorClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\FacetHandlers\WebAPIControllerFacetHandler.cs" />
+    <Compile Include="Generators\Server\WebAPIController\WebAPIControllerClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebAPIControllerClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIController\WebAPIControllerGenerator.cs" />
+    <Compile Include="Handlers\ValidationHandlers\MaxLengthValidationHandler.cs" />
+    <Compile Include="Handlers\ValidationHandlers\MinLengthValidationHandler.cs" />
+    <Compile Include="Handlers\ValidationHandlers\DataTypeValidationHandler.cs" />
+    <Compile Include="Handlers\ValidationHandlers\RequiredValidationHandler.cs" />
+    <Content Include="ExportedItemTemplates\Handler Object\HandlerObject.png" />
+    <Content Include="ExportedItemTemplates\Handler Object\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Web API Controller Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Web API Controller Generator\WebAPIControllerGenerator.png" />
+    <Content Include="ExportedItemTemplates\Web API Model Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Provider Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Component Generator\ComponentGenerator.png" />
+    <Content Include="ExportedItemTemplates\Angular Component Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Module Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Edit Page Generator\EditPageGenerator.png" />
+    <Content Include="ExportedItemTemplates\Angular Edit Page Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Page Generator\PageGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Angular Module Generator\ModuleGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Angular Component Generator\ComponentGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Angular Edit Page Generator\PageGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Angular Provider Generator\ProviderGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Web API Model Generator\AppModuleGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Web API Controller Generator\ControllerGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Angular Page Generator\FacetHandler.cs" />
+    <Content Include="ExportedItemTemplates\Angular Edit Page Generator\FacetHandler.cs" />
+    <Content Include="ExportedItemTemplates\Handler Object\HandlerObject.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Handlers\FacetHandlers\ApplicationFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\NavigationGridPageWithEditsFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\TabsPageFacetHandler.cs" />
+    <Compile Include="GeneratorEngines\AppGeneratorEngine.cs" />
+    <Compile Include="Generators\Client\App\AppComponentClassTemplate.cs">
+      <DependentUpon>AppComponentClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\App\AppGenerator.cs" />
+    <Compile Include="Generators\Pages\EditPopupPage\EditPopupClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditPopupClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Pages\EditPopupPage\EditPopupPageGenerator.cs" />
+    <Compile Include="Generators\Pages\EditPopupPage\EditPopupPageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditPopupPageTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\FacetHandlers\EditPopupPageFacetHandler.cs" />
+    <Compile Include="Generators\FormField.cs" />
+    <Compile Include="Generators\Pages\NavigationGridPage\GridColumn.cs" />
+    <Compile Include="Generators\Pages\NavigationGridPage\ManagedList.cs" />
+    <Compile Include="Generators\Pages\NavigationGridPage\NavigationGridClassTemplate.cs">
+      <DependentUpon>NavigationGridClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Pages\NavigationGridPage\NavigationGridPageGenerator.cs" />
+    <Compile Include="Generators\Pages\NavigationGridPage\NavigationGridPageTemplate.cs">
+      <DependentUpon>NavigationGridPageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Pages\TabPage\Tab.cs" />
+    <Compile Include="Generators\Pages\TabPage\TabPageGenerator.cs" />
+    <Compile Include="Generators\Pages\TabPage\TabClassTemplate.cs">
+      <DependentUpon>TabClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Pages\TabPage\TabPageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TabPageTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\ImportHandlers\AngularImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\IonicPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\AngularPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicImportHandler.cs" />
+    <Compile Include="IonicFileSystemType.cs" />
+    <Compile Include="IonicFolderHierarchy.cs" />
+    <Compile Include="Manager.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Manager.ttinclude</DependentUpon>
+    </Compile>
+    <Compile Include="ModuleImports.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Compile>
+    <Content Include="ExportedItemTemplates\Angular Page Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Angular Page Generator\PageGenerator.png" />
+    <Content Include="ExportedItemTemplates\Angular Page Generator\PageTemplate.tt">
+      <LastGenOutput>PageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Module Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Angular Module Generator\PageTemplate.tt">
+      <LastGenOutput>PageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Component Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Angular Edit Page Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Angular Edit Page Generator\PageTemplate.tt">
+      <LastGenOutput>PageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Provider Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Web API Model Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Web API Model Generator\PageTemplate.tt">
+      <LastGenOutput>PageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="ExportedItemTemplates\Web API Controller Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Angular Component Generator\ComponentTemplate.tt">
+      <LastGenOutput>PageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Client\Internationalization\LanguageTranslationFileTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>LanguageTranslationFileTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Modules\AppModule\BlankAppModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>BlankAppModuleClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Modules\AppModule\AppModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>AppModuleClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Client\App\AppComponentClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>AppComponentClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Client\ClientModel\ClientModelClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>ClientModelClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Modules\NavigationGridModule\NavigationGridModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>NavigationGridModuleClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Modules\EditModule\EditModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>EditModuleClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Modules\SlidingTabsModule\SlidingTabsModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SlidingTabsModuleClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\EditPopupPage\EditPopupClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>EditPopupClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\EditPopupPage\EditPopupPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>EditPopupPageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Client\EntityProvider\EntityProviderClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>EntityProviderClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Modules\RootModule\RootModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>RootModuleClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\RepeaterPage\RepeaterClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>RepeaterClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\RepeaterPage\RepeaterPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>RepeaterPageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\SassPage\SassStyleSheetTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SassStyleSheetTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\SlidingTabPage\SlidingTabClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SlidingTabClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\SlidingTabPage\SlidingTabPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SlidingTabPageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\ScratchPad.tt" />
+    <Content Include="Generators\Client\Validator\ValidatorClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>ValidatorClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\NavigationGridPage\NavigationGridClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>NavigationGridClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\NavigationGridPage\NavigationGridPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>NavigationGridPageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Server\WebAPIController\WebAPIControllerClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIControllerClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Server\WebAPIModel\WebAPIModelClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIModelClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Handlers\ViewLayouts\_Repeater.cshtml" />
+    <Content Include="Handlers\ImportHandlers\Packages\Config\AgGridAngularPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\AgGridPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\AngularPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\AngularTextMaskPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\IonicPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\LinqJavascriptPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\NgxTranslatePackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\RxJsPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\SuperTabsPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manager.ttinclude">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Manager.cs</LastGenOutput>
+    </Content>
+    <Content Include="ModuleImportsModel.cs" />
+    <Compile Include="ParseResult.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="StandardStreamService.cs" />
+    <Compile Include="UnitTests.cs" />
+    <Content Include="Scripts\Kill.cmd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.config" />
+    <Content Include="Generators\Pages\TabPage\TabClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>TabClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\TabPage\TabPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>TabPageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="ModuleImports.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModuleImports.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ApplicationGenerator.Interfaces\ApplicationGenerator.Interfaces.csproj">
+      <Project>{daecb031-509a-496f-8a8b-08d79762d704}</Project>
+      <Name>ApplicationGenerator.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeInterfaces\CodeInterfaces.csproj">
+      <Project>{a1d569a5-690c-4479-93bc-795fe6ec3c88}</Project>
+      <Name>CodeInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModuleImportsHelper\ModuleImportsHelper.csproj">
+      <Project>{eca7c334-10dc-455f-8c40-963ce7d8c970}</Project>
+      <Name>ModuleImportsHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TypeScriptAST\TypeScriptAST.csproj">
+      <Project>{7728b98c-9e88-4e6d-8ecd-d51ded278ac2}</Project>
+      <Name>TypeScriptAST</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{a4763b8b-f945-4c4c-9727-7e970e02f662}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VisualStudioProvider\VisualStudioProvider.csproj">
+      <Project>{1e47eeaf-ec79-4d70-aa27-ac653fd40cc2}</Project>
+      <Name>VisualStudioProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XPathParser\XPathParser.csproj">
+      <Project>{a8072758-e8d2-4551-89c2-564bde162403}</Project>
+      <Name>XPathParser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AgGridAngularImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AgGridAngularPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AgGridImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AgGridPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Compile Include="Handlers\ImportHandlers\Packages\AgGridAngularPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\AgGridPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\LinqJavascriptPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\AgGridAngularImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicGridPageImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\LinqJavascriptImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\NgxTranslateImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\NgxTranslatePackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\RxJsMapImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\AgGridImportHandler.cs" />
+    <Content Include="ExportedItemTemplates\Angular Page Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Provider Generator\ProviderGenerator.png" />
+    <Content Include="ExportedItemTemplates\Web API Model Generator\WebAPIModelGenerator.png" />
+    <Content Include="Hydra.ico" />
+    <Content Include="Images\Application\Background.jpg" />
+    <Content Include="Images\Application\BackgroundContent.jpg" />
+    <Content Include="Images\Application\Hydra.ico" />
+    <Content Include="Images\Application\HydraLogo.jpg" />
+    <Content Include="Images\Application\HydraLogoContent.jpg" />
+    <Content Include="Images\Application\Toolbar\Pause.png" />
+    <Content Include="Images\Application\Toolbar\Reload.png" />
+    <Content Include="Images\Application\Toolbar\Start.png" />
+    <Content Include="Images\Application\Toolbar\Stop.png" />
+    <Content Include="Images\Application\VSColorPalette.jpg" />
+    <Content Include="Images\ComponentGenerator.png" />
+    <Content Include="Images\EditPageGenerator.png" />
+    <Content Include="Images\HandlerObject.png" />
+    <Content Include="Images\ModelGenerator.png" />
+    <Content Include="Images\PageGenerator.png" />
+    <Content Include="Images\ProviderGenerator.png" />
+    <Content Include="Images\WebAPIControllerGenerator.png" />
+    <Content Include="Images\WebAPIModelGenerator.png" />
+    <Compile Include="Handlers\ImportHandlers\IonicGridPageBuiltInImportHandler.cs" />
+    <Content Include="IonicEditPageBuiltInImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicEditPageBuiltInPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicEditPageImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicGridPageBuiltInImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicGridPageBuiltInPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicGridPageImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="LinqJavascriptImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="LinqJavascriptPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="NgxTranslateImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="NgxTranslatePackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="RxJsMapImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="RxJsMapPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GeneratorThemes\" />
+    <Folder Include="TestOutput\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\src\app\core\core.module.ts" />
+    <Content Include="app\src\app\core\services\window.service.ts" />
+    <Content Include="app\src\app\jasmine\tests.component.ts" />
+    <Content Include="app\src\app\jasmine\tests.module.ts" />
+    <Content Include="app\src\app\jasmine\tests.reporter.ts" />
+    <Content Include="app\src\app\jasmine\testsNode.ts" />
+    <Content Include="app\src\app\main.ts" />
+    <Content Include="app\src\app\modules\components\bread-crumb\bread-crumb.module.ts" />
+    <Content Include="app\src\app\modules\components\bread-crumb\bread-crumb.ts" />
+    <Content Include="app\src\app\modules\components\bread-crumb\index.ts" />
+    <Content Include="app\src\app\modules\components\edit-delete\edit-delete.module.ts" />
+    <Content Include="app\src\app\modules\components\edit-delete\edit-delete.ts" />
+    <Content Include="app\src\app\modules\components\edit-delete\index.ts" />
+    <Content Include="app\src\app\modules\components\edit-label\edit-label.module.ts" />
+    <Content Include="app\src\app\modules\components\edit-label\edit-label.ts" />
+    <Content Include="app\src\app\modules\components\edit-label\editChangeArgs.ts" />
+    <Content Include="app\src\app\modules\components\edit-label\index.ts" />
+    <Content Include="app\src\app\modules\components\grid-page.ts" />
+    <Content Include="app\src\app\modules\components\tree-view\bindingsParser.ts" />
+    <Content Include="app\src\app\modules\components\tree-view\bindingsParseResult.ts" />
+    <Content Include="app\src\app\modules\components\tree-view\bindingTransform.ts" />
+    <Content Include="app\src\app\modules\components\tree-view\expandPipe.ts" />
+    <Content Include="app\src\app\modules\components\tree-view\forNodesDirective.ts" />
+    <Content Include="app\src\app\modules\components\tree-view\index.ts" />
+    <Content Include="app\src\app\modules\components\tree-view\onCreateDirective.ts" />
+    <Content Include="app\src\app\modules\components\tree-view\tree-node.ts" />
+    <Content Include="app\src\app\modules\components\tree-view\tree-view.module.ts" />
+    <Content Include="app\src\app\modules\components\tree-view\tree-view.spec.ts" />
+    <Content Include="app\src\app\modules\components\tree-view\tree-view.ts" />
+    <Content Include="app\src\app\modules\components\usable-popover.ts" />
+    <Content Include="app\src\app\modules\utils\AuthorizeDecorator.ts" />
+    <Content Include="app\src\app\modules\utils\BindingParser.ts" />
+    <Content Include="app\src\app\modules\utils\BreadcrumbDecorators.ts" />
+    <Content Include="app\src\app\modules\utils\CustomJasmineMatchers.ts" />
+    <Content Include="app\src\app\modules\utils\DebugUtils.ts" />
+    <Content Include="app\src\app\modules\utils\Extensions.ts" />
+    <Content Include="app\src\app\modules\utils\testing\TestObservable.ts" />
+    <Content Include="app\src\app\modules\utils\ValidationMap.ts" />
+    <Content Include="app\src\app\providers\api\api.ts" />
+    <Content Include="app\src\app\providers\settings\settings.ts" />
+    <Content Include="app\src\app\typings\typings.d.ts" />
+    <Content Include="app\src\environments\environment.prod.ts" />
+    <Content Include="app\src\environments\environment.ts" />
+    <Content Include="app\src\models\accesstokeninfo.model.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExportedProjectTemplates\Utils.Core\BTreeIndex\Collections\BTree\BTreeResources.resx" />
+    <EmbeddedResource Include="Tests\Test2.json" />
+    <EmbeddedResource Include="Tests\Test1.json" />
+    <EmbeddedResource Include="Tests\Test3.json" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Entities\%24specifiedsolutionname%24.Entities.csproj" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\.helmignore" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\Chart.yaml" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\templates\deployment.yaml" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\templates\ingress.yaml" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\templates\secrets.yaml" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\templates\service.yaml" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\templates\_helpers.tpl" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\values.yaml" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\%24specifiedsolutionname%24.Services.csproj" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Properties\launchSettings.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Properties\serviceDependencies.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Properties\serviceDependencies.local.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\RebuildDatabase.ps1" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\Config.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\Entities.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\GeoLite\GeoLite2-City.mmdb" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\Model.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\appsettings.Development.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\appsettings.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\.editorconfig" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\angular.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\browserslist" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\e2e\tsconfig.e2e.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\package-lock.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\package.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\README.md" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\assets\.gitkeep" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\tsconfig.app.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\tsconfig.server.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\tsconfig.spec.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\tslint.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\tsconfig.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\tslint.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\%24specifiedsolutionname%24.Web.csproj" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\Properties\launchSettings.json" />
+    <Content Include="ExportedProjectTemplates\Utils.Core\Utils.Core.csproj" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\hydra.json" />
+    <None Include="GeneratorTemplates\Default\businessModel.template" />
+    <None Include="Scripts\MsBuildSolution.cmd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\e2e\src\app.e2e-spec.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\e2e\src\app.po.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\app.component.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\app.module.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\app.server.module.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\counter\counter.component.spec.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\counter\counter.component.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\fetch-data\fetch-data.component.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\home\home.component.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\app\nav-menu\nav-menu.component.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\environments\environment.prod.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\environments\environment.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\main.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\polyfills.ts" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\ClientApp\src\test.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Owin">
+      <Version>5.2.7</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.WebApi.WebHost">
+      <Version>5.2.7</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
+      <Version>3.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Owin">
+      <Version>4.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Owin.Hosting">
+      <Version>4.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Titanium.Web.Proxy">
+      <Version>3.1.1301</Version>
+    </PackageReference>
+    <PackageReference Include="Unity.Abstractions">
+      <Version>5.11.6</Version>
+    </PackageReference>
+    <PackageReference Include="Unity.Container">
+      <Version>5.11.8</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\..\Binaries\SolutionLibraries\ApplicationGeneratorBuildTasks.dll" TaskName="InstallTemplates" />
+  <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\..\Binaries\SolutionLibraries\ApplicationGeneratorBuildTasks.dll" TaskName="ZipAppFiles" />
+  <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Debug' ">
+    <ItemGroup>
+      <ExcludeFolder Include="$(SolutionDir)Utils.Core\bin\**\*.*" />
+      <ExcludeFolder Include="$(SolutionDir)Utils.Core\obj\**\*.*" />
+      <CopyUtils Include="$(SolutionDir)Utils.Core\**\*.*" Exclude="@(ExcludeFolder)" />
+      <CopyExtension Include="$(OutputPath)Hydra.Extension.vsix" />
+    </ItemGroup>
+    <Message Importance="high" Text="Installing templates" />
+    <InstallTemplates />
+    <Message Importance="high" Text="Zipping application files" />
+    <ZipAppFiles />
+    <Message Importance="high" Text="Copying Utils.Core to template projects" />
+    <Copy SourceFiles="@(CopyUtils)" DestinationFolder="$(ProjectDir)TemplateProjects\HydraAspNetCoreWebApplication\Utils.Core\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" />
+    <Message Importance="high" Text="Copying Hydra.Extension to HydraCli" />
+    <Copy SourceFiles="$(HYDRASOLUTIONPATH)\Hydra.Installer\bin\Debug\Hydra.Installer.exe" DestinationFolder="$(HYDRASOLUTIONPATH)\HydraCLI\HydraInstall\install" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" />
+  </Target>
+  <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <Exec Command="taskkill /F /IM ApplicationGenerator.exe" ContinueOnError="true" />
+  </Target>
+  <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.osx.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" />
+  <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets')" />
+  <Import Project="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
+</Project>

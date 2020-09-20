@@ -1,0 +1,221 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Numerics;
+
+namespace Utils
+{
+    public static class BitExtensions
+    {
+        public static T SetFlag<T>(T bitmap, T flag) where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T> 
+        {
+            var bitmapInt = (int)(object) bitmap;
+            var flagInt = (int)(object)flag;
+
+            bitmapInt |= flagInt;
+
+            return (T)(object) bitmapInt;
+        }
+
+        public static T RemoveFlag<T>(T bitmap, T flag) where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T> 
+        {
+            var bitmapInt = (int)(object)bitmap;
+            var flagInt = (int)(object)flag;
+
+            bitmapInt &= ~flagInt;
+
+            return (T)(object)bitmapInt;
+        }
+
+        public static T GetMask<T>()
+        {
+            if (typeof(T) == typeof(int))
+            {
+                return unchecked((T)(object)uint.MaxValue);
+            }
+            else if (typeof(T) == typeof(uint))
+            {
+                return (T)(object)uint.MaxValue;
+            }
+
+            throw new NotImplementedException();
+        }
+
+        public static T BitwiseAnd<T>(this T value1, T value2) where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T> 
+        {
+            if (typeof(T) == typeof(int))
+            {
+                var intVal1 = (int)(object)value1;
+                var intVal2 = (int)(object)value2;
+
+                return (T)(object)(intVal1 & intVal2);
+            }
+            else if (typeof(T) == typeof(uint))
+            {
+                var uIntVal1 = (uint)(object)value1;
+                var uIntVal2 = (uint)(object)value2;
+
+                return (T)(object)(uIntVal1 & uIntVal2);
+            }
+            else if (typeof(T) == typeof(BigInteger))
+            {
+                var bigIntVal1 = (BigInteger)(object)value1;
+                var bigIntVal2 = (BigInteger)(object)value2;
+
+                return (T)(object)(bigIntVal1 & bigIntVal2);
+            }
+
+            throw new NotImplementedException();
+        }
+
+        public static T ShiftRight<T>(this T value, int bits) where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T> 
+        {
+            if (value is int)
+            {
+                var intVal = (int)(object)value;
+
+                return (T)(object)(intVal >> bits);
+            }
+            else if (value is uint)
+            {
+                var uIntVal = (uint)(object)value;
+
+                return (T)(object)(uIntVal >> bits);
+            }
+            else if (value is BigInteger)
+            {
+                var bigIntVal = (BigInteger)(object)value;
+
+                return (T)(object)(bigIntVal >> bits);
+            }
+
+            throw new NotImplementedException();
+        }
+
+        public static Guid ShiftLeft(this Guid guid, int bits)
+        {
+            var temp = new byte[guid.ToByteArray().Length];
+
+            if (bits >= 8)
+            {
+                Array.Copy(guid.ToByteArray(), bits / 8, temp, 0, temp.Length - (bits / 8));
+            }
+            else
+            {
+                Array.Copy(guid.ToByteArray(), temp, temp.Length);
+            }
+
+            if (bits % 8 != 0)
+            {
+                for (int i = 0; i < temp.Length; i++)
+                {
+                    temp[i] <<= bits % 8;
+
+                    if (i < temp.Length - 1)
+                    {
+                        temp[i] |= (byte)(temp[i + 1] >> 8 - bits % 8);
+                    }
+                }
+            }
+            //Console.WriteLine("before shifting : {0}", guid);
+            
+            Guid myguid = new Guid(temp);
+            //Console.WriteLine("after shifting : {0}", myguid);
+            
+            return myguid;
+        }
+
+        public static Guid ShiftRight(this Guid guid, int bits)
+        {
+            var temp = new byte[guid.ToByteArray().Length];
+
+            if (bits >= 8)
+            {
+                Array.Copy(guid.ToByteArray(), 0, temp, bits / 8, temp.Length - (bits / 8));
+            }
+            else
+            {
+                Array.Copy(guid.ToByteArray(), temp, temp.Length);
+            }
+
+            if (bits % 8 != 0)
+            {
+                for (int i = temp.Length - 1; i >= 0; i--)
+                {
+                    temp[i] >>= bits % 8;
+                    if (i > 0)
+                    {
+                        temp[i] |= (byte)(temp[i - 1] << 8 - bits % 8);
+                    }
+                }
+            }
+            //Console.WriteLine("before shifting : {0}", guid);
+
+            Guid myguid = new Guid(temp);
+            //Console.WriteLine("after shifting : {0}", myguid);
+
+            return myguid;
+        }
+
+        public static Guid BitwiseAnd(this Guid guid1, Guid guid2)
+        {
+            byte[] g1 = guid1.ToByteArray();
+            byte[] g2 = guid2.ToByteArray();
+            byte[] result = new byte[16];
+            Guid returnGuid;
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = (byte)(g1[i] & g2[i]);
+            }
+
+            return returnGuid = new Guid(result);
+
+        }
+        
+        public static Guid BitwiseOr(this Guid guid1, Guid guid2)
+        {
+            byte[] g1 = guid1.ToByteArray();
+            byte[] g2 = guid2.ToByteArray();
+            byte[] result = new byte[16];
+            Guid returnGuid;
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = (byte)(g1[i] | g2[i]);
+            }
+
+            return returnGuid = new Guid(result);
+        }
+        
+        public static Guid BitwiseNot(this Guid guid1) // needs to TTK regarding 2's complement or not!!!!!!!!!!!!
+        {
+            byte[] g1 = guid1.ToByteArray();
+            byte[] result = new byte[16];
+            Guid returnGuid;
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = (byte)(~g1[i]) ;
+            }
+
+            return returnGuid = new Guid(result); 
+        }
+        
+        public static Guid BitwiseXor(this Guid guid1, Guid guid2) 
+        {
+            byte[] g1 = guid1.ToByteArray();
+            byte[] g2 = guid2.ToByteArray();
+            byte[] result = new byte[16];
+            Guid returnGuid;
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = (byte)(g1[i] ^ g2[i]);
+            }
+
+            return returnGuid = new Guid(result); 
+        }
+    }
+}

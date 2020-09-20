@@ -1,0 +1,19 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>Name</DefaultName>
+    <Name>Hydra Web API Controller Generator</Name>
+    <Description>A starter generator class and corresponding T4 templates for a WebAPI Controller.  For file name, just enter base name, without the word Page and/or Generator</Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>10</SortOrder>
+    <Icon>WebAPIControllerGenerator.png</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+    <CustomParameters>
+      <CustomParameter Name="$basename$" Value="$fileinputname$"/>
+    </CustomParameters>
+    <ProjectItem SubType="" TargetFileName="$fileinputname$ControllerGenerator.cs" ReplaceParameters="true">ControllerGenerator.cs</ProjectItem>
+    <ProjectItem SubType="" CustomTool="TextTemplatingFilePreProcessor" TargetFileName="$fileinputname$ClassTemplate.tt" ReplaceParameters="true">ClassTemplate.tt</ProjectItem>
+    <ProjectItem SubType="" TargetFileName="DELETE_OR_MOVE_FILE_UNDER_FacetHandlers_AND_DELETE_THIS_FOLDER\$fileinputname$ControllerFacetHandler.cs" ReplaceParameters="true">FacetHandler.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

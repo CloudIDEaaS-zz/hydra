@@ -1,0 +1,212 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ output extension=".html" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.Generators.Pages.EditPopupPage" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<FormField>" name="FormFields" #>
+<#@ parameter type="System.Collections.Generic.IEnumerable<ModuleImportDeclaration>" name="Imports" #>
+<#@ parameter type="System.Collections.Generic.List<ESModule>" name="Exports" #>
+<#@ parameter type="System.Collections.Generic.List<IDeclarable>" name="Declarations" #>
+<#@ parameter type="System.Collections.Generic.List<Provider>" name="Providers" #>
+<#@ parameter type="System.String" name="PageName" #>
+<#@ parameter type="System.String" name="EntityName" #>
+<# 
+    var pageName = this.PageName.ToCamelCase();
+    var className = this.PageName + "Validator";
+    var provider = new Validator(className);
+    var modelVariable = this.EntityName.ToCamelCase();
+
+    this.Providers.Add(provider);
+
+    foreach (var import in this.Imports)
+    {
+        this.WriteLine(import.DeclarationCode);
+    }
+#>
+
+@Injectable()
+export class <#= className #> {
+
+  <#= modelVariable #>Form: FormGroup;
+  validationMap: ValidationMap;
+
+  constructor(public translateService: TranslateService) {
+    translateService.get([<# 
+
+    var builder = new StringBuilder();
+
+    foreach (var formField in this.FormFields.GetDisplayed())
+    {
+        var validationSet = formField.ValidationSet;
+
+        foreach (var entry in validationSet.ValidationEntries)
+        {
+            builder.AppendWithLeadingIfLength(", ", entry.ErrorMessageTranslationKey.SurroundWithQuotes());
+        }
+    }
+
+    this.Write(builder.ToString());
+
+#>]).subscribe(values => {
+
+      this.validationMap = new ValidationMap([
+<#
+    foreach (var formField in this.FormFields.GetDisplayed())
+    {
+        var validationSet = formField.ValidationSet;
+#>
+        {
+        "<#= this.MakeVariable(modelVariable, formField.Name) #>": [
+<#
+        foreach (var entry in validationSet.ValidationEntries)
+        {
+#>
+            {
+              "<#= entry.Name #>":
+                {
+                  "function": <#= entry.FunctionExpression #>,
+                  "message": <#= string.Format("values[\"{0}\"]", entry.ErrorMessageTranslationKey) #>
+                }
+            },
+<#
+        }
+#>
+            {
+              // TODO - enable by returning non-null from function and setting message
+              "custom":
+                {
+                  "function": this.<#= this.MakeVariable(modelVariable, formField.Name) #>Validator(),
+                  "message": null
+                }
+            }
+          ]
+        },
+<#
+    }
+#>
+        {
+          "form": [
+            {
+               // TODO - enable by returning non-null from function and setting message
+              "<#= modelVariable #>Validator":
+                {
+                  "function": this.<#= modelVariable #>FormValidator(),
+                  "message": null
+                }
+            }
+          ]
+        }
+      ]);
+    });
+  }
+<#
+    builder = new StringBuilder();
+
+    foreach (var formField in this.FormFields.GetDisplayed())
+    {
+        builder.AppendWithLeadingIfLength(", ", string.Format("{0} : {1}", this.MakeVariable(modelVariable, formField.Name), formField.ClientDataType));
+    }
+
+#>
+
+  create<#= this.EntityName #>Form(<#= builder.ToString() #>): FormGroup {
+
+    this.<#= modelVariable #>Form = new FormGroup({
+<#
+    foreach (var formField in this.FormFields.GetDisplayed())
+    {
+#>
+      <#= this.MakeVariable(modelVariable, formField.Name) #>: new FormControl(<#= this.MakeVariable(modelVariable, formField.Name) #>, this.validationMap.get("<#= this.MakeVariable(modelVariable, formField.Name) #>").functions),
+<#
+    }
+#>
+    }, this.validationMap.get("form").functions);
+
+    return this.<#= modelVariable #>Form;
+  }
+
+  getControl(fieldName : string) : FormControl {
+    return <FormControl>this.<#= modelVariable #>Form.get(fieldName);
+  }
+
+  hasValidationErrors(fieldName: string, checkTouched: boolean = true): boolean {
+
+    let control = <FormControl>this.<#= modelVariable #>Form.get(fieldName);
+    let hasError = false;
+
+    this.validationMap.map.get(fieldName).entryMap.forEach((validatorEntry, name) => {
+
+      let touched = checkTouched ? control.touched : true;
+
+      if (touched && (control.hasError(name) || control.hasError(name.toLowerCase()))) {
+        hasError = true;
+        return false;
+      }
+
+    });
+
+    return hasError;
+  }
+
+  getValidationErrors(fieldName: string, checkTouched: boolean = true): string[] {
+
+    let errors: string[] = [];
+    let control = <FormControl>this.<#= modelVariable #>Form.get(fieldName);
+
+    this.validationMap.map.get(fieldName).entryMap.forEach((validatorEntry, name) => {
+
+      let touched = checkTouched ? control.touched : true;
+
+      if (touched && (control.hasError(name) || control.hasError(name.toLowerCase()))) {
+        errors.push(validatorEntry.message);
+      }
+
+    });
+
+    return errors;
+  }
+
+  getValidationErrorsText(fieldName: string): string {
+
+    let control = <FormControl>this.<#= modelVariable #>Form.get(fieldName);
+    let errors : string[] = [];
+    let errorsObject = control.errors;
+
+    Object.getOwnPropertyNames(errorsObject).forEach(p => {
+
+      this.validationMap.map.get(fieldName).entryMap.forEach((validatorEntry, name) => {
+
+        if (name == p || name.toLowerCase() == p) {
+          errors.push(validatorEntry.message);
+        }
+      });
+    });
+
+    return errors.join("\r\n");
+  }
+
+<#
+    foreach (var formField in this.FormFields)
+    {
+#>
+  <#= this.MakeVariable(modelVariable, formField.Name) #>Validator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      return null;
+    };
+  }
+
+<#
+    }
+#>
+  <#= modelVariable #>FormValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      return null;
+    };
+  }
+}

@@ -1,0 +1,117 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.IEnumerable<ModuleImportDeclaration>" name="Imports" #>
+<#@ parameter type="AbstraX.Angular.AngularModule" name="AngularModule" #>
+<#@ parameter type="System.String" name="AppName" #>
+<#@ parameter type="System.String" name="ModuleName" #>
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ErrorHandler, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { <#= this.AppName #>AppComponent } from './app.component';
+import { <#= this.AppName #>AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
+import { WINDOW_PROVIDERS } from './core/services/window.service';
+import { Api } from '../providers/api/api';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+<# 
+    var className = this.ModuleName;
+    var builder = new StringBuilder();
+    var indent4 = this.GetIndent(4);
+
+    foreach (var import in this.Imports)
+    {
+        this.WriteLine(import.DeclarationCode);
+    }
+
+    // TODO - add module specific imports below this block
+#>
+import { Storage, IonicStorageModule } from '@ionic/storage';
+import { LoginModule } from '../pages/login/login/login.module';
+import { LoginPage } from '../pages/login/login/login';
+import { Settings } from '../providers/settings/settings';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+export function provideSettings(storage: Storage) {
+  return new Settings(storage, {});
+}
+
+@NgModule({
+  declarations: [
+    <#= this.AppName #>AppComponent
+  ],
+  imports: [
+    BrowserModule,
+	AppRoutingModule,
+    HttpClientModule,
+    LoginModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
+    IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
+    CoreModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    })
+<#  
+    builder = new StringBuilder();
+
+    if (this.AngularModule.Imports.Count > 0)
+    {
+        foreach (var import in this.AngularModule.Imports)
+        {
+            builder.AppendWithLeadingIfLength(",\r\n", indent4 + import.Name);
+        }
+
+        this.WriteLine(builder.ToString());
+    }
+#>  ],
+  bootstrap: [<#= this.AppName #>AppComponent],
+  providers: [
+<#
+    builder = new StringBuilder();
+
+    foreach (var provider in this.AngularModule.Providers)
+    {
+        builder.AppendWithLeadingIfLength(",\r\n", indent4 + provider.Name);
+    }
+
+    this.WriteLine(builder.ToString() + ",");
+#>
+    StatusBar,
+    SplashScreen,
+    InAppBrowser
+    Api,
+    WINDOW_PROVIDERS,
+    { provide: Settings, useFactory: provideSettings, deps: [Storage] },
+    // Keep this to enable Ionic's runtime error handling during development
+    { provide: ErrorHandler, useClass: IonicErrorHandler }  ]
+})
+export class <#= className #> {
+  public static GetApp() {
+    return <#= this.AppName #>AppComponent;
+  }
+}

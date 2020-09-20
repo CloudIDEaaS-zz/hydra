@@ -1,0 +1,466 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="VisualStudioProvider.PDB.Headers.AccessSpecifierDecl">
+    <Position X="2.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\AccessSpecifierDecl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.VTableLayout">
+    <Position X="45" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\VTableLayout.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.ArrayType">
+    <Position X="13.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAABAACAAAAAAAAAAAgAAAAAAABAA=</HashCode>
+      <FileName>PDB\Headers\ArrayType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.AttributedType">
+    <Position X="22.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAABAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\AttributedType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.BaseClassSpecifier">
+    <Position X="43" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAIAAEAAAAAAAAAAAAAAAAAAAQIAAAAAgAA=</HashCode>
+      <FileName>PDB\Headers\BaseClassSpecifier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.BlockContentComment">
+    <Position X="2.75" Y="22.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>PDB\Headers\BlockContentComment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.BuiltinType">
+    <Position X="36" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAQAAAAAA=</HashCode>
+      <FileName>PDB\Headers\BuiltinType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Class">
+    <Position X="32" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CmAAAAAAABCAAAIAgAAAAAAAAAAIAAAIgAAQAAAAgFQ=</HashCode>
+      <FileName>PDB\Headers\Class.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.ClassLayout">
+    <Position X="47.75" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAACAAAAAAACAAAAAIAAAAAAAAEAI=</HashCode>
+      <FileName>PDB\Headers\ClassLayout.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.ClassTemplate">
+    <Position X="38.75" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>PDB\Headers\ClassTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.ClassTemplatePartialSpecialization">
+    <Position X="32" Y="28.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\ClassTemplatePartialSpecialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.ClassTemplateSpecialization">
+    <Position X="32" Y="25.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAYAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\ClassTemplateSpecialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Comment">
+    <Position X="1.75" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAAABAAAAAABAAAAAAQAAAAAAAACAACAAAAAA=</HashCode>
+      <FileName>PDB\Headers\Comment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.CommentBlock">
+    <Position X="0.5" Y="22.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAABAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\CommentBlock.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.DecayedType">
+    <Position X="29.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAIQ=</HashCode>
+      <FileName>PDB\Headers\DecayedType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Declaration">
+    <Position X="25.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAhABAACgABAAAAAAAAAAAYAAAAAAAAAAAEBAAAAAEA=</HashCode>
+      <FileName>PDB\Headers\Declaration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.DeclarationContext">
+    <Position X="33" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQEIAEEBkEAAEBBAgAAAAIAAAgAAgAIAAYQAAAEACA=</HashCode>
+      <FileName>PDB\Headers\DeclarationContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.DependentNameType">
+    <Position X="40.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\DependentNameType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.DependentTemplateSpecializationType">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEgIAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\DependentTemplateSpecializationType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Enumeration">
+    <Position X="29.75" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAEAAACAAAAAAAAAAAAAIAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\Enumeration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.EnumerationItem">
+    <Position X="11.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAQAAAAAAAAAAAAQAAAgAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\EnumerationItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Expression">
+    <Position X="10.5" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\Expression.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Field">
+    <Position X="20.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAgAAAAAAAAAAAAAAAAAAAAAAAgAAgCAAAIAA=</HashCode>
+      <FileName>PDB\Headers\Field.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Friend">
+    <Position X="23" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>PDB\Headers\Friend.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Function">
+    <Position X="25.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADAABICEAAAAAMAAAgAAAAAQAASAAAAAAIAYAQAEBAE=</HashCode>
+      <FileName>PDB\Headers\Function.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.FunctionTemplate">
+    <Position X="43.25" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>PDB\Headers\FunctionTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.FunctionTemplateSpecialization">
+    <Position X="51.5" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAIAAAAAQAAAA=</HashCode>
+      <FileName>PDB\Headers\FunctionTemplateSpecialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.FunctionType">
+    <Position X="4.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAEAAA=</HashCode>
+      <FileName>PDB\Headers\FunctionType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Header">
+    <Position X="34.25" Y="22.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAEAAAAAAAAAAAgAAAAIAAAAAAABAAAA=</HashCode>
+      <FileName>PDB\Headers\Header.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.InjectedClassNameType">
+    <Position X="15.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAACAAAAEAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\InjectedClassNameType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.IntegerValue">
+    <Position X="51.25" Y="5.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAgAAAAEAA=</HashCode>
+      <FileName>PDB\Headers\IntegerValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Macro">
+    <Position X="13.5" Y="21.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\Macro.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.MemberPointerType">
+    <Position X="31.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\MemberPointerType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Method">
+    <Position X="25.25" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACgCAAAAgAAgACBAAAAAACAAAAAAAAAAAAACEAAAAQA=</HashCode>
+      <FileName>PDB\Headers\Method.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Namespace">
+    <Position X="35.25" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>PDB\Headers\Namespace.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.NonTypeTemplateParameter">
+    <Position X="7.25" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAEAAAAAAAAAAgAAAAAAAAAAAQAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\NonTypeTemplateParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.PackExpansionType">
+    <Position X="6.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\PackExpansionType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Parameter">
+    <Position X="9.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAEAAAAAEAAAAIAAAAAAAAAAAAAkAAQAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\Parameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.PointerType">
+    <Position X="18" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>PDB\Headers\PointerType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.PreprocessedEntity">
+    <Position X="13.5" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>PDB\Headers\PreprocessedEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.QualifiedType">
+    <Position X="47" Y="5.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\QualifiedType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Statement">
+    <Position X="10.5" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAIAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\Statement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TagType">
+    <Position X="38.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\TagType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Template">
+    <Position X="43.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAABAAAAAAAAABAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\Template.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TemplateArgument">
+    <Position X="53.75" Y="1.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQABAAAAAAAAAAAAAAAEgAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\TemplateArgument.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TemplateParameter">
+    <Position X="6" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAgABEAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\TemplateParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TemplateParameterSubstitutionType">
+    <Position X="9" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>PDB\Headers\TemplateParameterSubstitutionType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TemplateParameterType">
+    <Position X="20.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAQAAAgABEAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\TemplateParameterType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TemplateSpecializationType">
+    <Position X="24.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAEAAAEAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\TemplateSpecializationType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TemplateTemplateParameter">
+    <Position X="41" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAQAAAAABAAEAAAAAA=</HashCode>
+      <FileName>PDB\Headers\TemplateTemplateParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TranslationUnit">
+    <Position X="36.5" Y="22.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAggAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>PDB\Headers\TranslationUnit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Type">
+    <Position X="21.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAABAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\Type.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TypeAlias">
+    <Position X="18.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAgAAAQAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\TypeAlias.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TypeAliasTemplate">
+    <Position X="47.75" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\TypeAliasTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TypeDef">
+    <Position X="14" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAEAAA=</HashCode>
+      <FileName>PDB\Headers\TypeDef.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TypeDefDecl">
+    <Position X="16.25" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\TypeDefDecl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TypeDefNameDecl">
+    <Position X="16.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAEAAA=</HashCode>
+      <FileName>PDB\Headers\TypeDefNameDecl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TypedefType">
+    <Position X="27" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\TypedefType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.TypeTemplateParameter">
+    <Position X="5" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\TypeTemplateParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.UnaryTransformType">
+    <Position X="33.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAIAAAAAAAAAQA=</HashCode>
+      <FileName>PDB\Headers\UnaryTransformType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.Variable">
+    <Position X="27.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAIAAAEAAA=</HashCode>
+      <FileName>PDB\Headers\Variable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.VarTemplate">
+    <Position X="45.5" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAEA=</HashCode>
+      <FileName>PDB\Headers\VarTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.VarTemplatePartialSpecialization">
+    <Position X="27.5" Y="19.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\VarTemplatePartialSpecialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.VarTemplateSpecialization">
+    <Position X="27.5" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAIAAAAAAAAAAQIAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\VarTemplateSpecialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.VectorType">
+    <Position X="11.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>PDB\Headers\VectorType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisualStudioProvider.PDB.Headers.VTableComponent">
+    <Position X="50" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAA=</HashCode>
+      <FileName>PDB\Headers\VTableComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
