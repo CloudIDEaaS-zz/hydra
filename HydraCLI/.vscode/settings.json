@@ -1,0 +1,11 @@
+// place your settings in this file to overwrite default and user settings.
+{
+    "terminal.integrated.cwd": "${workspaceFolder}/HydraInstall",
+    "explorer.enableDragAndDrop": false,
+    "files.autoSave": "onFocusChange",
+    "files.exclude": {
+        "**/*.js.map": true
+    },
+    "git.ignoreLimitWarning": true,
+    "debug.javascript.warnOnLongPrediction": false
+}

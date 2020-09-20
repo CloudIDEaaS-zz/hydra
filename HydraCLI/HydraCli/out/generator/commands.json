@@ -1,0 +1,9 @@
+{
+    "commands": {
+        "ionic start": {
+            "dialog": {
+                "? Try Ionic": "y"
+            }
+        }
+    }
+}

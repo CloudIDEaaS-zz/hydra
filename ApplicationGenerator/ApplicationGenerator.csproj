@@ -1705,6 +1705,8 @@
     <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\hydra.json" />
     <None Include="GeneratorTemplates\Default\businessModel.template" />
     <None Include="LICENSE" />
+    <None Include="PrivateScripts\UploadToGithub.ps1" />
+    <None Include="PrivateScripts\Sync.ps1" />
     <None Include="README.md" />
     <None Include="Scripts\MsBuildSolution.cmd" />
   </ItemGroup>

@@ -1,0 +1,76 @@
+{
+	"name": "@cloudideaas/hydrainstall",
+	"displayName": "Hydra Install",
+	"description": "Installs Windows requirements for @cloudideaas/hydra.  Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes.",
+	"version": "1.0.36",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CloudIDEaaS/hydra.git"
+	},
+	"keywords": [
+		"app generation",
+		"code generation",
+		"code scaffolding",
+		".net",
+		".net core",
+		"sql server",
+		"mobile app",
+		"docker",
+		"helm",
+		"azure devops",
+		"kubernetes"
+	],
+	"author": "CloudIDEaaS Inc",
+	"license": "ISSC",
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org/",
+		"access": "public"
+	},
+	"bugs": {
+		"url": "https://github.com/CloudIDEaaS/hydra/issues"
+	},
+	"homepage": "https://github.com/CloudIDEaaS/hydra#readme",
+	"engines": {
+		"vscode": "^1.36.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:extension.HydraCli"
+	],
+	"main": "./out/cli.js",
+	"bin": {
+		"hydra": "out/cli.js"
+	},
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.HydraCli",
+				"title": "HydraCli"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile",
+		"test": "node ./out/test/runTest.js",
+		"postinstall": "node ./out/postinstall.js"
+	},
+	"devDependencies": {
+		"tslint": "^5.12.1",
+		"typescript": "^3.9.7"
+	},
+	"dependencies": {
+		"@types/node": "^14.10.1",
+		"colors": "^1.4.0",
+		"path": "^0.12.7",
+		"ps-node": "^0.1.6",
+		"shelljs": "^0.8.2",
+		"stringbuilder": "0.0.11",
+		"windows-environment": "^1.0.2",
+		"yarn": "^1.12.3"
+	}
+}

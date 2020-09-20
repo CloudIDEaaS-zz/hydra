@@ -1,0 +1,219 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Hydra Installer - install",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraInstall/out/postinstall.js",
+            "console": "externalTerminal",
+            "args": []
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Hydra Cli - generate app",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "console": "externalTerminal",
+            "args": [
+                "generate",
+                "app",
+                "--logToConsole",
+                "--debug"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Hydra Cli - generate workspace",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "console": "externalTerminal",
+            "args": [
+                "generate",
+                "workspace",
+                "--logToConsole",
+                "--debug",
+                "--appName",
+                "contoso"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Hydra Cli - generate businessmodel",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "console": "externalTerminal",
+            "args": [
+                "generate",
+                "businessmodel",
+                "--logToConsole",
+                "--debug",
+                "--template",
+                "\"%HYDRASOLUTIONPATH%\\ApplicationGenerator\\GeneratorTemplates\\Default\\businessModel.template\""
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Hydra Cli - test",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "console": "externalTerminal",
+            "args": [
+                "test",
+                "--logToConsole",
+                "--debug"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Hydra Cli - setPackages",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "console": "externalTerminal",
+            "args": [
+                "setPackages",
+                "--logToConsole",
+                "--clear"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Hydra Cli - start",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput",
+            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "console": "externalTerminal",
+            "args": [
+                "start",
+                "sample",
+                "--debug"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Hydra Cli - set wd",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput",
+            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "console": "externalTerminal",
+            "args": [
+                "set",
+                "wd",
+                "--logToConsole"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Hydra Cli - delete",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput",
+            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "console": "externalTerminal",
+            "args": [
+                "delete",
+                "sample"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Hydra Cli - clean",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "console": "externalTerminal",
+            "args": [
+                "clean",
+            ]
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug Sample",
+            "preLaunchTask": "launch-ionic-sample",
+            "url": "http://localhost:8100",
+            "sourceMaps": true,
+            "webRoot": "${workspaceRoot}/GenOutput/sample"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug Blank",
+            "preLaunchTask": "launch-ionic-blank",
+            "url": "http://localhost:8100",
+            "sourceMaps": true,
+            "webRoot": "${workspaceRoot}/GenOutput/blank"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug Business Modeler",
+            "preLaunchTask": "launch-ionic-businessModeler",
+            "url": "http://www.hydracloudservices.com:8101/home/model",
+            "sourceMaps": true,
+            "webRoot": "${workspaceRoot}/GenOutput/businessModeler"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug Data Item Editor",
+            "url": "D:/MC/RazorViewsDesigner/HydraCLI/GenOutput/dataItemEditor/DataItemEditor.html",
+            "sourceMaps": true,
+            "webRoot": "${workspaceRoot}/GenOutput/dataItemEditor"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug conference",
+            "preLaunchTask": "launch-ionic-conference",
+            "url": "http://localhost:8100",
+            "sourceMaps": true,
+            "webRoot": "${workspaceRoot}/GenOutput/conference"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug Sample Courses Page",
+            "preLaunchTask": "launch-ionic-sample",
+            "url": "http://localhost:8100?root=CoursesPage",
+            "sourceMaps": true,
+            "webRoot": "${workspaceRoot}/GenOutput/sample"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug Sample2",
+            "preLaunchTask": "launch-ionic-sample2",
+            "url": "http://localhost:8100",
+            "sourceMaps": true,
+            "webRoot": "${workspaceRoot}/GenOutput/sample2"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug Sample3",
+            "preLaunchTask": "launch-ionic-sample3",
+            "url": "http://localhost:8100",
+            "sourceMaps": true,
+            "webRoot": "${workspaceRoot}/GenOutput/sample3"
+        },
+    ]
+}

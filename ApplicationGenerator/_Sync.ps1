@@ -70,3 +70,6 @@ xcopy "$SourceDir\\$SubDir" "$TargetDir\\$SubDir" /i /d /y /E /EXCLUDE:"$SourceD
 
 $SubDir = "ModuleImportsHelper"
 xcopy "$SourceDir\\$SubDir" "$TargetDir\\$SubDir" /i /d /y /E /EXCLUDE:"$SourceDir\Excludes.txt"
+
+$SubDir = "HydraCLI"
+xcopy "$SourceDir\\$SubDir" "$TargetDir\\$SubDir" /i /d /y /E /EXCLUDE:"$SourceDir\Excludes.txt"
