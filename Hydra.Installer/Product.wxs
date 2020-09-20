@@ -12,10 +12,10 @@
 	<Fragment>
 		<PackageGroup Id="HydraSuite">
 			<MsiPackage Id="PythonPackage"
-				SourceFile="Installers/python-2.7.amd64.msi">
+				SourceFile="Installers\python-2.7.amd64.msi">
 			</MsiPackage>
 			<MsiPackage Id="HydraPackage" After="PythonPackage" DisplayInternalUI="yes" 
-				SourceFile="Installers/Hydra.InstallerStandalone.msi">
+				SourceFile="Installers\Hydra.InstallerStandalone.msi">
 			</MsiPackage>
 		</PackageGroup>
 	</Fragment>

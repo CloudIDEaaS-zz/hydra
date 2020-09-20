@@ -1704,6 +1704,8 @@
     <Content Include="ExportedProjectTemplates\Utils.Core\Utils.Core.csproj" />
     <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\hydra.json" />
     <None Include="GeneratorTemplates\Default\businessModel.template" />
+    <None Include="LICENSE" />
+    <None Include="README.md" />
     <None Include="Scripts\MsBuildSolution.cmd" />
   </ItemGroup>
   <ItemGroup>

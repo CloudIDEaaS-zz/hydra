@@ -4,6 +4,9 @@ $TargetDir="$Env:HYDRASOLUTIONPATH\..\ApplicationGeneratorPublic\"
 Write-Output "syncing $SourceDir to $TargetDir"
 
 xcopy "$SourceDir\\ApplicationGenerator.sln" "$TargetDir" /i /d /y 
+xcopy "$SourceDir\\.gitignore" "$TargetDir" /i /d /y 
+xcopy "$SourceDir\\ApplicationGenerator\LICENSE" "$TargetDir" /i /d /y 
+xcopy "$SourceDir\\ApplicationGenerator\README.md" "$TargetDir" /i /d /y 
 
 $SubDir = "ApplicationGenerator"
 xcopy "$SourceDir\\$SubDir" "$TargetDir\\$SubDir" /i /d /y /E /EXCLUDE:"$SourceDir\Excludes.txt"
