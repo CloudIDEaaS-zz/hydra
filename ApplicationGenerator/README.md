@@ -1,7 +1,7 @@
 # Hydra
 
-![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Fcloudideaas)
-![Twitter Follow](https://img.shields.io/twitter/follow/cloudideaas?label=Hydra&style=social)
+![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https://twitter.com/cloudideaas)
+![Twitter Follow](https://img.shields.io/twitter/follow/cloudideaas?label=Followers&style=social&url=https://twitter.com/cloudideaas)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cloudideaas-hydra)
 ![npm](https://img.shields.io/npm/dt/@cloudideaas/hydra)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/cloudideaas/hydra)
