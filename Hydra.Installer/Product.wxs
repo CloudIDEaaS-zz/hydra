@@ -1,20 +1,34 @@
 <?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
-	<Bundle Name="Hydra Suite" UpgradeCode="{B2B314D7-4FAA-4669-B801-5373BA46AE0A}" Version="1.0.0.0">
+	<Bundle Name="Hydra Bundle for Windows" 
+					Version="!(bind.packageVersion.HydraPackage)"
+					Manufacturer="CloudIDEaaS"
+					UpgradeCode="{B2B314D7-4FAA-4669-B801-5373BA46AE0A}"
+					Copyright="(c) 2020 CloudIDEaaS"
+					IconSourceFile="res/Hydra.ico"
+					AboutUrl="http://www.cloudideaas.com/hydra"
+					Compressed="yes">
 		<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
-			<bal:WixStandardBootstrapperApplication SuppressOptionsUI="yes" LicenseUrl="https://policies.google.com/terms" /> 
-			<!--LicenseFile="path\to\license.rtf" ThemeFile="path\to\customtheme.xml"-->
+			<bal:WixStandardBootstrapperApplication
+				LicenseUrl="http://www.cloudideaas.com/hydra/license.htm"
+				LogoFile="res\HydraSplashSide.png"
+				ThemeFile="res\HydraTheme.xml"
+				LicenseFile="res\HydraEULA.rtf"
+				ShowVersion="yes"
+				LocalizationFile="res\HydraTheme.wxl"
+				SuppressOptionsUI="yes" /> 
 		</BootstrapperApplicationRef>
-    <Chain>
+		<Chain>
 			<PackageGroupRef Id="HydraSuite" />
-    </Chain>
-  </Bundle>
+		</Chain>
+	</Bundle>
 	<Fragment>
 		<PackageGroup Id="HydraSuite">
-			<MsiPackage Id="PythonPackage"
+			<MsiPackage Id="PythonPackage" Visible="yes"
 				SourceFile="Installers\python-2.7.amd64.msi">
 			</MsiPackage>
-			<MsiPackage Id="HydraPackage" After="PythonPackage" DisplayInternalUI="yes" 
+			<RollbackBoundary />
+			<MsiPackage Id="HydraPackage" After="PythonPackage" DisplayInternalUI="yes" Visible="yes"
 				SourceFile="Installers\Hydra.InstallerStandalone.msi">
 			</MsiPackage>
 		</PackageGroup>

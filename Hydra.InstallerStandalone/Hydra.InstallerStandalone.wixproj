@@ -15,8 +15,8 @@
     <DefineConstants>Debug</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-		<OutputPath>$(HYDRASOLUTIONPATH)\Hydra.Installer</OutputPath>
-		<IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <OutputPath>$(HYDRASOLUTIONPATH)\Hydra.Installer</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />
@@ -27,6 +27,8 @@
     <Folder Include="XSLT\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Hydra - EULA.doc" />
+    <Content Include="Hydra - EULA.rtf" />
     <Content Include="Hydra.ico" />
     <Content Include="HydraBanner.bmp" />
     <Content Include="Resources\WiXDefBannerBitmap.bmp" />
