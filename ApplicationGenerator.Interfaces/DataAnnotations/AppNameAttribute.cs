@@ -33,8 +33,8 @@ namespace AbstraX.DataAnnotations
         ///
         /// <remarks>   Ken, 9/20/2020. </remarks>
         ///
-        /// <param name="name">         The name. </param>
-        /// <param name="description">  The description. </param>
+        /// <param name="name">         Name of the application. </param>
+        /// <param name="description">  Description of the application. </param>
 
         public AppNameAttribute(string name, string description)
         {

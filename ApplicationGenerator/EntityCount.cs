@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AbstraX
 {
-    public class EntityCount
+    public class EntityCount 
     {
         public IEntityType Entity { get; set; }
         public int Count { get; set; }
