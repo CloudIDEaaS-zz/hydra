@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
 	<Bundle Name="Hydra Bundle for Windows" 
-					Version="!(bind.packageVersion.HydraPackage)"
-					Manufacturer="CloudIDEaaS"
-					UpgradeCode="{B2B314D7-4FAA-4669-B801-5373BA46AE0A}"
-					Copyright="(c) 2020 CloudIDEaaS"
-					IconSourceFile="res/Hydra.ico"
-					AboutUrl="http://www.cloudideaas.com/hydra"
-					Compressed="yes">
+			Version="!(bind.packageVersion.HydraPackage)"
+			Manufacturer="CloudIDEaaS"
+			UpgradeCode="{B2B314D7-4FAA-4669-B801-5373BA46AE0A}"
+			Copyright="(c) 2020 CloudIDEaaS"
+			HelpTelephone="(888) 647-4019"
+			HelpUrl="http://www.cloudideaas.com/hydra/support"
+			IconSourceFile="res/Hydra.ico"
+			AboutUrl="http://www.cloudideaas.com/hydra"
+			Compressed="yes">
 		<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
 			<bal:WixStandardBootstrapperApplication
 				LicenseUrl="http://www.cloudideaas.com/hydra/license.htm"
@@ -25,7 +27,7 @@
 	<Fragment>
 		<PackageGroup Id="HydraSuite">
 			<MsiPackage Id="PythonPackage" Visible="yes"
-				SourceFile="Installers\python-2.7.amd64.msi">
+				SourceFile="Installers\python-2.7.3.amd64.msi">
 			</MsiPackage>
 			<RollbackBoundary />
 			<MsiPackage Id="HydraPackage" After="PythonPackage" DisplayInternalUI="yes" Visible="yes"

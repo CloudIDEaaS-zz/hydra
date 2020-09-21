@@ -21,77 +21,43 @@ class HydraInstaller {
         installer.install();
     }
     uninstall() {
-        let directory = process.env["SystemRoot"];
-        let msiExecPath;
-        this.writeLine("Installing Hydra ApplicationGenerator");
-        msiExecPath = path.join(directory, "msiexec.exe");
-        if (fs.existsSync(msiExecPath)) {
-            let msiLocation = path.normalize(path.join(__dirname, "\\..\\msi\\Hydra.Installer.msi"));
-            let commandLine = `"${msiExecPath} /i" \"${msiLocation}\"`;
-            let msiProcess;
-            this.writeLine(`Running command ${commandLine} `);
-            msiProcess = child_process_1.exec(commandLine);
-            msiProcess.stderr.on("data", (e) => {
-                this.stderr.writeLine(e.toString());
-            });
-            msiProcess.on("close", () => {
-                this.stdout.writeLine(`Installer exited with exit code ${msiProcess.exitCode}`);
-                process.exit(msiProcess.exitCode);
-            });
-            return;
+        let installerPath;
+        let commandLine;
+        let installerProcess;
+        this.writeLine("Installing Hydra Bundle for Windows");
+        installerPath = path.join(__dirname, "\\..\\install\\Hydra.Installer.exe");
+        if (!fs.existsSync(installerPath)) {
+            this.writeWarning(`Could not find installer at ${installerPath}, you can download installer from https://marketplace.visualstudio.com/items?itemName=CloudIDEaaS.Hydra`);
         }
-        else {
-            this.writeWarning("Could not find msiexec, you can download installer from https://marketplace.visualstudio.com/items?itemName=CloudIDEaaS.Hydra");
-        }
-        fs.readdir(directory, (err, items) => {
-            items.forEach((f) => {
-                let fileName = f;
-                let fullName = path.join(directory, fileName);
-                fs.stat(fullName, (err, result) => {
-                    if (result.isDirectory()) {
-                        if (fullName.endsWith("Microsoft Visual Studio")) {
-                        }
-                    }
-                });
-            });
+        commandLine = `${installerPath}`;
+        this.writeLine(`Running command ${commandLine} /uninstall`);
+        installerProcess = child_process_1.exec(commandLine);
+        installerProcess.stderr.on("data", (e) => {
+            this.stderr.writeLine(e.toString());
+        });
+        installerProcess.on("close", () => {
+            this.stdout.writeLine(`Installer exited with exit code ${installerProcess.exitCode}`);
+            process.exit(installerProcess.exitCode);
         });
     }
     install() {
-        let directory = process.env["SystemRoot"];
-        let msiExecPath;
-        let msiLocation;
+        let installerPath;
         let commandLine;
         let installerProcess;
-        this.writeLine("Installing Hydra ApplicationGenerator");
-        msiExecPath = path.join(directory, "\\System\\msiexec.exe");
-        if (!fs.existsSync(msiExecPath)) {
-            msiExecPath = path.join(directory, "\\System32\\msiexec.exe");
-            if (!fs.existsSync(msiExecPath)) {
-                this.writeWarning("Could not find msiexec, you can download installer from https://marketplace.visualstudio.com/items?itemName=CloudIDEaaS.Hydra");
-            }
+        this.writeLine("Installing Hydra Bundle for Windows");
+        installerPath = path.join(__dirname, "\\..\\install\\Hydra.Installer.exe");
+        if (!fs.existsSync(installerPath)) {
+            this.writeWarning(`Could not find installer at ${installerPath}, you can download installer from https://marketplace.visualstudio.com/items?itemName=CloudIDEaaS.Hydra`);
         }
-        msiLocation = path.normalize(path.join(__dirname, "\\..\\msi\\Hydra.Installer.msi"));
-        commandLine = `${msiExecPath} /i \"${msiLocation}\"`;
+        commandLine = `${installerPath}`;
         this.writeLine(`Running command ${commandLine} `);
         installerProcess = child_process_1.exec(commandLine);
         installerProcess.stderr.on("data", (e) => {
             this.stderr.writeLine(e.toString());
         });
         installerProcess.on("close", () => {
-            this.stdout.writeLine(`msiexec exited with exit code ${installerProcess.exitCode}`);
+            this.stdout.writeLine(`Installer exited with exit code ${installerProcess.exitCode}`);
             process.exit(installerProcess.exitCode);
-        });
-        fs.readdir(directory, (err, items) => {
-            items.forEach((f) => {
-                let fileName = f;
-                let fullName = path.join(directory, fileName);
-                fs.stat(fullName, (err, result) => {
-                    if (result.isDirectory()) {
-                        if (fullName.endsWith("Microsoft Visual Studio")) {
-                        }
-                    }
-                });
-            });
         });
     }
     writeLine(output) {

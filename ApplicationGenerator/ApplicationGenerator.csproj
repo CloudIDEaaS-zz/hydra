@@ -49,6 +49,7 @@
     <WarningLevel>4</WarningLevel>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptEnabled>false</TypeScriptEnabled>
+    <DocumentationFile>bin\Debug\ApplicationGenerator.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
