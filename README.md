@@ -141,25 +141,11 @@ dull, and drone.  It does this while at the same time, allowing for creativity a
     </script>
 }    
  ```
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
 ## Known Issues
 
 Hydra is a "work in progress".  Please be patient as stability evolves.
 
 ## Release Notes
-
-
 ### For more information
 
 Visit: http://www.cloudideaas.com/hydra
