@@ -73,58 +73,6 @@ export class ApplicationGeneratorClient {
         });
     }
 
-    public static install() {
-
-        let client: ApplicationGeneratorClient;
-
-        if (ApplicationGeneratorClient.client === undefined) {
-            ApplicationGeneratorClient.client = new ApplicationGeneratorClient();
-        }
-
-        client = ApplicationGeneratorClient.client;
-        client.install();
-    }
-
-    install() {
-
-        let directory = process.env["PROGRAMFILES(x86)"];
-
-        this.writeLine("Installing Hydra ApplicationGenerator");
-
-        fs.readdir(directory, (err, items) => {
-
-            items.forEach((f) => {
-
-                let fileName = f;
-                let fullName = path.join(directory, fileName);
-
-                fs.stat(fullName, (err, result) => {
-
-                    if (result.isDirectory()) {
-
-                        if (fullName.endsWith("Microsoft Visual Studio")) {
-
-                            var installerPath = path.join(fullName, "\\2019\\Community\\Common7\\IDE\\VSIXInstaller.exe");
-
-                            if (fs.existsSync(installerPath)) {
-                             
-                                var scriptLocation = path.normalize(path.join(__dirname, "\\..\\..\\extension\\Hydra.Extension.vsix"));
-                                var commandLine = `"${installerPath}" \"${scriptLocation}\"`;
-        
-                                var installerProcess = exec(commandLine);
-                                                        
-                                return;
-                            }
-                            else {
-                                this.writeWarning("Could not find VSIXInstaller, you can download package from https://marketplace.visualstudio.com/items?itemName=CloudIDEaaS.Hydra");
-                            }
-                        }
-                    }
-                });
-            });
-        });
-    }
-
     launch() {
 
         const mainDefinitions = [

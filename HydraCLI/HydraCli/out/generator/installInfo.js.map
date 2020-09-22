@@ -1,1 +1,1 @@
-{"version":3,"file":"installInfo.js","sourceRoot":"","sources":["../../src/generator/installInfo.ts"],"names":[],"mappings":";;AAAA,MAAa,WAAW;IAMpB,YAAmB,OAAe;QAAf,YAAO,GAAP,OAAO,CAAQ;IAClC,CAAC;CACJ;AARD,kCAQC"}
+{"version":3,"file":"installInfo.js","sourceRoot":"","sources":["../../src/generator/installInfo.ts"],"names":[],"mappings":";;;AAAA,MAAa,WAAW;IAMpB,YAAmB,OAAe;QAAf,YAAO,GAAP,OAAO,CAAQ;IAClC,CAAC;CACJ;AARD,kCAQC"}

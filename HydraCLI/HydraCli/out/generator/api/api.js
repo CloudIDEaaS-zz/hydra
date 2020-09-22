@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Api = void 0;
 const http = require("http");
 /**
  * Api is a generic REST Api handler. Set your API url first.

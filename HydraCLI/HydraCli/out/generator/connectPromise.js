@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ConnectPromise = void 0;
 class ConnectPromise {
     resolve(value) {
         this.value = value;

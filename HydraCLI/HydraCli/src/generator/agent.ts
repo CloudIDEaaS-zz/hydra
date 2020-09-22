@@ -6,6 +6,7 @@ import { Socket } from 'net';
 import { EventEmitter } from 'events';
 import { Api } from './api/api';
 import { InstallsFromCacheStatus } from './InstallFromCacheStatus';
+const fs = require("fs"); 
 
 type ParmOptions = "generate" | "terminate" | "connect" | "ping" | "getfolder" | "getfile" | "getfolders" | "getfiles" | "getfilecontents" | "getfileicon" | "getpackageinstalls" | "getpackagedevinstalls" | "getcachestatus" | "setinstallstatus" | "getinstallfromcachestatus";
 
@@ -26,11 +27,23 @@ export class ApplicationGeneratorAgent {
 
     public initialize(debug : boolean = false)
     {
+        let programFilesPath = process.env["PROGRAMFILES(x86)"];
+        let generatorApp = path.join(programFilesPath, "\\CloudIDEaaS\\Hydra\\ApplicationGenerator.exe");
+        let commandLine: string;
+        let hydraSolutionPath = <string> process.env.HYDRASOLUTIONPATH;
+
         this.stdout.writeLine("Launching Hydra");
-        
-        var hydraSolutionPath = <string> process.env.HYDRASOLUTIONPATH;
-        var generatorApp = path.join(hydraSolutionPath, "\\ApplicationGenerator\\bin\\Debug\\ApplicationGenerator.exe");
-        var commandLine = `"${generatorApp}" -waitForInput`;
+
+        if (!fs.existsSync(generatorApp)) {
+            generatorApp = path.join(hydraSolutionPath, "\\ApplicationGenerator\\bin\\Debug\\ApplicationGenerator.exe");
+        }
+
+        if (!fs.existsSync(generatorApp)) {
+            this.stdout.writeLine("You must install Hydra to run this command.");
+            throw new Error("Application not fully installed.");
+        }
+
+        commandLine = `"${generatorApp}" -waitForInput`;
         
         if (debug) {
             commandLine += " -debug";

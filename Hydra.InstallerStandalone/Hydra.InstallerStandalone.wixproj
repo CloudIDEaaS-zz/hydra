@@ -23,6 +23,7 @@
     <Compile Include="StandardUI.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ReadMe" />
     <Folder Include="Resources\" />
     <Folder Include="XSLT\" />
   </ItemGroup>
@@ -31,6 +32,7 @@
     <Content Include="Hydra - EULA.rtf" />
     <Content Include="Hydra.ico" />
     <Content Include="HydraBanner.bmp" />
+    <Content Include="ReadMe\ReadMe.txt" />
     <Content Include="Resources\WiXDefBannerBitmap.bmp" />
     <Content Include="Resources\WiXNewFolderBtn.ico" />
     <Content Include="Resources\WiXUpFolderBtn.ico" />

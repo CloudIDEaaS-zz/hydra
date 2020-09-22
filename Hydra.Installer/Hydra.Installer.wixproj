@@ -33,7 +33,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Installers\Hydra.InstallerStandalone.msi" />
-    <Content Include="Installers\python-2.7.3.amd64.msi" />
     <Content Include="res\Hydra.ico" />
     <Content Include="res\HydraEULA.rtf" />
     <Content Include="res\HydraSplashSide.png" />

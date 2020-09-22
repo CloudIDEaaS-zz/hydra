@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ApplicationGeneratorAgent = void 0;
 const commandPacket_1 = require("./commandPacket");
 const child_process_1 = require("child_process");
 const path = require("path");
 require("../modules/utils/extensions");
 const events_1 = require("events");
 const api_1 = require("./api/api");
+const fs = require("fs");
 class ApplicationGeneratorAgent {
     constructor() {
         this.stdout = process.stdout;
@@ -13,10 +15,19 @@ class ApplicationGeneratorAgent {
         this.api = new api_1.Api();
     }
     initialize(debug = false) {
+        let programFilesPath = process.env["PROGRAMFILES(x86)"];
+        let generatorApp = path.join(programFilesPath, "\\CloudIDEaaS\\Hydra\\ApplicationGenerator.exe");
+        let commandLine;
+        let hydraSolutionPath = process.env.HYDRASOLUTIONPATH;
         this.stdout.writeLine("Launching Hydra");
-        var hydraSolutionPath = process.env.HYDRASOLUTIONPATH;
-        var generatorApp = path.join(hydraSolutionPath, "\\ApplicationGenerator\\bin\\Debug\\ApplicationGenerator.exe");
-        var commandLine = `"${generatorApp}" -waitForInput`;
+        if (!fs.existsSync(generatorApp)) {
+            generatorApp = path.join(hydraSolutionPath, "\\ApplicationGenerator\\bin\\Debug\\ApplicationGenerator.exe");
+        }
+        if (!fs.existsSync(generatorApp)) {
+            this.stdout.writeLine("You must install Hydra to run this command.");
+            throw new Error("Application not fully installed.");
+        }
+        commandLine = `"${generatorApp}" -waitForInput`;
         if (debug) {
             commandLine += " -debug";
         }
