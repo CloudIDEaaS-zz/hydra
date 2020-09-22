@@ -79,3 +79,4 @@ xcopy %SourceDir%\%SubDir% %TargetDir%\%SubDir% /i /d /y /E /EXCLUDE:%SourceDir%
 set SubDir=HydraCLI
 xcopy %SourceDir%\%SubDir% %TargetDir%\%SubDir% /i /d /y /E /EXCLUDE:%SourceDir%\Excludes.txt
 
+echo sync complete
