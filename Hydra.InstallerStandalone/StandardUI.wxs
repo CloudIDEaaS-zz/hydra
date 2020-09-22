@@ -4,6 +4,8 @@
     <Property Id="SplashForm_NextArgs" Value="WelcomeForm" />
     <UI Id="SplashDlg">
       <Dialog Id="SplashForm" X="50" Y="50" Width="373" Height="287" Title="[ProductName]">
+        <Control Id="SplashBmp" Type="Bitmap" X="2" Y="0" Width="370" Height="251" TabSkip="yes" Sunken="no" Disabled="yes" Text="_6A93AA0B_CBDD_4E61_ABF3_F3297E316448" />
+				<Control Id="Copyright" Type="Text" X="300" Y="85" Width="75" Transparent="yes" Height="50" Text="{\White8}Copyright 2020 CloudIDEaaS" />
         <Control Id="NextButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Next &gt;" TabSkip="no" Default="yes">
           <Publish Event="EndDialog" Value="Return"><![CDATA[SplashForm_NextArgs=""]]></Publish>
           <Publish Event="NewDialog" Value="[SplashForm_NextArgs]"><![CDATA[SplashForm_NextArgs<>""]]></Publish>
@@ -12,7 +14,6 @@
           <Publish Event="SpawnDialog" Value="Cancel" />
         </Control>
         <Control Id="Line1" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-        <Control Id="SplashBmp" Type="Bitmap" X="0" Y="0" Width="375" Height="52" TabSkip="yes" Sunken="no" Disabled="yes" Text="_57365B7E_7DB9_402C_AD28_6B0B78B65220" />
       </Dialog>
     </UI>
     <InstallUISequence>

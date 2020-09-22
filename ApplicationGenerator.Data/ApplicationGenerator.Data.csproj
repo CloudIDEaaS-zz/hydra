@@ -12,7 +12,7 @@
     <RootNamespace>ApplicationGenerator</RootNamespace>
     <AssemblyName>ApplicationGenerator.Data</AssemblyName>
     <Configurations>Debug;Release;DebugAll</Configurations>
-    <AssemblyVersion>1.0.0.858</AssemblyVersion>
+    <AssemblyVersion>1.0.0.859</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

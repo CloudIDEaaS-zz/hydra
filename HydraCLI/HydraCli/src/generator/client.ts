@@ -22,9 +22,7 @@ const rimraf = require('rimraf');
 const readline = require('readline');
 const child_process = require("child_process");
 const yaml = require('js-yaml');
-const Key = require('windows-registry').Key;
-const windef = require('windows-registry').windef;
-const { Env, Target, ExpandedForm } = require('windows-environment');
+const regedit = require('regedit')
 import { exec, ChildProcess } from "child_process";
 
 export class ApplicationGeneratorClient {
@@ -313,9 +311,17 @@ export class ApplicationGeneratorClient {
         let name = generateOptions.key;
 
         let directory = process.cwd();
-        var regKey = new Key(windef.HKEY.HKEY_CURRENT_USER, "Software\\Hydra\\ApplicationGenerator", windef.KEY_ACCESS.KEY_ALL_ACCESS);
-        
-        regKey.setValue('CurrentWorkingDirectory', windef.REG_VALUE_TYPE.REG_SZ, directory);
+
+        regedit.putValue({
+            'HKCU\\SOFTWARE\\Hydra\\ApplicationGenerator': {
+                'CurrentWorkingDirectory': {
+                    value: directory,
+                    type: 'REG_SZ'
+                }
+            }
+        }, function(err) {
+            throw new Error(err);
+        });
     }
 
     delete(argv : string, logToConsole : boolean) {

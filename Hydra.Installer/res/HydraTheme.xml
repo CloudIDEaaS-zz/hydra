@@ -4,11 +4,12 @@
   <Font Id="0" Height="-12" Weight="500" Foreground="000000" Background="FFFFFF" >Segoe UI</Font>
   <Font Id="1" Height="-24" Weight="500" Foreground="000000">Segoe UI</Font>
   <Font Id="2" Height="-22" Weight="500" Foreground="666666" Background="FFFFFF">Segoe UI</Font>
-  <Font Id="3" Height="-12" Weight="500" Foreground="000000" Background="FFFFFF" >Segoe UI</Font>
+  <Font Id="3" Height="-12" Weight="500" Foreground="000000" Background="FFFFFF">Segoe UI</Font>
   <Font Id="4" Height="-12" Weight="500" Foreground="ff0000" Background="FFFFFF"  Underline="yes">Segoe UI</Font>
   <Font Id="5" Height="-24" Weight="500" Foreground="000000" Background="E0E0E0">Segoe UI</Font>
   <Font Id="6" Height="-9" Weight="500" Foreground="000000" Background="FFFFFF">Segoe UI</Font>
-  <Image X="5" Y="5" Width="156" Height="-45" ImageFile="logo.png" Visible="yes"/>
+	<Font Id="7" Height="-48" Weight="200" Foreground="000000" Background="FFFFFF">Century Gothic Italic</Font>
+	<Image X="5" Y="5" Width="156" Height="-45" ImageFile="logo.png" Visible="yes"/>
   <Text X="165" Y="-45" Width="500" Height="2" FontId="5" Visible="yes"></Text>
   <Page Name="Help">
     <Text X="190" Y="30" Width="-11" Height="30" FontId="2" DisablePrefix="yes">Hydra</Text>
@@ -16,8 +17,8 @@
     <Button Name="HelpCancelButton" X="-11" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.HelpCloseButton)</Button>
   </Page>
   <Page Name="Install">
-    <Text X="190" Y="30" Width="-11" Height="50" FontId="2" DisablePrefix="yes">Hydra (including Python 2.7)</Text>
-		<Text X="190" Y="90" Width="-11" Height="100" FontId="3" DisablePrefix="yes">Multiply you software development speed and regenerate as required for many environments, platforms, and application types.</Text>
+    <Text X="190" Y="10" Width="-11" Height="70" FontId="7" DisablePrefix="yes">hydra</Text>
+		<Text X="190" Y="90" Width="-11" Height="100" FontId="3" DisablePrefix="yes">Exponential "software to market" speed. Multiple environment, platform, and application type regeneration.</Text>
 		<Hypertext Name="EulaHyperlink" X="190" Y="-60" Width="-11" Height="17" TabStop="no" FontId="3">#(loc.InstallLicenseLinkText)</Hypertext>
     <Button Name="InstallButton" X="-91" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.InstallInstallButton)</Button>
     <Button Name="WelcomeCancelButton" X="-11" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.InstallCloseButton)</Button>

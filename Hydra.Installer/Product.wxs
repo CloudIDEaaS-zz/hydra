@@ -26,11 +26,7 @@
 	</Bundle>
 	<Fragment>
 		<PackageGroup Id="HydraSuite">
-			<MsiPackage Id="PythonPackage" Visible="yes"
-				SourceFile="Installers\python-2.7.3.amd64.msi">
-			</MsiPackage>
-			<RollbackBoundary />
-			<MsiPackage Id="HydraPackage" After="PythonPackage" DisplayInternalUI="yes" Visible="yes"
+			<MsiPackage Id="HydraPackage" DisplayInternalUI="yes" Visible="yes"
 				SourceFile="Installers\Hydra.InstallerStandalone.msi">
 			</MsiPackage>
 		</PackageGroup>
