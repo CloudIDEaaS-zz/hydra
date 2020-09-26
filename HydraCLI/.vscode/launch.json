@@ -80,6 +80,18 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Debug Hydra Cli - version",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "console": "externalTerminal",
+            "args": [
+                "version"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Debug Hydra Cli - setPackages",
             "preLaunchTask": "build",
             "cwd": "${workspaceFolder}/GenOutput/sample",

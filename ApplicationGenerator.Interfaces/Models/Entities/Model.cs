@@ -18,7 +18,7 @@ using AbstraX.Models.Interfaces;
 namespace EntityProvider.Web.Entities
 {
     [DebuggerDisplay(" { Name } ")]
-    [AbstraxProvider(AbstraXProviderGuids.Entities)]
+    [AbstraXProvider(AbstraXProviderGuids.Entities)]
     public class Model : EntityBase, IElement, IModel, IRoot
     {
         private string queryWhereProperty;

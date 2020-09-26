@@ -4,6 +4,7 @@ set TargetDir=%HYDRASOLUTIONPATH%\..\ApplicationGeneratorPublic
 echo syncing %SourceDir% to %TargetDir%
 
 xcopy %SourceDir%\ApplicationGenerator.sln %TargetDir% /i /d /y 
+xcopy %SourceDir%\ApplicationGeneratorBuildTasks.sln %TargetDir% /i /d /y 
 xcopy %SourceDir%\.gitignore %TargetDir% /i /d /y 
 xcopy %SourceDir%\ApplicationGenerator\LICENSE %TargetDir% /i /d /y 
 xcopy %SourceDir%\ApplicationGenerator\README.md %TargetDir% /i /d /y 
@@ -77,6 +78,12 @@ set SubDir=PackageCacheStatus
 xcopy %SourceDir%\%SubDir% %TargetDir%\%SubDir% /i /d /y /E /EXCLUDE:%SourceDir%\Excludes.txt
 
 set SubDir=HydraCLI
+xcopy %SourceDir%\%SubDir% %TargetDir%\%SubDir% /i /d /y /E /EXCLUDE:%SourceDir%\Excludes.txt
+
+set SubDir=ApplicationGeneratorBuildTasks
+xcopy %SourceDir%\%SubDir% %TargetDir%\%SubDir% /i /d /y /E /EXCLUDE:%SourceDir%\Excludes.txt
+
+set SubDir=TestApplicationGeneratorBuildTasks
 xcopy %SourceDir%\%SubDir% %TargetDir%\%SubDir% /i /d /y /E /EXCLUDE:%SourceDir%\Excludes.txt
 
 echo sync complete

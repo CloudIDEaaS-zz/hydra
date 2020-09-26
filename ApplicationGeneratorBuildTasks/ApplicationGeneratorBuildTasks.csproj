@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{786A1AFB-8494-426B-852C-ACAC22688528}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ApplicationGeneratorBuildTasks</RootNamespace>
+    <AssemblyName>ApplicationGeneratorBuildTasks</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateResourceNeverLockTypeAssemblies>true</GenerateResourceNeverLockTypeAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <COMReference Include="mscoree">
+      <Guid>{5477469E-83B1-11D2-8B49-00A0C9B7C9C4}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <Reference Include="CsTransformationParserLibrary">
+      <HintPath>..\Binaries\CsTransformationParserLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CustomMarshalers" />
+    <Reference Include="Microsoft.Build" />
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
+    <Reference Include="ImpromptuInterface">
+      <HintPath>..\Binaries\ImpromptuInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\Packages\Microsoft.VisualStudio.TextTemplating.12.0\Microsoft.VisualStudio.TextTemplating.12.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(Windir)\Microsoft.NET\assembly\GAC_MSIL\Microsoft.VisualStudio.TextTemplating.Interfaces.10.0\v4.0_10.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.TextTemplating.Interfaces.10.0.dll</HintPath>
+    </Reference>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>$(VSCOMMON)\IDE\PublicAssemblies\EnvDTE.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.IO.Compression.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\Binaries\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Compile Include="..\Utils\AdvanceableEnumerable.cs">
+      <Link>Utils\AdvanceableEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ArrayExtensions.cs">
+      <Link>Utils\ArrayExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyAttributes.cs">
+      <Link>Utils\AssemblyAttributes.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\AppDomainCloneLoader.cs">
+      <Link>Utils\AssemblyCloning\AppDomainCloneLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\AssemblyClone.cs">
+      <Link>Utils\AssemblyCloning\AssemblyClone.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\AssemblyLoader.cs">
+      <Link>Utils\AssemblyCloning\AssemblyLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\AssemblyNameClone.cs">
+      <Link>Utils\AssemblyCloning\AssemblyNameClone.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\CustomAttributeData.cs">
+      <Link>Utils\AssemblyCloning\CustomAttributeData.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\CustomAttributeNamedArgument.cs">
+      <Link>Utils\AssemblyCloning\CustomAttributeNamedArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\CustomAttributeTypedArgument.cs">
+      <Link>Utils\AssemblyCloning\CustomAttributeTypedArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\IAssemblyCloneLoader.cs">
+      <Link>Utils\AssemblyCloning\IAssemblyCloneLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\ReferencedAssemblies.cs">
+      <Link>Utils\AssemblyCloning\ReferencedAssemblies.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\VersionClone.cs">
+      <Link>Utils\AssemblyCloning\VersionClone.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyExtensions.cs">
+      <Link>Utils\AssemblyExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyNameParts.cs">
+      <Link>Utils\AssemblyNameParts.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BaseDictionary.cs">
+      <Link>Utils\BaseDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BracedAttributeArgumentEvaluator.cs">
+      <Link>Utils\BracedAttributeArgumentEvaluator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CaselessString.cs">
+      <Link>Utils\CaselessString.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CommandPacket.cs">
+      <Link>Utils\CommandPacket.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CommandPacketT.cs">
+      <Link>Utils\CommandPacketT.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ComObjectUtility.cs">
+      <Link>Utils\ComObjectUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CompareExtensions.cs">
+      <Link>Utils\CompareExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CompareWith.cs">
+      <Link>Utils\CompareWith.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DebugUtils.cs">
+      <Link>Utils\DebugUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DefaultEqualityComparer.cs">
+      <Link>Utils\DefaultEqualityComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DisposableBase.cs">
+      <Link>Utils\DisposableBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DisposableExtensions.cs">
+      <Link>Utils\DisposableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DotNetType.cs">
+      <Link>Utils\DotNetType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DotNetTypeAttribute.cs">
+      <Link>Utils\DotNetTypeAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DynamicJsonConverter.cs">
+      <Link>Utils\DynamicJsonConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DynamicObject.cs">
+      <Link>Utils\DynamicObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\EnumerableExtensions.cs">
+      <Link>Utils\EnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\EnumExtensions.cs">
+      <Link>Utils\EnumExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\EventArgsT.cs">
+      <Link>Utils\EventArgsT.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\EventExtensions.cs">
+      <Link>Utils\EventExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\EventHandlerT.cs">
+      <Link>Utils\EventHandlerT.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ExceptionExtensions.cs">
+      <Link>Utils\ExceptionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\FileCompare.cs">
+      <Link>Utils\FileCompare.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\FileSystemInfoStatus.cs">
+      <Link>Utils\FileSystemInfoStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\FileUtilities\FileUtilities.cs">
+      <Link>Utils\FileUtilities.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\IDispatchUtility.cs">
+      <Link>Utils\IDispatchUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ILogWriter.cs">
+      <Link>Utils\ILogWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\IManagedLockObject.cs">
+      <Link>Utils\IManagedLockObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\InsignificantWords.cs">
+      <Link>Utils\InsignificantWords.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\IOExtensions.cs">
+      <Link>Utils\IOExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\JsonExtensions.cs">
+      <Link>Utils\JsonExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\JsonFormatter.cs">
+      <Link>Utils\JsonFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\KeyboardExtensions.cs">
+      <Link>Utils\KeyboardExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\KeyValuePairConverter.cs">
+      <Link>Utils\KeyValuePairConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\LockManager.cs">
+      <Link>Utils\LockManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\LogWriter.cs">
+      <Link>Utils\LogWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ManagedLock.cs">
+      <Link>Utils\ManagedLock.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ManagedLockDoOnceAction.cs">
+      <Link>Utils\ManagedLockDoOnceAction.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ManagedLockObject.cs">
+      <Link>Utils\ManagedLockObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryStatus.cs">
+      <Link>Utils\MemoryStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\NumberExtensions.cs">
+      <Link>Utils\NumberExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ObjectExtensions.cs">
+      <Link>Utils\ObjectExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\OneTimeTimer.cs">
+      <Link>Utils\OneTimeTimer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Oscillator.cs">
+      <Link>Utils\Oscillator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\OscillatorNotifyItem.cs">
+      <Link>Utils\OscillatorNotifyItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\AddressingUtils.cs">
+      <Link>Utils\PortableExecutable\AddressingUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\DataDirectory.cs">
+      <Link>Utils\PortableExecutable\DataDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\DOSHeader.cs">
+      <Link>Utils\PortableExecutable\DOSHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\PEHeader.cs">
+      <Link>Utils\PortableExecutable\PEHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Section.cs">
+      <Link>Utils\PortableExecutable\Section.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ProcessExtensions.cs">
+      <Link>Utils\ProcessExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ProcessHelpers.cs">
+      <Link>Utils\ProcessHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PropertyChangeExtensions.cs">
+      <Link>Utils\PropertyChangeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\StreamReset.cs">
+      <Link>Utils\StreamReset.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\StringExtensions.cs">
+      <Link>Utils\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\SwitchExtensions.cs">
+      <Link>Utils\SwitchExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\SystemInfo.cs">
+      <Link>Utils\SystemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TagHandler.cs">
+      <Link>Utils\TagHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TypeExtensions.cs">
+      <Link>Utils\TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\UnionExtensions.cs">
+      <Link>Utils\UnionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\VariantType.cs">
+      <Link>Utils\VariantType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\WindowWrapper.cs">
+      <Link>Utils\WindowWrapper.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Utils\Parsing\CharacterCodes.cs">
+      <Link>Utils\Parsing\CharacterCodes.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Diagnostic.cs">
+      <Link>Utils\Parsing\Diagnostic.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\DiagnosticCategory.cs">
+      <Link>Utils\Parsing\DiagnosticCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\ITextRange.cs">
+      <Link>Utils\Parsing\ITextRange.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\NodeArray.cs">
+      <Link>Utils\Parsing\NodeArray.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\ArrayTypeNode.cs">
+      <Link>Utils\Parsing\Nodes\ArrayTypeNode.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\BindingPattern.cs">
+      <Link>Utils\Parsing\Nodes\BindingPattern.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\ComputedPropertyName.cs">
+      <Link>Utils\Parsing\Nodes\ComputedPropertyName.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\CLRStringEntityName.cs">
+      <Link>Utils\Parsing\Nodes\CLRStringEntityName.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\CLRStringType.cs">
+      <Link>Utils\Parsing\Nodes\CLRStringType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Declaration.cs">
+      <Link>Utils\Parsing\Nodes\Declaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Expression.cs">
+      <Link>Utils\Parsing\Nodes\Expression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\FunctionLikeDeclaration.cs">
+      <Link>Utils\Parsing\Nodes\FunctionLikeDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\IncrementExpression.cs">
+      <Link>Utils\Parsing\Nodes\IncrementExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\LeftHandSideExpression.cs">
+      <Link>Utils\Parsing\Nodes\LeftHandSideExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\LiteralExpression.cs">
+      <Link>Utils\Parsing\Nodes\LiteralExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\LiteralLikeNode.cs">
+      <Link>Utils\Parsing\Nodes\LiteralLikeNode.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\MemberExpression.cs">
+      <Link>Utils\Parsing\Nodes\MemberExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\MethodDeclaration.cs">
+      <Link>Utils\Parsing\Nodes\MethodDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\ModifierFlags.cs">
+      <Link>Utils\Parsing\ModifierFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\NodeFlags.cs">
+      <Link>Utils\Parsing\NodeFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\ExtensionMethods.cs">
+      <Link>Utils\Parsing\ExtensionMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\NodeStackOperation.cs">
+      <Link>Utils\Parsing\NodeStackOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Identifier.cs">
+      <Link>Utils\Parsing\Nodes\Identifier.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\CLRStringMethod.cs">
+      <Link>Utils\Parsing\Nodes\CLRStringMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Node.cs">
+      <Link>Utils\Parsing\Nodes\Node.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\NumericLiteral.cs">
+      <Link>Utils\Parsing\Nodes\NumericLiteral.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\ParameterDeclaration.cs">
+      <Link>Utils\Parsing\Nodes\ParameterDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\PrimaryExpression.cs">
+      <Link>Utils\Parsing\Nodes\PrimaryExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Names.cs">
+      <Link>Utils\Parsing\Nodes\Names.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\QualifiedName.cs">
+      <Link>Utils\Parsing\Nodes\QualifiedName.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\SignatureDeclaration.cs">
+      <Link>Utils\Parsing\Nodes\SignatureDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\StringLiteral.cs">
+      <Link>Utils\Parsing\Nodes\StringLiteral.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\SyntaxTree.cs">
+      <Link>Utils\Parsing\Nodes\SyntaxTree.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Token.cs">
+      <Link>Utils\Parsing\Nodes\Token.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\TypeNode.cs">
+      <Link>Utils\Parsing\Nodes\TypeNode.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\TypeParameterDeclaration.cs">
+      <Link>Utils\Parsing\Nodes\TypeParameterDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\UnaryExpression.cs">
+      <Link>Utils\Parsing\Nodes\UnaryExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Unions.cs">
+      <Link>Utils\Parsing\Nodes\Unions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Parser.cs">
+      <Link>Utils\Parsing\Parser.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\ParserExtensions.cs">
+      <Link>Utils\Parsing\ParserExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\ParsingContext.cs">
+      <Link>Utils\Parsing\ParsingContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Scanner.cs">
+      <Link>Utils\Parsing\Scanner.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\SourceKind.cs">
+      <Link>Utils\Parsing\SourceKind.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\SyntaxKind.cs">
+      <Link>Utils\Parsing\SyntaxKind.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\TokenNode.cs">
+      <Link>Utils\Parsing\Nodes\TokenNode.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\TransformFlags.cs">
+      <Link>Utils\Parsing\TransformFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\TypeReferenceNode.cs">
+      <Link>Utils\Parsing\Nodes\TypeReferenceNode.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ComponentGroupRef.cs" />
+    <Compile Include="ComponentRef.cs" />
+    <Compile Include="Directory.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="File.cs" />
+    <Compile Include="Component.cs" />
+    <Compile Include="ComponentFinder.cs" />
+    <Compile Include="FrameworkVersion.cs" />
+    <Compile Include="UpdateHydraInstaller.cs" />
+    <Compile Include="ZipAppFiles.cs" />
+    <Compile Include="InstallTemplates.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="System.Linq.Dynamic">
+      <Version>1.0.7</Version>
+    </PackageReference>
+    <PackageReference Include="VSSDK.ExtensionManager">
+      <Version>11.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /c/r/f/y "$(TargetDir)*.*" "$(SolutionDir)Binaries\SolutionLibraries"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>

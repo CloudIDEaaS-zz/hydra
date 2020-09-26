@@ -8,7 +8,7 @@ import { Api } from './api/api';
 import { InstallsFromCacheStatus } from './InstallFromCacheStatus';
 const fs = require("fs"); 
 
-type ParmOptions = "generate" | "terminate" | "connect" | "ping" | "getfolder" | "getfile" | "getfolders" | "getfiles" | "getfilecontents" | "getfileicon" | "getpackageinstalls" | "getpackagedevinstalls" | "getcachestatus" | "setinstallstatus" | "getinstallfromcachestatus";
+type ParmOptions = "generate" | "terminate" | "connect" | "ping" | "getversion" | "getfolder" | "getfile" | "getfolders" | "getfiles" | "getfilecontents" | "getfileicon" | "getpackageinstalls" | "getpackagedevinstalls" | "getcachestatus" | "setinstallstatus" | "getinstallfromcachestatus";
 
 export class ApplicationGeneratorAgent {
     
@@ -114,6 +114,26 @@ export class ApplicationGeneratorAgent {
     }
 
     public getInstallFromCacheStatus(mode : string, listener: (installsFromCacheStatus : InstallsFromCacheStatus) => void) {
+
+        let promise = this.api.get<InstallsFromCacheStatus>("GetInstallFromCacheStatus", { key: "mode", value: mode });
+
+        promise.then((status : InstallsFromCacheStatus) => {
+            
+            listener(status);
+
+        }).catch((reason : any) => {
+
+            let status = <InstallsFromCacheStatus>
+            {
+                StatusText : reason,
+                StatusIsError : true
+            };
+
+            listener(status);
+        });
+    }
+
+    public getVersion(mode : string, listener: (installsFromCacheStatus : InstallsFromCacheStatus) => void) {
 
         let promise = this.api.get<InstallsFromCacheStatus>("GetInstallFromCacheStatus", { key: "mode", value: mode });
 

@@ -4,7 +4,7 @@ import * as http from "http";
  * Api is a generic REST Api handler. Set your API url first.
  */
 export class Api {
-  baseUrl: string = "http://localhost:9000";
+  baseUrl: string = "http://localhost:8043";
   servicesUrl: string = this.baseUrl + "/api/Status";
 
   get<T>(endpoint: string, ... params : {key : string, value : any }[]) : Promise<T> {

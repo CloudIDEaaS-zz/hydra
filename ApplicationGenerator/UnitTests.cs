@@ -11,9 +11,6 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Titanium.Web.Proxy;
-using Titanium.Web.Proxy.EventArguments;
-using Titanium.Web.Proxy.Models;
 using Utils;
 //using Db = Ripley.Entities;
 using Utils.ProcessHelpers;
@@ -1024,105 +1021,6 @@ namespace AbstraX
                 count = processes.Count();
 
                 Console.WriteLine("{0}Directory with 1 open file: '{1}'", '\t'.Repeat(2), count);
-            }
-        }
-
-        private static void TestWebProxy()
-        {
-            var proxyServer = new ProxyServer();
-            var hostAddresses = Dns.GetHostAddresses("registry.npmjs.org");
-
-            //locally trust root certificate used by this proxy 
-            proxyServer.CertificateManager.TrustRootCertificate(true);
-
-            //optionally set the Certificate Engine
-            //Under Mono only BouncyCastle will be supported
-            //proxyServer.CertificateManager.CertificateEngine = Network.CertificateEngine.BouncyCastle;
-
-            proxyServer.BeforeRequest += OnRequest;
-            proxyServer.BeforeResponse += OnResponse;
-
-
-            var explicitEndPoint = new ExplicitProxyEndPoint(IPAddress.Any, 8000, true)
-            {
-                //Use self-issued generic certificate on all https requests
-                //Optimizes performance by not creating a certificate for each https-enabled domain
-                //Useful when certificate trust is not required by proxy clients
-                //GenericCertificate = new X509Certificate2(Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "genericcert.pfx"), "password")
-            };
-
-            //Fired when a CONNECT request is received
-            //explicitEndPoint.BeforeTunnelConnect += OnBeforeTunnelConnect;
-
-            //An explicit endpoint is where the client knows about the existence of a proxy
-            //So client sends request in a proxy friendly manner
-            proxyServer.AddEndPoint(explicitEndPoint);
-            proxyServer.Start();
-
-            ////Transparent endpoint is useful for reverse proxy (client is not aware of the existence of proxy)
-            ////A transparent endpoint usually requires a network router port forwarding HTTP(S) packets or DNS
-            ////to send data to this endPoint
-            //var transparentEndPoint = new TransparentProxyEndPoint(IPAddress.Any, 8001, true)
-            //{
-            //    //Generic Certificate hostname to use
-            //    //when SNI is disabled by client
-            //    GenericCertificateName = "google.com"
-            //};
-
-            //proxyServer.AddEndPoint(transparentEndPoint);
-
-            //proxyServer.UpStreamHttpProxy = new ExternalProxy() { HostName = "localhost", Port = 8888 };
-            //proxyServer.UpStreamHttpsProxy = new ExternalProxy() { HostName = "localhost", Port = 8888 };
-
-            foreach (var endPoint in proxyServer.ProxyEndPoints)
-                Console.WriteLine("Listening on '{0}' endpoint at Ip {1} and port: {2} ",
-                    endPoint.GetType().Name, endPoint.IpAddress, endPoint.Port);
-
-            //Only explicit proxies can be set as system proxy!
-            proxyServer.SetAsSystemHttpProxy(explicitEndPoint);
-            proxyServer.SetAsSystemHttpsProxy(explicitEndPoint);
-
-            //wait here (You can use something else as a wait function, I am using this as a demo)
-            Console.Read();
-
-            //Unsubscribe & Quit
-            // explicitEndPoint.BeforeTunnelConnect -= OnBeforeTunnelConnect;
-            proxyServer.BeforeRequest -= OnRequest;
-            proxyServer.BeforeResponse -= OnResponse;
-            proxyServer.ServerCertificateValidationCallback -= OnCertificateValidation;
-            proxyServer.ClientCertificateSelectionCallback -= OnCertificateSelection;
-
-            proxyServer.Stop();
-        }
-
-        private async static Task OnCertificateSelection(object sender, CertificateSelectionEventArgs e)
-        {
-        }
-
-        private async static Task OnCertificateValidation(object sender, CertificateValidationEventArgs e)
-        {
-        }
-
-        private async static Task OnResponse(object sender, SessionEventArgs e)
-        {
-            Console.WriteLine(e.HttpClient.Request.Url);
-
-            if (e.HttpClient.Response.StatusCode == 200)
-            {
-                var body = await e.GetResponseBodyAsString();
-
-                if (e.HttpClient.Request.Url.StartsWith("http://registry.npmjs.org/"))
-                {
-                }
-
-                e.SetResponseBodyString(body);
-            }
-        }
-
-        private async static Task OnRequest(object sender, SessionEventArgs e)
-        {
-            if (e.HttpClient.Request.Url.StartsWith("http://registry.npmjs.org/"))
-            {
             }
         }
 

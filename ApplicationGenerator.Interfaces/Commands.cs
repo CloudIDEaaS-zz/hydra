@@ -19,6 +19,7 @@ namespace AbstraX
         public const string TERMINATE = "terminate";
         public const string CONNECT = "connect";
         public const string PING = "ping";
+        public const string GET_VERSION = "getversion";
         public const string GET_FOLDER = "getfolder";
         public const string GET_FILE = "getfile";
         public const string GET_FOLDERS = "getfolders";

@@ -38,16 +38,19 @@ namespace AbstraX
         {
             var overrides = (List<Override>)ConfigurationManager.GetSection("generatorOverridesSection");
 
-            foreach (var _override in overrides)
+            if (overrides != null)
             {
-                var overrideAssembly = _override.Assembly;
-                var types = Assembly.Load(overrideAssembly.AssemblyName).GetTypes().Where(t => t.Implements<IGeneratorOverrides>());
-
-                foreach (var type in types)
+                foreach (var _override in overrides)
                 {
-                    var generatorOverride = (IGeneratorOverrides)Activator.CreateInstance(type);
+                    var overrideAssembly = _override.Assembly;
+                    var types = Assembly.Load(overrideAssembly.AssemblyName).GetTypes().Where(t => t.Implements<IGeneratorOverrides>());
 
-                    yield return new KeyValuePair<string, IGeneratorOverrides>(_override.ArgumentsKind, generatorOverride);
+                    foreach (var type in types)
+                    {
+                        var generatorOverride = (IGeneratorOverrides)Activator.CreateInstance(type);
+
+                        yield return new KeyValuePair<string, IGeneratorOverrides>(_override.ArgumentsKind, generatorOverride);
+                    }
                 }
             }
         }

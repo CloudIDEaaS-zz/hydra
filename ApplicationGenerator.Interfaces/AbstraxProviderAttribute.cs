@@ -5,11 +5,11 @@ using System.Text;
 
 namespace AbstraX
 {
-    public class AbstraxProviderAttribute : Attribute
+    public class AbstraXProviderAttribute : Attribute
     {
         public Guid Guid { get; }
 
-        public AbstraxProviderAttribute(string guidValue)
+        public AbstraXProviderAttribute(string guidValue)
         {
             this.Guid = Guid.Parse(guidValue);
         }

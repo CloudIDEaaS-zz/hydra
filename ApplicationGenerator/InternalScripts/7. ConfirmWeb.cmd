@@ -1,6 +1,3 @@
-set TargetDir="%HYDRASOLUTIONPATH%\HydraCLI\HydraInstall"
-
-%TargetDir:~1,2%
-cd %TargetDir%
-npm publish
-echo publish complete
+start "" https://github.com/CloudIDEaaS/hydra
+start "" https://www.npmjs.com/package/@cloudideaas/hydra
+start "" https://www.npmjs.com/package/@cloudideaas/hydrainstall

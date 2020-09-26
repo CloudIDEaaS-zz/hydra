@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AbstraX.Handlers.CommandHandlers;
 using AbstraX.FolderStructure;
 using Utils;
+using System.Reflection;
 
 namespace AbstraX
 {
@@ -167,6 +168,16 @@ namespace AbstraX
                     case ServerCommands.PING:
                         {
                             commandPacket = new CommandPacket(commandPacket.Command, commandPacket.SentTimestamp, "Success");
+                            outputWriter.WriteJsonCommand(commandPacket);
+                        }
+
+                        break;
+
+                    case ServerCommands.GET_VERSION:
+                        {
+                            var version = Assembly.GetEntryAssembly().GetAttributes().Version;
+
+                            commandPacket = new CommandPacket(commandPacket.Command, commandPacket.SentTimestamp, version);
                             outputWriter.WriteJsonCommand(commandPacket);
                         }
 

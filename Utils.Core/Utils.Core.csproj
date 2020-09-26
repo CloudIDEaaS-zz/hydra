@@ -10,13 +10,20 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Configurations>Debug;Release;DebugAll</Configurations>
+    <Configurations>Debug;Release;DebugAll;PreRelease</Configurations>
     <RootNamespace>Utils</RootNamespace>
     <Version>2.0.0</Version>
-    <AssemblyVersion>22.0.0.3794</AssemblyVersion>
+    <AssemblyVersion>22.0.0.3791</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>TRACE;ENABLE_LINE_TRACKING</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DefineConstants>TRACE;ENABLE_LINE_TRACKING</DefineConstants>
     <DebugType>pdbonly</DebugType>

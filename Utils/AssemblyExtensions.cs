@@ -415,7 +415,6 @@ namespace Utils
             return path;
         }
 #endif
-
         public static AssemblyNameParts ParseAssemblyName(string name)
         {
             var regex = new Regex(@"^\[?(?<assembly>[\w\.\-]+)(,\s?Version=(?<version>\d+\.\d+\.\d+\.\d+))?(,\s?Culture=(?<culture>[\w\-]+))?(,\s?PublicKeyToken=(?<token>\w+))?(,\s?processorArchitecture=(?<processorarchitecture>\w+))?\]?$");

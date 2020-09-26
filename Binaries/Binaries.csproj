@@ -25,6 +25,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PreRelease|x86'">
+    <OutputPath>bin\x86\PreRelease\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
   <ItemGroup>
     <Content Include="CSParserSigned\CsTransformationParserLibrary.dll" />
     <Content Include="CsTransformationParserLibrary.dll" />

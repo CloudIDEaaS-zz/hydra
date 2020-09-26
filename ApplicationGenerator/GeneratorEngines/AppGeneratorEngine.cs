@@ -230,7 +230,7 @@ namespace AbstraX.GeneratorEngines
                         foreach (var handlerType in handlerTypes)
                         {
                             var handlerAttribute = handlerType.GetCustomAttribute<AddInHandlerAttribute>();
-                            var providerAttribute = baseObject.Root.GetType().GetCustomAttribute<AbstraxProviderAttribute>();
+                            var providerAttribute = baseObject.Root.GetType().GetCustomAttribute<AbstraXProviderAttribute>();
 
                             if (handlerAttribute.AbstraXProviderGuid == providerAttribute.Guid)
                             {

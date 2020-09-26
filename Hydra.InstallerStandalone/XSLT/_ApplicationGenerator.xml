@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ProjectOutput Name="ApplicationGenerator" ProjectDirVar="$(var.ApplicationGenerator.ProjectDir)" TargetDirVar="$(var.ApplicationGenerator.TargetDir)" SharedFileId="_2BAE2584_FA36_4F25_A849_CC8CD7CC3B10">
+<ProjectOutput Name="ApplicationGenerator" ProjectDirVar="$(var.ApplicationGenerator.ProjectDir)" TargetDirVar="$(var.ApplicationGenerator.TargetDir)" SharedFileId="_E53CB96C_68E5_4085_86B3_5E87223F063F">
   <Binaries>
     <DiskId>1</DiskId>
     <Compressed />

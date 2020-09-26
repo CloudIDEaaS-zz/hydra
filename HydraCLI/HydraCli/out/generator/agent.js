@@ -88,6 +88,18 @@ class ApplicationGeneratorAgent {
             listener(status);
         });
     }
+    getVersion(mode, listener) {
+        let promise = this.api.get("GetInstallFromCacheStatus", { key: "mode", value: mode });
+        promise.then((status) => {
+            listener(status);
+        }).catch((reason) => {
+            let status = {
+                StatusText: reason,
+                StatusIsError: true
+            };
+            listener(status);
+        });
+    }
     generateApp(entitiesProjectPath, servicesProjectPath, packageCachePath, noFileCreation, generatorPass, listener = null) {
         let commandObject = new commandPacket_1.CommandPacket("request", "generate", [
             { "Kind": "app" },

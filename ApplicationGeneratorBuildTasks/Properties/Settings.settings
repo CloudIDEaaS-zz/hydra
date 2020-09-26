@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BuildTasks.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Start" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe</Value>
+    </Setting>
+    <Setting Name="CommandLine" Type="System.String" Scope="User">
+      <Value Profile="(Default)">"C:\Users\u164225\Documents\Hydra\UIObjects\UIObjects.csproj" /p:Configuration=Debug /p:Platform="Any CPU" /p:OutputPath="bin\Debug" /p:AllowUnsafeBlocks=true /t:BeforeBuild</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

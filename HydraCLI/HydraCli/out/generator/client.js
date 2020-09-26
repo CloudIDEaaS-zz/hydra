@@ -20,6 +20,7 @@ const readline = require('readline');
 const child_process = require("child_process");
 const yaml = require('js-yaml');
 const regedit = require('regedit');
+const { version } = require('../../package.json');
 class ApplicationGeneratorClient {
     constructor() {
         this.pollingInstallFromCacheStatus = false;
@@ -55,6 +56,7 @@ class ApplicationGeneratorClient {
             { name: 'skipIonicInstall', type: Boolean, defaultValue: false },
             { name: 'skipInstalls', type: Boolean, defaultValue: false },
             { name: 'command', type: String, defaultOption: true },
+            { name: 'version', type: Boolean, defaultValue: true },
             { name: 'noFileCreation', type: Boolean, defaultValue: false },
         ];
         const mainCommand = commandLineArgs(mainDefinitions, { stopAtFirstUnknown: true });
@@ -94,6 +96,9 @@ class ApplicationGeneratorClient {
                 }
                 else if (mainCommand.command === "test") {
                     this.test(debug);
+                }
+                else if (mainCommand.command === "version") {
+                    this.version(debug);
                 }
                 else {
                     readJson(configFile, console.error, false, (error, data) => {
@@ -888,6 +893,52 @@ class ApplicationGeneratorClient {
     }
     dispose() {
     }
+    version(debug) {
+        let clientVersion = version;
+        this.writeLine("     ./&.                                       *((                             ");
+        this.writeLine("     ,(#.                                       (#*                             ");
+        this.writeLine("     *((..*///*    .,,         .*.    .*////*.  (#,  ,*..*//,    ,*///*,  .*.   ");
+        this.writeLine("     /%#(/*,,,/%/. ./%,       /#(. ./#(/,,,,*(#/%(  ,(&#(*,.. ,(#(*,,,*/#(#%,   ");
+        this.writeLine("     (%*.      /#(  ,(%,    .##*  /#/.        ,%%/  *#%,    ,(#*         /%#    ");
+        this.writeLine("    *#(        /(/   .%(,  *##,  *#(          .((*  /#*.   ./&,          ,((    ");
+        this.writeLine("   ./(/        #(*    ,#( (#/    *#(          ,%/.  (#     ./&,          ((/    ");
+        this.writeLine("   .#(,       .%(.     *#&#*      /#/.      ,/%&*  ,#(      ,##*      .*#&#,    ");
+        this.writeLine("   .#*.       ,#*      *##.        ./##(((((/*/#,  *(*        *(#((((((/,#*     ");
+        this.writeLine("                     .(#/                                                       ");
+        this.writeLine("                    ,##,                                                        ");
+        this.writeLine("                     .                                                          ");
+        this.writeLine("                                       .,*//((##%%%&&&&&&&&&&&&&%%#((/*.        ");
+        this.writeLine("                             .,,*/(#&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#,     ");
+        this.writeLine("                      ..,/#&@@@@@@@@@@@@@@@@@@@&&&&&%%%%#########(//////*       ");
+        this.writeLine("                 ./%&@@@@@@@@@@@@@&&%%##(((((((((((((((((((((((/,               ");
+        this.writeLine("           *(#%&@@@@@&&%%%#####((((((((((((((((((((((((((((((((,                ");
+        this.writeLine("     ,*(#%&&%%%####(((((((((((((((((((((((((((((((((((((((((((*.                ");
+        this.writeLine(",,*(####((((((((((((((((((((((((((((((((((((((((((((((((((((((*.                ");
+        this.writeLine("#(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((*.                ");
+        this.writeLine("#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((,                ");
+        this.writeLine("#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/*               ");
+        this.writeLine("#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/,.            ");
+        this.writeLine("#((((((((((((((((((((((((((((((((((((((((((((((((#####%%%%%&&&&&&&&%#(**,,.     ");
+        this.writeLine("#((((((((((((((((((((((((((((((((((((((((###%&&@@@@@@@@@@@@@@@@@@@@@@&&&&@@&%,  ");
+        this.writeLine("#(((((((((((((((((((((((((((((((((#%%&@@@@@@@@&&&%%%####((((((((((((/.          ");
+        this.writeLine("#((((((((((((((((((((((((((##%&&&&%%%######((((((((((((((((((((((((*            ");
+        this.writeLine("#((((((((((((((((((((((((####(((((((((((((((((((((((((((((((((((((/,            ");
+        this.writeLine("#(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/,            ");
+        this.writeLine("#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/.           ");
+        this.writeLine("");
+        this.writeLine(`Client version v${clientVersion} `);
+        this.initializeAndConnect(debug).then(() => {
+            this.agent.sendSimpleCommand("getversion", (commandObject) => {
+                let appGeneratorVersion = commandObject.Response;
+                this.writeLine(`ApplicationGenerator version v${appGeneratorVersion} `);
+                this.writeLine("Copyright 2020 CloudIDEaaS");
+                this.writeLine("visit: http://www.cloudideaas.com/hydra");
+                this.agent.dispose((commandObject) => {
+                    this.onComplete.emit("onComplete");
+                });
+            });
+        });
+    }
     test(debug) {
         const watchMilliseconds = 1000;
         let pollInstallFromCacheStatus = async (mode, listener) => {
@@ -925,8 +976,12 @@ class ApplicationGeneratorClient {
                     }
                 });
             };
+            this.writeStatus("This is a test. Nothing will actually be installed.  This tests the full connectivity of Hydra including the local Package Cache service.");
             pollInstallFromCacheStatus("Testing", (s) => this.installsFromCacheStatusListener(s));
-            watch(() => close());
+            watch(() => {
+                this.writeStatus("Test complete.");
+                close();
+            });
         });
     }
     writeStatus(output) {

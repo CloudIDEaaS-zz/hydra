@@ -7,7 +7,7 @@ const http = require("http");
  */
 class Api {
     constructor() {
-        this.baseUrl = "http://localhost:9000";
+        this.baseUrl = "http://localhost:8043";
         this.servicesUrl = this.baseUrl + "/api/Status";
     }
     get(endpoint, ...params) {

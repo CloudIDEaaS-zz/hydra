@@ -83,7 +83,7 @@ namespace AbstraX
                 AppDomain.CurrentDomain.SetData("UnityContainer", container);
 
                 generatorHandler = new GeneratorHandler();
-                keyValuePair = generatorHandler.GetOverrides().Last();
+                keyValuePair = generatorHandler.GetOverrides().LastOrDefault();
 
                 argumentsKind = keyValuePair.Key;
                 generatorOverrides = keyValuePair.Value;
@@ -106,7 +106,14 @@ namespace AbstraX
                     UnitTests.RunUnitTests();
                 }
 
-                generatorHandler.Execute(generatorOverrides.GetHandlerArguments(packageCachePath, argumentsKind));
+                if (argumentsKind != null)
+                {
+                    generatorHandler.Execute(generatorOverrides.GetHandlerArguments(packageCachePath, argumentsKind));
+                }
+                else
+                {
+                    Console.WriteLine("This program was not intended to be run directly");
+                }
             }
         }
 
