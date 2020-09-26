@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.HydraInstaller = void 0;
 require("./modules/utils/extensions");
 const path = require('path');
 const fs = require('fs');
