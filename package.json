@@ -2,7 +2,7 @@
 	"name": "@cloudideaas/hydra",
 	"displayName": "Hydra",
 	"description": "Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes.",
-	"version": "1.0.50",
+	"version": "1.0.51",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/CloudIDEaaS/hydra.git"
@@ -15,6 +15,7 @@
 		".net",
 		".net core",
 		"sql server",
+		"entity framework core",
 		"mobile app",
 		"docker",
 		"helm",
@@ -58,7 +59,7 @@
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile",
 		"test": "node ./out/test/runTest.js",
-		"preinstall": "echo 'Downloading Hydra, this may take a while. Please wait...' & npm install @cloudideaas/hydrainstall"
+		"preinstall": "echo 'Downloading Hydra, this may take a while. Please wait...' & npm install -g @cloudideaas/hydrainstall"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.3",

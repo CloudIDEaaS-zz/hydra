@@ -1,67 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<PropertyGroup>
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-		<Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-		<ProductVersion>3.10</ProductVersion>
-		<ProjectGuid>2aec4286-7c23-4fe1-9b16-770e37b58210</ProjectGuid>
-		<SchemaVersion>2.0</SchemaVersion>
-		<OutputName>Hydra.Installer</OutputName>
-		<OutputType>Bundle</OutputType>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-		<OutputPath>bin\$(Configuration)\</OutputPath>
-		<IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-		<DefineConstants>Debug</DefineConstants>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-		<OutputPath>bin\$(Configuration)\</OutputPath>
-		<IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'PreRelease|x86' ">
-		<DefineConstants>Debug</DefineConstants>
-		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-		<IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'PreRelease|AnyCPU' ">
-		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-		<IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'PreRelease|Any CPU' ">
-		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-		<IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-	</PropertyGroup>
-	<ItemGroup>
-		<Compile Include="Product.wxs" />
-	</ItemGroup>
-	<ItemGroup>
-		<WixExtension Include="WixBalExtension">
-			<HintPath>$(WixExtDir)\WixBalExtension.dll</HintPath>
-			<Name>WixBalExtension</Name>
-		</WixExtension>
-	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="Installers\" />
-		<Folder Include="res" />
-	</ItemGroup>
-	<ItemGroup>
-		<Content Include="Installers\Hydra.InstallerStandalone.msi" />
-		<Content Include="res\Hydra.ico" />
-		<Content Include="res\HydraEULA.rtf" />
-		<Content Include="res\HydraSplashSide.png" />
-		<Content Include="res\HydraLogo.png" />
-		<Content Include="res\HydraTheme.xml" />
-	</ItemGroup>
-	<ItemGroup>
-		<EmbeddedResource Include="res\HydraTheme.wxl" />
-	</ItemGroup>
-	<Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
-	<Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
-	<Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
-		<Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
-	</Target>
-	<Target Name="AfterBuild">
-		<Message Importance="high" Text="Copying Hydra.Extension to HydraCli" />
-		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(HYDRASOLUTIONPATH)\HydraCLI\HydraInstall\install" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" />
-	</Target>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.10</ProductVersion>
+    <ProjectGuid>2aec4286-7c23-4fe1-9b16-770e37b58210</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>Hydra.Installer</OutputName>
+    <OutputType>Bundle</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'PreRelease|x86' ">
+    <DefineConstants>Debug</DefineConstants>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'PreRelease|AnyCPU' ">
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'PreRelease|Any CPU' ">
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Product.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixBalExtension">
+      <HintPath>$(WixExtDir)\WixBalExtension.dll</HintPath>
+      <Name>WixBalExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Installers\" />
+    <Folder Include="res" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Installers\Hydra.InstallerStandalone.msi" />
+    <Content Include="Installers\NDP461-KB3102436-x86-x64-AllOS-ENU.exe" />
+    <Content Include="res\Hydra.ico" />
+    <Content Include="res\HydraEULA.rtf" />
+    <Content Include="res\HydraSplashSide.png" />
+    <Content Include="res\HydraLogo.png" />
+    <Content Include="res\HydraTheme.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="res\HydraTheme.wxl" />
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
+  <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
+    <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
+  </Target>
+  <Target Name="AfterBuild">
+    <Message Importance="high" Text="Copying Hydra.Extension to HydraCli" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(HYDRASOLUTIONPATH)\HydraCLI\HydraInstall\install" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" />
+  </Target>
 </Project>
