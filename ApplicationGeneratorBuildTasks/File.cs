@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Xml.Serialization;
 using Utils;
 
@@ -13,6 +15,7 @@ namespace ApplicationGeneratorBuildTasks
     ///  </remarks>
 
     [XmlRoot(Namespace = "http://schemas.microsoft.com/wix/2006/wi")]
+    [DebuggerDisplay(" { Source } ")]
     public class File
     {
         [XmlAttribute]
@@ -45,6 +48,7 @@ namespace ApplicationGeneratorBuildTasks
             var productFile = new FileInfo(productFilePath);
             var relativePath = fileBinary.GetRelativePath(productFile.Directory.FullName);
 
+            this.Id = "_" + Guid.NewGuid().ToString().Replace("-", "_");
             this.Source = relativePath;
         }
     }

@@ -1731,8 +1731,12 @@
     <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\Properties\launchSettings.json" />
     <Content Include="ExportedProjectTemplates\Utils.Core\Utils.Core.csproj" />
     <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\hydra.json" />
-    <None Include="GeneratorTemplates\Default\businessModel.template" />
-    <None Include="GeneratorTemplates\Default\entityDomainModel.template" />
+    <None Include="GeneratorTemplates\Default\businessModel.template">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="GeneratorTemplates\Default\entityDomainModel.template">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="LICENSE" />
     <None Include="README.md" />
     <None Include="Scripts\MsBuildSolution.cmd" />

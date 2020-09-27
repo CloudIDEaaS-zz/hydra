@@ -526,7 +526,9 @@
       <Version>11.0.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="ReadMe.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /c/r/f/y "$(TargetDir)*.*" "$(SolutionDir)Binaries\SolutionLibraries"</PostBuildEvent>

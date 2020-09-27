@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -14,6 +15,8 @@ namespace ApplicationGeneratorBuildTasks
     ///
     ///  </remarks>
     [XmlRoot(Namespace="http://schemas.microsoft.com/wix/2006/wi")]
+    [DebuggerDisplay(" { File.Source } ")]
+
     public class Component
     {
         [XmlAttribute]

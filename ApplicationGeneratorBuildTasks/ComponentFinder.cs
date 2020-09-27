@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,11 +15,100 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Utils;
+using Utils.Hierarchies;
 
 namespace ApplicationGeneratorBuildTasks
 {
     public static class ComponentFinder
     {
+        public static List<Directory> GetDirectories2(string binariesPath, string projectPath, string targetFramework, string targetAssembly, string productFilePath)
+        {
+            var directories = new List<Directory>();
+            var binariesDirectory = new DirectoryInfo(binariesPath);
+            var projectFolder = Path.GetDirectoryName(projectPath);
+            var stack = new Stack<Directory>();
+            var lastLevel = 0;
+            
+            binariesDirectory.GetDescendants(d => d.GetDirectories(), (d, l) =>
+            {
+                Directory parentDirectory = null;
+                Directory directory = null;
+
+                for (var x = l; x <= lastLevel; x++)
+                {
+                    stack.Pop();
+                }
+
+                if (stack.Count > 0)
+                {
+                    parentDirectory = stack.Peek();
+                }
+
+                directory = new Directory(d);
+
+                if (parentDirectory != null)
+                {
+                    parentDirectory.Directories.Add(directory);
+                }
+
+                foreach (var file in d.GetFiles())
+                {
+                    var component = new Component(file, projectFolder, productFilePath);
+
+                    directory.Files.Add(component);
+                }
+
+                if (l == 1)
+                {
+                    directories.Add(directory);
+                }
+
+                stack.Push(directory);
+
+                lastLevel = l;
+            });
+
+            return directories;
+        }
+        public static List<Directory> GetDirectories(string binariesPath, string projectPath, string targetFramework, string targetAssembly, string productFilePath)
+        {
+            var directories = new List<Directory>();
+            var binariesDirectory = new DirectoryInfo(binariesPath);
+            var projectFolder = Path.GetDirectoryName(projectPath);
+            var cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures);
+
+            // kn - TODO - we are filtering out culture specific resource files.  This limits us to English-only for the time being
+
+            binariesDirectory.GetDescendants<DirectoryInfo, Directory>(d => d.GetDirectories().Where(d2 => d2.Parent.FullName != binariesPath || !cultures.Any(c => c.Name == d2.Name)), (d, p) =>
+            {
+                Directory parentDirectory = p;
+                Directory directory = null;
+
+                directory = new Directory(d);
+
+                if (parentDirectory != null)
+                {
+                    parentDirectory.Directories.Add(directory);
+                }
+
+                foreach (var file in d.GetFiles())
+                {
+                    var component = new Component(file, projectFolder, productFilePath);
+
+                    directory.Files.Add(component);
+                }
+
+                if (p == null)
+                {
+                    directories.Add(directory);
+                }
+
+                return directory;
+            });
+
+            return directories;
+        }
+
         public static List<Component> GetComponents(string binariesPath, string projectPath, string targetFramework, string targetAssembly, string productFilePath)
         {
             var packageFiles = new List<FileInfo>();

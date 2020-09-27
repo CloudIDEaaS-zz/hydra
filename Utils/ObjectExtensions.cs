@@ -663,6 +663,43 @@ namespace Utils.Hierarchies
             recurseChildren(obj);
         }
 
+        public static void GetDescendants<TObject, TStackObject>(this TObject obj, Func<TObject, IEnumerable<TObject>> childrenSelector, Func<TObject, TStackObject, TStackObject> callback)
+        {
+            Action<TObject> recurseChildren = null;
+            var x = 0;
+            var stack = new Stack<TStackObject>();
+            var lastLevel = 0;
+
+            recurseChildren = (parent) =>
+            {
+                foreach (var subItem in childrenSelector(parent))
+                {
+                    TStackObject parentStackObject = default(TStackObject);
+
+                    for (var y = x; y <= lastLevel; y++)
+                    {
+                        stack.Pop();
+                    }
+
+                    if (stack.Count > 0)
+                    {
+                        parentStackObject = stack.Peek();
+                    }
+
+                    parentStackObject = callback(subItem, parentStackObject);
+                    stack.Push(parentStackObject);
+                    lastLevel = x;
+
+                    x++;
+                    recurseChildren(subItem);
+                    x--;
+                }
+            };
+
+            x++;
+            recurseChildren(obj);
+        }
+
         public static void GetDescendants<TObject>(this TObject obj, Func<TObject, IEnumerable<TObject>> childrenSelector, Func<TObject, int, bool> callback)
         {
             Action<TObject> recurseChildren = null;

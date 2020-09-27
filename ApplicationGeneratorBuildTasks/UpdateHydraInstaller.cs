@@ -19,6 +19,7 @@ using System.IO.Packaging;
 using Utils;
 using System.Xml.Linq;
 using ApplicationGeneratorBuildTasks;
+using Utils.Hierarchies;
 
 namespace BuildTasks
 {
@@ -50,11 +51,13 @@ namespace BuildTasks
                 var applicationGeneratorBinaries = Path.Combine(solutionPath, @"ApplicationGenerator\bin", this.Configuration);
                 var applicationGeneratorProject = Path.Combine(solutionPath, @"ApplicationGenerator\ApplicationGenerator.csproj");
                 var components = ComponentFinder.GetComponents(applicationGeneratorBinaries, applicationGeneratorProject, this.TargetFramework, this.TargetAssembly, productFilePath);
+                var directories = ComponentFinder.GetDirectories(applicationGeneratorBinaries, applicationGeneratorProject, this.TargetFramework, this.TargetAssembly, productFilePath);
                 var document = XDocument.Load(productFilePath);
                 var namespaceManager = new XmlNamespaceManager(new NameTable());
                 XElement elementFeature;
                 XElement elementDirectory;
                 ApplicationGeneratorBuildTasks.Directory groupDirectory;
+                ApplicationGeneratorBuildTasks.Directory topLeveDirectory;
                 ComponentGroupRef componentGroupRef;
                 XElement elementGroupDirectory;
                 XElement elementComponentGroupRef;
@@ -87,6 +90,11 @@ namespace BuildTasks
                 elementDirectory.Add(elementGroupDirectory);
                 elementFeature.Add(elementComponentGroupRef);
 
+                topLeveDirectory = new ApplicationGeneratorBuildTasks.Directory();
+                topLeveDirectory.Directories.AddRange(directories);
+
+                AddDirectories(elementFeature, elementDirectory, topLeveDirectory);
+
                 document.Save(productFilePath, SaveOptions.DisableFormatting);
             }
             catch (Exception ex)
@@ -102,6 +110,37 @@ namespace BuildTasks
             }
 
             return true;
+        }
+
+        private void AddDirectories(XElement elementFeature, XElement elementTopDirectory, ApplicationGeneratorBuildTasks.Directory topLeveDirectory)
+        {
+            topLeveDirectory.GetDescendants<ApplicationGeneratorBuildTasks.Directory, XElement>(d => d.Directories, (d, p) =>
+            {
+                XElement elementParentDirectory = p;
+                ApplicationGeneratorBuildTasks.Directory directory = d;
+                var elementDirectory = directory.ToXElement<ApplicationGeneratorBuildTasks.Directory>();
+
+                if (elementParentDirectory == null)
+                {
+                    elementParentDirectory = elementTopDirectory;
+                }
+
+                elementParentDirectory.Add(elementDirectory);
+
+                foreach (var component in d.Files)
+                {
+                    var elementComponent = component.ToXElement<Component>();
+                    var elementFile = component.File.ToXElement<ApplicationGeneratorBuildTasks.File>();
+                    var elementComponentRef = component.CreateComponentRef().ToXElement<ComponentRef>();
+
+                    elementComponent.Add(elementFile);
+
+                    elementDirectory.Add(elementComponent);
+                    elementFeature.Add(elementComponentRef);
+                }
+
+                return elementDirectory;
+            });
         }
     }
 }

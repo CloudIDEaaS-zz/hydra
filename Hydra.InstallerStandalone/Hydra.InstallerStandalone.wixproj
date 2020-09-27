@@ -19,7 +19,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Product - Copy.wxs" />
+    <None Include="Product - Copy.xml" />
     <Compile Include="Product.wxs" />
     <Compile Include="StandardUI.wxs" />
   </ItemGroup>
