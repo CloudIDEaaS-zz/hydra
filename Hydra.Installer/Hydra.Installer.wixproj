@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Installers\Hydra.InstallerStandalone.msi" />
-    <Content Include="Installers\NDP461-KB3102436-x86-x64-AllOS-ENU.exe" />
     <Content Include="res\Hydra.ico" />
     <Content Include="res\HydraEULA.rtf" />
     <Content Include="res\HydraSplashSide.png" />

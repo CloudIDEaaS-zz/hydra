@@ -155,46 +155,44 @@ namespace AbstraX.Generators.Server.WebAPIController
             
             #line default
             #line hidden
-            this.Write(";\r\n        private DateTime functionsWriteTime;\r\n        private string entityCon" +
-                    "fig;\r\n        private DateTime entityConfigWriteTime;\r\n        private EntityCon" +
-                    "figSources entityConfigSources;\r\n\r\n        public ");
+            this.Write(";\r\n\r\n        public ");
             
-            #line 65 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 61 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ControllerName));
             
             #line default
             #line hidden
             this.Write("Controller(");
             
-            #line 65 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 61 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerInterface));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 65 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 61 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerVariable));
             
             #line default
             #line hidden
             this.Write(")\r\n        {\r\n            this.");
             
-            #line 67 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 63 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerVariable));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 67 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 63 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerVariable));
             
             #line default
             #line hidden
             this.Write(";\r\n        }\r\n\r\n");
             
-            #line 70 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 66 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
     if (this.CustomQueries != null)
     {
@@ -209,21 +207,21 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("        [Route(\"~/api/");
             
-            #line 79 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 75 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(query.ClientProviderMethodName));
             
             #line default
             #line hidden
             this.Write("\")]\r\n        [HttpGet]\r\n        public ");
             
-            #line 81 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 77 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(query.ServiceControllerMethodReturnType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 81 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 77 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(query.ServiceControllerMethodName));
             
             #line default
@@ -232,28 +230,28 @@ namespace AbstraX.Generators.Server.WebAPIController
                     "\r\n\r\n            if (identity.IsAuthenticated)\r\n            {\r\n                va" +
                     "r userName = identity.Name;\r\n                var ");
             
-            #line 88 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 84 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(queryPropertyVariable));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 88 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 84 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(queryCode));
             
             #line default
             #line hidden
             this.Write(";\r\n\r\n                return new ");
             
-            #line 90 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 86 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(query.ServiceControllerMethodReturnType));
             
             #line default
             #line hidden
             this.Write("\r\n                {\r\n");
             
-            #line 92 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 88 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             foreach (var entityProperty in queryEntityProperties)
             {
@@ -263,28 +261,28 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("                    ");
             
-            #line 96 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 92 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 96 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 92 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(queryPropertyVariable));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 96 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 92 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(",\r\n");
             
-            #line 97 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 93 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             }
 
@@ -294,7 +292,7 @@ namespace AbstraX.Generators.Server.WebAPIController
             this.Write("                };\r\n            }\r\n            else\r\n            {\r\n             " +
                     "   throw new UnauthorizedAccessException();\r\n            }\r\n        }\r\n");
             
-            #line 107 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 103 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
         }
     }
@@ -314,21 +312,21 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("\r\n        [HttpGet]\r\n        [Route(\"~/api/");
             
-            #line 123 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 119 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyVariable));
             
             #line default
             #line hidden
             this.Write("\")]\r\n        public ");
             
-            #line 124 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 120 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write("[] Get");
             
-            #line 124 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 120 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property));
             
             #line default
@@ -337,49 +335,49 @@ namespace AbstraX.Generators.Server.WebAPIController
                     "\r\n\r\n            if (identity.IsAuthenticated)\r\n            {\r\n                va" +
                     "r ");
             
-            #line 130 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 126 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyVariable));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 130 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 126 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerVariable));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 130 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 126 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property));
             
             #line default
             #line hidden
             this.Write(";\r\n\r\n                return ");
             
-            #line 132 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 128 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyVariable));
             
             #line default
             #line hidden
             this.Write(".Select(");
             
-            #line 132 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 128 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(" => new ");
             
-            #line 132 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 128 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write("\r\n                {\r\n");
             
-            #line 134 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 130 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             foreach (var entityProperty in this.EntityProperties)
             {
@@ -389,28 +387,28 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("                    ");
             
-            #line 138 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 134 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 138 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 134 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 138 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 134 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(",\r\n");
             
-            #line 139 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 135 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             }
 
@@ -422,14 +420,14 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("                }).OrderBy(c => c.");
             
-            #line 145 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 141 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(sortBy));
             
             #line default
             #line hidden
             this.Write(").ToArray();\r\n");
             
-            #line 146 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 142 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             }
             else
@@ -440,14 +438,14 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("                }).OrderByDescending(c => c.");
             
-            #line 151 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 147 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(sortBy));
             
             #line default
             #line hidden
             this.Write(").ToArray();\r\n");
             
-            #line 152 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 148 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             }
 
@@ -457,7 +455,7 @@ namespace AbstraX.Generators.Server.WebAPIController
             this.Write("            }\r\n            else\r\n            {\r\n                throw new Unautho" +
                     "rizedAccessException();\r\n            }\r\n        }\r\n\r\n");
             
-            #line 162 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 158 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
         }
         else
@@ -475,63 +473,63 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("        [Route(\"~/api/");
             
-            #line 174 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 170 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerSetName));
             
             #line default
             #line hidden
             this.Write("/{");
             
-            #line 174 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 170 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyRefVariableName));
             
             #line default
             #line hidden
             this.Write(":");
             
-            #line 174 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 170 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(shortType.ToLower()));
             
             #line default
             #line hidden
             this.Write("}/");
             
-            #line 174 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 170 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.ToLower()));
             
             #line default
             #line hidden
             this.Write("\")]\r\n        [HttpGet]\r\n        public ");
             
-            #line 176 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 172 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write("[] Get");
             
-            #line 176 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 172 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property));
             
             #line default
             #line hidden
             this.Write("For");
             
-            #line 176 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 172 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parentRefName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 176 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 172 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(shortType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 176 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 172 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyRefVariableName));
             
             #line default
@@ -540,77 +538,77 @@ namespace AbstraX.Generators.Server.WebAPIController
                     "\n\r\n            if (identity.IsAuthenticated)\r\n            {\r\n                var" +
                     " ");
             
-            #line 182 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 178 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyVariable));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 182 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 178 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerVariable));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 182 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 178 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property));
             
             #line default
             #line hidden
             this.Write(";\r\n\r\n                return ");
             
-            #line 184 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 180 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyVariable));
             
             #line default
             #line hidden
             this.Write(".Where(");
             
-            #line 184 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 180 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(" => ");
             
-            #line 184 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 180 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 184 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 180 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(relatedEntity.ThisPropertyRef.Name));
             
             #line default
             #line hidden
             this.Write(" == ");
             
-            #line 184 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 180 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyRefVariableName));
             
             #line default
             #line hidden
             this.Write(").Select(");
             
-            #line 184 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 180 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(" => new ");
             
-            #line 184 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 180 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write("\r\n                {\r\n");
             
-            #line 186 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 182 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             foreach (var entityProperty in this.EntityProperties)
             {
@@ -620,28 +618,28 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("                    ");
             
-            #line 190 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 186 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 190 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 186 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 190 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 186 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(",\r\n");
             
-            #line 191 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 187 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             }
 
@@ -653,28 +651,28 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("                }).OrderBy(");
             
-            #line 197 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 193 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(" => ");
             
-            #line 197 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 193 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 197 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 193 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(sortBy));
             
             #line default
             #line hidden
             this.Write(").ToArray();\r\n");
             
-            #line 198 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 194 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             }
             else
@@ -685,28 +683,28 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("                }).OrderByDescending(");
             
-            #line 203 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 199 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(" => ");
             
-            #line 203 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 199 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 203 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 199 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(sortBy));
             
             #line default
             #line hidden
             this.Write(").ToArray();\r\n");
             
-            #line 204 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 200 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             }
 
@@ -716,7 +714,7 @@ namespace AbstraX.Generators.Server.WebAPIController
             this.Write("            }\r\n            else\r\n            {\r\n                throw new Unautho" +
                     "rizedAccessException();\r\n            }\r\n        }\r\n");
             
-            #line 213 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 209 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
         }
     }
@@ -726,35 +724,35 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("\r\n        [HttpGet]\r\n        [Route(\"~/api/");
             
-            #line 219 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 215 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityVariable));
             
             #line default
             #line hidden
             this.Write("/{id:");
             
-            #line 219 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 215 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.KeyType.ToLower()));
             
             #line default
             #line hidden
             this.Write("}\")]\r\n        public ");
             
-            #line 220 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 216 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write(" Get");
             
-            #line 220 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 216 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 220 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 216 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.KeyType));
             
             #line default
@@ -763,70 +761,70 @@ namespace AbstraX.Generators.Server.WebAPIController
                     "y;\r\n\r\n            if (identity.IsAuthenticated)\r\n            {\r\n                " +
                     "var ");
             
-            #line 226 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 222 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerSetVariable));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 226 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 222 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerVariable));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 226 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 222 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ContainerSet));
             
             #line default
             #line hidden
             this.Write(";\r\n\r\n                return ");
             
-            #line 228 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 224 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerSetVariable));
             
             #line default
             #line hidden
             this.Write(".Where(");
             
-            #line 228 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 224 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(" => ");
             
-            #line 228 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 224 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 228 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 224 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.KeyName));
             
             #line default
             #line hidden
             this.Write(" == id).Select(");
             
-            #line 228 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 224 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(" => new ");
             
-            #line 228 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 224 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write("\r\n                {\r\n");
             
-            #line 230 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 226 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             foreach (var entityProperty in this.EntityProperties)
             {
@@ -836,28 +834,28 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("                    ");
             
-            #line 234 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 230 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 234 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 230 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 234 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 230 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(",\r\n");
             
-            #line 235 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 231 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             }
 
@@ -868,21 +866,21 @@ namespace AbstraX.Generators.Server.WebAPIController
                     "             throw new UnauthorizedAccessException();\r\n            }\r\n        }\r" +
                     "\n\r\n        [HttpPost]\r\n        public void Create");
             
-            #line 247 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 243 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 247 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 243 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 247 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 243 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityVariable));
             
             #line default
@@ -891,42 +889,42 @@ namespace AbstraX.Generators.Server.WebAPIController
                     "\n\r\n            if (identity.IsAuthenticated)\r\n            {\r\n                var" +
                     " ");
             
-            #line 253 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 249 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerSetVariable));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 253 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 249 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerVariable));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 253 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 249 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ContainerSet));
             
             #line default
             #line hidden
             this.Write(";\r\n\r\n                ");
             
-            #line 255 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 251 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerSetVariable));
             
             #line default
             #line hidden
             this.Write(".Add(new Entities.");
             
-            #line 255 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 251 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write("\r\n                {\r\n");
             
-            #line 257 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 253 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             foreach (var entityProperty in this.EntityProperties)
             {
@@ -940,14 +938,14 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("                    ");
             
-            #line 265 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 261 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(" = Guid.NewGuid(),\r\n");
             
-            #line 266 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 262 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
                     }
                 }
@@ -959,28 +957,28 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("                    ");
             
-            #line 272 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 268 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 272 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 268 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityVariable));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 272 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 268 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(",\r\n");
             
-            #line 273 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 269 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
                 }
             }
@@ -990,7 +988,7 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("                });\r\n\r\n                ");
             
-            #line 279 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 275 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerVariable));
             
             #line default
@@ -999,21 +997,21 @@ namespace AbstraX.Generators.Server.WebAPIController
                     "throw new UnauthorizedAccessException();\r\n            }\r\n        }\r\n\r\n        [H" +
                     "ttpPut]\r\n        public void Update");
             
-            #line 288 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 284 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 288 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 284 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 288 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 284 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityVariable));
             
             #line default
@@ -1022,63 +1020,63 @@ namespace AbstraX.Generators.Server.WebAPIController
                     "\n\r\n            if (identity.IsAuthenticated)\r\n            {\r\n                var" +
                     " update");
             
-            #line 294 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 290 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 294 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 290 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerVariable));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 294 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 290 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ContainerSet));
             
             #line default
             #line hidden
             this.Write(".Single(");
             
-            #line 294 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 290 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(" => ");
             
-            #line 294 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 290 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 294 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 290 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.KeyName));
             
             #line default
             #line hidden
             this.Write(" == ");
             
-            #line 294 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 290 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityVariable));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 294 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 290 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.KeyName));
             
             #line default
             #line hidden
             this.Write(");\r\n\r\n");
             
-            #line 296 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 292 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
             foreach (var entityProperty in this.EntityProperties)
             {
@@ -1090,35 +1088,35 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("                update");
             
-            #line 302 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 298 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 302 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 298 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 302 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 298 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityVariable));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 302 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 298 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityProperty.Name));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 303 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 299 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
 
                 }
             }
@@ -1128,7 +1126,7 @@ namespace AbstraX.Generators.Server.WebAPIController
             #line hidden
             this.Write("\r\n                ");
             
-            #line 308 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 304 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerVariable));
             
             #line default
@@ -1137,14 +1135,14 @@ namespace AbstraX.Generators.Server.WebAPIController
                     "throw new UnauthorizedAccessException();\r\n            }\r\n        }\r\n\r\n        [H" +
                     "ttpDelete]\r\n        public void Delete");
             
-            #line 317 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 313 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 317 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 313 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.KeyType));
             
             #line default
@@ -1153,77 +1151,77 @@ namespace AbstraX.Generators.Server.WebAPIController
                     "y;\r\n\r\n            if (identity.IsAuthenticated)\r\n            {\r\n                " +
                     "var ");
             
-            #line 323 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 319 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerSetVariable));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 323 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 319 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerVariable));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 323 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 319 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ContainerSet));
             
             #line default
             #line hidden
             this.Write(";\r\n                var delete");
             
-            #line 324 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 320 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 324 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 320 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerSetVariable));
             
             #line default
             #line hidden
             this.Write(".Single(");
             
-            #line 324 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 320 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(" => ");
             
-            #line 324 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 320 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(lambdaParameter));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 324 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 320 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.KeyName));
             
             #line default
             #line hidden
             this.Write(" == id);\r\n\r\n                ");
             
-            #line 326 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 322 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerSetVariable));
             
             #line default
             #line hidden
             this.Write(".Remove(delete");
             
-            #line 326 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 322 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EntityName));
             
             #line default
             #line hidden
             this.Write(");\r\n\r\n                ");
             
-            #line 328 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
+            #line 324 "D:\MC\CloudIDEaaS\root\ApplicationGenerator\Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(containerVariable));
             
             #line default

@@ -12,7 +12,8 @@
     <RootNamespace>ApplicationGenerator</RootNamespace>
     <AssemblyName>ApplicationGenerator.Data</AssemblyName>
     <Configurations>Debug;Release;DebugAll;PreRelease</Configurations>
-    <AssemblyVersion>1.0.0.856</AssemblyVersion>
+    <AssemblyVersion>1.0.0.857</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

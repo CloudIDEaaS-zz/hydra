@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using Polenter.Serialization.Serializing;
+using TypeInfo = Polenter.Serialization.Serializing.TypeInfo;
 
 namespace Polenter.Serialization.Advanced
 {

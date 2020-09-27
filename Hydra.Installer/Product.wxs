@@ -21,8 +21,8 @@
 				SuppressOptionsUI="yes" /> 
 		</BootstrapperApplicationRef>
 		<Chain>
-			<PackageGroupRef Id="NetFx46Web"/>
-			<PackageGroupRef Id="HydraSuite" After="NetFx46Web" />
+			<PackageGroupRef Id="NetFx462Web"/>
+			<PackageGroupRef Id="HydraSuite" After="NetFx462Web" />
 		</Chain>
 	</Bundle>
 	<Fragment>

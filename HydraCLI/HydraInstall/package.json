@@ -2,7 +2,7 @@
 	"name": "@cloudideaas/hydrainstall",
 	"displayName": "Hydra Install",
 	"description": "Installs Windows requirements for @cloudideaas/hydra.  Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes.",
-	"version": "1.0.62",
+	"version": "1.0.63",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/CloudIDEaaS/hydra.git"
