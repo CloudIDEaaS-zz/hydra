@@ -59,7 +59,7 @@ export class HydraInstaller {
         installerProcess.on("close",() => {
 
             this.stdout.writeLine(`Installer exited with exit code ${ installerProcess.exitCode }`);
-            process.exit(installerProcess.exitCode);
+            process.exit(0);
 
         });
     }
@@ -69,6 +69,21 @@ export class HydraInstaller {
         let installerPath : string;
         let commandLine : string;
         let installerProcess: ChildProcess;
+        let programFilesPath : string;
+        let generatorApp : string;
+        let hydraSolutionPath = <string> process.env.HYDRASOLUTIONPATH;
+
+        programFilesPath = process.env["PROGRAMFILES(x86)"];
+
+        if (!programFilesPath) {
+            programFilesPath = process.env["PROGRAMFILES"];
+        }
+
+        generatorApp = path.join(programFilesPath, "\\CloudIDEaaS\\Hydra\\ApplicationGenerator.exe");
+
+        if (fs.existsSync(generatorApp)) {
+            return;
+        }
 
         this.writeLine("Installing Hydra Bundle for Windows");
 
@@ -91,7 +106,7 @@ export class HydraInstaller {
         installerProcess.on("close",() => {
 
             this.stdout.writeLine(`Installer exited with exit code ${ installerProcess.exitCode }`);
-            process.exit(installerProcess.exitCode);
+            process.exit(0);
 
         });
     }

@@ -15,10 +15,15 @@ class ApplicationGeneratorAgent {
         this.api = new api_1.Api();
     }
     initialize(debug = false) {
-        let programFilesPath = process.env["PROGRAMFILES(x86)"];
-        let generatorApp = path.join(programFilesPath, "\\CloudIDEaaS\\Hydra\\ApplicationGenerator.exe");
+        let programFilesPath;
+        let generatorApp;
         let commandLine;
         let hydraSolutionPath = process.env.HYDRASOLUTIONPATH;
+        programFilesPath = process.env["PROGRAMFILES(x86)"];
+        if (!programFilesPath) {
+            programFilesPath = process.env["PROGRAMFILES"];
+        }
+        generatorApp = path.join(programFilesPath, "\\CloudIDEaaS\\Hydra\\ApplicationGenerator.exe");
         this.stdout.writeLine("Launching Hydra");
         if (!fs.existsSync(generatorApp)) {
             generatorApp = path.join(hydraSolutionPath, "\\ApplicationGenerator\\bin\\Debug\\ApplicationGenerator.exe");

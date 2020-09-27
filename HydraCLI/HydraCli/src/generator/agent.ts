@@ -27,10 +27,18 @@ export class ApplicationGeneratorAgent {
 
     public initialize(debug : boolean = false)
     {
-        let programFilesPath = process.env["PROGRAMFILES(x86)"];
-        let generatorApp = path.join(programFilesPath, "\\CloudIDEaaS\\Hydra\\ApplicationGenerator.exe");
+        let programFilesPath : string;
+        let generatorApp : string;
         let commandLine: string;
         let hydraSolutionPath = <string> process.env.HYDRASOLUTIONPATH;
+
+        programFilesPath = process.env["PROGRAMFILES(x86)"];
+
+        if (!programFilesPath) {
+            programFilesPath = process.env["PROGRAMFILES"];
+        }
+
+        generatorApp = path.join(programFilesPath, "\\CloudIDEaaS\\Hydra\\ApplicationGenerator.exe");
 
         this.stdout.writeLine("Launching Hydra");
 
