@@ -66,6 +66,25 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Debug Hydra Cli - generate entities from template",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "console": "externalTerminal",
+            "args": [
+                "generate",
+                "entities",
+                "--logToConsole",
+                "--debug",
+                "--template",
+                "\"%HYDRASOLUTIONPATH%\\ApplicationGenerator\\GeneratorTemplates\\Default\\entityDomainModel.template\"",
+                "--businessmodel",
+                "\"%HYDRASOLUTIONPATH%\\ApplicationGenerator\\TestOutput\\businessModel.json\""
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Debug Hydra Cli - test",
             "preLaunchTask": "build",
             "cwd": "${workspaceFolder}/GenOutput/sample",
@@ -86,7 +105,18 @@
             "program": "${workspaceFolder}/HydraCli/out/cli.js",
             "console": "externalTerminal",
             "args": [
-                "version"
+                "--version"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Hydra Cli - help",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "console": "externalTerminal",
+            "args": [
             ]
         },
         {

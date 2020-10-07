@@ -8,6 +8,7 @@ xcopy %SourceDir%\ApplicationGeneratorBuildTasks.sln %TargetDir% /i /d /y
 xcopy %SourceDir%\.gitignore %TargetDir% /i /d /y 
 xcopy %SourceDir%\ApplicationGenerator\LICENSE %TargetDir% /i /d /y 
 xcopy %SourceDir%\ApplicationGenerator\README.md %TargetDir% /i /d /y 
+xcopy %SourceDir%\ApplicationGenerator\README.md %SourceDir%\HydraCLI\HydraCli\ /i /d /y 
 xcopy %SourceDir%\Hydra.Installer\bin\Debug\Hydra.Installer.exe %SourceDir%\HydraCLI\HydraInstall\install /i /d /y 
 xcopy %SourceDir%\HydraCLI\HydraCli\package.json %TargetDir% /i /d /y 
 

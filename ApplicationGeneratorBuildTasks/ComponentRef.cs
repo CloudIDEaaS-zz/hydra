@@ -22,6 +22,11 @@ namespace ApplicationGeneratorBuildTasks
         {
         }
 
+        public ComponentRef(string id)
+        {
+            this.Id = id;
+        }
+
         public ComponentRef(Component component)
         {
             this.Id = component.Id;

@@ -54,6 +54,7 @@ namespace BuildTasks
                 var directories = ComponentFinder.GetDirectories(applicationGeneratorBinaries, applicationGeneratorProject, this.TargetFramework, this.TargetAssembly, productFilePath);
                 var document = XDocument.Load(productFilePath);
                 var namespaceManager = new XmlNamespaceManager(new NameTable());
+                var programMenuXml = typeof(UpdateHydraInstaller).ReadResource<string>("ApplicationGeneratorBuildTasks.ProgramMenu.xml");
                 XElement elementFeature;
                 XElement elementDirectory;
                 ApplicationGeneratorBuildTasks.Directory groupDirectory;
@@ -61,6 +62,11 @@ namespace BuildTasks
                 ComponentGroupRef componentGroupRef;
                 XElement elementGroupDirectory;
                 XElement elementComponentGroupRef;
+                XElement elementProgramMenu;
+                XElement elementProgramMenuDirectory;
+                XElement elementApplicationShortcutComponentRef;
+                XElement elementFragmentComponentGroup;
+                ApplicationGeneratorBuildTasks.Directory programMenuDirectory;
 
                 namespaceManager.AddNamespace("wi", "http://schemas.microsoft.com/wix/2006/wi");
 
@@ -94,6 +100,46 @@ namespace BuildTasks
                 topLeveDirectory.Directories.AddRange(directories);
 
                 AddDirectories(elementFeature, elementDirectory, topLeveDirectory);
+
+                // add start menu elements
+
+                elementProgramMenuDirectory = elementDirectory.XPathSelectElement("wi:Directory[@Id='ProgramMenuFolder']", namespaceManager);
+
+                if (elementProgramMenuDirectory != null)
+                {
+                    elementProgramMenuDirectory.Remove();
+                }
+
+                programMenuDirectory = new ApplicationGeneratorBuildTasks.Directory("ProgramMenuFolder") { Directories = new List<ApplicationGeneratorBuildTasks.Directory> { new ApplicationGeneratorBuildTasks.Directory("HydraShortcuts", "CloudIDEaaS Hydra") } };
+                elementProgramMenuDirectory = programMenuDirectory.ToXElement<ApplicationGeneratorBuildTasks.Directory>();
+
+                foreach (var shortcutDirectory in programMenuDirectory.Directories)
+                {
+                    elementProgramMenuDirectory.Add(shortcutDirectory.ToXElement<ApplicationGeneratorBuildTasks.Directory>());
+                }
+
+                elementDirectory.Add(elementProgramMenuDirectory);
+
+                elementApplicationShortcutComponentRef = elementFeature.XPathSelectElement("wi:ComponentRef[@Id='ApplicationShortcut']", namespaceManager);
+
+                if (elementApplicationShortcutComponentRef != null)
+                {
+                    elementApplicationShortcutComponentRef.Remove();
+                }
+
+                elementApplicationShortcutComponentRef = new ComponentRef("ApplicationShortcut").ToXElement<ComponentRef>();
+
+                elementFeature.Add(new ComponentRef("ApplicationShortcut").ToXElement<ComponentRef>());
+
+                elementFragmentComponentGroup = document.Root.XPathSelectElement("wi:Fragment/wi:ComponentGroup[@Id='ProductComponents']", namespaceManager);
+
+                if (elementFragmentComponentGroup != null)
+                {
+                    elementFragmentComponentGroup.Remove();
+                }
+
+                elementProgramMenu = XElement.Parse(programMenuXml);
+                document.Root.Add(elementProgramMenu);
 
                 document.Save(productFilePath, SaveOptions.DisableFormatting);
             }

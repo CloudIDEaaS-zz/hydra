@@ -36,6 +36,13 @@ namespace ApplicationGeneratorBuildTasks
             this.Id = id;
         }
 
+        public Directory(string id, string name) : this()
+        {
+            this.Id = id;
+            this.Name = name;
+        }
+
+
         public Directory(DirectoryInfo directoryInfo) : this()
         {
             this.Id = "dir_" + Guid.NewGuid().ToString().Replace("-", "_");

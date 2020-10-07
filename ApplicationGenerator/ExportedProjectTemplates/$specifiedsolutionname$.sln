@@ -2,13 +2,13 @@
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{$guid1$}") = "$specifiedsolutionname$.Entities", "HydraAspNetCore.Entities\$specifiedsolutionname$.Entities.csproj", "{$guid2$}"
+Project("{$guid1$}") = "$specifiedsolutionname$.Entities", "$specifiedsolutionname$.Entities\$specifiedsolutionname$.Entities.csproj", "{$guid2$}"
 EndProject
-Project("{$guid1$}") = "$specifiedsolutionname$.Web", "HydraAspNetCore.Web\$specifiedsolutionname$.Web.csproj", "{$guid3$}"
+Project("{$guid1$}") = "$specifiedsolutionname$.Web", "$specifiedsolutionname$.Web\$specifiedsolutionname$.Web.csproj", "{$guid3$}"
 EndProject
 Project("{$guid1$}") = "Utils.Core", "Utils.Core\Utils.Core.csproj", "$guid4$}"
 EndProject
-Project("{$guid1$}") = "$specifiedsolutionname$.Services", "HydraAspNetCore.Services\$specifiedsolutionname$.Services.csproj", "$guid5$}"
+Project("{$guid1$}") = "$specifiedsolutionname$.Services", "$specifiedsolutionname$.Services\$specifiedsolutionname$.Services.csproj", "$guid5$}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -279,6 +279,27 @@ namespace Utils
             }
         }
 
+        public static string GetExactPath(this FileSystemInfo fileSystemInfo)
+        {
+            var pathName = fileSystemInfo.FullName;
+            var directory = new DirectoryInfo(pathName);
+
+            if (!(File.Exists(pathName) || Directory.Exists(pathName)))
+            {
+                return null;
+            }
+
+            if (directory.Parent != null)
+            {
+                return Path.Combine(directory.Parent.GetExactPath(), directory.Parent.GetFileSystemInfos(directory.Name)[0].Name);
+                
+            }
+            else
+            {
+                return directory.Name.ToUpper();
+            }
+        }
+
         public static bool CompareTo(this DirectoryInfo dir1, DirectoryInfo dir2)
         {
             // Take a snapshot of the file system.  
@@ -1241,9 +1262,35 @@ namespace Utils
             return output;
         }
 
-        public static void ToZipFile(this DirectoryInfo directory, string newZipFileName, Func<FileInfo, bool> filter = null)
+        public static void ToZipFile(this DirectoryInfo directory, string newZipFileName, Func<FileInfo, bool> filter = null, bool skipEmpty = true)
         {
-            var outputStream = File.OpenWrite(newZipFileName);
+            FileStream outputStream;
+
+            if (skipEmpty)
+            {
+                var count = directory.GetFiles("*.*", SearchOption.AllDirectories).Where(f =>
+                {
+                    if (filter != null && !filter(f))
+                    {
+                        return false;
+                    }
+
+                    if (f.FullName.AsCaseless() == newZipFileName)
+                    {
+                        return false;
+                    }
+
+                    return true;
+
+                }).Count();
+
+                if (count == 0)
+                {
+                    return;
+                }
+            }
+
+            outputStream = File.OpenWrite(newZipFileName);
 
             using (var zipArchive = new ZipArchive(outputStream, ZipArchiveMode.Create))
             {

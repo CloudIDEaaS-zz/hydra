@@ -7,6 +7,8 @@ namespace CodeInterfaces
 {
     public interface ICodeTemplateParameters
     {
+        string AppName { get; set; }
+        string AppDescription { get; set; }
         string ProjectName { get; set; }
         string FrameworkVersion { get; set; }
         string RegisteredOrganization { get; set; }

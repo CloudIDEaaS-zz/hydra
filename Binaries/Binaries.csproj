@@ -60,6 +60,7 @@
     <Content Include="RtfHtml\nunit-console-runner.dll" />
     <Content Include="RtfHtml\nunit.framework.dll" />
     <Content Include="SolutionLibraries\ApplicationGeneratorBuildTasks.dll" />
+    <Content Include="System.ComponentModel.DataAnnotations.dll" />
     <Content Include="TransformerBuildTask\TransformerBuildTask.dll" />
     <Content Include="VSPublicAssemblies\Microsoft.VisualStudio.OLE.Interop.dll" />
     <Content Include="VSPublicAssemblies\Microsoft.VisualStudio.Shell.Interop.10.0.dll" />

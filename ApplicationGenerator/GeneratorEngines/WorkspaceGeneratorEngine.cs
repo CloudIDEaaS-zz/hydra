@@ -1,4 +1,8 @@
-﻿using EntityProvider.Web.Entities;
+﻿// file:	GeneratorEngines\WorkspaceGeneratorEngine.cs
+//
+// summary:	Implements the workspace generator engine class
+
+using EntityProvider.Web.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,24 +34,58 @@ using CodeInterfaces;
 
 namespace AbstraX.GeneratorEngines
 {
+    /// <summary>   A workspace generator engine. </summary>
+    ///
+    /// <remarks>   Ken, 10/3/2020. </remarks>
+
     public class WorkspaceGeneratorEngine : IWorkspaceGeneratorEngine
     {
+        /// <summary>   Name of the application. </summary>
+        private string appDescription;
+        /// <summary>   Name of the application. </summary>
         private string appName;
+
+        /// <summary>   Gets or sets the generator configuration. </summary>
+        ///
+        /// <value> The generator configuration. </value>
+
         public GeneratorConfiguration GeneratorConfiguration { get; private set; }
+        /// <summary>   The generator mode. </summary>
         private GeneratorMode generatorMode;
+        /// <summary>   Options for controlling the generator. </summary>
         private GeneratorOptions generatorOptions;
+        /// <summary>   The generator override pairs. </summary>
         private List<KeyValuePair<string, IGeneratorOverrides>> generatorOverridePairs;
+        /// <summary>   Type of the project. </summary>
         private Guid projectType;
+        /// <summary>   The project folder root. </summary>
         private string projectFolderRoot;
+        /// <summary>   Name of the organization. </summary>
         private string organizationName;
+        /// <summary>   The supported tokens. </summary>
         private string[] supportedTokens;
 
-        public WorkspaceGeneratorEngine(Guid projectType, string projectFolderRoot, string appName, string organizationName, Dictionary<string, object> additionalOptions, GeneratorMode generatorMode = GeneratorMode.Console, GeneratorOptions generatorOptions = null)
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   Ken, 10/3/2020. </remarks>
+        ///
+        /// <param name="projectType">          Type of the project. </param>
+        /// <param name="projectFolderRoot">    The project folder root. </param>
+        /// <param name="appName">              Name of the application. </param>
+        /// <param name="appDescription">       Information describing the application. </param>
+        /// <param name="organizationName">     Name of the organization. </param>
+        /// <param name="additionalOptions">    Options for controlling the additional. </param>
+        /// <param name="generatorMode">        (Optional) The generator mode. </param>
+        /// <param name="generatorOptions">     (Optional) Options for controlling the generator. </param>
+
+        public WorkspaceGeneratorEngine(Guid projectType, string projectFolderRoot, string appName, string appDescription, string organizationName, Dictionary<string, object> additionalOptions, GeneratorMode generatorMode = GeneratorMode.Console, GeneratorOptions generatorOptions = null)
         {
             IGeneratorOverrides appNameOverride;
+            IGeneratorOverrides appDescriptionOverride;
             KeyValuePair<string, IGeneratorOverrides> appNameOverridePair;
+            KeyValuePair<string, IGeneratorOverrides> appDescriptionOverridePair;
             string argumentsKind;
-            var appDomain = AppDomain.CurrentDomain;
+            var thisAssembly = Assembly.GetEntryAssembly();
             List<Type> types;
 
             this.generatorOverridePairs = this.GetOverrides().ToList();
@@ -56,9 +94,20 @@ namespace AbstraX.GeneratorEngines
             this.organizationName = organizationName;
 
             appNameOverridePair = generatorOverridePairs.Where(o => o.Value.OverridesAppName).LastOrDefault();
+            appDescriptionOverridePair = generatorOverridePairs.Where(o => o.Value.OverridesAppDescription).LastOrDefault();
 
             argumentsKind = appNameOverridePair.Key;
             appNameOverride = appNameOverridePair.Value;
+            appDescriptionOverride = appDescriptionOverridePair.Value;
+
+            if (appDescriptionOverride == null)
+            {
+                this.appDescription = appDescription;
+            }
+            else
+            {
+                this.appDescription = appDescriptionOverride.GetAppDescription(this.GeneratorConfiguration, argumentsKind);
+            }
 
             if (appNameOverride == null)
             {
@@ -74,12 +123,16 @@ namespace AbstraX.GeneratorEngines
 
             supportedTokens = additionalOptions.Where(p => p.Key == "SupportedTokens").SelectMany(p => (List<string>)p.Value).ToArray();
 
-            types = appDomain.GetAssemblies().SelectMany(a => a.GetTypes()).OrderBy(t => t.Name).ToList();
+            types = thisAssembly.GetAllTypes().OrderBy(t => t.Name).ToList();
 
-            this.GeneratorConfiguration = new GeneratorConfiguration(projectType, projectFolderRoot, appName, additionalOptions, generatorOptions, this, types);
+            this.GeneratorConfiguration = new GeneratorConfiguration(projectType, projectFolderRoot, appName, appDescription, additionalOptions, generatorOptions, this, types);
             this.generatorMode = generatorMode;
             this.generatorOptions = generatorOptions;
         }
+
+        /// <summary>   Process this.  </summary>
+        ///
+        /// <remarks>   Ken, 10/3/2020. </remarks>
 
         public void Process()
         {
@@ -88,18 +141,34 @@ namespace AbstraX.GeneratorEngines
             var localTemplatesPath = Path.Combine(assemblyLocation, "Templates");
             var directory = new DirectoryInfo(localTemplatesPath);
 
+            WriteLine("\r\n**** CurrentPass: {0} {1}\r\n", PrintMode.Any, config.CurrentPass, "*".Repeat(25));
+
+            foreach (var file in directory.GetFiles("*.sln"))
+            {
+                var rawFileRelativePath = file.Name.ReverseSlashes();
+                var tokenizedRelativePath = VSTemplate.ReplaceParameterText(rawFileRelativePath, GetTemplateParameters());
+                var fileName = Path.Combine(projectFolderRoot, tokenizedRelativePath);
+
+                WriteLine("{0}{1}", PrintMode.All, this.CurrentTabText, $"Creating solution { Path.GetFileNameWithoutExtension(fileName) }");
+
+                this.Indent();
+            }
+
             foreach (var file in directory.GetFiles())
             {
                 if (file.Extension == ".sln")
                 {
+                    var rawFileRelativePath = file.Name.ReverseSlashes();
+                    var tokenizedRelativePath = VSTemplate.ReplaceParameterText(rawFileRelativePath, GetTemplateParameters());
+                    var fileName = Path.Combine(projectFolderRoot, tokenizedRelativePath);
+                    var outputFile = new FileInfo(fileName);
+
+                    WriteLine("{0}{1}", PrintMode.All, this.CurrentTabText, $"Creating solution file { Path.GetFileNameWithoutExtension(fileName) }");
+
                     using (var stream = System.IO.File.OpenRead(file.FullName))
                     {
                         var reader = new StreamReader(stream);
                         var content = reader.ReadToEnd();
-                        var rawFileRelativePath = file.Name.ReverseSlashes();
-                        var tokenizedRelativePath = VSTemplate.ReplaceParameterText(rawFileRelativePath, GetTemplateParameters());
-                        var fileName = Path.Combine(projectFolderRoot, tokenizedRelativePath);
-                        var outputFile = new FileInfo(fileName);
 
                         content = VSTemplate.ReplaceParameterText(content, GetTemplateParameters());
 
@@ -117,9 +186,15 @@ namespace AbstraX.GeneratorEngines
                 else if (file.Extension == ".zip")
                 {
                     var rawProjectName = Path.GetFileNameWithoutExtension(file.Name);
+                    var rawFileRelativePath = file.Name.ReverseSlashes();
                     var templateParameters = this.GeneratorConfiguration.GetTemplateParameters(rawProjectName);
+                    var tokenizedRelativePath = VSTemplate.ReplaceParameterText(rawFileRelativePath, GetTemplateParameters());
+                    var fileName = Path.Combine(projectFolderRoot, tokenizedRelativePath);
+                    var outputFile = new FileInfo(fileName);
                     string rootFolder;
                     string projectName;
+
+                    WriteLine("{0}{1}", PrintMode.All, this.CurrentTabText, $"Creating project { Path.GetFileNameWithoutExtension(fileName) }");
 
                     if (templateParameters.Count > 0)
                     {
@@ -159,11 +234,11 @@ namespace AbstraX.GeneratorEngines
 
                         foreach (var part in package.GetParts())
                         {
-                            var rawFileRelativePath = part.Uri.OriginalString.ReverseSlashes();
                             VSTemplateProjectItem projectItem = null;
                             IWorkspaceTemplate workspaceTemplate = null;
                             IWorkspaceFileTypeHandler fileTypeHandler;
-                            string fileName;
+
+                            rawFileRelativePath = part.Uri.OriginalString.ReverseSlashes();
 
                             templateParameters = this.GeneratorConfiguration.GetTemplateParameters(rawFileRelativePath);
 
@@ -193,7 +268,7 @@ namespace AbstraX.GeneratorEngines
 
                             if (templateParameters.Count > 0)
                             {
-                                var tokenizedRelativePath = template.ReplaceParameters(rawFileRelativePath, GetTemplateParameters(projectName));
+                                tokenizedRelativePath = template.ReplaceParameters(rawFileRelativePath, GetTemplateParameters(projectName));
 
                                 fileName = Path.Combine(rootFolder, tokenizedRelativePath.RemoveStartIfMatches(@"\"));
                             }
@@ -208,7 +283,8 @@ namespace AbstraX.GeneratorEngines
                                 {
                                     var reader = new StreamReader(stream);
                                     var content = reader.ReadToEnd();
-                                    var outputFile = new FileInfo(fileName);
+                                    
+                                    outputFile = new FileInfo(fileName);
 
                                     if (workspaceTemplate.ReplaceParameters)
                                     {
@@ -226,7 +302,7 @@ namespace AbstraX.GeneratorEngines
                                     {
                                         var tokenContentHandlers = new Dictionary<string, IWorkspaceTokenContentHandler>();
 
-                                        fileTypeHandler.PreProcess(projectType, appName, rawFileRelativePath, fileName, supportedTokens, content, config);
+                                        fileTypeHandler.PreProcess(projectType, appDescription, rawFileRelativePath, fileName, supportedTokens, content, config);
 
                                         if (fileTypeHandler.TokensToProcess != null)
                                         {
@@ -236,14 +312,14 @@ namespace AbstraX.GeneratorEngines
 
                                                 if (tokenContentHandler != null)
                                                 {
-                                                    tokenContentHandler.Process(projectType, appName, rawFileRelativePath, fileName, this.supportedTokens);
+                                                    tokenContentHandler.Process(projectType, appDescription, rawFileRelativePath, fileName, this.supportedTokens);
 
                                                     tokenContentHandlers.Add(token, tokenContentHandler);
                                                 }
                                             }
                                         }
 
-                                        fileTypeHandler.Process(tokenContentHandlers, workspaceTemplate, projectType, appName, rawFileRelativePath, fileName, content, config);
+                                        fileTypeHandler.Process(tokenContentHandlers, workspaceTemplate, projectType, appDescription, rawFileRelativePath, fileName, content, config);
 
                                         content = fileTypeHandler.OutputContent;
                                     }
@@ -263,19 +339,37 @@ namespace AbstraX.GeneratorEngines
                     }
                 }
             }
+
+            this.Dedent();
         }
+
+        /// <summary>   Gets template parameters. </summary>
+        ///
+        /// <remarks>   Ken, 10/3/2020. </remarks>
+        ///
+        /// <param name="projectName">  (Optional) Name of the project. </param>
+        ///
+        /// <returns>   The template parameters. </returns>
 
         private WorkspaceTemplateParameters GetTemplateParameters(string projectName = null)
         {
             return new WorkspaceTemplateParameters
             {
+                AppName = this.appName,
+                AppDescription = this.appDescription,
                 ProjectName = projectName,
-                SolutionName = appName,
+                SolutionName = this.appName,
                 RegisteredOrganization = organizationName,
                 CopyrightYear = DateTime.UtcNow.ToString("yyyy"),
                 FrameworkVersion = "netcoreapp3.1"
             };
         }
+
+        /// <summary>   Query if this  has registered application configuration. </summary>
+        ///
+        /// <remarks>   Ken, 10/3/2020. </remarks>
+        ///
+        /// <returns>   True if registered application configuration, false if not. </returns>
 
         private bool HasRegisteredAppConfig()
         {
@@ -287,16 +381,47 @@ namespace AbstraX.GeneratorEngines
             return CompareExtensions.AnyAreNotNull(appName, appDescription, clientId, clientSecret);
         }
 
+        /// <summary>   Gets the current tab text. </summary>
+        ///
+        /// <value> The current tab text. </value>
+
         public string CurrentTabText
         {
             get
             {
-                var tabs = this.GeneratorConfiguration.HierarchyStack.Count;
+                var tabs = this.GeneratorConfiguration.IndentLevel;
                 var tabText = new string(' ', tabs * 2);
 
                 return tabText;
             }
         }
+
+
+        /// <summary>   Indents this.  </summary>
+        ///
+        /// <remarks>   Ken, 10/1/2020. </remarks>
+
+        public void Indent()
+        {
+            this.GeneratorConfiguration.Indent();
+        }
+
+        /// <summary>   Dedents this.  </summary>
+        ///
+        /// <remarks>   Ken, 10/1/2020. </remarks>
+
+        public void Dedent()
+        {
+            this.GeneratorConfiguration.Dedent();
+        }
+
+        /// <summary>   Writes a line. </summary>
+        ///
+        /// <remarks>   Ken, 10/3/2020. </remarks>
+        ///
+        /// <param name="format">       Describes the format to use. </param>
+        /// <param name="printMode">    The print mode. </param>
+        /// <param name="args">         A variable-length parameters list containing arguments. </param>
 
         public void WriteLine(string format, PrintMode printMode, params object[] args)
         {
@@ -319,6 +444,13 @@ namespace AbstraX.GeneratorEngines
             }
         }
 
+        /// <summary>   Writes an error. </summary>
+        ///
+        /// <remarks>   Ken, 10/3/2020. </remarks>
+        ///
+        /// <param name="format">   Describes the format to use. </param>
+        /// <param name="args">     A variable-length parameters list containing arguments. </param>
+
         public void WriteError(string format, params object[] args)
         {
             var output = string.Format(format, args);
@@ -337,6 +469,13 @@ namespace AbstraX.GeneratorEngines
             }
         }
 
+        /// <summary>   Writes a line. </summary>
+        ///
+        /// <remarks>   Ken, 10/3/2020. </remarks>
+        ///
+        /// <param name="format">   Describes the format to use. </param>
+        /// <param name="args">     A variable-length parameters list containing arguments. </param>
+
         public void WriteLine(string format, params object[] args)
         {
             var output = string.Format(format, args);
@@ -352,8 +491,13 @@ namespace AbstraX.GeneratorEngines
             }
         }
 
+        /// <summary>   Resets this.  </summary>
+        ///
+        /// <remarks>   Ken, 10/3/2020. </remarks>
+
         public void Reset()
         {
+            this.GeneratorConfiguration.Reset();
         }
     }
 }

@@ -17,6 +17,33 @@ namespace Utils
             return obj == null ? 0 : obj;
         }
 
+        public static T CreateCopy<T>(this object objFrom) where T : new()
+        {
+            var objTo = Activator.CreateInstance<T>();
+
+            objFrom.CopyTo(objTo);
+
+            return objTo;
+        }
+
+        public static void CopyTo(this object objFrom, object objTo)
+        {
+            var properties = objFrom.GetPublicProperties();
+
+            foreach (var propertyInfoFrom in properties)
+            {
+                if (objTo.HasProperty(propertyInfoFrom.Name))
+                {
+                    var propertyInfoTo = objTo.GetProperty(propertyInfoFrom.Name);
+
+                    if (propertyInfoTo.PropertyType.IsAssignableFrom(propertyInfoFrom.PropertyType))
+                    {
+                        objTo.SetPropertyValue(propertyInfoTo.Name, objFrom.GetPropertyValue<object>(propertyInfoFrom.Name));
+                    }
+                }
+            }
+        }
+
         public static IDisposable StartStopwatch(this object notUsed, Action<TimeSpan> func)
         {
             var stopWatch = new Stopwatch();
@@ -695,6 +722,57 @@ namespace Utils.Hierarchies
                     x--;
                 }
             };
+
+            x++;
+            recurseChildren(obj);
+        }
+
+
+        public static void GetDescendantsAndSelf<TObject, TStackObject>(this TObject obj, Func<TObject, IEnumerable<TObject>> childrenSelector, Func<TObject, TStackObject, TStackObject> callback)
+        {
+            Action<TObject> recurseChildren = null;
+            var x = 0;
+            var stack = new Stack<TStackObject>();
+            var lastLevel = 0;
+            TStackObject topLevelParentStackObject;
+
+            recurseChildren = (parent) =>
+            {
+                foreach (var subItem in childrenSelector(parent))
+                {
+                    TStackObject parentStackObject = default(TStackObject);
+
+                    for (var y = x; y <= lastLevel; y++)
+                    {
+                        stack.Pop();
+                    }
+
+                    if (stack.Count > 0)
+                    {
+                        parentStackObject = stack.Peek();
+                    }
+
+                    parentStackObject = callback(subItem, parentStackObject);
+
+                    if (parentStackObject != null)
+                    {
+                        stack.Push(parentStackObject);
+                    }
+
+                    lastLevel = x;
+
+                    x++;
+                    recurseChildren(subItem);
+                    x--;
+                }
+            };
+
+            topLevelParentStackObject = callback(obj, default(TStackObject));
+
+            if (topLevelParentStackObject != null)
+            {
+                stack.Push(topLevelParentStackObject);
+            }
 
             x++;
             recurseChildren(obj);

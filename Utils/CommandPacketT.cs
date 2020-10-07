@@ -22,7 +22,7 @@ namespace Utils
         {
             OneTimeTimer.Run(() =>
             {
-                debugInfo = this.ToJson();
+                debugInfo = this.ToJsonText();
 
             }, 100);
         }
@@ -35,7 +35,7 @@ namespace Utils
             this.ReceivedTimestamp = receivedTimestamp;
             this.SentTimestamp = DateTime.UtcNow;
 
-            debugInfo = this.ToJson();
+            debugInfo = this.ToJsonText();
         }
 
         [ScriptIgnore]

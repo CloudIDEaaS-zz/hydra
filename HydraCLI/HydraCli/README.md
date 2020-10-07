@@ -1,5 +1,10 @@
 # Hydra
 
+![Twitter Follow](https://img.shields.io/twitter/follow/cloudideaas?label=Hydra&style=social)
+![npm](https://img.shields.io/npm/dt/@cloudideaas/hydra)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/cloudideaas/hydra)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cloudideaas-hydra)
+
 Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes.
 
 ![Hydra Splash](https://www.cloudideaas.com/images/HydraSplashNarrow.png)
@@ -137,17 +142,6 @@ dull, and drone.  It does this while at the same time, allowing for creativity a
     </script>
 }    
 ```
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
 
 ## Known Issues
 

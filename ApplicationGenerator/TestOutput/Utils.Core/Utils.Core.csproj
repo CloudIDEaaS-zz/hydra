@@ -13,7 +13,7 @@
     <Configurations>Debug;Release;DebugAll</Configurations>
     <RootNamespace>Utils.Core</RootNamespace>
     <Version>2.0.0</Version>
-    <AssemblyVersion>22.0.0.3780</AssemblyVersion>
+    <AssemblyVersion>22.0.0.3779</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

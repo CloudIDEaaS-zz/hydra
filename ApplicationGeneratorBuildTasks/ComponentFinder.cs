@@ -21,55 +21,6 @@ namespace ApplicationGeneratorBuildTasks
 {
     public static class ComponentFinder
     {
-        public static List<Directory> GetDirectories2(string binariesPath, string projectPath, string targetFramework, string targetAssembly, string productFilePath)
-        {
-            var directories = new List<Directory>();
-            var binariesDirectory = new DirectoryInfo(binariesPath);
-            var projectFolder = Path.GetDirectoryName(projectPath);
-            var stack = new Stack<Directory>();
-            var lastLevel = 0;
-            
-            binariesDirectory.GetDescendants(d => d.GetDirectories(), (d, l) =>
-            {
-                Directory parentDirectory = null;
-                Directory directory = null;
-
-                for (var x = l; x <= lastLevel; x++)
-                {
-                    stack.Pop();
-                }
-
-                if (stack.Count > 0)
-                {
-                    parentDirectory = stack.Peek();
-                }
-
-                directory = new Directory(d);
-
-                if (parentDirectory != null)
-                {
-                    parentDirectory.Directories.Add(directory);
-                }
-
-                foreach (var file in d.GetFiles())
-                {
-                    var component = new Component(file, projectFolder, productFilePath);
-
-                    directory.Files.Add(component);
-                }
-
-                if (l == 1)
-                {
-                    directories.Add(directory);
-                }
-
-                stack.Push(directory);
-
-                lastLevel = l;
-            });
-
-            return directories;
-        }
         public static List<Directory> GetDirectories(string binariesPath, string projectPath, string targetFramework, string targetAssembly, string productFilePath)
         {
             var directories = new List<Directory>();
@@ -220,6 +171,10 @@ namespace ApplicationGeneratorBuildTasks
                             {
                                 frameworkVersions.Add(frameworkVersion);
                             }
+                            else if (framework == "standard")
+                            {
+
+                            }
                         }
                         else
                         {
@@ -227,17 +182,52 @@ namespace ApplicationGeneratorBuildTasks
                         }
                     }
 
-                    bestFrameworkVersion = frameworkVersions.FirstOrDefault(v => v.Framework == targetFrameworkVersion.Framework && v.Version <= dotNetVersion);
-                    componentDirectory = new DirectoryInfo(Path.Combine(packageLibDirectory.FullName, string.Format("net{0}{1}", bestFrameworkVersion.Version.Major, bestFrameworkVersion.Version.Minor)));
-
-                    if (!componentDirectory.Exists)
+                    if (frameworkVersions.Count == 0)
                     {
-                        DebugUtils.Break();
+                        // fallback to standard if none found
+
+                        foreach (var frameworkDirectory in packageLibDirectory.GetDirectories())
+                        {
+                            regex = new Regex(@"net(?<framework>[a-z]*)?(?<major>\d)\.?(?<minor>\d)");
+
+                            if (regex.IsMatch(frameworkDirectory.Name))
+                            {
+                                var match = regex.Match(frameworkDirectory.Name);
+                                var major = match.GetGroupValue("major");
+                                var minor = match.GetGroupValue("minor");
+                                var framework = match.GetGroupValue("framework");
+                                var frameworkVersion = new FrameworkVersion(framework, Version.Parse(major + "." + minor));
+
+                                if (framework == "standard" && targetFrameworkVersion.Framework == "net")
+                                {
+                                    componentDirectory = frameworkDirectory;
+
+                                    foreach (var componentDll in componentDirectory.GetFiles("*.dll"))
+                                    {
+                                        packageFiles.Add(componentDll);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                DebugUtils.Break();
+                            }
+                        }
                     }
-
-                    foreach (var componentDll in componentDirectory.GetFiles("*.dll"))
+                    else
                     {
-                        packageFiles.Add(componentDll);
+                        bestFrameworkVersion = frameworkVersions.FirstOrDefault(v => v.Framework == targetFrameworkVersion.Framework && v.Version <= dotNetVersion);
+                        componentDirectory = new DirectoryInfo(Path.Combine(packageLibDirectory.FullName, string.Format("net{0}{1}", bestFrameworkVersion.Version.Major, bestFrameworkVersion.Version.Minor)));
+
+                        if (!componentDirectory.Exists)
+                        {
+                            DebugUtils.Break();
+                        }
+
+                        foreach (var componentDll in componentDirectory.GetFiles("*.dll"))
+                        {
+                            packageFiles.Add(componentDll);
+                        }
                     }
                 }
             }

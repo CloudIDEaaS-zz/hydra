@@ -238,7 +238,7 @@ export class ApplicationGeneratorAgent {
         }
     }
 
-    public generateWorkspace(appName: string, noFileCreation : boolean, generatorPass : "None" | "All" | "HierarchyOnly" | "Files", listener: (response : string) => void = null) {
+    public generateWorkspace(appName: string, appDescription: string, noFileCreation : boolean, generatorPass : "None" | "All" | "HierarchyOnly" | "Files", listener: (response : string) => void = null) {
         
         let commandObject : CommandPacket = new CommandPacket(
             "request",
@@ -246,6 +246,7 @@ export class ApplicationGeneratorAgent {
             [
                 { "Kind": "workspace" },
                 { "AppName": appName },
+                { "AppDescription": appDescription },
                 { "GeneratorPass": generatorPass },
                 { "NoFileCreation": noFileCreation }
             ],

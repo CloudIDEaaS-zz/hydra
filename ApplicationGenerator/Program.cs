@@ -22,7 +22,7 @@ namespace AbstraX
 {
     public static class Program
     {
-        private const bool RUN_UNIT_TESTS = true;
+        private const bool RUN_UNIT_TESTS = false;
         private static WebApiService webApiService;
 
         public static void Main(string[] args)
@@ -108,7 +108,23 @@ namespace AbstraX
 
                 if (argumentsKind != null)
                 {
-                    generatorHandler.Execute(generatorOverrides.GetHandlerArguments(packageCachePath, argumentsKind));
+                    var arguments = generatorOverrides.GetHandlerArguments(packageCachePath, argumentsKind);
+
+                    if (arguments.ContainsKey("GeneratorKinds"))
+                    {
+                        var generatorKinds = ((string)arguments["GeneratorKinds"]).Split(',').Select(k => k.Trim());
+
+                        foreach (var kind in generatorKinds)
+                        {
+                            arguments = generatorOverrides.GetHandlerArguments(packageCachePath, kind);
+
+                            generatorHandler.Execute(arguments);
+                        }
+                    }
+                    else
+                    {
+                        generatorHandler.Execute(arguments);
+                    }
                 }
                 else
                 {

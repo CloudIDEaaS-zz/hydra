@@ -1,5 +1,10 @@
 {
-  "servicesProjectPath": "$specifiedsolutionname$.Services.csproj",
-  "entitiesProjectPath": "$specifiedsolutionname$.Entities.csproj",
+  "appName": "$appname",
+  "appDescription": "$appdescription$",
+  "organizationName": "\"$registeredorganization",
+  "solutionPath": "..\\$specifiedsolutionname$.sln",
+  "servicesProjectPath": "..\\$specifiedsolutionname$.Services\\$specifiedsolutionname$.Services.csproj",
+  "entitiesProjectPath": "..\\$specifiedsolutionname$.Entities\\$specifiedsolutionname$.Entities.csproj",
+  "webProjectPath": "..\\$specifiedsolutionname$.Web\\$specifiedsolutionname$.Web.csproj",
   "packageCachePath": "%APPDATA%\\hydra\\cache"
 }

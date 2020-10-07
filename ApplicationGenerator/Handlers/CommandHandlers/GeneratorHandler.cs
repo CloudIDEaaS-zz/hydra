@@ -1,4 +1,8 @@
-﻿using AbstraX.GeneratorEngines;
+﻿// file:	Handlers\CommandHandlers\GeneratorHandler.cs
+//
+// summary:	Implements the generator handler class
+
+using AbstraX.GeneratorEngines;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,16 +14,43 @@ using Utils;
 
 namespace AbstraX.Handlers.CommandHandlers
 {
+    /// <summary>   A generator handler. </summary>
+    ///
+    /// <remarks>   Ken, 10/5/2020. </remarks>
+
     [Command("Generate")]
     public class GeneratorHandler : ICommandHandler
     {
+        /// <summary>   Gets or sets the generator engine. </summary>
+        ///
+        /// <value> The generator engine. </value>
+
         public IGeneratorEngine GeneratorEngine { get; private set; }
+
+        /// <summary>   Gets or sets a value indicating whether the suppress debug output. </summary>
+        ///
+        /// <value> True if suppress debug output, false if not. </value>
+
         public bool SuppressDebugOutput { get; internal set; }
+
+        /// <summary>   Executes the given arguments. </summary>
+        ///
+        /// <remarks>   Ken, 10/5/2020. </remarks>
+        ///
+        /// <param name="arguments">    The arguments. </param>
 
         public void Execute(params KeyValuePair<string, object>[] arguments)
         {
             this.Execute(arguments.ToDictionary(a => a.Key, a => a.Value));
         }
+
+        /// <summary>   Executes the given arguments. </summary>
+        ///
+        /// <remarks>   Ken, 10/5/2020. </remarks>
+        ///
+        /// <exception cref="IOException">  Thrown when an IO failure occurred. </exception>
+        ///
+        /// <param name="arguments">    The arguments. </param>
 
         public void Execute(Dictionary<string, object> arguments)
         {
@@ -104,6 +135,7 @@ namespace AbstraX.Handlers.CommandHandlers
             else if (generatorKind == GeneratorKind.Workspace)
             {
                 var appName = (string)arguments["AppName"];
+                var appDescription = (string)arguments["AppDescription"];
                 var organizationName = (string)arguments["OrganizationName"];
 
                 if (parentProcess.ProcessName.IsOneOf("devenv", "msvsmon"))
@@ -122,6 +154,8 @@ namespace AbstraX.Handlers.CommandHandlers
                 {
                     var directory = new DirectoryInfo(projectFolderRoot);
 
+                    directory.Backup();
+
                     directory.ForceDeleteAllFilesAndSubFolders();
                 }
                 else
@@ -129,7 +163,7 @@ namespace AbstraX.Handlers.CommandHandlers
                     System.IO.Directory.CreateDirectory(projectFolderRoot);
                 }
 
-                this.GeneratorEngine = new WorkspaceGeneratorEngine(ProjectTypes.Ionic, projectFolderRoot, appName, organizationName, additionalOptions, mode, options);
+                this.GeneratorEngine = new WorkspaceGeneratorEngine(ProjectTypes.Ionic, projectFolderRoot, appName, appDescription, organizationName, additionalOptions, mode, options);
                 config = this.GeneratorConfiguration;
                 config.SuppressDebugOutput = this.SuppressDebugOutput;
 
@@ -207,10 +241,10 @@ namespace AbstraX.Handlers.CommandHandlers
             }
             else if (generatorKind == GeneratorKind.Entities)
             {
-                var templateFile = (string)arguments["TemplateFile"];
-                var jsonFile = (string)arguments["JsonFile"];
-                var businessModelFile = (string)arguments["BusinessModelFile"];
-                var entitiesProjectPath = (string)arguments["EntitiesProjectPath"];
+                var templateFile = (string)arguments.SingleOrDefault(a => a.Key == "TemplateFile").Value;
+                var jsonFile = (string)arguments.SingleOrDefault(a => a.Key == "JsonFile").Value;
+                var businessModelFile = (string)arguments.SingleOrDefault(a => a.Key == "BusinessModelFile").Value;
+                var entitiesProjectPath = (string)arguments.SingleOrDefault(a => a.Key == "EntitiesProjectPath").Value;
 
                 if (parentProcess.ProcessName.IsOneOf("devenv", "msvsmon"))
                 {
@@ -257,27 +291,34 @@ namespace AbstraX.Handlers.CommandHandlers
 
             if (runFromVs)
             {
-                Console.Clear();
-                Console.WriteLine("Copy to override folders? (Y/N)");
+                KeyValuePair<string, IGeneratorOverrides> keyValuePair;
+                IGeneratorOverrides generatorOverrides;
+                string argumentsKind;
 
-                if (Console.ReadKey().Key == ConsoleKey.Y)
+                keyValuePair = this.GeneratorEngine.GetOverrides().Last();
+
+                argumentsKind = keyValuePair.Key;
+                generatorOverrides = keyValuePair.Value;
+
+                if (generatorOverrides.CopiesToAlternateLocation)
                 {
-                    KeyValuePair<string, IGeneratorOverrides> keyValuePair;
-                    IGeneratorOverrides generatorOverrides;
-                    string argumentsKind;
-
-                    keyValuePair = this.GeneratorEngine.GetOverrides().Last();
-                    
-                    argumentsKind = keyValuePair.Key;
-                    generatorOverrides = keyValuePair.Value;
-
                     Console.Clear();
-                    Console.WriteLine("Copying...");
+                    Console.WriteLine("Copy to override folders? (Y/N)");
 
-                    generatorOverrides.CopyFiles(this.GeneratorConfiguration, argumentsKind);
+                    if (Console.ReadKey().Key == ConsoleKey.Y)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Copying...");
+
+                        generatorOverrides.CopyFiles(this.GeneratorConfiguration, argumentsKind);
+                    }
                 }
             }
         }
+
+        /// <summary>   Gets the generator configuration. </summary>
+        ///
+        /// <value> The generator configuration. </value>
 
         public GeneratorConfiguration GeneratorConfiguration
         {

@@ -4,6 +4,7 @@ exports.ApplicationGeneratorClient = void 0;
 const agent_1 = require("./agent");
 require("../modules/utils/extensions");
 const utils_1 = require("../modules/utils/utils");
+const commands = require("./commands");
 const linq_javascript_1 = require("linq-javascript");
 const installInfo_1 = require("./installInfo");
 const events_1 = require("events");
@@ -21,6 +22,7 @@ const child_process = require("child_process");
 const yaml = require('js-yaml');
 const regedit = require('regedit');
 const { version } = require('../../package.json');
+const commandLineUsage = require('command-line-usage');
 class ApplicationGeneratorClient {
     constructor() {
         this.pollingInstallFromCacheStatus = false;
@@ -50,21 +52,14 @@ class ApplicationGeneratorClient {
         });
     }
     launch() {
-        const mainDefinitions = [
-            { name: 'debug', type: Boolean, defaultValue: false },
-            { name: 'logToConsole', type: Boolean, defaultValue: false },
-            { name: 'skipIonicInstall', type: Boolean, defaultValue: false },
-            { name: 'skipInstalls', type: Boolean, defaultValue: false },
-            { name: 'command', type: String, defaultOption: true },
-            { name: 'version', type: Boolean, defaultValue: true },
-            { name: 'noFileCreation', type: Boolean, defaultValue: false },
-        ];
-        const mainCommand = commandLineArgs(mainDefinitions, { stopAtFirstUnknown: true });
+        const mainCommand = commandLineArgs(commands.mainDefinitions, { stopAtFirstUnknown: true });
         let debug = mainCommand.debug;
         let logToConsole = mainCommand.logToConsole;
         let skipInstalls = mainCommand.skipInstalls;
         let skipIonicInstall = mainCommand.skipIonicInstall;
         let noFileCreation = mainCommand.noFileCreation;
+        let version = mainCommand.version;
+        let help = mainCommand.help;
         let argv = mainCommand._unknown || [];
         let configFile = path.join(process.cwd(), "package.json");
         let commandsFile = path.join(__dirname, "commands.json");
@@ -97,8 +92,11 @@ class ApplicationGeneratorClient {
                 else if (mainCommand.command === "test") {
                     this.test(debug);
                 }
-                else if (mainCommand.command === "version") {
+                else if (version || mainCommand.command === "version") {
                     this.version(debug);
+                }
+                else if (help || mainCommand.command === undefined || mainCommand.command === "help") {
+                    this.help();
                 }
                 else {
                     readJson(configFile, console.error, false, (error, data) => {
@@ -139,13 +137,7 @@ class ApplicationGeneratorClient {
         });
     }
     setPackages(argv, logToConsole, configFile) {
-        const generateDefinitions = [
-            { name: 'packageListArg', type: String, defaultOption: true },
-            { name: 'logToConsole', type: Boolean, defaultValue: false },
-            { name: 'save-dev', alias: 'd', type: Boolean, defaultValue: false },
-            { name: 'clear', alias: 'x', type: Boolean, defaultValue: false },
-        ];
-        const generateOptions = commandLineArgs(generateDefinitions, { argv, stopAtFirstUnknown: true });
+        const generateOptions = commandLineArgs(commands.setPackagesDefinitions, { argv, stopAtFirstUnknown: true });
         let packageListArg = generateOptions.packageListArg;
         let saveDev = generateOptions["save-dev"];
         let clear = generateOptions.clear;
@@ -191,22 +183,33 @@ class ApplicationGeneratorClient {
         });
     }
     set(argv, logToConsole, configFile, data) {
-        const generateDefinitions = [
-            { name: 'name', type: String, defaultOption: true }
-        ];
-        const generateOptions = commandLineArgs(generateDefinitions, { argv, stopAtFirstUnknown: true });
-        let name = generateOptions.key;
+        const generateOptions = commandLineArgs(commands.setDefinitions, { argv, stopAtFirstUnknown: true });
+        let name = generateOptions.name;
         let directory = process.cwd();
-        regedit.putValue({
-            'HKCU\\SOFTWARE\\Hydra\\ApplicationGenerator': {
-                'CurrentWorkingDirectory': {
-                    value: directory,
-                    type: 'REG_SZ'
+        if (name) {
+            regedit.putValue({
+                'HKCU\\SOFTWARE\\Hydra\\ApplicationGenerator': {
+                    'CurrentWorkingDirectory': {
+                        value: name,
+                        type: 'REG_SZ'
+                    }
                 }
-            }
-        }, function (err) {
-            throw new Error(err);
-        });
+            }, function (err) {
+                throw new Error(err);
+            });
+        }
+        else {
+            regedit.putValue({
+                'HKCU\\SOFTWARE\\Hydra\\ApplicationGenerator': {
+                    'CurrentWorkingDirectory': {
+                        value: directory,
+                        type: 'REG_SZ'
+                    }
+                }
+            }, function (err) {
+                throw new Error(err);
+            });
+        }
     }
     delete(argv, logToConsole) {
         let rl = readline.createInterface(process.stdin, process.stdout);
@@ -309,12 +312,7 @@ class ApplicationGeneratorClient {
         });
     }
     start(argv, logToConsole, skipIonicInstall) {
-        const generateDefinitions = [
-            { name: 'name', type: String, defaultOption: true },
-            { name: 'logToConsole', type: Boolean, defaultValue: false },
-            { name: 'skipIonicInstall', type: Boolean, defaultValue: false },
-        ];
-        const generateOptions = commandLineArgs(generateDefinitions, { argv, stopAtFirstUnknown: true });
+        const generateOptions = commandLineArgs(commands.startDefinitions, { argv, stopAtFirstUnknown: true });
         let argv2 = generateOptions._unknown || [];
         let name = generateOptions.name;
         let npmCommand = "ionic cordova";
@@ -444,18 +442,7 @@ class ApplicationGeneratorClient {
         return ionicProcess;
     }
     generate(argv, debug, logToConsole, skipInstalls, entitiesProjectPath, servicesProjectPath, packageCachePath, noFileCreation) {
-        const generateDefinitions = [
-            { name: 'target', defaultOption: true },
-            { name: 'logToConsole', type: Boolean, defaultValue: false },
-            { name: 'debug', type: Boolean, defaultValue: false },
-            { name: 'skipInstalls', type: Boolean, defaultValue: false },
-            { name: 'noFileCreation', type: Boolean, defaultValue: false },
-            { name: 'appName', type: String, defaultValue: false },
-            { name: 'template', type: String, defaultValue: "" },
-            { name: 'businessmodel', type: String, defaultValue: false },
-            { name: 'json', type: String, defaultValue: false },
-        ];
-        const generateOptions = commandLineArgs(generateDefinitions, { argv });
+        const generateOptions = commandLineArgs(commands.generateDefinitions, { argv });
         let emptyLineCount = 0;
         let generateApp = () => {
             this.agent.generateApp(entitiesProjectPath, servicesProjectPath, packageCachePath, noFileCreation, "All", (response) => {
@@ -937,6 +924,42 @@ class ApplicationGeneratorClient {
                     this.onComplete.emit("onComplete");
                 });
             });
+        });
+    }
+    help() {
+        let mainDefinitions = new linq_javascript_1.List(commands.mainDefinitions);
+        let availableCommands = mainDefinitions.where(d => d.type.name === "String");
+        let globalOptions = mainDefinitions.where(d => d.type.name !== "String");
+        let definitionsWithInner = mainDefinitions.where(d => Object.keys(d).includes("innerDefinitions"));
+        let sections = [
+            {
+                content: commands.HELP_HEADER,
+                raw: true
+            },
+            {
+                header: "Available Commands",
+                content: availableCommands.select(c => ({ name: c.name, summary: c.description })).toArray(),
+            },
+            {
+                header: "Global Options",
+                content: globalOptions.select(c => ({ name: c.name, summary: c.description })).toArray(),
+            },
+        ];
+        this.addSections(sections, definitionsWithInner);
+        const usage = commandLineUsage(sections);
+        this.write(usage);
+    }
+    addSections(sections, definitions) {
+        definitions.forEach(d => {
+            let name = d.name;
+            let innerDefinitions = new linq_javascript_1.List(d["innerDefinitions"]);
+            let definitionsWithInner = innerDefinitions.where(d => Object.keys(d).includes("innerDefinitions"));
+            let section = {
+                header: `Commands and options for ${name}`,
+                content: innerDefinitions.where(c => c.description !== undefined).select(c => ({ name: c.name, summary: c.description })).toArray(),
+            };
+            sections.push(section);
+            this.addSections(sections, definitionsWithInner);
         });
     }
     test(debug) {

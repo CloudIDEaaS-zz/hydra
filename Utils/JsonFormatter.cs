@@ -159,10 +159,12 @@ namespace Utils
         private void WriteCurrentLine()
         {
             string line = this._currentLine.ToString().Trim();
+
             if (line.Length > 0)
             {
                 _writer.WriteLine(line);
             }
+
             this.ResetLine();
         }
     }

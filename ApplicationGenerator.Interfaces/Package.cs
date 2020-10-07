@@ -45,9 +45,9 @@ namespace AbstraX
                 devDependencies = this.PackageDevInstalls
             };
 
-            using (var stream = File.OpenWrite(appGenPackagePath))
+            using (var writer = new StreamWriter(File.OpenWrite(appGenPackagePath)))
             {
-                JsonExtensions.WriteJson(stream, genPackage.ToJson());
+                JsonExtensions.WriteJson(writer, genPackage.ToJsonText());
             }
 
             this.PackageInstalls = genPackage.dependencies;

@@ -99,5 +99,23 @@ namespace Utils
         {
             return JsonConvert.DeserializeObject(json);
         }
+
+        public static object JsonSelect(this object obj, string tokenPath)
+        {
+            var jObject = JObject.FromObject(obj);
+            var token = jObject.SelectToken(tokenPath);
+            string json;
+
+            if (token != null)
+            {
+                json = token.ToString();
+
+                return ReadJson<object>(json);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

@@ -15,6 +15,8 @@ namespace ApplicationGenerator.Overrides.OverrideHandlers
         public bool OverridesNamespace { get; set; }
         public bool OverridesAppName { get; set; }
         public string OriginalNamespace { get; set; }
+        public bool OverridesAppDescription { get; set; }
+        public bool CopiesToAlternateLocation { get; private set; }
 
         public void CopyFiles(IGeneratorConfiguration generatorConfiguration, string argumentsKind)
         {
@@ -111,15 +113,23 @@ namespace ApplicationGenerator.Overrides.OverrideHandlers
                     }
                 };
             }
+            else if (argumentsKind == "GenerateAll")
+            {
+                return new Dictionary<string, object>
+                {
+                    { "GeneratorKinds", "GenerateWorkspace, GenerateBusinessModel, GenerateEntitiesFromTemplate, GenerateEntitiesFromJson" },
+                };
+            }
             else if (argumentsKind == "GenerateWorkspace")
             {
                 return new Dictionary<string, object>
                 {
-                    { "AppName", "HydraAspNetCore" },
+                    { "AppName", "contoso" },
+                    { "AppDescription", "The Contoso Application is an enterprise system that supports a multi-national business with headquarters in Paris, France. It provides features for manufacturing, sales, and support, and inventory of over 100,000 products." },
                     { "OrganizationName", "contoso" },
                     { "GeneratorKind", GeneratorKind.Workspace },
                     { "GeneratorMode", GeneratorMode.Console },
-                    { "GeneratorOptions", new DefaultGeneratorOptions(PrintMode.PrintUIHierarchyPathAndModuleAssembliesStackOnly) },
+                    { "GeneratorOptions", new DefaultGeneratorOptions(PrintMode.All) },
                     { "AdditionalOptions", new Dictionary<string, object>
                         {
                             { "SupportedTokens", new List<string>()
@@ -140,7 +150,39 @@ namespace ApplicationGenerator.Overrides.OverrideHandlers
                 {
                     { "GeneratorKind", GeneratorKind.BusinessModel },
                     { "TemplateFile", templateFile },
-                    { "GeneratorOptions", new DefaultGeneratorOptions(PrintMode.PrintUIHierarchyPathAndModuleAssembliesStackOnly) },
+                    { "GeneratorOptions", new DefaultGeneratorOptions(PrintMode.All) },
+                    { "GeneratorMode", GeneratorMode.Console }
+                };
+            }
+            else if (argumentsKind == "GenerateEntitiesFromTemplate")
+            {
+                var hydraSolutionPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables("%HYDRASOLUTIONPATH%"));
+                var templateFile = Path.Combine(hydraSolutionPath, @"ApplicationGenerator\GeneratorTemplates\Default\entityDomainModel.template");
+                var businessModelFile = Path.Combine(hydraSolutionPath, @"ApplicationGenerator\TestOutput\businessModel.json");
+
+                return new Dictionary<string, object>
+                {
+                    { "GeneratorKind", GeneratorKind.Entities },
+                    { "TemplateFile", templateFile },
+                    { "BusinessModelFile", businessModelFile },
+                    { "GeneratorOptions", new DefaultGeneratorOptions(PrintMode.All) },
+                    { "GeneratorMode", GeneratorMode.Console }
+                };
+            }
+            else if (argumentsKind == "GenerateEntitiesFromJson")
+            {
+                var hydraSolutionPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables("%HYDRASOLUTIONPATH%"));
+                var businessModelFile = Path.Combine(hydraSolutionPath, @"ApplicationGenerator\TestOutput\businessModel.json");
+                var jsonFile = Path.Combine(hydraSolutionPath, @"ApplicationGenerator\TestOutput\entities.json");
+                var entitiesProjectPath = Path.Combine(hydraSolutionPath, @"ApplicationGenerator\TestOutput\contoso.Entities\contoso.Entities.csproj");
+
+                return new Dictionary<string, object>
+                {
+                    { "GeneratorKind", GeneratorKind.Entities },
+                    { "JsonFile", jsonFile },
+                    { "BusinessModelFile", businessModelFile },
+                    { "EntitiesProjectPath", entitiesProjectPath },
+                    { "GeneratorOptions", new DefaultGeneratorOptions(PrintMode.All) },
                     { "GeneratorMode", GeneratorMode.Console }
                 };
             }
@@ -195,6 +237,11 @@ namespace ApplicationGenerator.Overrides.OverrideHandlers
             }
 
             return id;
+        }
+
+        public string GetAppDescription(IGeneratorConfiguration generatorConfiguration, string argumentsKind)
+        {
+            throw new NotImplementedException();
         }
     }
 }

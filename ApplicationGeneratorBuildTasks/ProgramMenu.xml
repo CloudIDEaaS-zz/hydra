@@ -1,0 +1,22 @@
+<Fragment xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<ComponentGroup Id="ProductComponents" Directory="TARGETDIR">
+		<Component Id="ApplicationShortcut" Guid="2ED5C45D-2D5F-4054-8A78-2AFCFCDCA232" Permanent="no" SharedDllRefCount="no" Transitive="no">
+			<File Id="HydraCommand" Source="..\ApplicationGenerator\bin\Debug\Start Menu\HydraCommand.cmd" >
+				<Shortcut Id="_38F37E1E_C6CE_4A71_B445_06F9D03A73B9"
+					Directory="HydraShortcuts"
+					Name="Hydra Command Line"
+					Show="normal"
+					WorkingDirectory="ApplicationGenerator.Binaries" />
+			</File>
+			<File Id="HydraHelp" Source="..\ApplicationGenerator\bin\Debug\Start Menu\hydraappgenerator.chm" >
+				<Shortcut Id="_9C3B086E_5DB0_4868_A9BC_6EBAAEA4AEA3"
+					Directory="HydraShortcuts"
+					Name="Hydra Help"
+					Show="normal"
+					WorkingDirectory="ApplicationGenerator.Binaries" />
+			</File>
+			<RemoveFolder Id="CleanUpShortCut" Directory="HydraShortcuts" On="uninstall"/>
+			<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\Installer" Name="comp_39C93F61_3953_4B5D_8B4B_8176804961D1" Type="string" Value="User's Programs Menu directory" KeyPath="yes" />
+		</Component>
+	</ComponentGroup>
+</Fragment>

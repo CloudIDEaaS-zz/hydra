@@ -1,0 +1,288 @@
+{
+  "entities": [
+    {
+      "name": "User",
+      "parentDataItem": 7,
+      "isInherentDataItem": false,
+      "attributes": [
+        {
+          "attributeType": "string",
+          "name": "First Name",
+          "properties": [
+            {
+              "propertyName": "IdentityField",
+              "childProperties": [
+                {
+                  "propertyName": "UIHierarchyPath",
+                  "propertyValue": "*"
+                },
+                {
+                  "propertyName": "IdentityFieldKind",
+                  "propertyValue": "Client"
+                }
+              ]
+            },
+            {
+              "propertyName": "DisplayName",
+              "propertyValue": "First Name"
+            }
+          ]
+        },
+        {
+          "attributeType": "string",
+          "name": "Last Name",
+          "properties": [
+            {
+              "propertyName": "IdentityField",
+              "childProperties": [
+                {
+                  "propertyName": "UIHierarchyPath",
+                  "propertyValue": "*"
+                },
+                {
+                  "propertyName": "IdentityFieldKind",
+                  "propertyValue": "Client"
+                }
+              ]
+            },
+            {
+              "propertyName": "DisplayName",
+              "propertyValue": "Last Name"
+            }
+          ]
+        },
+        {
+          "attributeType": "string",
+          "name": "User Name",
+          "properties": [
+            {
+              "propertyName": "IdentityField",
+              "childProperties": [
+                {
+                  "propertyName": "UIHierarchyPath",
+                  "propertyValue": "*"
+                },
+                {
+                  "propertyName": "IdentityFieldKind",
+                  "propertyValue": "UserName"
+                }
+              ]
+            },
+            {
+              "propertyName": "DisplayName",
+              "propertyValue": "User Name"
+            },
+            {
+              "propertyName": "MinLength",
+              "propertyValue": "8"
+            },
+            {
+              "propertyName": "MaxLength",
+              "propertyValue": "50"
+            }
+          ]
+        },
+        {
+          "attributeType": "string",
+          "name": "Email Address",
+          "properties": [
+            {
+              "propertyName": "DataType",
+              "childProperties": [
+                {
+                  "propertyName": "DataType",
+                  "propertyValue": "EmailAddress"
+                }
+              ]
+            },
+            {
+              "propertyName": "IdentityField",
+              "childProperties": [
+                {
+                  "propertyName": "UIHierarchyPath",
+                  "propertyValue": "*"
+                },
+                {
+                  "propertyName": "IdentityFieldKind",
+                  "propertyValue": "Client"
+                }
+              ]
+            },
+            {
+              "propertyName": "DisplayName",
+              "propertyValue": "Email Address"
+            }
+          ]
+        },
+        {
+          "attributeType": "string",
+          "name": "Password Hash",
+          "properties": [
+            {
+              "propertyName": "IdentityField",
+              "childProperties": [
+                {
+                  "propertyName": "UIHierarchyPath",
+                  "propertyValue": "*"
+                },
+                {
+                  "propertyName": "IdentityFieldKind",
+                  "propertyValue": "PasswordHash"
+                }
+              ]
+            },
+            {
+              "propertyName": "DisplayName",
+              "propertyValue": "Password"
+            },
+            {
+              "propertyName": "MinLength",
+              "propertyValue": "8"
+            },
+            {
+              "propertyName": "MaxLength",
+              "propertyValue": "50"
+            }
+          ]
+        },
+        {
+          "attributeType": "bool",
+          "name": "Enabled",
+          "properties": []
+        },
+        {
+          "attributeType": "related entity",
+          "name": "Role",
+          "properties": [
+            {
+              "propertyName": "RelatedEntity",
+              "childProperties": [
+                {
+                  "propertyName": "RelationshipKind",
+                  "propertyValue": "ContainsManyToMany",
+                  "childProperties": [
+                    {
+                      "propertyName": "ExistingEntity",
+                      "propertyValue": "Role"
+                    },
+                    {
+                      "propertyName": "LookupOfAnotherEntity",
+                      "propertyValue": "TRUE"
+                    },
+                    {
+                      "propertyName": "ContainerName",
+                      "propertyValue": "User Roles"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": [
+        {
+          "propertyName": "IdentityEntity",
+          "childProperties": [
+            {
+              "propertyName": "IdentityEntityKind",
+              "propertyValue": "User"
+            }
+          ]
+        },
+        {
+          "propertyName": "UIGroup",
+          "childProperties": [
+            {
+              "propertyName": "UINavigationName",
+              "childProperties": [
+                {
+                  "propertyName": "Name",
+                  "propertyValue": "Login"
+                }
+              ]
+            },
+            {
+              "propertyName": "UI",
+              "childProperties": [
+                {
+                  "propertyName": "UIHierarchyPath",
+                  "propertyValue": "Login"
+                },
+                {
+                  "propertyName": "UIKind",
+                  "propertyValue": "LoginPage"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "propertyName": "Authorize",
+          "childProperties": [
+            {
+              "propertyName": "AuthorizationState",
+              "propertyValue": "SkipAuthorization"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Role",
+      "parentDataItem": 0,
+      "isInherentDataItem": true,
+      "attributes": [
+        {
+          "attributeType": "string",
+          "name": "Name",
+          "properties": [
+            {
+              "propertyName": "IdentityField",
+              "childProperties": [
+                {
+                  "propertyName": "UIHierarchyPath",
+                  "propertyValue": "*"
+                },
+                {
+                  "propertyName": "IdentityFieldKind",
+                  "propertyValue": "RoleName"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "attributeType": "bool",
+          "name": "Is Admin Role",
+          "properties": [
+            {
+              "propertyName": "IdentityField",
+              "childProperties": [
+                {
+                  "propertyName": "UIHierarchyPath",
+                  "propertyValue": "*"
+                },
+                {
+                  "propertyName": "IdentityFieldKind",
+                  "propertyValue": "IsAdminRole"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": [
+        {
+          "propertyName": "IdentityEntity",
+          "childProperties": [
+            {
+              "propertyName": "IdentityEntityKind",
+              "propertyValue": "Role"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

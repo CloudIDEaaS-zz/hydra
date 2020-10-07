@@ -843,5 +843,23 @@ namespace AbstraX.GeneratorEngines
 
             config.HandleModuleKind(moduleAssembly, folder, ModuleKind.AngularModule);
         }
+
+        /// <summary>   Indents this. </summary>
+        ///
+        /// <remarks>   Ken, 10/5/2020.  Not used, uses hierarch stack </remarks>
+
+        public void Indent()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>   Dedents this. </summary>
+        ///
+        /// <remarks>   Ken, 10/5/2020.  Not used, uses hierarch stack </remarks>
+
+        public void Dedent()
+       {
+            throw new NotImplementedException();
+        }
     }
 }

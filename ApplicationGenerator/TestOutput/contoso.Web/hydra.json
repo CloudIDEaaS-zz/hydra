@@ -1,0 +1,10 @@
+{
+  "appName": "$appname",
+  "appDescription": "$appdescription$",
+  "organizationName": "\"$registeredorganization",
+  "solutionPath": "..\\contoso.sln",
+  "servicesProjectPath": "..\\contoso.Services\\contoso.Services.csproj",
+  "entitiesProjectPath": "..\\contoso.Entities\\contoso.Entities.csproj",
+  "webProjectPath": "..\\contoso.Web\\contoso.Web.csproj",
+  "packageCachePath": "%APPDATA%\\hydra\\cache"
+}

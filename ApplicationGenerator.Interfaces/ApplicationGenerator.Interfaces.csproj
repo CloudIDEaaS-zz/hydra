@@ -77,7 +77,9 @@
       <HintPath>..\Binaries\Packages\Microsoft.VisualStudio.TextTemplating.12.0\Microsoft.VisualStudio.TextTemplating.Interfaces.12.0.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <HintPath>..\Binaries\System.ComponentModel.DataAnnotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Extensions" />
@@ -110,6 +112,15 @@
     <Compile Include="AbtraXExtensions.cs" />
     <Compile Include="ApplicationFolderHierarchy.cs" />
     <Compile Include="BaseBuiltInImportHandler.cs" />
+    <Compile Include="BusinessModelLevel.cs" />
+    <Compile Include="TEST CLASS PLEASE DELETE.cs" />
+    <Compile Include="ConfigObject.cs" />
+    <Compile Include="DataAnnotations\AppSettingsKind.cs" />
+    <Compile Include="DataAnnotations\IdentityEntityAttribute.cs" />
+    <Compile Include="DataAnnotations\IdentityEntityKind.cs" />
+    <Compile Include="DataAnnotations\IdentityKind.cs" />
+    <Compile Include="DataAnnotations\StakeholderKind.cs" />
+    <Compile Include="DataAnnotations\TaskCapabilities.cs" />
     <Compile Include="EntityDomainModel.cs" />
     <Compile Include="BusinessModel.cs" />
     <Compile Include="EntityFactory.cs" />
@@ -118,10 +129,15 @@
     <Compile Include="GetAddInEntitiesEventHandler.cs" />
     <Compile Include="GetOverridesEventHandler.cs" />
     <Compile Include="HandlerStackLogItem.cs" />
+    <Compile Include="IDataAnnotationTypeHandler.cs" />
+    <Compile Include="IAppSettingsKindHandler.cs" />
+    <Compile Include="IMemoryModuleBuilder.cs" />
+    <Compile Include="IModelAugmentationHandler.cs" />
     <Compile Include="IEntitiesModelGeneratorHandler.cs" />
     <Compile Include="IEntitiesJsonGeneratorHandler.cs" />
     <Compile Include="IHandler.cs" />
     <Compile Include="IBusinessModelGeneratorHandler.cs" />
+    <Compile Include="InternalHandlers\DataAnnotationTypeHandler.cs" />
     <Compile Include="IWorkspaceFileTypeHandler.cs" />
     <Compile Include="IWorkspaceTokenContentHandler.cs" />
     <Compile Include="IGeneratorEngine.cs" />
@@ -152,6 +168,7 @@
     <Compile Include="Models\RestService\RestEntityProperty.cs" />
     <Compile Include="Models\RestService\RestEntitySet.cs" />
     <Compile Include="Models\RestService\RestNavigationProperty.cs" />
+    <Compile Include="AppSettingsKindHandlerAttribute.cs" />
     <Compile Include="NpmPackage.cs" />
     <Compile Include="PackageCache\CacheStatusEventArgs.cs" />
     <Compile Include="ChildViewHandler.cs" />
@@ -263,11 +280,17 @@
     <Compile Include="QueryPath\QueryPathQueuePredicate.cs" />
     <Compile Include="RegistrySettings.cs" />
     <Compile Include="ResourcesHandler.cs" />
-    <Compile Include="TsvObjects\AttributePropertyItem.cs" />
-    <Compile Include="TsvObjects\BusinessModelRecord.cs" />
-    <Compile Include="TsvObjects\EntityDomainRecord.cs" />
+    <Compile Include="TemplateObjects\AttributeObject.cs" />
+    <Compile Include="TemplateObjects\EntityBaseObject.cs" />
+    <Compile Include="TemplateObjects\EntityObject.cs" />
+    <Compile Include="TemplateObjects\EntityPropertyItem.cs" />
+    <Compile Include="TemplateObjects\BusinessModelObject.cs" />
+    <Compile Include="TemplateObjects\BusinessModelRecord.cs" />
+    <Compile Include="TemplateObjects\EntityDomainRecord.cs" />
+    <Compile Include="TemplateObjects\UIHierarchyNodeObject.cs" />
     <Compile Include="TsvParser.cs" />
     <Compile Include="TsvParserHost.cs" />
+    <Compile Include="TsvParserRecursionAttribute.cs" />
     <Compile Include="UnityResolver.cs" />
     <Compile Include="ViewLayoutHandlerAttribute.cs" />
     <Compile Include="GenPackage.cs" />

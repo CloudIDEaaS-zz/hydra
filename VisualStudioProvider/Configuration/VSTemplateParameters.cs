@@ -8,6 +8,8 @@ namespace VisualStudioProvider.Configuration
 {
     public class VSTemplateParameters : ICodeTemplateParameters
     {
+        public string AppName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string AppDescription { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string ProjectName { get; set; }
         public string FrameworkVersion { get; set; }
         public string RegisteredOrganization { get; set; }

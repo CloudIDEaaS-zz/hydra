@@ -53,12 +53,12 @@ namespace Utils
         {
         }
 
-        private IDisposable Lock()
+        public IDisposable Lock()
         {
             return lockObject.Lock();
         }
 
-        private bool TryLock(out IDisposable disposable, int millisecondsTimeOut = 0)
+        public bool TryLock(out IDisposable disposable, int millisecondsTimeOut = 0)
         {
             return lockObject.TryLock(out disposable, millisecondsTimeOut);
         }

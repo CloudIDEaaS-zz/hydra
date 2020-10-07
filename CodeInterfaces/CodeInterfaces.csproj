@@ -1,251 +1,252 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A1D569A5-690C-4479-93BC-795FE6EC3C88}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CodeInterfaces</RootNamespace>
-    <AssemblyName>CodeInterfaces</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>7.1</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>7.1</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ApplicationGenerator|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ApplicationGenerator\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <LangVersion>7.1</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugAll|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <LangVersion>7.1</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PreRelease|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\PreRelease\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <RegisterForComInterop>true</RegisterForComInterop>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <LangVersion>7.1</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="CsTransformationParserLibrary">
-      <HintPath>..\Binaries\CsTransformationParserLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Binaries\SolutionLibraries\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.Entity.Design" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel.DomainServices.Server, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\Binaries\Packages\RIAServices.Server.4.2.0\lib\Net40\System.ServiceModel.DomainServices.Server.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Argument.cs" />
-    <Compile Include="AssemblyInterfaces\IAssembliesRoot.cs" />
-    <Compile Include="AssemblyInterfaces\IAssembly.cs" />
-    <Compile Include="AssemblyInterfaces\IAssemblyProviderService.cs" />
-    <Compile Include="AssemblyInterfaces\IAssemblyType.cs" />
-    <Compile Include="AssemblyInterfaces\IConstructorOperation.cs" />
-    <Compile Include="AssemblyInterfaces\IEventOperation.cs" />
-    <Compile Include="AssemblyInterfaces\IFieldAttribute.cs" />
-    <Compile Include="AssemblyInterfaces\IGetSetProperty.cs" />
-    <Compile Include="AssemblyInterfaces\IGetSetPropertyAttribute.cs" />
-    <Compile Include="AssemblyInterfaces\IGetSetPropertyElement.cs" />
-    <Compile Include="AssemblyInterfaces\IMethodOperation.cs" />
-    <Compile Include="AssemblyInterfaces\IOperation.cs" />
-    <Compile Include="AssemblyInterfaces\IOperatorOperation.cs" />
-    <Compile Include="AssemblyInterfaces\IPropertyAttribute.cs" />
-    <Compile Include="AssemblyInterfaces\IPropertyElement.cs" />
-    <Compile Include="BaseType.cs" />
-    <Compile Include="Bindings\Interfaces\BindingEnums.cs" />
-    <Compile Include="Bindings\Interfaces\BindingExtensions.cs" />
-    <Compile Include="Bindings\Interfaces\BindingsTree.cs" />
-    <Compile Include="Bindings\Interfaces\BindingsTreeProxy.cs" />
-    <Compile Include="Bindings\Interfaces\IBindingSource.cs" />
-    <Compile Include="Bindings\Interfaces\IBindingsTree.cs" />
-    <Compile Include="Bindings\Interfaces\IBindingsTreeNode.cs" />
-    <Compile Include="Bindings\Interfaces\IBindingsTreeNodeReference.cs" />
-    <Compile Include="Bindings\Interfaces\IDataContextObject.cs" />
-    <Compile Include="Bindings\Interfaces\IPropertyBinding.cs" />
-    <Compile Include="Bindings\Interfaces\IProviderService.cs" />
-    <Compile Include="Bindings\Interfaces\IQuery.cs" />
-    <Compile Include="Bindings\Interfaces\IQueryBindingSource.cs" />
-    <Compile Include="Bindings\Interfaces\ISyntaxTree.cs" />
-    <Compile Include="ChildrenLoadedHandler.cs" />
-    <Compile Include="CodeParsers\ICodeClassStruct.cs" />
-    <Compile Include="CodeParsers\ICodeDelegate.cs" />
-    <Compile Include="CodeParsers\ICodeEditPackage.cs" />
-    <Compile Include="CodeParsers\ICodeFile.cs" />
-    <Compile Include="CodeParsers\ICodeNode.cs" />
-    <Compile Include="CodeParsers\ICodeParser.cs" />
-    <Compile Include="CodeParsers\ICompilationUnit.cs" />
-    <Compile Include="CustomTemplateLocation.cs" />
-    <Compile Include="Enums.cs" />
-    <Compile Include="Extensions\CodeInterfaceExtensions.cs" />
-    <Compile Include="Extensions\ExtensionMethods.cs" />
-    <Compile Include="Extensions\GeneratorExtensions.cs" />
-    <Compile Include="Facet.cs" />
-    <Compile Include="IArchitectureLayer.cs" />
-    <Compile Include="IAttribute.cs" />
-    <Compile Include="IBase.cs" />
-    <Compile Include="ICodeFile.cs" />
-    <Compile Include="ICodeGenerationPackage.cs" />
-    <Compile Include="ICodeReference.cs" />
-    <Compile Include="ICodeTemplate.cs" />
-    <Compile Include="ICodeTemplateParameters.cs" />
-    <Compile Include="ICodeTemplateProject.cs" />
-    <Compile Include="ICodeTemplateProjectItem.cs" />
-    <Compile Include="ICodeWriter.cs" />
-    <Compile Include="IDatabaseProxy.cs" />
-    <Compile Include="IElement.cs" />
-    <Compile Include="IElementBuild.cs" />
-    <Compile Include="IExtension.cs" />
-    <Compile Include="IGetSetProperty.cs" />
-    <Compile Include="IOperation.cs" />
-    <Compile Include="IParentBase.cs" />
-    <Compile Include="IPathQueryable.cs" />
-    <Compile Include="IProgrammingLanguage.cs" />
-    <Compile Include="IProjectRoot.cs" />
-    <Compile Include="IProjectStructure.cs" />
-    <Compile Include="IProviderEntityService.cs" />
-    <Compile Include="IRoot.cs" />
-    <Compile Include="ISilverlightApp.cs" />
-    <Compile Include="ISurrogateElement.cs" />
-    <Compile Include="IVSProject.cs" />
-    <Compile Include="IVSProjectElement.cs" />
-    <Compile Include="IVSProjectItem.cs" />
-    <Compile Include="IVSProjectMetadataElement.cs" />
-    <Compile Include="IVSProjectProperty.cs" />
-    <Compile Include="IVSSolution.cs" />
-    <Compile Include="IWorkspaceTemplate.cs" />
-    <Compile Include="NavigationItem.cs" />
-    <Compile Include="Packages\IPackageServiceType.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScalarType.cs" />
-    <Compile Include="SurrogateElement.cs" />
-    <Compile Include="TypeMappings\Constructs.cs" />
-    <Compile Include="TypeMappings\AttributeTypes.cs" />
-    <Compile Include="TypeMappings\Mapping.cs" />
-    <Compile Include="TypeMappings\Schemas\Schema.cs" />
-    <Compile Include="TypeMappings\Transform.cs" />
-    <Compile Include="TypeMappings\TypeMappings.cs" />
-    <Compile Include="XPathBuilder\XPathAxisElement.cs" />
-    <Compile Include="XPathBuilder\XPathPredicate.cs" />
-    <Compile Include="XPathBuilder\XPathStringBuilder.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Utils\Utils.csproj">
-      <Project>{A4763B8B-F945-4C4C-9727-7E970E02F662}</Project>
-      <Name>Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\XPathParser\XPathParser.csproj">
-      <Project>{a8072758-e8d2-4551-89c2-564bde162403}</Project>
-      <Name>XPathParser</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <EmbeddedResource Include="TypeMappings\Mappings\DataTypes.xslt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TypeMappings\Mappings\DotNetTypes.xslt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TypeMappings\Mappings\ObjectTypes.xslt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TypeMappings\Mappings\ScriptTypes.xslt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TypeMappings\Schemas\XMLSchema.xsd">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TypeMappings\Schemas\XMLSchema.xsx">
-      <DependentUpon>XMLSchema.xsd</DependentUpon>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-      <!--"C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe" "$(TargetPath)"-->
-    </PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>
-      <!--if exist "$(TargetPath)"   (
-            "C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe" /u "$(TargetPath)")
-      )-->
-    </PreBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProductVersion>8.0.30703</ProductVersion>
+		<SchemaVersion>2.0</SchemaVersion>
+		<ProjectGuid>{A1D569A5-690C-4479-93BC-795FE6EC3C88}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>CodeInterfaces</RootNamespace>
+		<AssemblyName>CodeInterfaces</AssemblyName>
+		<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+		<FileAlignment>512</FileAlignment>
+		<SccProjectName>SAK</SccProjectName>
+		<SccLocalPath>SAK</SccLocalPath>
+		<SccAuxPath>SAK</SccAuxPath>
+		<SccProvider>SAK</SccProvider>
+		<TargetFrameworkProfile />
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<RegisterForComInterop>true</RegisterForComInterop>
+		<UseVSHostingProcess>false</UseVSHostingProcess>
+		<Prefer32Bit>false</Prefer32Bit>
+		<LangVersion>7.1</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<Prefer32Bit>false</Prefer32Bit>
+		<LangVersion>7.1</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ApplicationGenerator|AnyCPU'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\ApplicationGenerator\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<RegisterForComInterop>true</RegisterForComInterop>
+		<DebugType>full</DebugType>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<UseVSHostingProcess>false</UseVSHostingProcess>
+		<LangVersion>7.1</LangVersion>
+		<ErrorReport>prompt</ErrorReport>
+		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugAll|AnyCPU'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<RegisterForComInterop>true</RegisterForComInterop>
+		<DebugType>full</DebugType>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<UseVSHostingProcess>false</UseVSHostingProcess>
+		<LangVersion>7.1</LangVersion>
+		<ErrorReport>prompt</ErrorReport>
+		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PreRelease|AnyCPU'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\PreRelease\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<RegisterForComInterop>true</RegisterForComInterop>
+		<DebugType>full</DebugType>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<UseVSHostingProcess>false</UseVSHostingProcess>
+		<LangVersion>7.1</LangVersion>
+		<ErrorReport>prompt</ErrorReport>
+		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="CsTransformationParserLibrary">
+			<HintPath>..\Binaries\CsTransformationParserLibrary.dll</HintPath>
+		</Reference>
+		<Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\Binaries\SolutionLibraries\log4net.dll</HintPath>
+		</Reference>
+		<Reference Include="System" />
+		<Reference Include="System.ComponentModel.DataAnnotations">
+			<HintPath>..\Binaries\System.ComponentModel.DataAnnotations.dll</HintPath>
+		</Reference>
+		<Reference Include="System.Core" />
+		<Reference Include="System.Data.Entity" />
+		<Reference Include="System.Data.Entity.Design" />
+		<Reference Include="System.Drawing" />
+		<Reference Include="System.Runtime.Serialization" />
+		<Reference Include="System.ServiceModel.DomainServices.Server, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+			<HintPath>..\Binaries\Packages\RIAServices.Server.4.2.0\lib\Net40\System.ServiceModel.DomainServices.Server.dll</HintPath>
+		</Reference>
+		<Reference Include="System.Xml.Linq" />
+		<Reference Include="System.Data.DataSetExtensions" />
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Data" />
+		<Reference Include="System.Xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="Argument.cs" />
+		<Compile Include="AssemblyInterfaces\IAssembliesRoot.cs" />
+		<Compile Include="AssemblyInterfaces\IAssembly.cs" />
+		<Compile Include="AssemblyInterfaces\IAssemblyProviderService.cs" />
+		<Compile Include="AssemblyInterfaces\IAssemblyType.cs" />
+		<Compile Include="AssemblyInterfaces\IConstructorOperation.cs" />
+		<Compile Include="AssemblyInterfaces\IEventOperation.cs" />
+		<Compile Include="AssemblyInterfaces\IFieldAttribute.cs" />
+		<Compile Include="AssemblyInterfaces\IGetSetProperty.cs" />
+		<Compile Include="AssemblyInterfaces\IGetSetPropertyAttribute.cs" />
+		<Compile Include="AssemblyInterfaces\IGetSetPropertyElement.cs" />
+		<Compile Include="AssemblyInterfaces\IMethodOperation.cs" />
+		<Compile Include="AssemblyInterfaces\IOperation.cs" />
+		<Compile Include="AssemblyInterfaces\IOperatorOperation.cs" />
+		<Compile Include="AssemblyInterfaces\IPropertyAttribute.cs" />
+		<Compile Include="AssemblyInterfaces\IPropertyElement.cs" />
+		<Compile Include="BaseType.cs" />
+		<Compile Include="Bindings\Interfaces\BindingEnums.cs" />
+		<Compile Include="Bindings\Interfaces\BindingExtensions.cs" />
+		<Compile Include="Bindings\Interfaces\BindingsTree.cs" />
+		<Compile Include="Bindings\Interfaces\BindingsTreeProxy.cs" />
+		<Compile Include="Bindings\Interfaces\IBindingSource.cs" />
+		<Compile Include="Bindings\Interfaces\IBindingsTree.cs" />
+		<Compile Include="Bindings\Interfaces\IBindingsTreeNode.cs" />
+		<Compile Include="Bindings\Interfaces\IBindingsTreeNodeReference.cs" />
+		<Compile Include="Bindings\Interfaces\IDataContextObject.cs" />
+		<Compile Include="Bindings\Interfaces\IPropertyBinding.cs" />
+		<Compile Include="Bindings\Interfaces\IProviderService.cs" />
+		<Compile Include="Bindings\Interfaces\IQuery.cs" />
+		<Compile Include="Bindings\Interfaces\IQueryBindingSource.cs" />
+		<Compile Include="Bindings\Interfaces\ISyntaxTree.cs" />
+		<Compile Include="ChildrenLoadedHandler.cs" />
+		<Compile Include="CodeParsers\ICodeClassStruct.cs" />
+		<Compile Include="CodeParsers\ICodeDelegate.cs" />
+		<Compile Include="CodeParsers\ICodeEditPackage.cs" />
+		<Compile Include="CodeParsers\ICodeFile.cs" />
+		<Compile Include="CodeParsers\ICodeNode.cs" />
+		<Compile Include="CodeParsers\ICodeParser.cs" />
+		<Compile Include="CodeParsers\ICompilationUnit.cs" />
+		<Compile Include="CustomTemplateLocation.cs" />
+		<Compile Include="Enums.cs" />
+		<Compile Include="Extensions\CodeInterfaceExtensions.cs" />
+		<Compile Include="Extensions\ExtensionMethods.cs" />
+		<Compile Include="Extensions\GeneratorExtensions.cs" />
+		<Compile Include="Facet.cs" />
+		<Compile Include="IArchitectureLayer.cs" />
+		<Compile Include="IAttribute.cs" />
+		<Compile Include="IBase.cs" />
+		<Compile Include="ICodeFile.cs" />
+		<Compile Include="ICodeGenerationPackage.cs" />
+		<Compile Include="ICodeReference.cs" />
+		<Compile Include="ICodeTemplate.cs" />
+		<Compile Include="ICodeTemplateParameters.cs" />
+		<Compile Include="ICodeTemplateProject.cs" />
+		<Compile Include="ICodeTemplateProjectItem.cs" />
+		<Compile Include="ICodeWriter.cs" />
+		<Compile Include="IDatabaseProxy.cs" />
+		<Compile Include="IElement.cs" />
+		<Compile Include="IElementBuild.cs" />
+		<Compile Include="IExtension.cs" />
+		<Compile Include="IGetSetProperty.cs" />
+		<Compile Include="IOperation.cs" />
+		<Compile Include="IParentBase.cs" />
+		<Compile Include="IPathQueryable.cs" />
+		<Compile Include="IProgrammingLanguage.cs" />
+		<Compile Include="IProjectRoot.cs" />
+		<Compile Include="IProjectStructure.cs" />
+		<Compile Include="IProviderEntityService.cs" />
+		<Compile Include="IRoot.cs" />
+		<Compile Include="ISilverlightApp.cs" />
+		<Compile Include="ISurrogateElement.cs" />
+		<Compile Include="IVSProject.cs" />
+		<Compile Include="IVSProjectElement.cs" />
+		<Compile Include="IVSProjectItem.cs" />
+		<Compile Include="IVSProjectMetadataElement.cs" />
+		<Compile Include="IVSProjectProperty.cs" />
+		<Compile Include="IVSSolution.cs" />
+		<Compile Include="IWorkspaceTemplate.cs" />
+		<Compile Include="NavigationItem.cs" />
+		<Compile Include="Packages\IPackageServiceType.cs" />
+		<Compile Include="Properties\AssemblyInfo.cs" />
+		<Compile Include="ScalarType.cs" />
+		<Compile Include="SurrogateElement.cs" />
+		<Compile Include="TypeMappings\Constructs.cs" />
+		<Compile Include="TypeMappings\AttributeTypes.cs" />
+		<Compile Include="TypeMappings\Mapping.cs" />
+		<Compile Include="TypeMappings\Schemas\Schema.cs" />
+		<Compile Include="TypeMappings\Transform.cs" />
+		<Compile Include="TypeMappings\TypeMappings.cs" />
+		<Compile Include="XPathBuilder\XPathAxisElement.cs" />
+		<Compile Include="XPathBuilder\XPathPredicate.cs" />
+		<Compile Include="XPathBuilder\XPathStringBuilder.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Utils\Utils.csproj">
+			<Project>{A4763B8B-F945-4C4C-9727-7E970E02F662}</Project>
+			<Name>Utils</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\XPathParser\XPathParser.csproj">
+			<Project>{a8072758-e8d2-4551-89c2-564bde162403}</Project>
+			<Name>XPathParser</Name>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="TypeMappings\Mappings\DataTypes.xslt" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="TypeMappings\Mappings\DotNetTypes.xslt" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="TypeMappings\Mappings\ObjectTypes.xslt" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="TypeMappings\Mappings\ScriptTypes.xslt" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="TypeMappings\Schemas\XMLSchema.xsd">
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="TypeMappings\Schemas\XMLSchema.xsx">
+			<DependentUpon>XMLSchema.xsd</DependentUpon>
+		</None>
+	</ItemGroup>
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<PropertyGroup>
+		<PostBuildEvent>
+			<!--"C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe" "$(TargetPath)"-->
+		</PostBuildEvent>
+	</PropertyGroup>
+	<PropertyGroup>
+		<PreBuildEvent>
+			<!--if exist "$(TargetPath)"   (
+						"C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe" /u "$(TargetPath)")
+			)-->
+		</PreBuildEvent>
+	</PropertyGroup>
+	<!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+			 Other similar extension points exist, see Microsoft.Common.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
 </Project>

@@ -114,6 +114,7 @@ namespace AbstraX
                                 var generatorPass = EnumUtils.GetValue<GeneratorPass>((string)commandPacket.Arguments.Single(a => a.Key == "GeneratorPass").Value);
                                 var noFileCreation = bool.Parse(commandPacket.Arguments.Single(a => a.Key == "NoFileCreation").Value.ToString());
                                 var appName = commandPacket.Arguments.Single(a => a.Key == "AppName").Value.ToString();
+                                var appDescription = commandPacket.Arguments.Single(a => a.Key == "AppDescription").Value.ToString();
                                 var projectFolderRoot = currentWorkingDirectory;
 
                                 generatorHandler = new GeneratorHandler();
@@ -125,6 +126,7 @@ namespace AbstraX
                                 {
                                     { "GeneratorKind", generatorKind },
                                     { "AppName", appName },
+                                    { "AppDescription", appDescription },
                                     { "GeneratorMode", GeneratorMode.RedirectedConsole },
                                     { "GeneratorOptions", new RedirectedGeneratorOptions(outputWriter, errorWriter, generatorPass, noFileCreation) }
                                 });

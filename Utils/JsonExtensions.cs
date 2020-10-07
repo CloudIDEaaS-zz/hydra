@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.Web.Script.Serialization;
-using Newtonsoft;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json.Serialization;
+using System.Windows.Input;
 
 namespace Utils
 {
@@ -14,43 +17,59 @@ namespace Utils
     {
         public static void WriteJson(this TextWriter writer, string text)
         {
-            text = text.Replace("'", "\"").Replace(Environment.NewLine, "");
+            text = text.Replace("'", "\"").Replace("\r\n", "");
 
             writer.WriteLine(text);
-            writer.WriteLine(Environment.NewLine);
-
-            writer.Flush();
         }
 
-        public static void WriteJson(this Stream stream, string text)
+        public static string ToJsonText(this object obj)
         {
-            var writer = new StreamWriter(stream);
-            text = text.Replace("'", "\"").Replace(Environment.NewLine, "");
-
-            writer.WriteLine(text);
-            writer.WriteLine(Environment.NewLine);
-
-            writer.Flush();
+            return JsonConvert.SerializeObject(obj);
         }
 
-        public static string ToJson(this object obj, bool prettyPrint = true)
+        public static void WriteJson(this TextWriter writer, dynamic obj, Formatting formatting = Formatting.None, NamingStrategy namingStrategy = null)
         {
-            var serializer = new JavaScriptSerializer();
+            var serializer = new JsonSerializer();
             var builder = new StringBuilder();
+
+            serializer.Converters.Add(new JavaScriptDateTimeConverter());
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+
+            if (formatting != Formatting.None)
+            {
+                serializer.Formatting = formatting;
+            }
+
+            if (namingStrategy != null)
+            {
+                serializer.ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = namingStrategy
+                };
+            }
 
             using (var stringWriter = new StringWriter(builder))
             {
-                serializer.Serialize(obj, builder);
+                using (var jsonWriter = new JsonTextWriter(stringWriter))
+                {
+                    serializer.Serialize(jsonWriter, obj);
+                }
             }
 
-            if (prettyPrint)
-            {
-                var formatter = new JsonFormatter(builder.ToString());
+            writer.WriteLine(builder.ToString());
+        }
 
-                return formatter.Format();
-            }
+        public static T ReadJson<T>(this TextReader reader)
+        {
+            var json = string.Empty;
+            var text = reader.ReadToEnd();
 
-            return builder.ToString();
+            return ReadJson<T>(text);
+        }
+
+        public static T ReadJson<T>(string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
         public static string ToJsonDynamic(this object obj, bool prettyPrint = true)
@@ -89,47 +108,52 @@ namespace Utils
             var json = string.Empty;
             var text = reader.ReadUntil(Environment.NewLine.Repeat(2), true);
 
-            return ReadJson(text);
+            return ReadJson<CommandPacket>(text);
         }
 
-        public static void WriteJson(this TextWriter writer, dynamic obj)
-        {
-            var serializer = new JavaScriptSerializer();
-            var builder = new StringBuilder();
 
-            using (var stringWriter = new StringWriter(builder))
+        public static bool IsValidJson(string json)
+        {
+            json = json.Trim();
+
+            try
             {
-                serializer.Serialize(obj, builder);
+                if (json.StartsWith("{") && json.EndsWith("}"))
+                {
+                    JToken.Parse(json);
+                }
+                else if (json.StartsWith("[") && json.EndsWith("]"))
+                {
+                    JArray.Parse(json);
+                }
+                else
+                {
+                    return false;
+                }
+                return true;
             }
-
-            writer.WriteLine(builder.ToString());
-
-            writer.Flush();
+            catch
+            {
+                return false;
+            }
         }
 
-        public static CommandPacket ReadJson(this TextReader reader)
+        public static T ReadJson<T>(this TextReader reader, JsonSerializerSettings settings)
         {
             var json = string.Empty;
             var text = reader.ReadToEnd();
 
-            return ReadJson(text);
+            return ReadJson<T>(text, settings);
         }
 
-        public static T ReadJson<T>(this TextReader reader)
+        public static T ReadJson<T>(string json, JsonSerializerSettings settings)
         {
-            var json = string.Empty;
-            var text = reader.ReadToEnd();
-
-            return ReadJson<T>(text);
+            return JsonConvert.DeserializeObject<T>(json, settings);
         }
 
-        public static CommandPacket ReadJson(string json)
+        public static object ReadJson(string json)
         {
-            var serializer = new JavaScriptSerializer();
-
-            serializer.RegisterConverters(new List<JavaScriptConverter> { new KeyValuePairConverter() });
-
-            return serializer.Deserialize<CommandPacket>(json);
+            return JsonConvert.DeserializeObject(json);
         }
 
         public static object JsonSelect(this object obj, string tokenPath)
@@ -148,22 +172,6 @@ namespace Utils
             {
                 return null;
             }
-        }
-
-        public static T ReadJson<T>(string json)
-        {
-            var serializer = new JavaScriptSerializer();
-
-            if (typeof(T).Name == "Object")
-            {
-                serializer.RegisterConverters(new[] { new DynamicJsonConverter() });
-            }
-            else
-            {
-                serializer.RegisterConverters(new List<JavaScriptConverter> { new KeyValuePairConverter() });
-            }
-
-            return serializer.Deserialize<T>(json);
         }
     }
 }
