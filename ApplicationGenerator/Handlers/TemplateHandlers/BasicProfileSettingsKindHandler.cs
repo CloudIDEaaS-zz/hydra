@@ -31,7 +31,7 @@ namespace AbstraX.Handlers.TemplateHandlers
         ///
         /// <param name="entityDomainModel">        The entity domain model. </param>
         /// <param name="businessModel">            The business model. </param>
-        /// <param name="appObject">                The application object. </param>
+        /// <param name="appUIHierarchyNodeObject"></param>
         /// <param name="appSettingsObjects">       The application settings objects. </param>
         /// <param name="projectType">              Type of the project. </param>
         /// <param name="projectFolderRoot">        The project folder root. </param>
@@ -39,7 +39,7 @@ namespace AbstraX.Handlers.TemplateHandlers
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        public bool Process(EntityDomainModel entityDomainModel, BusinessModel businessModel, BusinessModelObject appObject, Dictionary<AppSettingsKind, BusinessModelObject> appSettingsObjects, Guid projectType, string projectFolderRoot, IGeneratorConfiguration generatorConfiguration)
+        public bool Process(EntityDomainModel entityDomainModel, BusinessModel businessModel, AppUIHierarchyNodeObject appUIHierarchyNodeObject, Dictionary<AppSettingsKind, BusinessModelObject> appSettingsObjects, Guid projectType, string projectFolderRoot, IGeneratorConfiguration generatorConfiguration)
         {
             var profilePreferencesObject = appSettingsObjects[AppSettingsKind.ProfilePreferences];
             var userObject = businessModel.GetDescendants().Single(o => o.Id == profilePreferencesObject.ShadowItem);

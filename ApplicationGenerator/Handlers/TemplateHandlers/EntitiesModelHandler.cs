@@ -68,7 +68,7 @@ namespace AbstraX.Handlers.TemplateHandlers
         ///
         /// <param name="domainModel">              The domain model. </param>
         /// <param name="businessModel">            The business model. </param>
-        /// <param name="appHierarchyNodeObject"></param>
+        /// <param name="appUIHierarchyNodeObject"></param>
         /// <param name="projectType">              Type of the project. </param>
         /// <param name="projectFolderRoot">        The project folder root. </param>
         /// <param name="entitiesProject">          The entities project. </param>
@@ -76,7 +76,7 @@ namespace AbstraX.Handlers.TemplateHandlers
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        public bool Process(EntityDomainModel domainModel, BusinessModel businessModel, UIHierarchyNodeObject appHierarchyNodeObject, Guid projectType, string projectFolderRoot, IVSProject entitiesProject, IGeneratorConfiguration generatorConfiguration)
+        public bool Process(EntityDomainModel domainModel, BusinessModel businessModel, UIHierarchyNodeObject appUIHierarchyNodeObject, Guid projectType, string projectFolderRoot, IVSProject entitiesProject, IGeneratorConfiguration generatorConfiguration)
         {
             return true;
         }

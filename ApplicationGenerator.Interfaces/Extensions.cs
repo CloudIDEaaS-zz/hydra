@@ -39,6 +39,27 @@ namespace AbstraX
 
     public static class Extensions
     {
+        /// <summary>
+        /// A Dictionary&lt;string,string&gt; extension method that handles the text replacements.
+        /// </summary>
+        ///
+        /// <remarks>   Ken, 10/7/2020. </remarks>
+        ///
+        /// <param name="textReplacements"> The textReplacements to act on. </param>
+        /// <param name="str">              The string. </param>
+        ///
+        /// <returns>   A string. </returns>
+
+        public static string HandleTextReplacements(this Dictionary<string, string> textReplacements, string str)
+        {
+            foreach (var pair in textReplacements)
+            {
+                str = str.Replace(pair.Key, pair.Value);
+            }
+
+            return str;
+        }
+
         /// <summary>   A Type extension method that generates a code. </summary>
         ///
         /// <remarks>   Ken, 10/6/2020. </remarks>
@@ -311,6 +332,65 @@ namespace AbstraX
             return descendants;
         }
 
+        /// <summary>   Gets the descendants in this collection. </summary>
+        ///
+        /// <remarks>   Ken, 10/7/2020. </remarks>
+        ///
+        /// <param name="appUIHierarchyNodeObject"> The appUIHierarchyNodeObject to act on. </param>
+        ///
+        /// <returns>
+        /// An enumerator that allows foreach to be used to process the descendants in this collection.
+        /// </returns>
+
+        public static IEnumerable<UIHierarchyNodeObject> GetDescendants(this AppUIHierarchyNodeObject appUIHierarchyNodeObject)
+        {
+            var descendants = new List<UIHierarchyNodeObject>();
+
+            foreach (var hierarchyNodeObject in appUIHierarchyNodeObject.TopUIHierarchyNodeObjects)
+            {
+                descendants.Add(hierarchyNodeObject);
+
+                hierarchyNodeObject.GetDescendants(o => o.Children, o =>
+                {
+                    descendants.Add(o);
+                });
+            }
+
+            return descendants;
+        }
+
+        /// <summary>
+        /// An AppUIHierarchyNodeObject extension method that debug prints user interface hierarchy.
+        /// </summary>
+        ///
+        /// <remarks>   Ken, 10/7/2020. </remarks>
+        ///
+        /// <param name="appUIHierarchyNodeObject"> The appUIHierarchyNodeObject to act on. </param>
+        ///
+        /// <returns>   A string. </returns>
+
+        public static string DebugPrintUIHierarchy(this AppUIHierarchyNodeObject appUIHierarchyNodeObject)
+        {
+            var builder = new StringBuilder();
+
+            foreach (var hierarchyNodeObject in appUIHierarchyNodeObject.TopUIHierarchyNodeObjects)
+            {
+                builder.AppendLine(hierarchyNodeObject.Name);
+
+                hierarchyNodeObject.GetDescendants(o => o.Children, (o, l) =>
+                {
+                    builder.AppendLineTabIndent(l, o.Name);
+
+                    foreach (var entity in o.Entities)
+                    {
+                        builder.AppendLineFormatTabIndent(l + 1, "Entity: {0}", entity.Name);
+                    }
+                });
+            }
+
+            return builder.ToString();
+        }
+
         /// <summary>   Gets the descendants and selfs in this collection. </summary>
         ///
         /// <remarks>   Ken, 10/4/2020. </remarks>
@@ -356,6 +436,35 @@ namespace AbstraX
             }
 
             return ancestors;
+        }
+
+        public static IEnumerable<UIHierarchyNodeObject> GetAncestorsAndSelf(this UIHierarchyNodeObject hierarchyNodeObject)
+        {
+            var ancestorsAndSelf = new List<UIHierarchyNodeObject>();
+
+            ancestorsAndSelf.Add(hierarchyNodeObject);
+
+            while (hierarchyNodeObject.Parent != null)
+            {
+                ancestorsAndSelf.Add(hierarchyNodeObject);
+
+                hierarchyNodeObject = hierarchyNodeObject.Parent;
+            }
+
+            return ancestorsAndSelf;
+        }
+
+        public static string GetUIPath(this UIHierarchyNodeObject hierarchyNodeObject)
+        {
+            var ancestors = hierarchyNodeObject.GetAncestorsAndSelf();
+            var path = string.Empty;
+
+            foreach (var ancestor in ancestors)
+            {
+                path = "/" + ancestor.Name;
+            }
+
+            return path;
         }
 
         /// <summary>   Gets the descendants in this collection. </summary>
@@ -547,9 +656,12 @@ namespace AbstraX
 
             while (entityPropertyItem != null)
             {
-                entityPropertyItem = allEntityProperties.SingleOrDefault(i => i.ChildProperties.Contains(entityPropertyItem));
+                entityPropertyItem = allEntityProperties.SingleOrDefault(i => i.ChildProperties != null && i.ChildProperties.Contains(entityPropertyItem));
 
-                ancestors.Add(entityPropertyItem);
+                if (entityPropertyItem != null)
+                {
+                    ancestors.Add(entityPropertyItem);
+                }
             }
 
             return ancestors;

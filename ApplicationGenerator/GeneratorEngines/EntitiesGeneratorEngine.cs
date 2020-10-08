@@ -223,6 +223,8 @@ namespace AbstraX.GeneratorEngines
 
             config.KeyValuePairs = new Dictionary<string, object>();
             config.KeyValuePairs.Add("ConfigObject", configObject);
+            config.AppName = appName;
+            config.AppDescription = appDescription;
 
             outputFile = new FileInfo(fileName);
 
@@ -286,7 +288,7 @@ namespace AbstraX.GeneratorEngines
             string appName = null;
             string appDescription = null;
             string organizationName = null;
-            UIHierarchyNodeObject appHierarchyNodeObject = null;
+            AppUIHierarchyNodeObject appUIHierarchyNodeObject = null;
 
             if (hydraJsonFile != null)
             {
@@ -327,6 +329,8 @@ namespace AbstraX.GeneratorEngines
 
             config.KeyValuePairs = new Dictionary<string, object>();
             config.KeyValuePairs.Add("ConfigObject", configObject);
+            config.AppName = appName;
+            config.AppDescription = appDescription;
 
             outputFile = new FileInfo(fileName);
 
@@ -353,7 +357,7 @@ namespace AbstraX.GeneratorEngines
             {
                 WriteLine("Augmenting entity model for code generation");
 
-                modelAugmentationHandler.Process(entityDomainModel, businessModel, projectType, projectFolderRoot, entitiesProject, config, out appHierarchyNodeObject);
+                modelAugmentationHandler.Process(entityDomainModel, businessModel, projectType, projectFolderRoot, entitiesProject, config, out appUIHierarchyNodeObject);
             }
 
             generatorHandler = config.GetEntitiesModelGeneratorHandler();
@@ -362,7 +366,7 @@ namespace AbstraX.GeneratorEngines
             {
                 WriteLine("Processing entity model and generating code file");
 
-                generatorHandler.Process(entityDomainModel, businessModel, appHierarchyNodeObject, projectType, projectFolderRoot, entitiesProject, config);
+                generatorHandler.Process(entityDomainModel, businessModel, appUIHierarchyNodeObject, projectType, projectFolderRoot, entitiesProject, config);
 
                 if (config.CurrentPass == GeneratorPass.Files)
                 {

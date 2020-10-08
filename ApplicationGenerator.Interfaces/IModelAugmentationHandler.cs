@@ -29,6 +29,6 @@ namespace AbstraX
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        bool Process(EntityDomainModel entityDomainModel, BusinessModel businessModel, Guid projectType, string projectFolderRoot, IVSProject entitiesProject, IGeneratorConfiguration generatorConfiguration, out UIHierarchyNodeObject appHierarchyNodeObject);
+        bool Process(EntityDomainModel entityDomainModel, BusinessModel businessModel, Guid projectType, string projectFolderRoot, IVSProject entitiesProject, IGeneratorConfiguration generatorConfiguration, out AppUIHierarchyNodeObject appHierarchyNodeObject);
     }
 }

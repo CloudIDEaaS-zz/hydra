@@ -38,7 +38,10 @@ namespace Utils
 
                     if (propertyInfoTo.PropertyType.IsAssignableFrom(propertyInfoFrom.PropertyType))
                     {
-                        objTo.SetPropertyValue(propertyInfoTo.Name, objFrom.GetPropertyValue<object>(propertyInfoFrom.Name));
+                        if (propertyInfoTo.CanWrite)
+                        {
+                            objTo.SetPropertyValue(propertyInfoTo.Name, objFrom.GetPropertyValue<object>(propertyInfoFrom.Name));
+                        }
                     }
                 }
             }
@@ -525,6 +528,13 @@ namespace Utils.Hierarchies
 
             recurseChildren = (parent) =>
             {
+                var children = childrenSelector(parent);
+
+                if (children == null)
+                {
+                    return;
+                }
+
                 foreach (var subItem in childrenSelector(parent))
                 {
                     callback(subItem);

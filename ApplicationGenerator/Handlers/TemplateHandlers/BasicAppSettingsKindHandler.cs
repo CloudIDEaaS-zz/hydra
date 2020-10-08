@@ -31,7 +31,7 @@ namespace AbstraX.Handlers.TemplateHandlers
         ///
         /// <param name="entityDomainModel">        The entity domain model. </param>
         /// <param name="businessModel">            The business model. </param>
-        /// <param name="appObject">                The application object. </param>
+        /// <param name="appUIHierarchyNodeObject">   The application UI hierarchy node object. </param>
         /// <param name="appSettingsObjects">       The application settings objects. </param>
         /// <param name="projectType">              Type of the project. </param>
         /// <param name="projectFolderRoot">        The project folder root. </param>
@@ -39,13 +39,13 @@ namespace AbstraX.Handlers.TemplateHandlers
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        public bool Process(EntityDomainModel entityDomainModel, BusinessModel businessModel, BusinessModelObject appObject, Dictionary<AppSettingsKind, BusinessModelObject> appSettingsObjects, Guid projectType, string projectFolderRoot, IGeneratorConfiguration generatorConfiguration)
+        public bool Process(EntityDomainModel entityDomainModel, BusinessModel businessModel, AppUIHierarchyNodeObject appUIHierarchyNodeObject, Dictionary<AppSettingsKind, BusinessModelObject> appSettingsObjects, Guid projectType, string projectFolderRoot, IGeneratorConfiguration generatorConfiguration)
         {
             var globalSettingsObject = appSettingsObjects[AppSettingsKind.GlobalSettings];
             var userPreferencesObject = appSettingsObjects[AppSettingsKind.UserPreferences];
             var appSettingsEntityObject = new EntityObject()
             {
-                Name = appObject.Name + "Settings",
+                Name = appUIHierarchyNodeObject.Name + "Settings",
                 ParentDataItem = globalSettingsObject.Id,
                 Attributes = new List<AttributeObject>()
                 {
@@ -83,7 +83,7 @@ namespace AbstraX.Handlers.TemplateHandlers
 
             globalSettingsObject.UIHierarchyNodeObject.Entities.Add(appSettingsEntityObject);
             userPreferencesObject.UIHierarchyNodeObject.Entities.Add(appSettingsEntityObject.Shadow());
-            appObject.UIHierarchyNodeObject.AllEntities.Add(appSettingsEntityObject);
+            appUIHierarchyNodeObject.AllEntities.Add(appSettingsEntityObject);
 
             return true;
         }

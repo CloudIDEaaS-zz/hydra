@@ -11,6 +11,6 @@ namespace AbstraX
 { 
     public interface IAppSettingsKindHandler : IHandler
     {
-        bool Process(EntityDomainModel entityDomainModel, BusinessModel businessModel, BusinessModelObject appObject, Dictionary<AppSettingsKind, BusinessModelObject> appSettingsObjects, Guid projectType, string projectFolderRoot, IGeneratorConfiguration generatorConfiguration);
+        bool Process(EntityDomainModel entityDomainModel, BusinessModel businessModel, AppUIHierarchyNodeObject appHierarchyNodeObject, Dictionary<AppSettingsKind, BusinessModelObject> appSettingsObjects, Guid projectType, string projectFolderRoot, IGeneratorConfiguration generatorConfiguration);
     }
 }

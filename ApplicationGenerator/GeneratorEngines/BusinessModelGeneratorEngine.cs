@@ -166,6 +166,8 @@ namespace AbstraX.GeneratorEngines
                 }
             }
 
+            config.AppName = appName;
+            config.AppDescription = appDescription;
             config.KeyValuePairs = new Dictionary<string, object>();
             config.KeyValuePairs.Add("ConfigObject", configObject);
 

@@ -1,8 +1,8 @@
 {
-  "debugInfo": "Name: $appname Business Model, Level: business model, ClassName: businessmodel",
+  "debugInfo": "Name: contoso Business Model, Level: business model, ClassName: businessmodel",
   "id": 1,
   "parentId": 0,
-  "name": "$appname Business Model",
+  "name": "contoso Business Model",
   "title": "business model",
   "className": "businessmodel",
   "isSystemRole": false,
@@ -14,10 +14,10 @@
   "showInUI": false,
   "children": [
     {
-      "debugInfo": "Name: \"$registeredorganization Internal, Level: stakeholder, ClassName: stakeholder",
+      "debugInfo": "Name: \"contoso Internal, Level: stakeholder, ClassName: stakeholder",
       "id": 2,
       "parentId": 1,
-      "name": "\"$registeredorganization Internal",
+      "name": "\"contoso Internal",
       "title": "stakeholder",
       "className": "stakeholder",
       "stakeholderKind": "InternalRoot",
@@ -30,10 +30,10 @@
       "showInUI": true,
       "children": [
         {
-          "debugInfo": "Name: $appname Administrator, Level: role, ClassName: role",
+          "debugInfo": "Name: contoso Administrator, Level: role, ClassName: role",
           "id": 4,
           "parentId": 2,
-          "name": "$appname Administrator",
+          "name": "contoso Administrator",
           "title": "role",
           "className": "role",
           "userRoles": "Administrator",
@@ -46,7 +46,7 @@
           "identityKind": "Administrators",
           "isSystemTask": false,
           "showInUI": true,
-          "uiName": "$appname Administration",
+          "uiName": "contoso Administration",
           "children": [
             {
               "debugInfo": "Name: User Administration, Level: responsibility, ClassName: responsibility",
@@ -111,10 +111,10 @@
                           "showInUI": true,
                           "children": [
                             {
-                              "debugInfo": "Name: $appname, Level: system, ClassName: system",
+                              "debugInfo": "Name: contoso, Level: system, ClassName: system",
                               "id": 15,
                               "parentId": 14,
-                              "name": "$appname",
+                              "name": "contoso",
                               "title": "system",
                               "className": "system",
                               "isSystemRole": false,
@@ -153,10 +153,10 @@
               ]
             },
             {
-              "debugInfo": "Name: $appname Administration, Level: responsibility, ClassName: responsibility",
+              "debugInfo": "Name: contoso Administration, Level: responsibility, ClassName: responsibility",
               "id": 9,
               "parentId": 4,
-              "name": "$appname Administration",
+              "name": "contoso Administration",
               "title": "responsibility",
               "className": "responsibility",
               "isSystemRole": false,
@@ -168,10 +168,10 @@
               "showInUI": true,
               "children": [
                 {
-                  "debugInfo": "Name: $appname, Level: system, ClassName: system",
+                  "debugInfo": "Name: contoso, Level: system, ClassName: system",
                   "id": 10,
                   "parentId": 9,
-                  "name": "$appname",
+                  "name": "contoso",
                   "title": "system",
                   "className": "system",
                   "isSystemRole": false,
@@ -189,11 +189,10 @@
           ]
         },
         {
-          "debugInfo": "Name: $appname, Level: system, ClassName: system",
+          "debugInfo": "Name: contoso, Level: system, ClassName: system",
           "id": 8,
           "parentId": 2,
-          "name": "$appname",
-          "description": "",
+          "name": "contoso",
           "title": "system",
           "className": "system",
           "isSystemRole": false,

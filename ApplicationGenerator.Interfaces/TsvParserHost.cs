@@ -107,6 +107,8 @@ namespace AbstraX
                 {
                     var fieldValue = fields[jsonPropertyAttribute.Order + startColumnIndex];
 
+                    fieldValue = textReplacements.HandleTextReplacements(fieldValue);
+
                     if (childRecursionAttribute != null)
                     {
                         var parms = childRecursionAttribute.ChildRecursionParameters.Cast<string>().ToList();
@@ -188,10 +190,7 @@ namespace AbstraX
 
                     if (!fieldValue.IsNullOrEmpty())
                     {
-                        foreach (var pair in textReplacements)
-                        {
-                            fieldValue = fieldValue.Replace(pair.Key, pair.Value);
-                        }
+                        fieldValue = textReplacements.HandleTextReplacements(fieldValue);
 
                         property.SetValue(record, Convert.ChangeType(fieldValue, property.PropertyType));
                     }

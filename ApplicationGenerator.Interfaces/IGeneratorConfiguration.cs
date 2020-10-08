@@ -590,7 +590,7 @@ namespace AbstraX
         /// <param name="entity">                   The entity. </param>
         /// <param name="appHierarchyNodeObject">   The application hierarchy node object. </param>
 
-        void CreateTypeForEntity(ModuleBuilder moduleBuilder, EntityObject entity, UIHierarchyNodeObject appHierarchyNodeObject);
+        void CreateTypeForEntity(ModuleBuilder moduleBuilder, EntityObject entity, AppUIHierarchyNodeObject appHierarchyNodeObject);
         /// <summary>   Terminates this.  </summary>
         void Terminate();
     }

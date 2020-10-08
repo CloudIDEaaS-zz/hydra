@@ -54,7 +54,7 @@ namespace AbstraX.InternalHandlers
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        public bool Process(EntityObject entityObject, EntityPropertyItem entityPropertyItem, Type annotationType, TypeBuilder typeBuilder, UIHierarchyNodeObject appHierarchyNodeObject, IGeneratorConfiguration generatorConfiguration)
+        public bool Process(EntityObject entityObject, EntityPropertyItem entityPropertyItem, Type annotationType, TypeBuilder typeBuilder, AppUIHierarchyNodeObject appHierarchyNodeObject, IGeneratorConfiguration generatorConfiguration)
         {
             if (entityPropertyItem.PropertyName == "UIGroup")
             {
@@ -80,7 +80,7 @@ namespace AbstraX.InternalHandlers
             }
             else if (annotationType != null)
             {
-                return Process(entityPropertyItem, annotationType, (c) => typeBuilder.SetCustomAttribute(c));
+                return Process(entityObject, null, entityPropertyItem, appHierarchyNodeObject, annotationType, (c) => typeBuilder.SetCustomAttribute(c));
             }
             else
             {
@@ -102,11 +102,11 @@ namespace AbstraX.InternalHandlers
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        public bool Process(EntityObject entityObject, AttributeObject attributeObject, EntityPropertyItem entityPropertyItem, Type annotationType, PropertyBuilder propertyBuilder, UIHierarchyNodeObject appHierarchyNodeObject, IGeneratorConfiguration generatorConfiguration)
+        public bool Process(EntityObject entityObject, AttributeObject attributeObject, EntityPropertyItem entityPropertyItem, Type annotationType, PropertyBuilder propertyBuilder, AppUIHierarchyNodeObject appHierarchyNodeObject, IGeneratorConfiguration generatorConfiguration)
         {
             if (annotationType != null)
             {
-                return Process(entityPropertyItem, annotationType, (c) => propertyBuilder.SetCustomAttribute(c));
+                return Process(entityObject, attributeObject, entityPropertyItem, appHierarchyNodeObject, annotationType, (c) => propertyBuilder.SetCustomAttribute(c));
             }
             else
             {
@@ -114,7 +114,7 @@ namespace AbstraX.InternalHandlers
             }
         }
 
-        private bool Process(EntityPropertyItem entityPropertyItem, Type annotationType, Action<CustomAttributeBuilder> builderAction)
+        private bool Process(EntityObject entityObject, AttributeObject attributeObject, EntityPropertyItem entityPropertyItem, UIHierarchyNodeObject appHierarchyNodeObject, Type annotationType, Action<CustomAttributeBuilder> builderAction)
         {
             var argValues = new List<object>();
             var namedFields = new List<FieldInfo>();
@@ -139,7 +139,7 @@ namespace AbstraX.InternalHandlers
 
                         if (parm == parameters.ElementAt(x))
                         {
-                            var value = this.GetValue(parm.ParameterType, entityPropertyItem);
+                            var value = this.GetValue(parm.ParameterType, entityPropertyItem, (w) => HandleWildcard(w, entityObject, attributeObject, entityPropertyItem, appHierarchyNodeObject));
                             argValues.Add(value);
                             hasParmsFieldsOrProperties = true;
                             x++;
@@ -167,7 +167,7 @@ namespace AbstraX.InternalHandlers
 
                             if (parm == parameters.ElementAt(x))
                             {
-                                value = this.GetValue(parm.ParameterType, childProperty);
+                                value = this.GetValue(parm.ParameterType, childProperty, (w) => HandleWildcard(w, entityObject, attributeObject, childProperty, appHierarchyNodeObject));
                                 argValues.Add(value);
                                 hasParmsFieldsOrProperties = true;
                                 x++;
@@ -182,7 +182,7 @@ namespace AbstraX.InternalHandlers
                         {
                             var field = annotationType.GetFields().Single(f => f.Name.IsOneOf(propertyName, propertyNameCamelCase));
 
-                            value = this.GetValue(field.FieldType, childProperty);
+                            value = this.GetValue(field.FieldType, childProperty, (w) => HandleWildcard(w, entityObject, attributeObject, childProperty, appHierarchyNodeObject));
                             argValues.Add(value);
                             namedFields.Add(field);
                             hasParmsFieldsOrProperties = true;
@@ -196,7 +196,7 @@ namespace AbstraX.InternalHandlers
                         {
                             var property = annotationType.GetProperties().Single(p => p.Name.IsOneOf(propertyName, propertyNameCamelCase));
 
-                            value = this.GetValue(property.PropertyType, childProperty);
+                            value = this.GetValue(property.PropertyType, childProperty, (w) => HandleWildcard(w, entityObject, attributeObject, childProperty, appHierarchyNodeObject));
                             argValues.Add(value);
                             namedProperties.Add(property);
                             hasParmsFieldsOrProperties = true;
@@ -250,7 +250,40 @@ namespace AbstraX.InternalHandlers
             }
         }
 
-        private object GetValue(Type type, EntityPropertyItem property)
+        private object HandleWildcard(string wildcard, EntityObject entityObject, AttributeObject attributeObject, EntityPropertyItem entityPropertyItem, UIHierarchyNodeObject appHierarchyNodeObject)
+        {
+            IEnumerable<EntityPropertyItem> hierarchy;
+            EntityPropertyItem parent;
+
+            if (attributeObject != null)
+            {
+                hierarchy = entityPropertyItem.GetAncestorProperties(attributeObject);
+                parent = hierarchy.First();
+            }
+            else
+            {
+                hierarchy = entityPropertyItem.GetAncestorProperties(entityObject);
+                parent = hierarchy.First();
+            }
+
+            if (entityPropertyItem.PropertyName == "UIHierarchyPath")
+            {
+                switch (parent.PropertyName)
+                {
+                    case "IdentityField":
+                    case "UI":
+                        {
+                            var uiPath = appHierarchyNodeObject.GetUIPath();
+                        }
+
+                        break;
+                }
+            }
+
+            return null;
+        }
+
+        private object GetValue(Type type, EntityPropertyItem property, Func<string, object> wildcardCallback)
         {
             var propertyName = property.PropertyName;
             var propertyValue = property.PropertyValue;
@@ -261,6 +294,12 @@ namespace AbstraX.InternalHandlers
                 case TypeCode.String:
 
                     value = propertyValue;
+
+                    if (((string) value) == "*")
+                    {
+                        value = wildcardCallback((string) value);
+                    }
+
                     break;
 
                 case TypeCode.Boolean:

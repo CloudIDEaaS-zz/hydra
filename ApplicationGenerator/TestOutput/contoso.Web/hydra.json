@@ -1,7 +1,7 @@
 {
-  "appName": "$appname",
-  "appDescription": "$appdescription$",
-  "organizationName": "\"$registeredorganization",
+  "appName": "contoso",
+  "appDescription": "The Contoso Application is an enterprise system that supports a multi-national business with headquarters in Paris, France. It provides features for manufacturing, sales, and support, and inventory of over 100,000 products.",
+  "organizationName": "\"contoso",
   "solutionPath": "..\\contoso.sln",
   "servicesProjectPath": "..\\contoso.Services\\contoso.Services.csproj",
   "entitiesProjectPath": "..\\contoso.Entities\\contoso.Entities.csproj",

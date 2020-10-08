@@ -40,7 +40,7 @@ namespace AbstraX
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        bool Process(EntityObject entityObject, EntityPropertyItem entityPropertyItem, Type annotationType, TypeBuilder typeBuilder, UIHierarchyNodeObject appHierarchyNodeObject, IGeneratorConfiguration generatorConfiguration);
+        bool Process(EntityObject entityObject, EntityPropertyItem entityPropertyItem, Type annotationType, TypeBuilder typeBuilder, AppUIHierarchyNodeObject appHierarchyNodeObject, IGeneratorConfiguration generatorConfiguration);
 
         /// <summary>   Process this.  </summary>
         ///
@@ -54,6 +54,6 @@ namespace AbstraX
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        bool Process(EntityObject entityObject, AttributeObject attributeObject, EntityPropertyItem entityPropertyItem, Type annotationType, PropertyBuilder propertyBuilder, UIHierarchyNodeObject appHierarchyNodeObject, IGeneratorConfiguration generatorConfiguration);
+        bool Process(EntityObject entityObject, AttributeObject attributeObject, EntityPropertyItem entityPropertyItem, Type annotationType, PropertyBuilder propertyBuilder, AppUIHierarchyNodeObject appHierarchyNodeObject, IGeneratorConfiguration generatorConfiguration);
     }
 }

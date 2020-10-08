@@ -1276,6 +1276,7 @@ namespace AbstraX
         ///
         /// <param name="templateFilePath"> Full pathname of the template file. </param>
         /// <param name="appName">          Name of the application. </param>
+        /// <param name="appDescription"></param>
         /// <param name="organizationName"> Name of the organization. </param>
         ///
         /// <returns>   The new business model from template. </returns>
@@ -3064,7 +3065,7 @@ namespace AbstraX
         /// <param name="entity">                   The entity. </param>
         /// <param name="appHierarchyNodeObject">   The application hierarchy node object. </param>
 
-        public void CreateTypeForEntity(ModuleBuilder moduleBuilder, EntityObject entity, UIHierarchyNodeObject appHierarchyNodeObject)
+        public void CreateTypeForEntity(ModuleBuilder moduleBuilder, EntityObject entity, AppUIHierarchyNodeObject appHierarchyNodeObject)
         {
             var allEntities = appHierarchyNodeObject.AllEntities;
             var namespaceName = moduleBuilder.Assembly.GetName().Name;

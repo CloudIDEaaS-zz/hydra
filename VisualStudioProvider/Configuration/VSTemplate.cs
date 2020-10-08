@@ -85,6 +85,8 @@ namespace VisualStudioProvider.Configuration
                 text = text.Replace($"$guid{ x }$", Guid.NewGuid().ToString());
             }
 
+            text = text.Replace("$appname$", parameters.AppName);
+            text = text.Replace("$appdescription$", parameters.AppDescription);
             text = text.Replace("$projectname$", parameters.ProjectName);
             text = text.Replace("$safeprojectname$", parameters.ProjectName);
             text = text.Replace("$specifiedsolutionname$", parameters.SolutionName);

@@ -24,11 +24,11 @@ namespace AbstraX.TemplateObjects
         /// <summary>   A BusinessModelObject to process. </summary>
         private BusinessModelObject businessModelObject;
 
-        /// <summary>   Gets the identifier. </summary>
+        /// <summary>   Gets or sets the identifier. </summary>
         ///
         /// <value> The identifier. </value>
 
-        public int Id { get; }
+        public int Id { get; set; }
 
         /// <summary>   Gets or sets the parent. </summary>
         ///
@@ -40,7 +40,7 @@ namespace AbstraX.TemplateObjects
         ///
         /// <value> The children. </value>
 
-        public List<UIHierarchyNodeObject> Children { get; }
+        public List<UIHierarchyNodeObject> Children { get; set; }
 
         /// <summary>   Gets or sets the name. </summary>
         ///
@@ -167,22 +167,8 @@ namespace AbstraX.TemplateObjects
         /// <summary>   Gets or sets the entities. </summary>
         ///
         /// <value> The entities. </value>
-
+        /// 
         public List<EntityObject> Entities { get; set; }
-
-        /// <summary>   Gets or sets the inherent entities. </summary>
-        ///
-        /// <value> The inherent entities. </value>
-
-        public List<EntityObject> InherentEntities { get; set; }
-
-        /// <summary>   Gets or sets all entities. </summary>
-        ///
-        /// <value> all entities. </value>
-
-        public List<EntityObject> AllEntities { get; set; }
-        public ModuleBuilder EntitiesModuleBuilder { get; set; }
-
 
         /// <summary>   Constructor. </summary>
         ///
@@ -209,9 +195,6 @@ namespace AbstraX.TemplateObjects
             this.AppSettingsKind = businessModelObject.AppSettingsKind.IsNullOrEmpty() ? AppSettingsKind.None : EnumUtils.GetValue<AppSettingsKind>(businessModelObject.AppSettingsKind);
             this.IdentityKind = businessModelObject.IdentityKind.IsNullOrEmpty() ? IdentityKind.None : EnumUtils.GetValue<IdentityKind>(businessModelObject.IdentityKind);
             this.IsSystemTask = businessModelObject.IsSystemTask;
-            this.Entities = new List<EntityObject>();
-            this.InherentEntities = new List<EntityObject>();
-            this.AllEntities = new List<EntityObject>();
             
             if (businessModelObject.TaskCapabilities != null)
             {
@@ -227,8 +210,17 @@ namespace AbstraX.TemplateObjects
             this.UILoadKind = businessModelObject.UILoadKind.IsNullOrEmpty() ? UILoadKind.Default : EnumUtils.GetValue<UILoadKind>(businessModelObject.UILoadKind);
 
             this.Children = new List<UIHierarchyNodeObject>();
+            this.Entities = new List<EntityObject>();
 
             businessModelObject.UIHierarchyNodeObject = this;
+        }
+
+        /// <summary>   Specialized default constructor for use only by derived class. </summary>
+        ///
+        /// <remarks>   Ken, 10/7/2020. </remarks>
+
+        protected UIHierarchyNodeObject()
+        {
         }
 
         /// <summary>   Adds a child. </summary>

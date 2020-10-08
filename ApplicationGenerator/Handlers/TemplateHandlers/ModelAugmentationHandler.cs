@@ -44,12 +44,13 @@ namespace AbstraX.Handlers.TemplateHandlers
         /// <param name="projectFolderRoot">        The project folder root. </param>
         /// <param name="entitiesProject"></param>
         /// <param name="generatorConfiguration">   The generator configuration. </param>
+        /// <param name="appUIHierarchyNodeObject"></param>
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        public bool Process(EntityDomainModel entityDomainModel, BusinessModel businessModel, Guid projectType, string projectFolderRoot, IVSProject entitiesProject, IGeneratorConfiguration generatorConfiguration, out UIHierarchyNodeObject appHierarchyNodeObject)
+        public bool Process(EntityDomainModel entityDomainModel, BusinessModel businessModel, Guid projectType, string projectFolderRoot, IVSProject entitiesProject, IGeneratorConfiguration generatorConfiguration, out AppUIHierarchyNodeObject appUIHierarchyNodeObject)
         {
-            var appSystemObject = businessModel.GetDescendants().Single(a => a.IsApp);
+            var appSystemObject = businessModel.GetDescendants().Single(a => a.IsApp && a.Name == generatorConfiguration.AppName);
             var topLevelObject = businessModel.TopLevelObject;
             var topHierarchyNodeObjects = new List<UIHierarchyNodeObject>();
             var allHierarchyNodeObjects = new List<UIHierarchyNodeObject>();
@@ -57,8 +58,11 @@ namespace AbstraX.Handlers.TemplateHandlers
             IMemoryModuleBuilder memoryModuleBuilder;
             ModuleBuilder entititesModuleBuilder;
             UIHierarchyNodeObject topHierarchyNodeObject = null;
-            
-            appHierarchyNodeObject = null;
+            string debugUIHierarchy;
+
+            // create the UI hierarchy
+
+            appUIHierarchyNodeObject = null;
 
             topLevelObject.GetDescendantsAndSelf<BusinessModelObject, UIHierarchyNodeObject>(o => o.Children, (o, n) =>
             {
@@ -107,13 +111,21 @@ namespace AbstraX.Handlers.TemplateHandlers
                 }
             });
 
-            foreach (var hierarchNodeObject in topHierarchyNodeObjects)
+            foreach (var hierarchyNodeObject in topHierarchyNodeObjects)
             {
-                allHierarchyNodeObjects.AddRange(hierarchNodeObject.GetDescendantsAndSelf());
-                appSystemObject.TopUIHierarchyNodeObjects.Add(hierarchNodeObject);
+                allHierarchyNodeObjects.AddRange(hierarchyNodeObject.GetDescendantsAndSelf());
             }
 
-            appHierarchyNodeObject = allHierarchyNodeObjects.Single(n => n.Id == appSystemObject.Id);
+            // create the app UI Hierarchy
+
+            appUIHierarchyNodeObject = allHierarchyNodeObjects.Single(n => n.Id == appSystemObject.Id).CreateCopy<AppUIHierarchyNodeObject>();
+
+            foreach (var hierarchyNodeObject in topHierarchyNodeObjects)
+            {
+                hierarchyNodeObject.Name = "Home";
+
+                appUIHierarchyNodeObject.TopUIHierarchyNodeObjects.Add(hierarchyNodeObject);
+            }
 
             // attach entities
 
@@ -121,16 +133,21 @@ namespace AbstraX.Handlers.TemplateHandlers
             {
                 if (entity.IsInherentDataItem)
                 {
-                    appHierarchyNodeObject.InherentEntities.Add(entity);
+                    appUIHierarchyNodeObject.InherentEntities.Add(entity);
                 }
                 else
                 {
-                    var hierarchNodeObject = allHierarchyNodeObjects.Single(n => n.Id == entity.ParentDataItem);
+                    var hierarchyNodeObject = allHierarchyNodeObjects.Single(n => n.Id == entity.ParentDataItem);
 
-                    hierarchNodeObject.Entities.Add(entity);
+                    foreach (var shadowHierarchyNodeObject in allHierarchyNodeObjects.Where(n => n.ShadowItem == hierarchyNodeObject.Id))
+                    {
+                        shadowHierarchyNodeObject.Entities.Add(entity);
+                    }
+
+                    hierarchyNodeObject.Entities.Add(entity);
                 }
 
-                appHierarchyNodeObject.AllEntities.Add(entity);
+                appUIHierarchyNodeObject.AllEntities.Add(entity);
             }
 
             // create new entities from app settings kind
@@ -149,13 +166,13 @@ namespace AbstraX.Handlers.TemplateHandlers
 
                 if (handler != null)
                 {
-                    handler.Process(entityDomainModel, businessModel, appSystemObject, appSettingsObjects, projectType, projectFolderRoot, generatorConfiguration);
+                    handler.Process(entityDomainModel, businessModel, appUIHierarchyNodeObject, appSettingsObjects, projectType, projectFolderRoot, generatorConfiguration);
                 }
             }
 
             // create new entities from many-to-many containers
             
-            foreach (var entity in appHierarchyNodeObject.AllEntities.ToList().Where(e => e.HasRelatedEntityAttributes()))
+            foreach (var entity in appUIHierarchyNodeObject.AllEntities.ToList().Where(e => e.HasRelatedEntityAttributes()))
             {
                 foreach (var containsManyToManyAttribute in entity.GetRelatedEntityAttributes().Where(a => a.Properties.Single(p => p.PropertyName == "RelatedEntity").ChildProperties.Any(p2 => p2.PropertyName == "RelationshipKind" && p2.PropertyValue == "ContainsManyToMany")))
                 {
@@ -163,7 +180,7 @@ namespace AbstraX.Handlers.TemplateHandlers
                     var containsManyToManyProperty = relatedEntityProperty.ChildProperties.Single(p2 => p2.PropertyName == "RelationshipKind" && p2.PropertyValue == "ContainsManyToMany");
                     var existingEntityProperty = containsManyToManyProperty.ChildProperties.Single(p3 => p3.PropertyName == "ExistingEntity");
                     var existingEntityName = existingEntityProperty.PropertyValue;
-                    var existingEntity = appHierarchyNodeObject.AllEntities.Single(e => e.Name == existingEntityName);
+                    var existingEntity = appUIHierarchyNodeObject.AllEntities.Single(e => e.Name == existingEntityName);
                     var containerNameProperty = containsManyToManyProperty.ChildProperties.Single(p3 => p3.PropertyName == "ContainerName");
                     var containerName = containerNameProperty.PropertyValue;
                     var associateEntityObject = new EntityObject()
@@ -236,21 +253,23 @@ namespace AbstraX.Handlers.TemplateHandlers
                         };
                     }
 
-                    appHierarchyNodeObject.InherentEntities.Add(associateEntityObject);
-                    appHierarchyNodeObject.AllEntities.Add(associateEntityObject);
+                    appUIHierarchyNodeObject.InherentEntities.Add(associateEntityObject);
+                    appUIHierarchyNodeObject.AllEntities.Add(associateEntityObject);
                 }
             }
+
+            debugUIHierarchy = appUIHierarchyNodeObject.DebugPrintUIHierarchy();
 
             // build types
 
             memoryModuleBuilder = generatorConfiguration.GetMemoryModuleBuilder();
             entititesModuleBuilder = memoryModuleBuilder.CreateMemoryModuleBuilder(entitiesProject);
 
-            appHierarchyNodeObject.EntitiesModuleBuilder = entititesModuleBuilder;
+            appUIHierarchyNodeObject.EntitiesModuleBuilder = entititesModuleBuilder;
 
-            foreach (var entity in appHierarchyNodeObject.AllEntities)
+            foreach (var entity in appUIHierarchyNodeObject.AllEntities)
             {
-                generatorConfiguration.CreateTypeForEntity(entititesModuleBuilder, entity, appHierarchyNodeObject);
+                generatorConfiguration.CreateTypeForEntity(entititesModuleBuilder, entity, appUIHierarchyNodeObject);
             }
 
             return true;

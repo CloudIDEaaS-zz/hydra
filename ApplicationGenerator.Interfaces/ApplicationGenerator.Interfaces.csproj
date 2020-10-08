@@ -113,6 +113,7 @@
     <Compile Include="ApplicationFolderHierarchy.cs" />
     <Compile Include="BaseBuiltInImportHandler.cs" />
     <Compile Include="BusinessModelLevel.cs" />
+    <Compile Include="TemplateObjects\AppUIHierarchyNodeObject.cs" />
     <Compile Include="TEST CLASS PLEASE DELETE.cs" />
     <Compile Include="ConfigObject.cs" />
     <Compile Include="DataAnnotations\AppSettingsKind.cs" />
