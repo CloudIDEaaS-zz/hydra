@@ -9,9 +9,12 @@ using System.Diagnostics;
 
 namespace Utils
 {
-    public class BaseList<T> : IList<T>, IDisposable, INotifyPropertyChanged, INotifyPropertyChanging, INotifyCollectionChanged 
+    public class BaseList<T> : IList<T>, IDisposable, INotifyPropertyChanged, INotifyPropertyChanging, INotifyCollectionChanged, ILockable
     {
+        private IManagedLockObject lockObject;
         protected List<T> internalList;
+        private bool threadSafe;
+
         public event PropertyChangedEventHandler PropertyChanged;
         public event PropertyChangingEventHandler PropertyChanging;
         public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -21,9 +24,12 @@ namespace Utils
             this.internalList = internalList;
         }
 
-        public BaseList()
+        public BaseList(bool threadSafe = false)
         {
             this.internalList = new List<T>();
+            this.threadSafe = threadSafe;
+
+            lockObject = LockManager.CreateObject();
         }
 
         public virtual void Dispose()
@@ -98,7 +104,7 @@ namespace Utils
         {
             get
             {
-                return internalList[index];
+                return this.LockReturn(() => internalList[index]);
             }
 
             set
@@ -107,7 +113,10 @@ namespace Utils
 
                 using (var notifier = this.Notify(PropertyChanging, PropertyChanged, CollectionChanged, NotifyCollectionChangedAction.Replace, item, value, index, "this[]", "Count"))
                 {
-                    internalList[index] = value;
+                    this.LockSet(() =>
+                    {
+                        internalList[index] = value;
+                    });
                 }
             }
         }
@@ -116,7 +125,10 @@ namespace Utils
         {
             using (var notifier = this.Notify(PropertyChanging, PropertyChanged, CollectionChanged, NotifyCollectionChangedAction.Add, item, "this[]", "Count"))
             {
-                internalList.Add(item);
+                this.LockSet(() =>
+                {
+                    internalList.Add(item);
+                });
             }
         }
 
@@ -124,7 +136,10 @@ namespace Utils
         {
             using (var notifier = this.Notify(PropertyChanging, PropertyChanged, CollectionChanged, NotifyCollectionChangedAction.Add, items.ToList(), "this[]", "Count"))
             {
-                internalList.AddRange(items);
+                this.LockSet(() =>
+                {
+                    internalList.AddRange(items);
+                });
             }
         }
 
@@ -132,25 +147,31 @@ namespace Utils
         {
             using (var notifier = this.Notify(PropertyChanging, PropertyChanged, CollectionChanged, NotifyCollectionChangedAction.Reset, "this[]", "Count"))
             {
-                internalList.Clear();
+                this.LockSet(() =>
+                {
+                    internalList.Clear();
+                });
             }
         }
 
         public virtual bool Contains(T item)
         {
-            return internalList.Contains(item);
+            return this.LockReturn(() => internalList.Contains(item));
         }
 
         public virtual void CopyTo(T[] array, int arrayIndex)
         {
-            internalList.CopyTo(array, arrayIndex);
+            this.LockSet(() =>
+            {
+                internalList.CopyTo(array, arrayIndex);
+            });
         }
 
         public virtual int Count
         {
             get
             {
-                return internalList.Count;
+                return this.LockReturn(() => internalList.Count);
             }
         }
 
@@ -166,18 +187,53 @@ namespace Utils
         {
             using (var notifier = this.Notify(PropertyChanging, PropertyChanged, CollectionChanged, NotifyCollectionChangedAction.Remove, item, "this[]", "Count"))
             {
-                return internalList.Remove(item);
+                return this.LockReturn(() => internalList.Remove(item));
             }
         }
 
         public virtual IEnumerator<T> GetEnumerator()
         {
-            return internalList.GetEnumerator();
+            return this.LockReturn(() => internalList.GetEnumerator());
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return internalList.GetEnumerator();
+            return this.LockReturn(() => internalList.GetEnumerator());
+        }
+
+        public IDisposable Lock()
+        {
+            return lockObject.Lock();
+        }
+
+        public T2 LockReturn<T2>(Func<T2> func)
+        {
+            if (threadSafe)
+            {
+                using (this.Lock())
+                {
+                    return func();
+                }
+            }
+            else
+            {
+                return func();
+            }
+        }
+
+        public void LockSet(Action action)
+        {
+            if (threadSafe)
+            {
+                using (this.Lock())
+                {
+                    action();
+                }
+            }
+            else
+            {
+                action();
+            }
         }
     }
 

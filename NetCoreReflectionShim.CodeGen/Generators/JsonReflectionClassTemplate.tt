@@ -1,0 +1,181 @@
+﻿<#@ template language="C#" inherits="NetCoreReflectionShim.CodeGen.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="NetCoreReflectionShim.CodeGen" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="NetCoreReflectionShim.CodeGen.ReflectMemberEventHandler" name="ReflectMemberCallback" #>
+<#@ parameter type="System.Type" name="Type" #>
+<#@ parameter type="System.Boolean" name="NoShim" #>
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Utils;
+using CustomAttributeData = System.Reflection.CustomAttributeData;
+<#
+    var type = this.Type;
+#>
+
+namespace CoreShim.Reflection.JsonTypes
+{
+<#
+    if (type.BaseType == typeof(object))
+    {
+#>
+    public class <#= type.Name #>Json
+    {
+<#
+    }
+    else
+    {
+#>
+    public class <#= type.Name #>Json : <#= type.BaseType.Name #>Json
+    {
+<#
+    }
+
+    foreach (var property in type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly))
+    {
+        var typeName = type.Name;
+        var propertyName = property.Name;
+
+        if (property.PropertyType.IsEnum)
+        {
+#>
+        public string <#= property.Name #>Enum { get; set; }
+<#
+        }
+        else if (property.PropertyType == typeof(object))
+        {
+#>
+        public string <#= property.Name #>Object { get; set; }
+        public string <#= property.Name #>ObjectType { get; set; }
+<#
+        }
+        else if (property.PropertyType.IsScalar())
+        {
+#>
+        public <#= property.PropertyType.GetShortName() #> <#= property.Name #> { get; set; }
+<#
+        }
+        else if (property.PropertyType.IsGenericCollection())
+        {
+            var itemType = property.PropertyType.GetGenericArguments()[0];
+
+            if (itemType.IsScalar())
+            {
+#>
+        public List<<#= itemType.Name #>> <#= property.Name #> { get; set; }
+<#
+            }
+            else
+            {
+                var args = ReflectMember(property, this.NoShim);
+
+                if (args.JsonPropertyType != null)
+                {
+#>
+        public <#= args.JsonPropertyType #> <#= property.Name #> { get; set; }
+<#
+                }
+                else if (args.CacheResult)
+                {
+                    DebugUtils.Break();
+                }
+            }
+        }
+        else
+        {
+            var args = ReflectMember(property, this.NoShim);
+
+            if (args.JsonPropertyType != null)
+            {
+#>
+        public <#= args.JsonPropertyType #> <#= property.Name #> { get; set; }
+<#
+            }
+            else if (args.CacheResult)
+            {
+                DebugUtils.Break();
+            }
+        }
+    }
+
+    foreach (var method in type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance))
+    {
+        var typeName = type.Name;
+        var methodName = method.Name;
+
+        if (!method.IsPrivate)
+        {
+            var args = ReflectMember(method, this.NoShim);
+
+            if (args.CacheResult)
+            {
+                if (args.JsonPropertyType != null)
+                {
+#>
+        public <#= args.JsonPropertyType #> <#= method.Name #> { get; set; }
+<#
+                }
+                else if (method.ReturnType.IsEnum)
+                {
+#>
+        public int <#= method.Name #>MemberEnum { get; set; }
+<#
+                }
+                else if (method.ReturnType == typeof(object))
+                {
+#>
+        public string <#= method.Name #>MemberObject { get; set; }
+        public string <#= method.Name #>MemberObjectType { get; set; }
+<#
+                }
+                else if (method.ReturnType.IsScalar())
+                {
+#>
+        public <#= method.ReturnType.GetShortName() #> <#= method.Name #>Member { get; set; }
+<#
+                }
+                else if (method.ReturnType.IsGenericCollection())
+                {
+                    var itemType = method.ReturnType.GetGenericArguments()[0];
+
+                    if (itemType.IsScalar())
+                    {
+#>
+        public List<<#= itemType.Name #>> <#= method.Name #>Member { get; set; }
+<#
+                    }
+                    else
+                    {
+                        DebugUtils.Break();
+                    }
+                }
+                else
+                {
+                    DebugUtils.Break();
+                }
+            }
+        }
+    }
+#>
+    }
+}
+<#+
+    public ReflectMemberEventArgs ReflectMember(System.Reflection.MemberInfo memberInfo, bool noShim)
+    {
+        var args = new ReflectMemberEventArgs(memberInfo, ReflectKind.JsonTypes, noShim);
+
+        ReflectMemberCallback(this, args);
+
+        return args;
+    }
+#>

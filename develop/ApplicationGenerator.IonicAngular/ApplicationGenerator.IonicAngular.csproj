@@ -1,0 +1,1827 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8217037E-ABA3-4A1A-8A02-022D477E70C1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AbstraX</RootNamespace>
+    <AssemblyName>ApplicationGenerator.IonicAngular</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+    <ShouldCreateLogs>True</ShouldCreateLogs>
+    <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
+    <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+    <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+    <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+    <UpdatePackageVersion>False</UpdatePackageVersion>
+    <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
+    <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
+    <AssemblyVersion>1.0.0.5659</AssemblyVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;zTEST_SCANNER_MESSAGES</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\RtfHtml\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.CoreUtility.15.6.27740\lib\net46\Microsoft.VisualStudio.CoreUtility.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.OLE.Interop.16.7.30328.74\lib\net45\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Framework, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Framework.15.9.28307\lib\net45\Microsoft.VisualStudio.Shell.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.16.7.30328.74\lib\net45\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.TextManager.Interop.16.7.30328.74\lib\net45\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.12.0">
+      <HintPath>..\Binaries\Packages\Microsoft.VisualStudio.TextTemplating.12.0\Microsoft.VisualStudio.TextTemplating.12.0.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="Microsoft.Build">
+      <HintPath>..\Binaries\Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Engine">
+      <HintPath>..\Binaries\Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Framework">
+      <HintPath>..\Binaries\Packages\Microsoft.Build.15.3.409\lib\net46\Microsoft.Build.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\Binaries\Packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\ApplicationGenerator\ResourceData.cs">
+      <Link>Resources\ResourceData.cs</Link>
+    </Compile>
+    <Compile Include="..\ApplicationGenerator\ResourceManager.cs">
+      <Link>Resources\ResourceManager.cs</Link>
+    </Compile>
+    <Compile Include="AngularModuleKindHandlerAttribute.cs" />
+    <Compile Include="Angular\RoutingModule.cs" />
+    <Compile Include="Angular\AngularModule.cs" />
+    <Compile Include="Angular\AngularModuleAssemblyProperties.cs" />
+    <Compile Include="Angular\Component.cs" />
+    <Compile Include="Angular\Directive.cs" />
+    <Compile Include="Angular\EntityProvider.cs" />
+    <Compile Include="Angular\ESModule.cs" />
+    <Compile Include="Angular\ExportedFunction.cs" />
+    <Compile Include="Angular\IDeclarable.cs" />
+    <Compile Include="Angular\IPageOrComponent.cs" />
+    <Compile Include="Angular\Page.cs" />
+    <Compile Include="Angular\Pipe.cs" />
+    <Compile Include="Angular\Provider.cs" />
+    <Compile Include="Angular\Routes\LoadChildren.cs" />
+    <Compile Include="Angular\Routes\Route.cs" />
+    <Compile Include="Angular\Routes\RouteGuard.cs" />
+    <Compile Include="Angular\Routes\Navigation.cs" />
+    <Compile Include="Angular\Validator.cs" />
+    <Compile Include="AppFolderStructureSurveyor.cs" />
+    <Compile Include="ContainerAction.cs" />
+    <Compile Include="EntityCount.cs" />
+    <Content Include="AngularRouterImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularRouterPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="appConditional\edit-delete\edit-delete.html" />
+    <Content Include="app\src\app\JasmineTests.html" />
+    <Content Include="app\src\app\modules\components\hyper-link\hyper-link.html" />
+    <Content Include="Defaults\AboutBanner.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Defaults\Icon.ico" />
+    <Content Include="Defaults\Logo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Defaults\SplashScreen.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Client Model Generator\ClientModelGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Angular Client Model Generator\FacetHandler.cs" />
+    <Content Include="ExportedItemTemplates\Angular Component Generator\ComponentGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Angular Component Generator\FacetHandler.cs" />
+    <Content Include="ExportedItemTemplates\Angular Edit Page Generator\FacetHandler.cs" />
+    <Content Include="ExportedItemTemplates\Angular Edit Page Generator\PageGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Angular Module Generator\ModuleGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Angular Module Generator\ModuleKindHandler.cs" />
+    <Content Include="ExportedItemTemplates\Angular Page Generator\FacetHandler.cs" />
+    <Content Include="ExportedItemTemplates\Angular Page Generator\PageGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Angular Provider Generator\FacetHandler.cs" />
+    <Content Include="ExportedItemTemplates\Angular Provider Generator\ProviderGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Handler Object\HandlerObject.cs" />
+    <Content Include="ExportedItemTemplates\Web API Controller Generator\ControllerGenerator.cs" />
+    <Content Include="ExportedItemTemplates\Web API Controller Generator\FacetHandler.cs" />
+    <Content Include="ExportedItemTemplates\Web API Model Generator\AppModuleGenerator.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Content\MyTemplate.vstemplate" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Content\pages\home.html" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Content\__TemplateIcon.ico" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Entities\Models\%24specifiedsolutionname%24Context.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Extensions.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Extensions.Server.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\HttpResponseException.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Program.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Providers\AnalyticsTrackingHandler.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Providers\ApplicationServices.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Providers\Filters\HttpResponseExceptionFilter.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Providers\LoginTimeoutService.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Providers\ServiceAuthorizationHandler.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Providers\WebApiProviderExtensions.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Startup.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\Program.cs" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\Startup.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="GeneratorEngines\AppGeneratorEngine.cs" />
+    <Compile Include="GeneratorEngines\BusinessModelGeneratorEngine.cs" />
+    <Compile Include="GeneratorEngines\EntitiesGeneratorEngine.cs" />
+    <Compile Include="GeneratorEngines\WorkspaceGeneratorEngine.cs" />
+    <Compile Include="Generators\Client\App\AppComponentClassTemplate.cs">
+      <DependentUpon>AppComponentClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Client\App\AppComponentPageTemplate.cs">
+      <DependentUpon>AppComponentPageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Client\App\AppGenerator.cs" />
+    <Compile Include="Generators\Client\App\EmbeddedFilesGenerator.cs" />
+    <Compile Include="Generators\Client\App\InitUser.cs">
+      <DependentUpon>InitUser.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\App\InitApp.cs">
+      <DependentUpon>InitApp.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Client\App\PageIndexTemplate.cs">
+      <DependentUpon>PageIndexTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Client\App\SassStyleSheetTemplate.cs">
+      <DependentUpon>SassStyleSheetTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\ClientModel\ClientModelClassTemplate.cs">
+      <DependentUpon>ClientModelClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Client\ClientModel\ClientModelGenerator.cs" />
+    <Compile Include="Generators\Client\AppDataProvider\AppDataProviderClassTemplate.cs">
+      <DependentUpon>AppDataProviderClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\AppDataProvider\AppDataProviderGenerator.cs" />
+    <Compile Include="Generators\Client\Config\WebAppManifestTemplate.cs">
+      <DependentUpon>WebAppManifestTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\Config\PackageWidgetXMLTemplate.cs">
+      <DependentUpon>PackageWidgetXMLTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\Theme\ThemeGenerator.cs" />
+    <Compile Include="Generators\Client\Config\TasksJsonTemplate.cs">
+      <DependentUpon>TasksJsonTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\Config\LaunchJsonTemplate.cs">
+      <DependentUpon>LaunchJsonTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\Config\ConfigGenerator.cs" />
+    <Compile Include="Generators\Client\EntityProvider\EntityProviderClassTemplate.cs">
+      <DependentUpon>EntityProviderClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Client\EntityProvider\EntityProviderGenerator.cs" />
+    <Compile Include="Generators\Client\Internationalization\LanguageTranslationFileTemplate.cs">
+      <DependentUpon>LanguageTranslationFileTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Client\Internationalization\LanguageTranslationGenerator.cs" />
+    <Compile Include="Generators\Client\RouteGuardProvider\RouteGuardProviderClassTemplate.cs">
+      <DependentUpon>RouteGuardProviderClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\RouteGuardProvider\RouteGuardProviderGenerator.cs" />
+    <Compile Include="Generators\Client\Theme\DataJsonTemplate.cs">
+      <DependentUpon>DataJsonTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\Theme\VariablesScssTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VariablesScssTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Client\UserDataProvider\UserDataProviderClassTemplate.cs">
+      <DependentUpon>UserDataProviderClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\UserDataProvider\UserDataProviderGenerator.cs" />
+    <Compile Include="Generators\Client\Validator\ValidatorClassTemplate.cs">
+      <DependentUpon>ValidatorClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\DynamicModuleBuilder.cs" />
+    <Compile Include="Generators\EntityProperty.cs" />
+    <Compile Include="Generators\FormField.cs" />
+    <Compile Include="Generators\IdentityField.cs" />
+    <Compile Include="Generators\LinkInfo.cs" />
+    <Compile Include="Generators\ImageInfo.cs" />
+    <Compile Include="Generators\ModulesExtractor.cs" />
+    <Compile Include="Generators\Modules\AppModule\AppModuleClassTemplate.cs">
+      <DependentUpon>AppModuleClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Modules\AppModule\AppModuleGenerator.cs" />
+    <Compile Include="Generators\Modules\AppModule\BlankAppModuleClassTemplate.cs">
+      <DependentUpon>BlankAppModuleClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Modules\EditModule\EditModuleClassTemplate.cs">
+      <DependentUpon>EditModuleClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Modules\EditModule\EditModuleGenerator.cs" />
+    <Compile Include="Generators\Modules\NavigationGridModule\NavigationGridModuleClassTemplate.cs">
+      <DependentUpon>NavigationGridModuleClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Modules\NavigationGridModule\NavigationGridModuleGenerator.cs" />
+    <Compile Include="Generators\Modules\WelcomeModule\WelcomeModuleClassTemplate.cs">
+      <DependentUpon>WelcomeModuleClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Modules\WelcomeModule\WelcomeModuleGenerator.cs" />
+    <Compile Include="Generators\Modules\RoutingModule\RoutingModuleClassTemplate.cs">
+      <DependentUpon>RoutingModuleClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Modules\SlidingTabsModule\SlidingTabsModuleClassTemplate.cs">
+      <DependentUpon>SlidingTabsModuleClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Modules\SlidingTabsModule\SlidingTabsModuleGenerator.cs" />
+    <Compile Include="Generators\Modules\StandardModule\StandardModuleClassTemplate.cs">
+      <DependentUpon>StandardModuleClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Modules\StandardModule\StandardModuleGenerator.cs" />
+    <Compile Include="Generators\Pages\AboutPage\AboutPopoverClassTemplate.cs">
+      <DependentUpon>AboutPopoverClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Pages\AboutPage\AboutClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AboutClassTemplate.tt</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\AboutPage\AboutPageGenerator.cs" />
+    <Compile Include="Generators\Pages\AboutPage\AboutPopoverPageTemplate.cs">
+      <DependentUpon>AboutPopoverPageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Pages\AboutPage\AboutPageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AboutPageTemplate.tt</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\AboutPage\SassStyleSheetTemplate.cs">
+      <DependentUpon>SassStyleSheetTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Pages\LicensePage\LicenseClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LicenseClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Pages\LicensePage\LicensePageGenerator.cs" />
+    <Compile Include="Generators\Pages\LicensePage\LicensePageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LicensePageTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\CommandHandlers\AppTargetsBuilder.cs" />
+    <Compile Include="Handlers\CommandHandlers\VsCodeCommandHandler.cs" />
+    <Compile Include="Handlers\CommandHandlers\DotNetTools\DotNetTool.cs" />
+    <Compile Include="Handlers\CommandHandlers\DotNetTools\EntityFrameworkTool.cs" />
+    <Compile Include="Handlers\CommandHandlers\Hydra\HydraCommandHandler.cs" />
+    <Compile Include="Handlers\CommandHandlers\PlatformBuilder\iOSBuilder.cs" />
+    <Compile Include="Handlers\CommandHandlers\PlatformBuilder\MobileBuilderBase.cs" />
+    <Compile Include="Handlers\CommandHandlers\PlatformBuilder\SQLLocalDbBuilder.cs" />
+    <Compile Include="Handlers\CommandHandlers\PlatformBuilder\WebBuilder.cs" />
+    <Compile Include="Handlers\CommandHandlers\PlatformBuilder\AndroidBuilder.cs" />
+    <Compile Include="Handlers\FacetHandlers\SupportPageFacetHandler.cs" />
+    <Compile Include="Generators\Pages\SupportPage\SupportClassTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SupportClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Pages\SupportPage\SupportPageGenerator.cs" />
+    <Compile Include="Generators\Pages\SupportPage\SupportPageTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SupportPageTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\FacetHandlers\LicensePageFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\AboutPageFacetHandler.cs" />
+    <Compile Include="Generators\Pages\BlankPage\BlankClassTemplate.cs">
+      <DependentUpon>BlankClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\BlankPage\BlankPageGenerator.cs" />
+    <Compile Include="Generators\Pages\BlankPage\BlankPageTemplate.cs">
+      <DependentUpon>BlankPageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\EditPopupPage\EditPopupClassTemplate.cs">
+      <DependentUpon>EditPopupClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\EditPopupPage\EditPopupPageGenerator.cs" />
+    <Compile Include="Generators\Pages\EditPopupPage\EditPopupPageTemplate.cs">
+      <DependentUpon>EditPopupPageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\LoginPage\LoginClassTemplate.cs">
+      <DependentUpon>LoginClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\LoginPage\LoginPageGenerator.cs" />
+    <Compile Include="Generators\Pages\LoginPage\LoginPageTemplate.cs">
+      <DependentUpon>LoginPageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\NavigationGridPage\GridColumn.cs" />
+    <Compile Include="Generators\Pages\NavigationGridPage\ManagedList.cs" />
+    <Compile Include="Generators\Pages\NavigationGridPage\NavigationGridClassTemplate.cs">
+      <DependentUpon>NavigationGridClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\NavigationGridPage\NavigationGridPageGenerator.cs" />
+    <Compile Include="Generators\Pages\NavigationGridPage\NavigationGridPageTemplate.cs">
+      <DependentUpon>NavigationGridPageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\RepeaterPage\RepeaterClassTemplate.cs">
+      <DependentUpon>RepeaterClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\RepeaterPage\RepeaterPageGenerator.cs" />
+    <Compile Include="Generators\Pages\RepeaterPage\RepeaterPageTemplate.cs">
+      <DependentUpon>RepeaterPageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\SassPage\SassStyleSheetTemplate.cs">
+      <DependentUpon>SassStyleSheetTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\SlidingTabPage\SlidingTab.cs" />
+    <Compile Include="Generators\Pages\SlidingTabPage\SlidingTabClassTemplate.cs">
+      <DependentUpon>SlidingTabClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\SlidingTabPage\SlidingTabPageGenerator.cs" />
+    <Compile Include="Generators\Pages\SlidingTabPage\SlidingTabPageTemplate.cs">
+      <DependentUpon>SlidingTabPageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\TabPage\Tab.cs" />
+    <Compile Include="Generators\Pages\TabPage\TabClassTemplate.cs">
+      <DependentUpon>TabClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\TabPage\TabPageGenerator.cs" />
+    <Compile Include="Generators\Pages\TabPage\TabPageTemplate.cs">
+      <DependentUpon>TabPageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\WelcomePage\SassStyleSheetTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SassStyleSheetTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Generators\Pages\WelcomePage\WelcomeClassTemplate.cs">
+      <DependentUpon>WelcomeClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Pages\WelcomePage\WelcomePageGenerator.cs" />
+    <Compile Include="Generators\Pages\WelcomePage\WelcomePageTemplate.cs">
+      <DependentUpon>WelcomePageTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\RelatedEntity.cs" />
+    <Compile Include="Generators\Server\ConfigJson\ConfigJsonGenerator.cs" />
+    <Compile Include="Generators\Server\ConfigJson\ConfigJsonTemplate.cs">
+      <DependentUpon>ConfigJsonTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\EntityModel\AppResourcesClassTemplate.cs">
+      <DependentUpon>AppResourcesClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\EntityModel\EntityModelClassTemplate.cs">
+      <DependentUpon>EntityModelClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\EntityModel\EntityModelGenerator.cs" />
+    <Compile Include="Generators\Server\EntityModel\EntityModelMetadataClassTemplate.cs">
+      <DependentUpon>EntityModelMetadataClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIContainerController\WebAPIContainerControllerClassTemplate.cs">
+      <DependentUpon>WebAPIContainerControllerClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIContainerController\WebAPIContainerControllerGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIController\WebAPIControllerClassTemplate.cs">
+      <DependentUpon>WebAPIControllerClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIController\WebAPIControllerGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIController\WebAPIIdentityControllerClassTemplate.cs">
+      <DependentUpon>WebAPIIdentityControllerClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.cs">
+      <DependentUpon>WebAPIRestControllerClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIGraphQLSchema\WebAPIGraphQLQueryClassTemplate.cs">
+      <DependentUpon>WebAPIGraphQLQueryClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIGraphQLSchema\WebAPIGraphQLSchemaClassTemplate.cs">
+      <DependentUpon>WebAPIGraphQLSchemaClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIGraphQLSchema\WebAPIGraphQLSchemaGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIModel\WebAPIIdentityModelClassTemplate.cs">
+      <DependentUpon>WebAPIIdentityModelClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIModel\WebAPIModelClassTemplate.cs">
+      <DependentUpon>WebAPIModelClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIModel\WebAPIModelGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIRestConfigJson\WebAPIRestConfigJsonGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIRestConfigJson\WebAPIRestConfigJsonTemplate.cs">
+      <DependentUpon>WebAPIRestConfigJsonTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIRestProviderDataContext\WebAPIRestProviderDataContextClassTemplate.cs">
+      <DependentUpon>WebAPIRestProviderDataContextClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIRestProviderDataContext\WebAPIRestProviderDataContextGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIRestServiceProvider\ServiceMethod.cs" />
+    <Compile Include="Generators\Server\WebAPIRestServiceProvider\WebAPIRestServiceProviderClassTemplate.cs">
+      <DependentUpon>WebAPIRestServiceProviderClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIRestServiceProvider\WebAPIRestServiceProviderGenerator.cs" />
+    <Compile Include="Generators\Server\WebAPIStartupGraphQLSchemas\GraphQLSchema.cs" />
+    <Compile Include="Generators\Server\WebAPIStartupGraphQLSchemas\WebAPIStartupGraphQLSchemasClassTemplate.cs">
+      <DependentUpon>WebAPIStartupGraphQLSchemasClassTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Generators\Server\WebAPIStartupGraphQLSchemas\WebAPIStartupGraphQLSchemasGenerator.cs" />
+    <Compile Include="Handlers\CommandHandlers\CommandAttribute.cs" />
+    <Compile Include="Handlers\CommandHandlers\NodeCommandHandler.cs" />
+    <Compile Include="Handlers\CommandHandlers\GeneratorHandler.cs" />
+    <Compile Include="Handlers\CommandHandlers\ICommandHandler.cs" />
+    <Compile Include="Handlers\CommandHandlers\DotNetCommandHandler.cs" />
+    <Compile Include="Handlers\CommandHandlers\NugetCommandHandler.cs" />
+    <Compile Include="Handlers\EntityAddInHandlers\AddInEntitiesMetadataReflectionHandler.cs" />
+    <Compile Include="Handlers\ExpressionHandlers\RestExpressionHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\ApplicationFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\BaseNonPageFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\BasePageFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\BlankPageFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\ClientModelFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\AppDataProviderFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\UserDataProviderFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\RouteGuardProviderFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\ConfigJsonFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\CustomComponentFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\EditPopupPageFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\EntityProviderFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\LoginPageFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\NavigationGridPageWithEditsFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\SlidingTabsPageFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\TabsPageFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIContainerControllerFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIControllerFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIGraphQLSchemaFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIModelFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIRestConfigJsonFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIRestProviderDataContextFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIRestServiceProviderFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WebAPIStartupGraphQLSchemasFacetHandler.cs" />
+    <Compile Include="Handlers\FacetHandlers\WelcomePageFacetHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\AgGridAngularImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\AgGridImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\AngularFormsImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\AngularImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\AngularProviderImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\AngularTextMaskImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\AngularValidationPageBuiltInImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\AngularValidatorImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicApplicationImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicEditPageBuiltInImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicEditPageImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicGridPageBuiltInImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicGridPageImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\IonicPageBuiltInImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\LinqCollectionsImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\NgxTranslateImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\AgGridAngularPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\AgGridPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\AngularPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\AngularTextMaskPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\IonicApplicationPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\IonicPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\LinqCollectionsPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\NgxTranslatePackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\RxJsPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\SuperTabsPackage.cs" />
+    <Compile Include="Handlers\ImportHandlers\RxJsMapImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\RxJsObservableImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\SuperTabsImportHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\ThemeModuleKindHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\ConfigModuleKindHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\AppModuleKindHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\EditModuleKindHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\EditPopupModuleKindHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\NavigationGridModuleKindHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\WelcomeModuleKindHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\SlidingTabsModuleKindHandler.cs" />
+    <Compile Include="Handlers\ModuleKindHandlers\StandardModuleKindHandler.cs" />
+    <Compile Include="Handlers\ProcessHandlers\WindowsProcessHandler.cs" />
+    <Compile Include="Handlers\TemplateHandlers\BasicAppSettingsKindHandler.cs" />
+    <Compile Include="Handlers\TemplateHandlers\BasicProfileSettingsKindHandler.cs" />
+    <Compile Include="Handlers\TemplateHandlers\BusinessModelHandler.cs" />
+    <Compile Include="Handlers\TemplateHandlers\DataAnnotationTypeHandler.cs" />
+    <Compile Include="Handlers\TemplateHandlers\EntitiesModelHandler.cs" />
+    <Compile Include="Handlers\TemplateHandlers\EntityContainerHandler.cs" />
+    <Compile Include="Handlers\TemplateHandlers\ModelAugmentationHandler.cs" />
+    <Compile Include="Handlers\TemplateHandlers\ModelTypeBuilderHandler.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WizardPages\ctrlWizardStepCompletion.resx">
+      <DependentUpon>ctrlWizardStepCompletion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WizardPages\ctrlWizardStepFoundation.resx">
+      <DependentUpon>ctrlWizardStepFoundation.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="appConditional\edit-delete\edit-delete.scss" />
+    <None Include="app\src\app\modules\components\hyper-link\hyper-link.scss" />
+    <None Include="Defaults\Dimensions.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\appsettings.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Content\pages\home.scss" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Content\style\abstracts\_functions.scss" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Content\style\abstracts\_mixins.scss" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Content\style\abstracts\_variables.scss" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Content\style\base\_animations.scss" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Content\style\base\_base.scss" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Content\style\base\_typography.scss" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Content\style\base\_utilities.scss" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Content\style\main.scss" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Handlers\UILoadKindAugmenters\WelcomePageAugmenter.cs" />
+    <Compile Include="Handlers\UILoadKindAugmenters\MainPageAugmenter.cs" />
+    <Compile Include="Handlers\UtilityHandlers\UtilityHandler.cs" />
+    <Compile Include="Handlers\ValidationHandlers\DataTypeValidationHandler.cs" />
+    <Compile Include="Handlers\ValidationHandlers\MaxLengthValidationHandler.cs" />
+    <Compile Include="Handlers\ValidationHandlers\MinLengthValidationHandler.cs" />
+    <Compile Include="Handlers\ValidationHandlers\RequiredValidationHandler.cs" />
+    <Compile Include="Handlers\ViewLayoutHandlers\BaseViewLayoutHandler.cs" />
+    <Compile Include="Handlers\ViewLayoutHandlers\RepeaterLayoutHandler.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\HydraJsonWorkspaceFileTypeHandler.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileTypeHandler.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\DirectiveSyntaxWalker.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Extensions.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Nodes\ElifBlock.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Nodes\ElseBlock.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Nodes\EndIfBlock.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Nodes\IfBlock.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Nodes\IfDirectiveBlock.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\CSharpWorkspaceFileType\Nodes\IfDirectiveNodeBase.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\UniqueProfileDataFileHandler.cs" />
+    <Compile Include="Handlers\WorkspaceHandlers\UniqueProfileData\Replacement.cs" />
+    <Compile Include="IonicFileSystemType.cs" />
+    <Compile Include="IonicFolderHierarchy.cs" />
+    <Compile Include="Manager.cs">
+      <DependentUpon>Manager.ttinclude</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="MarketingObjectAttributeProviders\GenericProvider.cs" />
+    <Compile Include="MarketingObjectAttributeProviders\EmailProvider.cs" />
+    <Compile Include="MarketingObjectAttributeProviders\FacebookProvider.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ResourceDataClone.cs" />
+    <Compile Include="ViewEngine\PartialViewEventHandler.cs" />
+    <Compile Include="ViewEngine\RazorParserVisitor.cs" />
+    <Compile Include="ViewEngine\RazorSemanticVisitor.cs" />
+    <Compile Include="ViewEngine\SemanticTree\AssignmentNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\BaseNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\CodeExpressionNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\CodeNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\CommentNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\CustomScriptsSectionNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\DirectiveNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\Extensions.cs" />
+    <Compile Include="ViewEngine\SemanticTree\HelperExpressionNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\MarkupBlockNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\MarkupNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\ModelInvocationNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\ModelNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\NodeKind.cs" />
+    <Compile Include="ViewEngine\SemanticTree\PropertyNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\RenderNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\RootNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\ScriptExpressionNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\SectionNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\VariableNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\ViewBagNode.cs" />
+    <Compile Include="ViewEngine\SemanticTree\ViewDataNode.cs" />
+    <Compile Include="ViewEngine\View.cs" />
+    <Compile Include="ViewEngine\ViewProject.cs" />
+    <Compile Include="WizardPages\ctrlWizardStepFoundation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WizardPages\ctrlWizardStepFoundation.Designer.cs">
+      <DependentUpon>ctrlWizardStepFoundation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WizardPages\ctrlWizardStepCompletion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WizardPages\ctrlWizardStepCompletion.Designer.cs">
+      <DependentUpon>ctrlWizardStepCompletion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WorkspaceTemplateParameters.cs" />
+    <Content Include="AgGridAngularImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AgGridAngularPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AgGridImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AgGridPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularFormsImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularFormsPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularProviderImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularProviderPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularTextMaskImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularTextMaskPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularValidationPageBuiltInImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularValidationPageBuiltInPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularValidatorImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="AngularValidatorPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Client Model Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Angular Client Model Generator\ModelGenerator.png" />
+    <Content Include="ExportedItemTemplates\Angular Client Model Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Component Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Angular Component Generator\ComponentGenerator.png" />
+    <Content Include="ExportedItemTemplates\Angular Component Generator\ComponentTemplate.tt">
+      <LastGenOutput>PageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Component Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Edit Page Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Angular Edit Page Generator\EditPageGenerator.png" />
+    <Content Include="ExportedItemTemplates\Angular Edit Page Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Edit Page Generator\PageTemplate.tt">
+      <LastGenOutput>PageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Module Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Angular Module Generator\ModuleGenerator.png" />
+    <Content Include="ExportedItemTemplates\Angular Module Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Module Generator\PageTemplate.tt">
+      <LastGenOutput>PageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Page Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Angular Page Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Page Generator\PageGenerator.png" />
+    <Content Include="ExportedItemTemplates\Angular Page Generator\PageTemplate.tt">
+      <LastGenOutput>PageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Provider Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Angular Provider Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Angular Provider Generator\ProviderGenerator.png" />
+    <Content Include="ExportedItemTemplates\Handler Object\HandlerObject.png" />
+    <Content Include="ExportedItemTemplates\Handler Object\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Web API Controller Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Web API Controller Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Web API Controller Generator\WebAPIControllerGenerator.png" />
+    <Content Include="ExportedItemTemplates\Web API Model Generator\ClassTemplate.tt" />
+    <Content Include="ExportedItemTemplates\Web API Model Generator\MyTemplate.vstemplate">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ExportedItemTemplates\Web API Model Generator\PageTemplate.tt">
+      <LastGenOutput>PageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="ExportedItemTemplates\Web API Model Generator\WebAPIModelGenerator.png" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Entities\MyTemplate.vstemplate" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Entities\__TemplateIcon.ico" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\templates\NOTES.txt" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\MyTemplate.vstemplate" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\css\site.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\EmailVerification.html" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\EntityConfig.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\EntityConfigTest.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\favicon.ico" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\Functions.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\js\site.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery\dist\jquery.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery\dist\jquery.min.js" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery\LICENSE.txt" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\__TemplateIcon.ico" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.sln" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\MyTemplate.vstemplate" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\wwwroot\favicon.ico" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\__TemplateIcon.ico" />
+    <Content Include="Generators\Client\App\InitUser.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>InitUser.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\AppDataProvider\AppDataProviderClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>AppDataProviderClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\App\SassStyleSheetTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SassStyleSheetTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\Config\WebAppManifestTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAppManifestTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\Config\PackageWidgetXMLTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>PackageWidgetXMLTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\Theme\DataJsonTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>DataJsonTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\Theme\VariablesScssTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>VariablesScssTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\Config\TasksJsonTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>TasksJsonTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\Config\LaunchJsonTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>LaunchJsonTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\RouteGuardProvider\RouteGuardProviderClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>RouteGuardProviderClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\UserDataProvider\UserDataProviderClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>UserDataProviderClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\AboutPage\AboutPopoverClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>AboutPopoverClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\AboutPage\AboutClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>AboutClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\AboutPage\AboutPopoverPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>AboutPopoverPageTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\AboutPage\AboutPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>AboutPageTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\AboutPage\SassStyleSheetTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SassStyleSheetTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\LicensePage\LicenseClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>LicenseClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\LicensePage\LicensePageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>LicensePageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\SupportPage\SupportClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SupportClassTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\SupportPage\SupportPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SupportPageTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Generators\Pages\WelcomePage\SassStyleSheetTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SassStyleSheetTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\WebAPIContainerController\WebAPIContainerControllerClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIContainerControllerClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GeneratorTemplates\Blank\Blank.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GeneratorTemplates\Default\Default.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Compile Include="Handlers\ImportHandlers\AngularRouterImportHandler.cs" />
+    <Compile Include="Handlers\ImportHandlers\Packages\AngularRouterPackage.cs" />
+    <Content Include="Images\Blank.ico" />
+    <Content Include="Images\Blank16.png" />
+    <Content Include="Images\Blank32.png" />
+    <Content Include="Images\Default.ico" />
+    <Content Include="Images\Default16.png" />
+    <Content Include="Images\Default32.png" />
+    <Content Include="Images\Marketing\AppStores\AppStore Large.png" />
+    <Content Include="Images\Marketing\AppStores\AppStore Small.png" />
+    <Content Include="Images\Marketing\AppStores\AppStore Tiny.png" />
+    <Content Include="Images\Marketing\AppStores\GooglePlay Large.png" />
+    <Content Include="Images\Marketing\AppStores\GooglePlay Small.png" />
+    <Content Include="Images\Marketing\AppStores\GooglePlay Tiny.png" />
+    <Content Include="Images\Marketing\SocialMedia\Email Large.png" />
+    <Content Include="Images\Marketing\SocialMedia\Email Small.png" />
+    <Content Include="Images\Marketing\SocialMedia\Email Tiny.png" />
+    <Content Include="Images\Marketing\SocialMedia\Facebook Large.png" />
+    <Content Include="Images\Marketing\SocialMedia\Facebook Small.png" />
+    <Content Include="Images\Marketing\SocialMedia\Facebook Tiny.png" />
+    <Content Include="Images\Marketing\SocialMedia\Instagram Large.png" />
+    <Content Include="Images\Marketing\SocialMedia\Instagram Small.png" />
+    <Content Include="Images\Marketing\SocialMedia\Instagram Tiny.png" />
+    <Content Include="Images\Marketing\SocialMedia\Twitter Large.png" />
+    <Content Include="Images\Marketing\SocialMedia\Twitter Small.png" />
+    <Content Include="Images\Marketing\SocialMedia\Twitter Tiny.png" />
+    <Content Include="Images\WizardCompletion\30546258_l.jpg" />
+    <Content Include="Images\WizardCompletion\Build.png" />
+    <EmbeddedResource Include="Images\WizardCompletion\CompletionStepIcons\Complete.png" />
+    <EmbeddedResource Include="Images\WizardCompletion\CompletionStepIcons\InProcess.png" />
+    <EmbeddedResource Include="Images\WizardCompletion\CompletionStepIcons\NotStarted.png" />
+    <Content Include="Images\WizardCompletion\FiveStars.png" />
+    <Content Include="Images\WizardCompletion\HydraSplash.jpg" />
+    <Content Include="Images\WizardCompletion\HydraStore.ico" />
+    <Content Include="Images\WizardCompletion\HydraStore.png" />
+    <Content Include="Images\WizardCompletion\HydraStore16.png" />
+    <Content Include="Images\WizardCompletion\HydraStore32.png" />
+    <Content Include="Images\WizardCompletion\HydraStoreFull.jpg" />
+    <Content Include="Images\WizardCompletion\Launch.png" />
+    <EmbeddedResource Include="Images\WizardCompletion\MagicWand.png" />
+    <Content Include="Images\WizardCompletion\trianglify-lowres.png" />
+    <Content Include="Images\WizardCompletion\UploadToHydraStore.png" />
+    <Content Include="IonicEditPageBuiltInImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicEditPageBuiltInPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicEditPageImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicGridPageBuiltInImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicGridPageBuiltInPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicGridPageImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicPageBuiltInImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="IonicPageBuiltInPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="LinqCollectionsImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="LinqCollectionsPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="ModuleImports.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModuleImports.cs</LastGenOutput>
+    </Content>
+    <Content Include="ModuleImportsModel.cs" />
+    <Compile Include="ModuleImports.cs">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ModuleKind.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="NgxTranslateImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="NgxTranslatePackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <EmbeddedResource Include="Resources\AboutThisImage.html" />
+    <Content Include="RxJsMapImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="RxJsMapPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="RxJsObservableImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="RxJsObservablePackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="SuperTabsImportHandler.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <Content Include="SuperTabsPackage.txt">
+      <DependentUpon>ModuleImports.tt</DependentUpon>
+    </Content>
+    <None Include="Properties\DataSources\AbstraX.DataModels.OrganizationModel.datasource" />
+    <None Include="Properties\launchSettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\src\app\modules\components\tree-view\tree-view.html" />
+    <Content Include="app\src\app\modules\utils\jQueryUtils.js" />
+    <Content Include="Generators\Client\App\AppComponentClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>AppComponentClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\App\AppComponentPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>AppComponentPageTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\App\InitApp.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>InitApp.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\App\PageIndexTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>PageIndexTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\ClientModel\ClientModelClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>ClientModelClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\EntityProvider\EntityProviderClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>EntityProviderClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\Internationalization\LanguageTranslationFileTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>LanguageTranslationFileTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\Validator\ValidatorClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>ValidatorClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Modules\AppModule\AppModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>AppModuleClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Modules\AppModule\BlankAppModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>BlankAppModuleClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Modules\EditModule\EditModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>EditModuleClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Modules\NavigationGridModule\NavigationGridModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>NavigationGridModuleClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Modules\WelcomeModule\WelcomeModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WelcomeModuleClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Modules\RoutingModule\RoutingModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>RoutingModuleClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Modules\SlidingTabsModule\SlidingTabsModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SlidingTabsModuleClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Modules\StandardModule\StandardModuleClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>StandardModuleClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\BlankPage\BlankClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>BlankClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\BlankPage\BlankPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>BlankPageTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\EditPopupPage\EditPopupClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>EditPopupClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\EditPopupPage\EditPopupPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>EditPopupPageTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\LoginPage\LoginClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>LoginClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\LoginPage\LoginPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>LoginPageTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\NavigationGridPage\NavigationGridClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>NavigationGridClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\NavigationGridPage\NavigationGridPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>NavigationGridPageTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\RepeaterPage\RepeaterClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>RepeaterClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\RepeaterPage\RepeaterPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>RepeaterPageTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\SassPage\SassStyleSheetTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SassStyleSheetTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\SlidingTabPage\SlidingTabClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SlidingTabClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\SlidingTabPage\SlidingTabPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>SlidingTabPageTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\TabPage\TabClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>TabClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\TabPage\TabPageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>TabPageTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\WelcomePage\WelcomeClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WelcomeClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Pages\WelcomePage\WelcomePageTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WelcomePageTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\ScratchPad.tt" />
+    <Content Include="Generators\Server\ConfigJson\ConfigJsonTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>ConfigJsonTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\EntityModel\AppResourcesClassTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>AppResourcesClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\EntityModel\EntityModelClassTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>EntityModelClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\EntityModel\EntityModelMetadataClassTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>EntityModelMetadataClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\WebAPIController\WebAPIControllerClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIControllerClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\WebAPIController\WebAPIIdentityControllerClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIIdentityControllerClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\WebAPIController\WebAPIRestControllerClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIRestControllerClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\WebAPIGraphQLSchema\WebAPIGraphQLQueryClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIGraphQLQueryClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\WebAPIGraphQLSchema\WebAPIGraphQLSchemaClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIGraphQLSchemaClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\WebAPIModel\WebAPIIdentityModelClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIIdentityModelClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\WebAPIModel\WebAPIModelClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIModelClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\WebAPIRestConfigJson\WebAPIRestConfigJsonTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIRestConfigJsonTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\WebAPIRestProviderDataContext\WebAPIRestProviderDataContextClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIRestProviderDataContextClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\WebAPIRestServiceProvider\WebAPIRestServiceProviderClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIRestServiceProviderClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Server\WebAPIStartupGraphQLSchemas\WebAPIStartupGraphQLSchemasClassTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>WebAPIStartupGraphQLSchemasClassTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\AngularRouter.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Marketing\AppStores.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Marketing\SocialMedia.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\edit-label\edit-label.module.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\edit-label\edit-label.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\edit-label\edit-label.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\edit-label\editChangeArgs.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\edit-label\index.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\grid-page.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\tree-view\bindingsParseResult.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\tree-view\bindingTransform.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\tree-view\expandPipe.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\tree-view\forNodesDirective.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\tree-view\index.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\tree-view\onCreateDirective.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\tree-view\tree-node.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\tree-view\tree-view.module.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\tree-view\tree-view.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\tree-view\tree-view.spec.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\tree-view\tree-view.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\usable-popover.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\utils\AuthorizeDecorator.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\utils\BreadcrumbDecorators.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\utils\DebugUtils.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\utils\Extensions.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\utils\ValidationMap.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\providers\api\api.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\providers\settings\settings.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\typings\typings.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\models\accesstokeninfo.model.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\AgGridAngularPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\AgGridPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\AngularPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\AngularTextMaskPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\IonicApplicationPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\IonicPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\LinqCollectionsPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\NgxTranslatePackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\RxJsPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handlers\ImportHandlers\Packages\Config\SuperTabsPackage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handlers\ViewLayouts\_Repeater.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Manager.ttinclude">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Manager.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ApplicationGenerator.Interfaces\ApplicationGenerator.Interfaces.csproj">
+      <Project>{daecb031-509a-496f-8a8b-08d79762d704}</Project>
+      <Name>ApplicationGenerator.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppStoreInterfaces\AppStoreInterfaces.csproj">
+      <Project>{97FF608F-CD79-4D57-ACDF-B2D7A242AD36}</Project>
+      <Name>AppStoreInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HydraResourceTracer\HydraResourceTracer.csproj">
+      <Project>{fe80e603-2ce3-4ed5-ac79-23b75783c420}</Project>
+      <Name>HydraResourceTracer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rtf2Html\Converter\Html\ConverterHtml2010.csproj">
+      <Project>{0f106257-e070-4510-bfa7-87cc6edc5ba1}</Project>
+      <Name>ConverterHtml2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rtf2Html\Interpreter\Interpreter2010.csproj">
+      <Project>{3f1b94dc-2ee6-4674-a2de-e60ffc63a1d9}</Project>
+      <Name>Interpreter2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rtf2Html\Parser\Parser2010.csproj">
+      <Project>{210dbd13-a7b0-430a-aeb4-7e558ca61a46}</Project>
+      <Name>Parser2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rtf2Html\Rtf2Html\Rtf2Html2010.csproj">
+      <Project>{6ecfd59c-e75d-44aa-ad15-2feedc8d6a98}</Project>
+      <Name>Rtf2Html2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SassParser\SassParser.csproj">
+      <Project>{ebe6b74c-5c12-47a0-a8de-c51d3a88649d}</Project>
+      <Name>SassParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeInterfaces\CodeInterfaces.csproj">
+      <Project>{a1d569a5-690c-4479-93bc-795fe6ec3c88}</Project>
+      <Name>CodeInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NetCoreReflectionShim.Agent\NetCoreReflectionShim.Agent.csproj">
+      <Project>{92bbc0e9-26bb-446a-9b14-3acf026141c5}</Project>
+      <Name>NetCoreReflectionShim.Agent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SqlLocalDb\SqlLocalDb.csproj">
+      <Project>{029E5F8C-50B0-4514-A5C0-B1EA1776E7B9}</Project>
+      <Name>SqlLocalDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TypeScriptAST\TypeScriptAST.csproj">
+      <Project>{7728b98c-9e88-4e6d-8ecd-d51ded278ac2}</Project>
+      <Name>TypeScriptAST</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{a4763b8b-f945-4c4c-9727-7e970e02f662}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VisualStudioProvider\VisualStudioProvider.csproj">
+      <Project>{1e47eeaf-ec79-4d70-aa27-ac653fd40cc2}</Project>
+      <Name>VisualStudioProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Wizard\WizardBase\WizardBase.csproj">
+      <Project>{c742e00b-3933-4834-bc41-19848e1e3af2}</Project>
+      <Name>WizardBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ViewEngine\SemanticTree\_ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Entities\%24specifiedsolutionname%24.Entities.csproj" />
+    <EmbeddedResource Include="app.zip" />
+    <Content Include="app\src\app\app.scss" />
+    <None Include="app\tsconfig.app.json" />
+    <None Include="app\tsconfig.json" />
+    <None Include="app\tsconfig.spec.json" />
+    <None Include="app\tslint.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\%24specifiedsolutionname%24.Services.csproj" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\.helmignore" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\Chart.yaml" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\templates\_helpers.tpl" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\templates\deployment.yaml" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\templates\ingress.yaml" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\templates\secrets.yaml" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\templates\service.yaml" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\charts\hydraaspnetcoreservices\values.yaml" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Properties\launchSettings.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Properties\serviceDependencies.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\Properties\serviceDependencies.local.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\RebuildDatabase.ps1" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\Config.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\Entities.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\GeoLite\GeoLite2-City.mmdb" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Services\wwwroot\Model.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\%24specifiedsolutionname%24.Web.csproj" />
+    <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\.gitignore" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\appsettings.Development.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\appsettings.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\hydra.json" />
+    <None Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Web\Properties\launchSettings.json" />
+    <None Include="Generators\Client\Theme\data.sample.json" />
+    <None Include="GeneratorTemplates\Blank\Blank.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="GeneratorTemplates\Blank\businessModel.template">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="GeneratorTemplates\Blank\entityDomainModel.template">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="GeneratorTemplates\Default\Default.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="GeneratorTemplates\Default\businessModel.template">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="GeneratorTemplates\Default\entityDomainModel.template">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\src\app\modules\utils\testing\" />
+    <Folder Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Entities\DataConfiguration\" />
+    <Folder Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Entities\Metadata\" />
+    <Folder Include="Images\WizardCompletion\PlatformIcons\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\src\app\interfaces\user-options.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="HtmlAgilityPack">
+      <Version>1.11.30</Version>
+    </PackageReference>
+    <PackageReference Include="Logging.Memory">
+      <Version>3.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis">
+      <Version>3.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common">
+      <Version>3.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
+      <Version>3.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting">
+      <Version>3.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces">
+      <Version>3.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.Scripting">
+      <Version>3.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="Moq">
+      <Version>4.16.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\src\app\providers\user-data.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\src\app\core\core.module.ts" />
+    <Content Include="app\src\app\core\services\window.service.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\src\app\providers\user.provider.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app\src\app\modules\components\tree-view\bindingsParser.ts" />
+    <None Include="app\src\app\modules\utils\bindingParser.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="appConditional\edit-delete\edit-delete.module.ts" />
+    <TypeScriptCompile Include="appConditional\edit-delete\edit-delete.ts" />
+    <TypeScriptCompile Include="appConditional\edit-delete\index.ts" />
+    <TypeScriptCompile Include="app\src\app\modules\components\hyper-link\hyper-link.module.ts" />
+    <TypeScriptCompile Include="app\src\app\modules\components\hyper-link\hyper-link.spec.ts" />
+    <TypeScriptCompile Include="app\src\app\modules\components\hyper-link\hyper-link.ts" />
+  </ItemGroup>
+  <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\..\Binaries\SolutionLibraries\ApplicationGeneratorBuildTasks.dll" TaskName="InstallTemplates" />
+  <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\..\Binaries\SolutionLibraries\ApplicationGeneratorBuildTasks.dll" TaskName="ZipAppFiles" />
+  <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\..\Binaries\SolutionLibraries\ApplicationGeneratorBuildTasks.dll" TaskName="UpdateExportedProjectTemplates" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="HydraAfterBuild" AfterTargets="AfterBuild">
+    <Message Importance="high" Text="Updating project templates" />
+    <UpdateExportedProjectTemplates />
+    <Message Importance="high" Text="Installing templates" />
+    <InstallTemplates Configuration="$(Configuration)" />
+    <Message Importance="high" Text="Zipping application files" />
+    <ZipAppFiles />
+    <ItemGroup>
+      <BinFiles Include="$(TargetDir)\**\*.*" />
+    </ItemGroup>
+    <Message Importance="high" Text="Copying the following files:" />
+    <Message Importance="high" Text="BinFiles: @(BinFiles)" />
+    <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(HYDRASOLUTIONPATH)\ApplicationGenerator\bin\$(Configuration)\%(RecursiveDir)" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

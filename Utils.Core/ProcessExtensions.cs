@@ -5,6 +5,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+using System.IO;
 
 namespace Utils
 {
@@ -198,6 +199,61 @@ namespace Utils
         static public extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, int nSize, out int lpNumberOfBytesWritten);
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool TerminateProcess(IntPtr hProcess, uint uExitCode);
+        [DllImport("shell32.dll", SetLastError = true)]
+        private static extern IntPtr CommandLineToArgvW([MarshalAs(UnmanagedType.LPWStr)] string lpCmdLine, out int pNumArgs);
+
+        public static string[] CommandLineToArgs(string commandLine)
+        {
+            int argc;
+            var argv = CommandLineToArgvW(commandLine, out argc);
+
+            if (argv == IntPtr.Zero)
+            {
+                throw new System.ComponentModel.Win32Exception();
+            }
+
+            try
+            {
+                var args = new string[argc];
+
+                for (var i = 0; i < args.Length; i++)
+                {
+                    var p = Marshal.ReadIntPtr(argv, i * IntPtr.Size);
+                    args[i] = Marshal.PtrToStringUni(p);
+                }
+
+                return args;
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(argv);
+            }
+        }
+
+        public static string FindExePath(string exe)
+        {
+            exe = Environment.ExpandEnvironmentVariables(exe);
+
+            if (!File.Exists(exe))
+            {
+                if (Path.GetDirectoryName(exe) == String.Empty)
+                {
+                    foreach (string test in (Environment.GetEnvironmentVariable("PATH") ?? "").Split(';'))
+                    {
+                        string path = test.Trim();
+
+                        if (!String.IsNullOrEmpty(path) && File.Exists(path = Path.Combine(path, exe)))
+                        {
+                            return Path.GetFullPath(path);
+                        }
+                    }
+                }
+
+                throw new FileNotFoundException(new FileNotFoundException().Message, exe);
+            }
+
+            return Path.GetFullPath(exe);
+        }
 
         public static void TerminateProcess()
         {

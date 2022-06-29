@@ -14,6 +14,7 @@ using System.Drawing;
 using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
+using Utils.ProcessHelpers;
 
 [StructLayout(LayoutKind.Sequential)]
 public struct SHFILEINFO
@@ -39,15 +40,173 @@ static class Win32
     public static extern bool CreateDirectory(string lpNewDirectory, IntPtr lpSecurityAttributes);
     [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
     public static extern bool RemoveDirectory(string lpPathName);
+    [DllImport("shell32.dll")]
+    public static extern int SHGetFolderPath(IntPtr hwndOwner, int nFolder, IntPtr hToken, uint dwFlags, [Out] StringBuilder pszPath);
 }
 
 #endif
 
 namespace Utils
 {
-
+    using Microsoft.Win32;
+    using System.Drawing.Imaging;
+    using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
+    using System.Text.RegularExpressions;
+    using System.Windows.Forms;
+    using Utils.IO;
+#if INCLUDE_PROCESSDIAGNOSTICSLIBRARY
+    using Utils.IO;
+#endif
     using static Utils.FileOperation;
+
+    public enum SpecialFolderType
+    {
+        // Version 5.0. The file system directory that is used
+        // to store administrative tools for an individual user.
+        // The Microsoft Management Console (MMC) will save customized
+        // consoles to this directory, and it will roam with the user.
+        AdministrativeTools = 0x0030,
+
+        // Version 5.0. The file system directory containing
+        // administrative tools for all users of the computer.
+        CommonAdministrativeTools = 0x002f,
+
+        // Version 4.71. The file system directory that serves as
+        // a common repository for application-specific data.
+        // A typical path is C:\Documents and Settings\username\Application Data.
+        // This CSIDL is supported by the redistributable Shfolder.dll
+        // for systems that do not have the Microsoft Internet Explorer 4.0
+        // integrated Shell installed
+        ApplicationData = 0x001a,
+
+        // Version 5.0. The file system directory containing
+        // application data for all users. A typical path is
+        // C:\Documents and Settings\All Users\Application Data.
+        CommonAppData = 0x0023,
+
+        // The file system directory that contains documents
+        // that are common to all users. A typical paths is
+        // C:\Documents and Settings\All Users\Documents.
+        // Valid for Windows NT systems and Microsoft Windows 95 and
+        // Windows 98 systems with Shfolder.dll installed.
+        CommonDocuments = 0x002e,
+
+        // The file system directory that serves as a common repository
+        // for Internet cookies. A typical path is
+        // C:\Documents and Settings\username\Cookies.
+        Cookies = 0x0021,
+
+        // Version 5.0. Combine this CSIDL with any of the following CSIDLs
+        // to force the creation of the associated folder.
+        CreateFlag = 0x8000,
+
+        // The file system directory that serves as a common repository
+        // for Internet history items.
+        History = 0x0022,
+
+        // Version 4.72. The file system directory that serves as
+        // a common repository for temporary Internet files. A typical
+        // path is C:\Documents and Settings\username\Local Settings\Temporary Internet Files.
+        InternetCache = 0x0020,
+
+        // Version 5.0. The file system directory that serves as a data
+        // repository for local (nonroaming) applications. A typical path
+        // is C:\Documents and Settings\username\Local Settings\Application Data.
+        LocalApplicationData = 0x001c,
+
+        // Version 5.0. The file system directory that serves as
+        // a common repository for image files. A typical path is
+        // C:\Documents and Settings\username\My Documents\My Pictures.
+        MyPictures = 0x0027,
+
+        // Version 6.0. The virtual folder representing the My Documents
+        // desktop item. This is equivalent to CSIDL_MYDOCUMENTS.
+        // Previous to Version 6.0. The file system directory used to
+        // physically store a user's common repository of documents.
+        // A typical path is C:\Documents and Settings\username\My Documents.
+        // This should be distinguished from the virtual My Documents folder
+        // in the namespace. To access that virtual folder,
+        // use SHGetFolderLocation, which returns the ITEMIDLIST for the
+        // virtual location, or refer to the technique described in
+        // Managing the File System.
+        Personal = 0x0005,
+
+        // Version 5.0. The Program Files folder. A typical
+        // path is C:\Program Files.
+        ProgramFiles = 0x0026,
+
+        // Version 5.0. A folder for components that are shared across
+        // applications. A typical path is C:\Program Files\Common.
+        // Valid only for Windows NT, Windows 2000, and Windows XP systems.
+        // Not valid for Windows Millennium Edition (Windows Me).
+        CommonProgramFiles = 0x002b,
+
+        // Version 5.0. The Windows System folder. A typical
+        // path is C:\Windows\System32.
+        System = 0x0025,
+
+        // Version 5.0. The Windows directory or SYSROOT.
+        // This corresponds to the %windir% or %SYSTEMROOT% environment
+        // variables. A typical path is C:\Windows.
+        Windows = 0x0024,
+
+        // Fonts directory. A typical path is c:\Windows\Fonts.
+        Fonts = 0x0014
+    }
+
+    public enum SpecialFolderCSIDL : int
+    {
+        CSIDL_DESKTOP = 0x0000,    // <desktop>
+        CSIDL_INTERNET = 0x0001,    // Internet Explorer (icon on desktop)
+        CSIDL_PROGRAMS = 0x0002,    // Start Menu\Programs
+        CSIDL_CONTROLS = 0x0003,    // My Computer\Control Panel
+        CSIDL_PRINTERS = 0x0004,    // My Computer\Printers
+        CSIDL_PERSONAL = 0x0005,    // My Documents
+        CSIDL_FAVORITES = 0x0006,    // <user name>\Favorites
+        CSIDL_STARTUP = 0x0007,    // Start Menu\Programs\Startup
+        CSIDL_RECENT = 0x0008,    // <user name>\Recent
+        CSIDL_SENDTO = 0x0009,    // <user name>\SendTo
+        CSIDL_BITBUCKET = 0x000a,    // <desktop>\Recycle Bin
+        CSIDL_STARTMENU = 0x000b,    // <user name>\Start Menu
+        CSIDL_DESKTOPDIRECTORY = 0x0010,    // <user name>\Desktop
+        CSIDL_DRIVES = 0x0011,    // My Computer
+        CSIDL_NETWORK = 0x0012,    // Network Neighborhood
+        CSIDL_NETHOOD = 0x0013,    // <user name>\nethood
+        CSIDL_FONTS = 0x0014,    // windows\fonts
+        CSIDL_TEMPLATES = 0x0015,
+        CSIDL_COMMON_STARTMENU = 0x0016,    // All Users\Start Menu
+        CSIDL_COMMON_PROGRAMS = 0x0017,    // All Users\Programs
+        CSIDL_COMMON_STARTUP = 0x0018,    // All Users\Startup
+        CSIDL_COMMON_DESKTOPDIRECTORY = 0x0019,    // All Users\Desktop
+        CSIDL_APPDATA = 0x001a,    // <user name>\Application Data
+        CSIDL_PRINTHOOD = 0x001b,    // <user name>\PrintHood
+        CSIDL_LOCAL_APPDATA = 0x001c,    // <user name>\Local Settings\Applicaiton Data (non roaming)
+        CSIDL_ALTSTARTUP = 0x001d,    // non localized startup
+        CSIDL_COMMON_ALTSTARTUP = 0x001e,    // non localized common startup
+        CSIDL_COMMON_FAVORITES = 0x001f,
+        CSIDL_INTERNET_CACHE = 0x0020,
+        CSIDL_COOKIES = 0x0021,
+        CSIDL_HISTORY = 0x0022,
+        CSIDL_COMMON_APPDATA = 0x0023,    // All Users\Application Data
+        CSIDL_WINDOWS = 0x0024,    // GetWindowsDirectory()
+        CSIDL_SYSTEM = 0x0025,    // GetSystemDirectory()
+        CSIDL_PROGRAM_FILES = 0x0026,    // C:\Program Files
+        CSIDL_MYPICTURES = 0x0027,    // C:\Program Files\My Pictures
+        CSIDL_PROFILE = 0x0028,    // USERPROFILE
+        CSIDL_SYSTEMX86 = 0x0029,    // x86 system directory on RISC
+        CSIDL_PROGRAM_FILESX86 = 0x002a,    // x86 C:\Program Files on RISC
+        CSIDL_PROGRAM_FILES_COMMON = 0x002b,    // C:\Program Files\Common
+        CSIDL_PROGRAM_FILES_COMMONX86 = 0x002c,    // x86 Program Files\Common on RISC
+        CSIDL_COMMON_TEMPLATES = 0x002d,    // All Users\Templates
+        CSIDL_COMMON_DOCUMENTS = 0x002e,    // All Users\Documents
+        CSIDL_COMMON_ADMINTOOLS = 0x002f,    // All Users\Start Menu\Programs\Administrative Tools
+        CSIDL_ADMINTOOLS = 0x0030,    // <user name>\Start Menu\Programs\Administrative Tools
+        CSIDL_CONNECTIONS = 0x0031,    // Network and Dial-up Connections
+        CSIDL_CDBURN_AREA = 0x003B,    // Data for burning with interface ICDBurn
+
+    };
+
 
     public class FileOperation
     {
@@ -81,6 +240,7 @@ namespace Utils
         static extern int SHFileOperation([In, Out] ref SHFILEOPSTRUCT lpFileOp);
 
         private SHFILEOPSTRUCT _ShFile;
+
         public FILEOP_FLAGS fFlags;
 
         public IntPtr hwnd
@@ -244,22 +404,104 @@ namespace Utils
 
     public static class IOExtensions
     {
+        [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int memcmp(byte[] b1, byte[] b2, long count);
+        [DllImport("Kernel32.dll", EntryPoint = "RtlZeroMemory", SetLastError = false)]
+        public static extern void ZeroMemory(IntPtr dest, uint size);
+        [DllImport("kernel32.dll")]
+        public static extern uint OpenProcess(ProcessAccessFlags processAccess, bool bInheritHandle, uint processId);
+
+        [Flags]
+        public enum ProcessAccessFlags : uint
+        {
+            All = 0x001F0FFF,
+            Terminate = 0x00000001,
+            CreateThread = 0x00000002,
+            VirtualMemoryOperation = 0x00000008,
+            VirtualMemoryRead = 0x00000010,
+            VirtualMemoryWrite = 0x00000020,
+            DuplicateHandle = 0x00000040,
+            CreateProcess = 0x000000080,
+            SetQuota = 0x00000100,
+            SetInformation = 0x00000200,
+            QueryInformation = 0x00000400,
+            QueryLimitedInformation = 0x00001000,
+            Synchronize = 0x00100000
+        }
+
+        public static string GetDocumentsDirectory()
+        {
+            const int MaxPath = 260;
+            StringBuilder builder = new StringBuilder(MaxPath);
+
+            Win32.SHGetFolderPath(IntPtr.Zero, (int) SpecialFolderCSIDL.CSIDL_PERSONAL, IntPtr.Zero, 0x0000, builder);
+
+            return builder.ToString();
+        }
+
+        static bool ByteArrayCompare(byte[] b1, byte[] b2)
+        {
+            // Validate buffers are the same length.
+            // This also ensures that the count does not exceed the length of either buffer.  
+            return b1.Length == b2.Length && memcmp(b1, b2, b1.Length) == 0;
+        }
         public const int MAX_PATH = 260;
 #if !SILVERLIGHT
-        internal static Dictionary<StreamWriter, Stack<TagHandler>> tagHandlerStack;
+        internal static Dictionary<TextWriter, Stack<TagHandler>> tagHandlerStack;
 
         static IOExtensions()
         {
-            tagHandlerStack = new Dictionary<StreamWriter, Stack<TagHandler>>();
+            tagHandlerStack = new Dictionary<TextWriter, Stack<TagHandler>>();
         }
 #endif
-        #region Watchers
+#region Watchers
 #if !SILVERLIGHT
         private static List<FileSystemWatcher> watchers;
+
+        public static byte[] ReadToEnd(this Stream stream)
+        {
+            byte[] buffer = new byte[32768];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                while (true)
+                {
+                    int read = stream.Read(buffer, 0, buffer.Length);
+                    if (read <= 0)
+                        return ms.ToArray();
+                    ms.Write(buffer, 0, read);
+                }
+            }
+        }
+        public static string GetExtension(this ImageFormat imageFormat)
+        {
+            if (imageFormat.Equals(ImageFormat.Jpeg)) return ".jpg";
+            else if (imageFormat.Equals(ImageFormat.Png)) return ".png";
+            else if (imageFormat.Equals(ImageFormat.Gif)) return ".gif";
+            else if (imageFormat.Equals(ImageFormat.Bmp)) return ".bmp";
+            else if (imageFormat.Equals(ImageFormat.Tiff)) return ".tif";
+            else if (imageFormat.Equals(ImageFormat.Icon)) return ".ico";
+            else if (imageFormat.Equals(ImageFormat.Emf)) return ".emf";
+            else if (imageFormat.Equals(ImageFormat.Wmf)) return ".wmf";
+            else if (imageFormat.Equals(ImageFormat.Exif)) return ".exif";
+            else if (imageFormat.Equals(ImageFormat.MemoryBmp)) return ".bmp";
+            return ".unknown";
+        }
 
         public static string GetRelativePath(this FileInfo file, string basePath)
         {
             return FileUtilities.MakeRelative(basePath, file.FullName);
+        }
+
+        public static bool Compare(this byte[] b1, byte[] b2)
+        {
+            return b1.Length == b2.Length && memcmp(b1, b2, b1.Length) == 0;
+        }
+
+        public static FileInfo FindFile(this DirectoryInfo directoryInfo, string fileName)
+        {
+            var fileInfo = directoryInfo.GetFiles("*.*", SearchOption.AllDirectories).SingleOrDefault(f => f.Name.AsCaseless() == fileName);
+
+            return fileInfo;
         }
 
         public static string GetRelativePath(this DirectoryInfo directory, string basePath)
@@ -277,6 +519,18 @@ namespace Utils
             {
                 target.Write(buf, 0, bytesRead);
             }
+        }
+        public static string GetDefaultExtension(string mimeType)
+        {
+            string result;
+            RegistryKey key;
+            object value;
+
+            key = Registry.ClassesRoot.OpenSubKey(@"MIME\Database\Content Type\" + mimeType, false);
+            value = key != null ? key.GetValue("Extension", null) : null;
+            result = value != null ? value.ToString() : string.Empty;
+
+            return result;
         }
 
         public static string GetExactPath(this FileSystemInfo fileSystemInfo)
@@ -298,6 +552,32 @@ namespace Utils
             {
                 return directory.Name.ToUpper();
             }
+        }
+
+        public static bool CreateShortcut(this FileInfo fileInfo, string shortcutFolder)
+        {
+            var shortcutFile = Path.Combine(shortcutFolder, fileInfo.Name + ".lnk");
+            var shortcutTarget = "\"" + fileInfo.FullName + "\"";
+            var obj = Type.GetTypeFromCLSID(new Guid("00021401-0000-0000-C000-000000000046"), true);
+            var shellLink = Activator.CreateInstance(obj) as IShellLinkW;
+            UCOMIPersistFile persistFile;
+
+            if (shellLink != null)
+            {
+                shellLink.SetPath(shortcutTarget);
+                shellLink.SetDescription(shortcutTarget);
+
+                persistFile = (UCOMIPersistFile)shellLink;
+
+                persistFile.Save(shortcutFile, true);
+
+                Marshal.ReleaseComObject(persistFile);
+                Marshal.ReleaseComObject(shellLink);
+
+                return true;
+            }
+
+            return false;
         }
 
         public static bool CompareTo(this DirectoryInfo dir1, DirectoryInfo dir2)
@@ -404,9 +684,33 @@ namespace Utils
             return fileOperation.Execute();
         }
 
+        public static void AssurePathCreated(this FileSystemInfo fileSystemInfo)
+        {
+            if (fileSystemInfo is DirectoryInfo directory)
+            {
+                if (!directory.Exists)
+                {
+                    directory.Create();
+                }
+            }
+            else if (fileSystemInfo is FileInfo fileInfo)
+            {
+                fileInfo.Directory.AssurePathCreated();
+            }
+            else
+            {
+                DebugUtils.Break();
+            }
+        }
+
         public static void CopyTo(this DirectoryInfo sourceDirectory, string targetDirectory, bool overwrite, Func<FileSystemInfo, bool> filter)
         {
             sourceDirectory.CopyTo(targetDirectory, overwrite, false, filter);
+        }
+
+        public static void CopyTo(this FileInfo file, DirectoryInfo directory)
+        {
+            file.CopyTo(Path.Combine(directory.FullName, file.Name), true);
         }
 
         public static void CopyTo(this DirectoryInfo sourceDirectory, string targetDirectory, bool overwrite, bool skipErrors = false, Func<FileSystemInfo, bool> filter = null)
@@ -427,18 +731,42 @@ namespace Utils
 
                 foreach (var file in Directory.GetFiles(source))
                 {
-                    try
+                    var continueCopy = true;
+                    var count = 0;
+
+                    while (continueCopy)
                     {
-                        if (filter(new FileInfo(file)))
+                        try
                         {
-                            File.Copy(file, Path.Combine(target, Path.GetFileName(file)), overwrite);
+                            if (filter(new FileInfo(file)))
+                            {
+                                if (!Directory.Exists(target))
+                                {
+                                    Directory.CreateDirectory(target);
+                                }
+
+                                File.Copy(file, Path.Combine(target, Path.GetFileName(file)), overwrite);
+                            }
+
+                            continueCopy = false;
                         }
-                    }
-                    catch
-                    {
-                        if (!skipErrors)
+                        catch (Exception ex)
                         {
-                            throw;
+                            if (skipErrors)
+                            {
+                                continueCopy = false;
+                                Thread.Sleep(100);
+                            }
+                            else
+                            {
+                                count++;
+
+                                if (count > 20)
+                                {
+                                    MessageBox.Show("Exceeded copy retry limit");
+                                    Debugger.Launch();
+                                }
+                            }
                         }
                     }
                 }
@@ -730,6 +1058,72 @@ namespace Utils
                 }
             }
         }
+        public static List<string> GetComparisonExceptions(this DirectoryInfo directory1, DirectoryInfo directory2)
+        {
+            var files1 = directory1.GetFiles().Select(f => f.FullName.RemoveStart(directory1.FullName)).ToList();
+            var files2 = directory2.GetFiles().Select(f => f.FullName.RemoveStart(directory2.FullName)).ToList();
+
+            return files1.Except(files2).ToList();
+        }
+
+        public static string GetHash(this DirectoryInfo directory, bool hashFileContents = true)
+        {
+            try
+            {
+                var path = directory.FullName;
+                var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories).OrderBy(p => p).ToList();
+                MD5 md5 = MD5.Create();
+
+                if (files.Count > 0)
+                {
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        string file = files[i];
+
+                        // hash path
+                        string relativePath = file.Substring(path.Length + 1);
+                        byte[] pathBytes = Encoding.UTF8.GetBytes(relativePath.ToLower());
+
+                        if (hashFileContents)
+                        {
+                            md5.TransformBlock(pathBytes, 0, pathBytes.Length, pathBytes, 0);
+                            // hash contents
+                            byte[] contentBytes = File.ReadAllBytes(file);
+
+                            if (i == files.Count - 1)
+                            {
+                                md5.TransformFinalBlock(contentBytes, 0, contentBytes.Length);
+                            }
+                            else
+                            {
+                                md5.TransformBlock(contentBytes, 0, contentBytes.Length, contentBytes, 0);
+                            }
+                        }
+                        else
+                        {
+                            if (i == files.Count - 1)
+                            {
+                                md5.TransformFinalBlock(pathBytes, 0, pathBytes.Length);
+                            }
+                            else
+                            {
+                                md5.TransformBlock(pathBytes, 0, pathBytes.Length, pathBytes, 0);
+                            }
+                        }
+                    }
+
+                    return BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
         public static string GetHash(this FileInfo file)
         {
@@ -742,10 +1136,10 @@ namespace Utils
             }
         }
 #endif
-        #endregion
+#endregion
 
 #if !SILVERLIGHT
-        public static T GetIcon<T>(this FileInfo file) 
+        public static T GetSmallIcon<T>(this FileInfo file) 
         {
             var shInfo = new SHFILEINFO();
             var hImgSmall = Win32.SHGetFileInfo(file.FullName, 0, ref shInfo, (uint)Marshal.SizeOf(shInfo), Win32.SHGFI_ICON | Win32.SHGFI_SMALLICON);
@@ -772,6 +1166,35 @@ namespace Utils
 
             return (T)returnVal;
         }
+
+        public static T GetLargeIcon<T>(this FileInfo file)
+        {
+            var shInfo = new SHFILEINFO();
+            var hImgSmall = Win32.SHGetFileInfo(file.FullName, 0, ref shInfo, (uint)Marshal.SizeOf(shInfo), Win32.SHGFI_ICON | Win32.SHGFI_LARGEICON);
+            var icon = Icon.FromHandle(shInfo.hIcon);
+            object returnVal = null;
+
+            switch (typeof(T).FullName)
+            {
+                case "System.Drawing.Icon":
+
+                    returnVal = icon;
+                    break;
+
+                case "System.Drawing.Bitmap":
+
+                    var bitmap = icon.ToBitmap();
+                    returnVal = bitmap;
+                    break;
+
+                default:
+                    Debugger.Break();
+                    break;
+            }
+
+            return (T)returnVal;
+        }
+
 
         public static void Replace(string originalFile, string outputFile, string searchTerm, string replaceTerm)
         {
@@ -869,8 +1292,27 @@ namespace Utils
                 }
             }
 
-            return ThreeNonZeroDigits(value / Math.Pow(1024, suffixes.Length - 1)) +
-                " " + suffixes[suffixes.Length - 1];
+            return ThreeNonZeroDigits(value / Math.Pow(1024, suffixes.Length - 1)) + " " + suffixes[suffixes.Length - 1];
+        }
+
+        public static string ToByteSize(this long size)
+        {
+            if (size > NumberExtensions.GB)
+            {
+                return ((int)(size / NumberExtensions.GB)).ToString() + " GB";
+            }
+            else if (size > NumberExtensions.MB)
+            {
+                return ((int)(size / NumberExtensions.MB)).ToString() + " MB";
+            }
+            else if (size > NumberExtensions.KB)
+            {
+                return ((int)(size / NumberExtensions.KB)).ToString() + " KB";
+            }
+            else
+            {
+                return size.ToString() + " B";
+            }
         }
 
         // Return the value formatted to include at most three
@@ -900,24 +1342,24 @@ namespace Utils
             }
         }
 
-        public static void WriteLineFormat(this StreamWriter writer, string format, params object[] args)
+        public static void WriteLineFormat(this TextWriter writer, string format, params object[] args)
         {
             writer.Write(format + "\r\n", args);
         }
 
-        public static void WriteLineFormatSpaceIndent(this StreamWriter writer, int count, string format, params object[] args)
+        public static void WriteLineFormatSpaceIndent(this TextWriter writer, int count, string format, params object[] args)
         {
             writer.Write(" ".Repeat(count));
             writer.Write(format + "\r\n", args);
         }
 
-        public static void WriteLineFormatTabIndent(this StreamWriter writer, int count, string format, params object[] args)
+        public static void WriteLineFormatTabIndent(this TextWriter writer, int count, string format, params object[] args)
         {
             writer.Write('\t'.Repeat(count));
             writer.Write(format + "\r\n", args);
         }
 
-        public static TagHandler WriteTag(this StreamWriter writer, string tag, object attributesOrValue = null)
+        public static TagHandler WriteTag(this TextWriter writer, string tag, object attributesOrValue = null)
         {
             Stack<TagHandler> stack = null;
             TagHandler handler;
@@ -953,7 +1395,69 @@ namespace Utils
             return handler;
         }
 
-        private static TagHandler WriteTag(this StreamWriter writer, int indent, string tag, object attributesOrValue = null)
+        public static TagHandler WriteTag(this TextWriter writer, string tag, string value, object attributes = null)
+        {
+            Stack<TagHandler> stack = null;
+            TagHandler handler;
+
+            if (!tagHandlerStack.ContainsKey(writer))
+            {
+                stack = new Stack<TagHandler>();
+                tagHandlerStack.Add(writer, stack);
+            }
+            else
+            {
+                stack = tagHandlerStack[writer];
+            }
+
+            handler = WriteTag(writer, stack.Count, tag, value, attributes);
+
+            stack.Push(handler);
+
+            handler.Disposed += (sender, e) =>
+            {
+                var handlerPeek = stack.Peek();
+
+                Debug.Assert(handlerPeek.Tag == handler.Tag);
+
+                stack.Pop();
+
+                if (stack.Count == 0)
+                {
+                    tagHandlerStack.Remove(writer);
+                }
+            };
+
+            return handler;
+        }
+
+        private static TagHandler WriteTag(this TextWriter writer, int indent, string tag, string value, object attributes = null)
+        {
+            if (attributes != null)
+            {
+                var type = attributes.GetType();
+
+                writer.WriteFormatTabIndent(indent, "<{0}", tag);
+
+                foreach (var property in type.GetProperties())
+                {
+                    var propertyName = property.Name.Replace("_", "-");
+                    var propertyValue = property.GetValue(attributes, null);
+
+                    writer.Write(" {0}=\"{1}\"", propertyName, propertyValue.ToString());
+                }
+
+                writer.WriteLine(">{0}", value);
+            }
+            else
+            {
+                writer.WriteLineFormatTabIndent(indent, "<{0}>{1}", tag, value);
+            }
+
+            return new TagHandler(writer, indent, tag);
+        }
+
+        private static TagHandler WriteTag(this TextWriter writer, int indent, string tag, object attributesOrValue = null)
         {
             if (attributesOrValue != null)
             {
@@ -970,7 +1474,7 @@ namespace Utils
 
                     foreach (var property in type.GetProperties())
                     {
-                        var propertyName = property.Name;
+                        var propertyName = property.Name.Replace("_", "-");
                         var value = property.GetValue(attributesOrValue, null);
 
                         writer.Write(" {0}=\"{1}\"", propertyName, value.ToString());
@@ -987,37 +1491,37 @@ namespace Utils
             return new TagHandler(writer, indent, tag);
         }
 
-        public static void WriteSpaceIndent(this StreamWriter writer, int count, string text)
+        public static void WriteSpaceIndent(this TextWriter writer, int count, string text)
         {
             writer.Write(" ".Repeat(count));
             writer.Write(text);
         }
 
-        public static void WriteFormatSpaceIndent(this StreamWriter writer, int count, string format, params object[] args)
+        public static void WriteFormatSpaceIndent(this TextWriter writer, int count, string format, params object[] args)
         {
             writer.Write(" ".Repeat(count));
             writer.Write(format, args);
         }
 
-        public static void WriteTabIndent(this StreamWriter writer, int count, string text)
+        public static void WriteTabIndent(this TextWriter writer, int count, string text)
         {
             writer.Write('\t'.Repeat(count));
             writer.Write(text);
         }
 
-        public static void WriteFormatTabIndent(this StreamWriter writer, int count, string format, params object[] args)
+        public static void WriteFormatTabIndent(this TextWriter writer, int count, string format, params object[] args)
         {
             writer.Write('\t'.Repeat(count));
             writer.Write(format, args);
         }
 
-        public static void WriteLineSpaceIndent(this StreamWriter writer, int count, string text)
+        public static void WriteLineSpaceIndent(this TextWriter writer, int count, string text)
         {
             writer.Write(" ".Repeat(count));
             writer.WriteLine(text);
         }
 
-        public static void WriteLineTabIndent(this StreamWriter writer, int count, string text)
+        public static void WriteLineTabIndent(this TextWriter writer, int count, string text)
         {
             writer.Write('\t'.Repeat(count));
             writer.WriteLine(text);
@@ -1043,7 +1547,7 @@ namespace Utils
             return new StreamReset(stream);
         }
 
-        public static string GetBytesHexString(this Array array, int maxLength = 255, bool rewind = false, bool noEOFMarker = false, bool noSpaces = false)
+        public static string GetHexString(this Array array, int maxLength = 255, bool rewind = false, bool noEOFMarker = false, bool noSpaces = false)
         {
             var targetLength = (int) Math.Min((int) array.Length, maxLength);
             byte[] bytes = new byte[targetLength];
@@ -1053,17 +1557,17 @@ namespace Utils
 
             stream = bytes.ToMemory();
 
-            return stream.GetBytesHexString(targetLength, rewind, noEOFMarker, noSpaces);
+            return stream.GetHexString(targetLength, rewind, noEOFMarker, noSpaces);
         }
 
-        public static string GetBytesHexString(this Stream stream, int maxLength = 255, bool rewind = false, bool noEOFMarker = false, bool noSpaces = false)
+        public static string GetHexString(this Stream stream, int maxLength = 255, bool rewind = false, bool noEOFMarker = false, bool noSpaces = false)
         {
             var reader = new BinaryReader(stream);
 
-            return reader.GetBytesHexString(maxLength, rewind, noEOFMarker, noSpaces);
+            return reader.GetHexString(maxLength, rewind, noEOFMarker, noSpaces);
         }
 
-        public static string GetBytesHexString(this BinaryReader reader, int maxLength = 255, bool rewind = false, bool noEOFMarker = false, bool noSpaces = false)
+        public static string GetHexString(this BinaryReader reader, int maxLength = 255, bool rewind = false, bool noEOFMarker = false, bool noSpaces = false)
         {
             var builder = new StringBuilder();
             var stream = reader.BaseStream;
@@ -1105,7 +1609,7 @@ namespace Utils
             return builder.ToString();
         }
 
-        public static string GetBytesDataString(this Array array, int length = 255, bool rewind = false)
+        public static string GetDataString(this Array array, int length = 255, bool rewind = false)
         {
             var targetLength = (int)Math.Min((int)array.Length, length);
             byte[] bytes = new byte[targetLength];
@@ -1115,17 +1619,17 @@ namespace Utils
 
             stream = bytes.ToMemory();
 
-            return stream.GetBytesDataString(targetLength, rewind);
+            return stream.GetDataString(targetLength, rewind);
         }
 
-        public static string GetBytesDataString(this Stream stream, int length = 255, bool rewind = false)
+        public static string GetDataString(this Stream stream, int length = 255, bool rewind = false)
         {
             var reader = new BinaryReader(stream);
 
-            return reader.GetBytesDataString(length, rewind);
+            return reader.GetDataString(length, rewind);
         }
 
-        public static string GetBytesDataString(this BinaryReader reader, int length = 255, bool rewind = false)
+        public static string GetDataString(this BinaryReader reader, int length = 255, bool rewind = false)
         {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
             var builder = new StringBuilder();
             var stream = reader.BaseStream;
@@ -1165,17 +1669,15 @@ namespace Utils
             }
         }
 
-#if INCLUDE_PROCESSDIAGNOSTICSLIBRARY
         public static void Seek(this ProcessBinaryReader reader, long offset, ProcessSeekOrigin origin = ProcessSeekOrigin.Begin)
         {
             ((ProcessStream)reader.BaseStream).Seek(offset, origin);
         }
 
-        public static void Seek(this ProcessBinaryWriter reader, long offset, ProcessSeekOrigin origin = ProcessSeekOrigin.Begin)
+        public static void Seek(this ProcessBinaryWriter writer, long offset, ProcessSeekOrigin origin = ProcessSeekOrigin.Begin)
         {
-            ((ProcessStream)reader.BaseStream).Seek(offset, origin);
+            ((ProcessStream)writer.BaseStream).Seek(offset, origin);
         }
-#endif
 
         public static long Seek(this StreamReader reader, long offset)
         {
@@ -1759,7 +2261,7 @@ namespace Utils
             return null;
         }
 
-        public static T ReadResource<T>(this Type type, string path)
+        public static T ReadResource<T>(this Type type, string path, bool throwError = true)
         {
             object result = null;
             Stream stream;
@@ -1801,7 +2303,14 @@ namespace Utils
 
             if (stream == null)
             {
-                e.Throw<ArgumentException>("Stream null by ReadResource");
+                if (throwError)
+                {
+                    e.Throw<ArgumentException>("Stream null by ReadResource");
+                }
+                else
+                {
+                    return default(T);
+                }
             }
 
             using (stream)
@@ -2190,6 +2699,22 @@ namespace Utils
             Win32.CreateDirectory(directory.FullName, IntPtr.Zero);
         }
 
+        public static void CreateIfNotExists(this DirectoryInfo directory)
+        {
+            if (!directory.Exists)
+            {
+                directory.Create();
+            }
+        }
+
+        public static void CreateIfNotExists(params DirectoryInfo[] directories)
+        {
+            foreach (var directory in directories)
+            {
+                directory.CreateIfNotExists();
+            }
+        }
+
         public static void ForceDelete(this DirectoryInfo directory)
         {
             foreach (var file in directory.GetFiles())
@@ -2234,20 +2759,31 @@ namespace Utils
             }
         }
 
-        public static void ForceDeleteFiles(this DirectoryInfo directory)
+        public static void ForceDeleteFiles(this DirectoryInfo directory, bool throwError = false)
         {
             foreach (var file in directory.GetFiles())
             {
-                if (file.IsReadOnly)
+                try
                 {
-                    file.MakeWritable(); 
-                }
+                    if (file.IsReadOnly)
+                    {
+                        file.MakeWritable();
+                    }
 
-                file.Delete();
+                    file.Delete();
+                }
+                catch (Exception ex)
+                {
+                    if (throwError)
+                    {
+                        throw;
+                    }
+                }
             }
         }
 
-        public static void ForceDeleteAllFilesAndSubFolders(this DirectoryInfo topDirectory, bool throwError = false, Func<FileSystemInfoStatus, bool> filter = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ForceDeleteAllFilesAndSubFolders(this DirectoryInfo topDirectory, bool throwError = false, Func<FileSystemInfoStatus, bool> filter = null, Func<FileSystemInfoStatus, bool> onOpenFileError = null)
         {
             var count = 0;
             var originalCount = 0;
@@ -2293,13 +2829,130 @@ namespace Utils
                 if (topDirectory.FullName != directory.FullName)
                 {
                     var directoryDelete = new DirectoryInfo(directory.FullName);
+                    var fileSystemInfoStatus = new FileSystemInfoStatus(directoryDelete);
 
-                    if (innerFilter(new FileSystemInfoStatus(directoryDelete), searchOption))
+                    if (innerFilter(fileSystemInfoStatus, searchOption))
                     {
                         try
                         {
-                            directoryDelete.Delete(true);
+                            if (!fileSystemInfoStatus.Deleted)
+                            {
+                                directoryDelete.Delete(true);
+                            }
+
                             deleted.Add(directoryDelete);
+                        }
+                        catch (DirectoryNotFoundException ex)
+                        {
+                            continue;
+                        }
+                        catch (IOException ex)
+                        {
+                            var regex = new Regex("The process cannot access the file '(?<path>.*?)' because it is being used by another process");
+
+                            if (regex.IsMatch(ex.Message))
+                            {
+                                var match = regex.Match(ex.Message);
+                                var path = match.GetGroupValue("path");
+
+                                if (Directory.Exists(path))
+                                {
+                                    var directory2 = new DirectoryInfo(path);
+
+                                    try
+                                    {
+                                        var processes = directory2.FindLockingProcesses();
+
+                                        if (onOpenFileError != null)
+                                        {
+                                            fileSystemInfoStatus = new FileSystemInfoStatus(directory2, ex, processes.ToList());
+
+                                            if (!onOpenFileError(fileSystemInfoStatus))
+                                            {
+                                                return;
+                                            }
+                                        }
+                                    }
+                                    catch
+                                    {
+                                        if (onOpenFileError != null)
+                                        {
+                                            fileSystemInfoStatus = new FileSystemInfoStatus(directory2, ex, true);
+
+                                            if (!onOpenFileError(fileSystemInfoStatus))
+                                            {
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                                else if (File.Exists(path))
+                                {
+                                    var file = new FileInfo(path);
+
+                                    try
+                                    {
+                                        var processes = file.FindLockingProcesses();
+
+                                        if (onOpenFileError != null)
+                                        {
+                                            fileSystemInfoStatus = new FileSystemInfoStatus(file, ex, processes.ToList());
+
+                                            if (!onOpenFileError(fileSystemInfoStatus))
+                                            {
+                                                return;
+                                            }
+                                        }
+                                    }
+                                    catch
+                                    {
+                                        if (onOpenFileError != null)
+                                        {
+                                            fileSystemInfoStatus = new FileSystemInfoStatus(file, ex, true);
+
+                                            if (!onOpenFileError(fileSystemInfoStatus))
+                                            {
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+                        catch (UnauthorizedAccessException ex)
+                        {
+                            var regex = new Regex("Access to the path '(?<path>.*?)' is denied");
+
+                            if (regex.IsMatch(ex.Message))
+                            {
+                                var match = regex.Match(ex.Message);
+                                var path = match.GetGroupValue("path");
+                                var file = directoryDelete.GetFiles(path, SearchOption.AllDirectories).Single();
+                                var process = Process.GetCurrentProcess();
+                                var processes = file.FindLockingProcesses();
+
+                                if (onOpenFileError != null)
+                                {
+                                    fileSystemInfoStatus = new FileSystemInfoStatus(file, ex, processes.ToList());
+
+                                    if (!onOpenFileError(fileSystemInfoStatus))
+                                    {
+                                        return;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                throw;
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -2310,12 +2963,13 @@ namespace Utils
 
                                 if (directoryDelete.Exists)
                                 {
-                                    directoryDelete.Delete();
+                                    directoryDelete.Delete(true);
                                     deleted.Add(directoryDelete);
                                 }
                             }
                             catch (Exception ex2)
                             {
+                                throw;
                             }
                         }
                     }
@@ -2335,59 +2989,264 @@ namespace Utils
                     foreach (var directory in directories)
                     {
                         DirectoryInfo directoryDelete;
+                        FileInfo fileDelete = null;
 
-                        foreach (var file in directory.GetFiles())
+                        try
                         {
-                            if (innerFilter(new FileSystemInfoStatus(file), searchOption))
+                            foreach (var file in directory.GetFiles())
                             {
-                                if (file.IsReadOnly)
+                                fileDelete = file;
+
+                                if (innerFilter(new FileSystemInfoStatus(file), searchOption))
                                 {
-                                    file.MakeWritable();
-                                }
+                                    if (file.IsReadOnly)
+                                    {
+                                        file.MakeWritable();
+                                    }
 
-                                file.Delete();
-                                deleted.Add(file);
-                            }
-                        }
-
-                        if (topDirectory.FullName != directory.FullName)
-                        {
-                            directoryDelete = new DirectoryInfo(directory.FullName);
-
-                            if (innerFilter(new FileSystemInfoStatus(directoryDelete), searchOption))
-                            {
-                                while (directoryDelete.Exists)
-                                {
                                     try
                                     {
-                                        directoryDelete.Delete();
-                                        deleted.Add(directoryDelete);
+                                        file.Delete();
+                                        deleted.Add(file);
                                     }
-                                    catch (Exception ex)
+                                    catch (UnauthorizedAccessException ex)
+                                    {
+                                        var regex = new Regex("Access to the path '(?<path>.*?)' is denied");
+
+                                        if (regex.IsMatch(ex.Message))
+                                        {
+                                            var match = regex.Match(ex.Message);
+                                            var path = match.GetGroupValue("path");
+                                            var process = Process.GetCurrentProcess();
+                                            var processes = file.FindLockingProcesses();
+
+                                            if (onOpenFileError != null)
+                                            {
+                                                var fileSystemInfoStatus = new FileSystemInfoStatus(file, ex, processes.ToList());
+
+                                                if (!onOpenFileError(fileSystemInfoStatus))
+                                                {
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    catch (FileNotFoundException ex)
+                                    {
+                                        continue;
+                                    }
+                                    catch (DirectoryNotFoundException ex)
+                                    {
+                                        continue;
+                                    }
+                                    catch (IOException ex)
+                                    {
+                                        var regex = new Regex("The process cannot access the file '(?<path>.*?)' because it is being used by another process");
+
+                                        if (regex.IsMatch(ex.Message))
+                                        {
+                                            var match = regex.Match(ex.Message);
+                                            var path = match.GetGroupValue("path");
+                                            var file2 = fileDelete;
+
+                                            try
+                                            {
+                                                var processes = file.FindLockingProcesses();
+
+                                                if (onOpenFileError != null)
+                                                {
+                                                    var fileSystemInfoStatus = new FileSystemInfoStatus(file, ex, processes.ToList());
+
+                                                    if (!onOpenFileError(fileSystemInfoStatus))
+                                                    {
+                                                        return;
+                                                    }
+                                                }
+                                            }
+                                            catch
+                                            {
+                                                if (onOpenFileError != null)
+                                                {
+                                                    var fileSystemInfoStatus = new FileSystemInfoStatus(file, ex, true);
+
+                                                    if (!onOpenFileError(fileSystemInfoStatus))
+                                                    {
+                                                        return;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            throw;
+                                        }
+                                    }
+                                }
+                            }
+
+                            fileDelete = null;
+
+                            if (topDirectory.FullName != directory.FullName)
+                            {
+                                directoryDelete = new DirectoryInfo(directory.FullName);
+
+                                if (innerFilter(new FileSystemInfoStatus(directoryDelete), searchOption))
+                                {
+                                    var innerRetry = 0;
+
+                                    while (directoryDelete.Exists)
                                     {
                                         try
                                         {
-                                            Thread.Sleep(1);
-                                            directoryDelete = new DirectoryInfo(directoryDelete.FullName);
-
-                                            if (directoryDelete.Exists)
-                                            {
-                                                directoryDelete.Delete();
-                                                deleted.Add(directoryDelete);
-                                            }
+                                            directoryDelete.Delete();
+                                            deleted.Add(directoryDelete);
                                         }
-                                        catch (Exception ex2)
+                                        catch (Exception ex)
                                         {
-                                            if (throwError)
+                                            innerRetry++;
+
+                                            if (innerRetry >= 10)
                                             {
                                                 throw;
                                             }
-                                        }
-                                    }
 
-                                    directoryDelete = new DirectoryInfo(directory.FullName);
+                                            try
+                                            {
+                                                Thread.Sleep(1);
+                                                directoryDelete = new DirectoryInfo(directoryDelete.FullName);
+
+                                                if (directoryDelete.Exists)
+                                                {
+                                                    directoryDelete.Delete(true);
+                                                    deleted.Add(directoryDelete);
+                                                }
+                                            }
+                                            catch (UnauthorizedAccessException ex2)
+                                            {
+                                                var regex = new Regex("Access to the path '(?<path>.*?)' is denied");
+
+                                                if (regex.IsMatch(ex.Message))
+                                                {
+                                                    var match = regex.Match(ex.Message);
+                                                    var path = match.GetGroupValue("path");
+                                                    var file = directoryDelete.GetFiles(path, SearchOption.AllDirectories).Single();
+                                                    var process = Process.GetCurrentProcess();
+                                                    var processes = file.FindLockingProcesses();
+
+                                                    if (onOpenFileError != null)
+                                                    {
+                                                        var fileSystemInfoStatus = new FileSystemInfoStatus(file, ex, processes.ToList());
+
+                                                        if (!onOpenFileError(fileSystemInfoStatus))
+                                                        {
+                                                            return;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            catch (DirectoryNotFoundException ex2)
+                                            {
+                                                break;
+                                            }
+                                            catch (IOException ex2)
+                                            {
+                                                var regex = new Regex("The process cannot access the file '(?<path>.*?)' because it is being used by another process");
+
+                                                if (regex.IsMatch(ex.Message))
+                                                {
+                                                    var match = regex.Match(ex.Message);
+                                                    var path = match.GetGroupValue("path");
+                                                    var file = directoryDelete.GetFiles(Path.GetFileName(path), SearchOption.AllDirectories).SingleOrDefault();
+
+                                                    if (Directory.Exists(path))
+                                                    {
+                                                        var directory2 = new DirectoryInfo(path);
+
+                                                        try
+                                                        {
+                                                            var processes = directory2.FindLockingProcesses();
+
+                                                            if (onOpenFileError != null)
+                                                            {
+                                                                var fileSystemInfoStatus = new FileSystemInfoStatus(directory2, ex, processes.ToList());
+
+                                                                if (!onOpenFileError(fileSystemInfoStatus))
+                                                                {
+                                                                    return;
+                                                                }
+                                                            }
+                                                        }
+                                                        catch
+                                                        {
+                                                            if (onOpenFileError != null)
+                                                            {
+                                                                var fileSystemInfoStatus = new FileSystemInfoStatus(directory2, ex, true);
+
+                                                                if (!onOpenFileError(fileSystemInfoStatus))
+                                                                {
+                                                                    return;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    else if (File.Exists(path))
+                                                    {
+                                                        var file2 = new FileInfo(path);
+
+                                                        try
+                                                        {
+                                                            var processes = file2.FindLockingProcesses();
+
+                                                            if (onOpenFileError != null)
+                                                            {
+                                                                var fileSystemInfoStatus = new FileSystemInfoStatus(file2, ex, processes.ToList());
+
+                                                                if (!onOpenFileError(fileSystemInfoStatus))
+                                                                {
+                                                                    return;
+                                                                }
+                                                            }
+                                                        }
+                                                        catch
+                                                        {
+                                                            if (onOpenFileError != null)
+                                                            {
+                                                                var fileSystemInfoStatus = new FileSystemInfoStatus(file2, ex, true);
+
+                                                                if (!onOpenFileError(fileSystemInfoStatus))
+                                                                {
+                                                                    return;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        continue;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    throw;
+                                                }
+                                            }
+                                            catch (Exception ex2)
+                                            {
+                                                if (throwError)
+                                                {
+                                                    throw;
+                                                }
+                                            }
+                                        }
+
+                                        directoryDelete = new DirectoryInfo(directory.FullName);
+                                    }
                                 }
                             }
+                        }
+                        catch (DirectoryNotFoundException ex)
+                        {
+                            continue;
                         }
                     }
 
@@ -2403,6 +3262,149 @@ namespace Utils
                     }
 
                     successful = false;
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ForceDelete(this DirectoryInfo directoryDelete, bool throwError = false, Func<FileSystemInfoStatus, bool> onOpenFileError = null)
+        {
+            if (!directoryDelete.Exists)
+            {
+                return;
+            }
+
+            try
+            {
+                directoryDelete.Delete(true);
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                return;
+            }
+            catch (IOException ex)
+            {
+                var regex = new Regex("The process cannot access the file '(?<path>.*?)' because it is being used by another process");
+
+                if (regex.IsMatch(ex.Message))
+                {
+                    var match = regex.Match(ex.Message);
+                    var path = match.GetGroupValue("path");
+
+                    if (Directory.Exists(path))
+                    {
+                        var directory2 = new DirectoryInfo(path);
+
+                        try
+                        {
+                            var processes = directory2.FindLockingProcesses();
+
+                            if (onOpenFileError != null)
+                            {
+                                var fileSystemInfoStatus = new FileSystemInfoStatus(directory2, ex, processes.ToList());
+
+                                if (!onOpenFileError(fileSystemInfoStatus))
+                                {
+                                    return;
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            if (onOpenFileError != null)
+                            {
+                                var fileSystemInfoStatus = new FileSystemInfoStatus(directory2, ex, true);
+
+                                if (!onOpenFileError(fileSystemInfoStatus))
+                                {
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    else if (File.Exists(path))
+                    {
+                        var file = new FileInfo(path);
+
+                        try
+                        {
+                            var processes = file.FindLockingProcesses();
+
+                            if (onOpenFileError != null)
+                            {
+                                var fileSystemInfoStatus = new FileSystemInfoStatus(file, ex, processes.ToList());
+
+                                if (!onOpenFileError(fileSystemInfoStatus))
+                                {
+                                    return;
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            if (onOpenFileError != null)
+                            {
+                                var fileSystemInfoStatus = new FileSystemInfoStatus(file, ex, true);
+
+                                if (!onOpenFileError(fileSystemInfoStatus))
+                                {
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                var regex = new Regex("Access to the path '(?<path>.*?)' is denied");
+
+                if (regex.IsMatch(ex.Message))
+                {
+                    var match = regex.Match(ex.Message);
+                    var path = match.GetGroupValue("path");
+                    var file = directoryDelete.GetFiles(path, SearchOption.AllDirectories).Single();
+                    var process = Process.GetCurrentProcess();
+                    var processes = file.FindLockingProcesses();
+
+                    if (onOpenFileError != null)
+                    {
+                        var fileSystemInfoStatus = new FileSystemInfoStatus(file, ex, processes.ToList());
+
+                        if (!onOpenFileError(fileSystemInfoStatus))
+                        {
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    Thread.Sleep(1);
+                    directoryDelete = new DirectoryInfo(directoryDelete.FullName);
+
+                    if (directoryDelete.Exists)
+                    {
+                        directoryDelete.Delete(true);
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    throw;
                 }
             }
         }
@@ -2443,7 +3445,7 @@ namespace Utils
                     fs.Close();
                 }
             }
-        } 
+        }
 #endif
     }
 }

@@ -39,6 +39,16 @@ namespace Utils
             BytOrderMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
         }
 
+        public static string Flatten(this string str)
+        {
+            return str.Replace("\r\n", string.Empty).Replace("\n", string.Empty);
+        }
+
+        public static string FormatEscape(this string str)
+        {
+            return str.RegexReplace(@"(?<!\{)\{(?!\{)", "{{").RegexReplace(@"(?<!\})\}(?!\})", "}}");
+        }
+
         public static bool IsVowel(this char c)
         {
             return "aeiouAEIOU".IndexOf(c) >= 0;

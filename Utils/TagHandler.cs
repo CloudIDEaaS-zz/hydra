@@ -10,12 +10,12 @@ namespace Utils
     {
         public int Indent { get; private set; }
 
-        public TagHandler(StreamWriter writer, int indent, string tag) : base(tag, TagHandler.GetEndTagHandler(writer, tag, indent))
+        public TagHandler(TextWriter writer, int indent, string tag) : base(tag, TagHandler.GetEndTagHandler(writer, tag, indent))
         {
             this.Indent = indent;
         }
 
-        private static EventHandlerT<string> GetEndTagHandler(StreamWriter writer, string tag, int indent)
+        private static EventHandlerT<string> GetEndTagHandler(TextWriter writer, string tag, int indent)
         {
             return new EventHandlerT<string>((o, e) =>
             {

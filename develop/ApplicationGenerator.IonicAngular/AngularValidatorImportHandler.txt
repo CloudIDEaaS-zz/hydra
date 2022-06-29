@@ -1,0 +1,13 @@
+using AbstraX.ImportHandlers.Packages;
+
+namespace AbstraX.ImportHandlers
+{
+    [ImportHandler(ModuleImports.ANGULARVALIDATOR_HANDLER_ID)]
+    public class AngularValidatorImportHandler : BaseImportHandler<AngularValidatorPackage>
+    {
+        public override void AddImport(ulong moduleId)
+        {
+            base.AddImport((AngularValidatorModules)moduleId);
+        }
+    }
+}

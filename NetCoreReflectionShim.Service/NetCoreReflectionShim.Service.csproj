@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<AssemblyVersion>1.0.0.426</AssemblyVersion>
+		<FileVersion>1.0.0.426</FileVersion>
+		<UseWindowsForms>true</UseWindowsForms>
+		<StartupObject></StartupObject>
+		<ApplicationIcon>Hydra.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>..\ApplicationGenerator\NetCoreReflectionService\</OutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutputPath>..\ApplicationGenerator\NetCoreReflectionService\</OutputPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\ApplicationGenerator.Interfaces\CrashAnalyzerClient.cs" Link="CrashAnalyzerClient.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\IXPathOperand.cs" Link="XPathBuilder\IXPathOperand.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\IXPathPart.cs" Link="XPathBuilder\IXPathPart.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\IXPathPredicate.cs" Link="XPathBuilder\IXPathPredicate.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\XPathAttribute.cs" Link="XPathBuilder\XPathAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\XPathAxis.cs" Link="XPathBuilder\XPathAxis.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\XPathBooleanPredicate.cs" Link="XPathBuilder\XPathBooleanPredicate.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\XPathElement.cs" Link="XPathBuilder\XPathElement.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\XPathFunction.cs" Link="XPathBuilder\XPathFunction.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\XPathLiteral.cs" Link="XPathBuilder\XPathLiteral.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\XPathNumber.cs" Link="XPathBuilder\XPathNumber.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\XPathPredicate.cs" Link="XPathBuilder\XPathPredicate.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\XPathString.cs" Link="XPathBuilder\XPathString.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\XPathStringBuilder.cs" Link="XPathBuilder\XPathStringBuilder.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\XPathBuilder\XPathVariable.cs" Link="XPathBuilder\XPathVariable.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Hydra.Interfaces\Hydra.Interfaces.csproj" />
+		<ProjectReference Include="..\Utils.Core\Utils.Core.csproj" />
+		<ProjectReference Include="..\XPathParser.Core\XPathParser.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Images\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.5" />
+	</ItemGroup>
+	<Target Name="HydraAfterBuild" AfterTargets="AfterBuild">
+		<ItemGroup>
+			<BinFiles Include="$(TargetDir)\**\*.*" />
+		</ItemGroup>
+		<Message Importance="high" Text="Copying the following files:" />
+		<Message Importance="high" Text="BinFiles: @(BinFiles)" />
+		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(HYDRASOLUTIONPATH)\ApplicationGenerator\bin\$(Configuration)\Hydra Utilities\NetCoreReflectionShim.Service\%(RecursiveDir)" SkipUnchangedFiles="true" />
+	</Target>
+
+</Project>

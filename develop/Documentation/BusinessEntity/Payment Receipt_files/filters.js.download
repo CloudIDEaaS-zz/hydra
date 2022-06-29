@@ -1,0 +1,100 @@
+function filters() {
+	
+	function dateFilter() {
+
+		return function(initialDate) {
+
+			if (!initialDate)
+				return "MM/DD/YYYY";
+
+			initialDate += "";
+
+			if (initialDate.indexOf("-") < 0)
+				return initialDate;
+
+			var targetDate = (initialDate.replace("-", "/")
+					.replace("-", "/"));
+
+			return targetDate;
+		};
+
+	}
+	;
+
+	function dateFilterOut() {
+
+		return function(initialDate) {
+
+			if (!initialDate)
+				return "--";
+
+			initialDate += "";
+
+			if (initialDate.indexOf("-") < 0)
+				return initialDate;
+
+			var targetDate = (initialDate.replace("-", "/")
+					.replace("-", "/"));
+
+			return targetDate;
+		};
+
+	}
+	;
+
+	function yesNoFilter() {
+
+		return function(value) {
+
+			var yesNo = (value == true ? 'Yes' : 'No');
+
+			return yesNo;
+		};
+
+	}
+	;
+
+	function beforePreFilter() {
+
+		return function(value) {
+			var result = value + "";
+			result = result.replace("Before", "pre");
+			return result;
+		};
+
+	}
+	;
+
+	function preBeforeFilter() {
+		return function(value) {
+			var result = value + "";
+			result = result.replace("pre", "Before");
+			return result;
+		};
+
+	}
+	;
+	
+	function semicolonBreakFilter() {
+		 return function (value) {
+			 if(!value || 0 === value.length)
+			 	return;
+			 /*if ((value != undefined) || !(value == null))
+				 	return;
+			 if (!value.length)*/
+			 return value.split(';');
+		};
+	}
+	;
+	
+	angular
+	.module("AZ_PORTAL")
+	.filter("dateFilterOut", dateFilterOut)
+
+	.filter("dateFilter", dateFilter)
+	.filter("yesNoFilter", yesNoFilter)
+	.filter("beforePreFilter", beforePreFilter)
+	.filter("preBeforeFilter", preBeforeFilter)
+	.filter("semicolonBreakFilter", semicolonBreakFilter)
+	
+}

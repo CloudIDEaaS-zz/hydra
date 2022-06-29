@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SqlLocalDbApi_GenericFailureFormat" xml:space="preserve">
+    <value>An error occurred calling the SQL Server LocalDB with HRESULT {0:X}.</value>
+  </data>
+  <data name="SqlLocalDbApi_NotInstalledFormat" xml:space="preserve">
+    <value>SQL Server LocalDB is not installed on {0}.</value>
+  </data>
+  <data name="SqlLocalDbApi_NoVersionsFormat" xml:space="preserve">
+    <value>No versions of SQL Server LocalDB are installed on {0}.</value>
+  </data>
+  <data name="SqlLocalDbApi_TimeoutTooSmallFormat" xml:space="preserve">
+    <value>{0} cannot be less than TimeSpan.Zero.</value>
+  </data>
+  <data name="SqlLocalDbException_DefaultMessage" xml:space="preserve">
+    <value>An error occurred with a SQL Server LocalDB instance.</value>
+  </data>
+  <data name="SqlLocalDbApi_VersionEnumerationFailed" xml:space="preserve">
+    <value>Failed to enumerate the installed versions of SQL LocalDB.</value>
+  </data>
+  <data name="ISqlLocalDbInstanceInfoExtensions_NotRunningFormat" xml:space="preserve">
+    <value>The SQL LocalDB instance '{0}' is not running.</value>
+  </data>
+  <data name="SqlLocalDbInstanceManager_StartFailedFormat" xml:space="preserve">
+    <value>Failed to start SQL LocalDB instance '{0}'.</value>
+  </data>
+  <data name="SqlLocalDbInstanceManager_StopFailedFormat" xml:space="preserve">
+    <value>Failed to stop SQL LocalDB instance '{0}'.</value>
+  </data>
+  <data name="SqlLocalDbInstanceManager_ShareFailedFormat" xml:space="preserve">
+    <value>Failed to share SQL LocalDB instance '{0}'.</value>
+  </data>
+  <data name="SqlLocalDbInstanceManager_UnshareFailedFormat" xml:space="preserve">
+    <value>Failed to stop sharing SQL LocalDB instance '{0}'.</value>
+  </data>
+  <data name="SqlLocalDbApi_NoInstanceName" xml:space="preserve">
+    <value>No SQL LocalDB instance name specified.</value>
+  </data>
+  <data name="ILoggerExtensions_CreatedInstanceFormat" xml:space="preserve">
+    <value>Created named instance {InstanceName} of SQL LocalDB with version {InstanceVersion}.</value>
+  </data>
+  <data name="ILoggerExtensions_CreatingInstanceFormat" xml:space="preserve">
+    <value>Creating named instance {InstanceName} of SQL LocalDB with version {InstanceVersion}.</value>
+  </data>
+  <data name="ILoggerExtensions_DeletedInstanceFormat" xml:space="preserve">
+    <value>Deleted named instance {InstanceName} of SQL LocalDB.</value>
+  </data>
+  <data name="ILoggerExtensions_DeletingFormat" xml:space="preserve">
+    <value>Deleting named instance {InstanceName} of SQL LocalDB.</value>
+  </data>
+  <data name="ILoggerExtensions_GetInstances" xml:space="preserve">
+    <value>Obtaining instance names for SQL LocalDB.</value>
+  </data>
+  <data name="ILoggerExtensions_GettingInfoFormat" xml:space="preserve">
+    <value>Obtaining information for SQL LocalDB instance {InstanceName}.</value>
+  </data>
+  <data name="ILoggerExtensions_GetVersionInfoFormat" xml:space="preserve">
+    <value>Obtaining version information for SQL LocalDB version {Version}.</value>
+  </data>
+  <data name="ILoggerExtensions_GotInfoFormat" xml:space="preserve">
+    <value>Obtained information for SQL LocalDB instance {InstanceName}.</value>
+  </data>
+  <data name="ILoggerExtensions_GotInstancesFormat" xml:space="preserve">
+    <value>Obtained {InstanceCount} instance names for SQL LocalDB.</value>
+  </data>
+  <data name="ILoggerExtensions_GotVersionInfoFormat" xml:space="preserve">
+    <value>Obtained version information for SQL LocalDB version {Version}.</value>
+  </data>
+  <data name="SqlLocalDbApi_NativeResultFormat" xml:space="preserve">
+    <value>SQL LocalDB returned HRESULT {HResult}.</value>
+  </data>
+  <data name="ILoggerExtensions_SharedInstanceFormat" xml:space="preserve">
+    <value>Shared SQL LocalDB instance {InstanceName} for owner SID {OwnerSid} as {SharedInstanceName}.</value>
+  </data>
+  <data name="ILoggerExtensions_SharingInstanceFormat" xml:space="preserve">
+    <value>Sharing SQL LocalDB instance {InstanceName} for owner SID {OwnerSid} as shared instance name {SharedInstanceName}.</value>
+  </data>
+  <data name="ILoggerExtensions_StartedFormat" xml:space="preserve">
+    <value>Started SQL LocalDB instance {InstanceName} using named pipe {NamedPipe}.</value>
+  </data>
+  <data name="ILoggerExtensions_StartedTracing" xml:space="preserve">
+    <value>Tracing started for SQL LocalDB.</value>
+  </data>
+  <data name="ILoggerExtensions_StartingFormat" xml:space="preserve">
+    <value>Starting SQL LocalDB instance {InstanceName}.</value>
+  </data>
+  <data name="ILoggerExtensions_StartTracing" xml:space="preserve">
+    <value>Starting tracing for SQL LocalDB.</value>
+  </data>
+  <data name="ILoggerExtensions_StoppedFormat" xml:space="preserve">
+    <value>Stopped SQL LocalDB instance {InstanceName} after {Timeout}.</value>
+  </data>
+  <data name="ILoggerExtensions_StoppedSharingFormat" xml:space="preserve">
+    <value>Stopped sharing SQL LocalDB instance {InstanceName}.</value>
+  </data>
+  <data name="ILoggerExtensions_StoppedTracing" xml:space="preserve">
+    <value>Tracing stopped for SQL LocalDB.</value>
+  </data>
+  <data name="ILoggerExtensions_StoppingFormat" xml:space="preserve">
+    <value>Stopping SQL LocalDB instance {InstanceName} with timeout: {Timeout} and option(s) {StopOptions}.</value>
+  </data>
+  <data name="ILoggerExtensions_StoppingSharingFormat" xml:space="preserve">
+    <value>Stopping sharing SQL LocalDB instance {InstanceName}.</value>
+  </data>
+  <data name="ILoggerExtensions_StoppingTracing" xml:space="preserve">
+    <value>Stopping tracing for SQL LocalDB.</value>
+  </data>
+  <data name="ILoggerExtensions_FunctionNotFoundFormat" xml:space="preserve">
+    <value>The SQL LocalDB function {LocalDBFunctionName} could not be found.</value>
+  </data>
+  <data name="ILoggerExtensions_InvalidRegistryKeyNameFormat" xml:space="preserve">
+    <value>Ignoring invalid registry key name {RegistryKeyName}.</value>
+  </data>
+  <data name="ILoggerExtensions_NativeApiLoadFailedFormat" xml:space="preserve">
+    <value>Failed to load SQL LocalDB API from {InstanceApiPath}. Error: {ErrorCode}.</value>
+  </data>
+  <data name="ILoggerExtensions_NativeApiNotFoundFormat" xml:space="preserve">
+    <value>Could not find SQL LocalDB API DLL {InstanceApiPath}.</value>
+  </data>
+  <data name="ILoggerExtensions_NativeApiNotLoaded" xml:space="preserve">
+    <value>The SQL LocalDB API was not loaded.</value>
+  </data>
+  <data name="ILoggerExtensions_NoNativeApiFound" xml:space="preserve">
+    <value>No SQL LocalDB API DLL path could be found.</value>
+  </data>
+  <data name="ILoggerExtensions_RegistryKeyNotFoundFormat" xml:space="preserve">
+    <value>Could not open registry key {RegistryKeyName}.</value>
+  </data>
+  <data name="ILoggerExtensions_NativeApiLoadedFormat" xml:space="preserve">
+    <value>Loaded SQL LocalDB API from {InstanceApiPath}.</value>
+  </data>
+  <data name="ILoggerExtensions_InstanceDoesNotExistFormat" xml:space="preserve">
+    <value>SQL LocalDB instance {InstanceName} cannot be found so was not deleted.</value>
+  </data>
+  <data name="ILoggerExtensions_NativeApiVersionOverriddenByUserFormat" xml:space="preserve">
+    <value>The SQL LocalDB native API version to load was overridden by the user to {InstanceApiOverrideVersion}.</value>
+  </data>
+  <data name="ILoggerExtensions_DeleteFailedAsInUseFormat" xml:space="preserve">
+    <value>The SQL LocalDB instance {InstanceName} could not be deleted as it is currently in use.</value>
+  </data>
+  <data name="ILoggerExtensions_DeletedInstanceFilesFormat" xml:space="preserve">
+    <value>Deleted file(s) for SQL LocalDB instance {InstanceName} from {InstanceFilesPath}.</value>
+  </data>
+  <data name="ILoggerExtensions_DeletingInstanceFilesFailedFormat" xml:space="preserve">
+    <value>Failed to delete file(s) for SQL LocalDB instance {InstanceName} from {InstanceFilesPath}.</value>
+  </data>
+  <data name="ILoggerExtensions_DeletingInstanceFilesFormat" xml:space="preserve">
+    <value>Deleting file(s) for SQL LocalDB instance {InstanceName} from {InstanceFilesPath}.</value>
+  </data>
+  <data name="ILoggerExtensions_InvalidLanguageIdFormat" xml:space="preserve">
+    <value>The current Language Id {LanguageId} is not recognized by SQL LocalDB. Use a valid Windows Locale ID (LCID) or set the value to zero to use the Windows defaults.</value>
+  </data>
+  <data name="ILoggerExtensions_OverrideVersionNotFoundFormat" xml:space="preserve">
+    <value>The configured SQL LocalDB Instance API override version {InstanceApiOverrideVersion} cannot be found.</value>
+  </data>
+  <data name="ILoggerExtensions_DeleteFailedFormat" xml:space="preserve">
+    <value>Failed to delete SQL LocalDB instance {InstanceName} with HRESULT {HResult}.</value>
+  </data>
+  <data name="ILoggerExtensions_StopFailedFormat" xml:space="preserve">
+    <value>Failed to stop SQL LocalDB instance {InstanceName} with HRESULT {HResult}.</value>
+  </data>
+  <data name="SqlLocalDbApi_NoLoggerFormat" xml:space="preserve">
+    <value>No logger was provided for the {0} instance.</value>
+  </data>
+  <data name="ILoggerExtensions_GetVersions" xml:space="preserve">
+    <value>Obtaining versions for SQL LocalDB.</value>
+  </data>
+  <data name="ILoggerExtensions_GotVersionsFormat" xml:space="preserve">
+    <value>Obtained {VersionCount} versions for SQL LocalDB.</value>
+  </data>
+  <data name="ILoggerExtensions_NotInstalled" xml:space="preserve">
+    <value>SQL Server LocalDB is not installed.</value>
+  </data>
+  <data name="SqlLocalDbApi_PlatformNotSupported" xml:space="preserve">
+    <value>The SQL LocalDB Instance API is not supported on this platform.</value>
+  </data>
+  <data name="ILoggerExtensions_NativeApiUnloadedFormat" xml:space="preserve">
+    <value>Unloaded SQL LocalDB Instance API library {InstanceApiPath}.</value>
+  </data>
+  <data name="SqlLocalDbApi_LogGenericFailureFormat" xml:space="preserve">
+    <value>An error occurred calling the SQL Server LocalDB with HRESULT {HResult}.</value>
+  </data>
+  <data name="ISqlLocalDbInstanceInfoExtensions_DoesNotImplementAdapterFormat" xml:space="preserve">
+    <value>The specified instance of {0} does not implement the {1} interface.</value>
+  </data>
+</root>

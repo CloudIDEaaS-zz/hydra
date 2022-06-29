@@ -1,0 +1,51 @@
+﻿<#@ template language="C#" inherits="NetCoreReflectionShim.CodeGen.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="NetCoreReflectionShim.CodeGen.GetApiBodyEventHandler" name="GetApiBodyCallback" #>
+<#@ parameter type="System.Collections.Generic.List<ApiMember>" name="ApiMembers" #>
+using CoreShim.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CoreShim.Reflection.JsonTypes;
+using System.Reflection;
+using Utils;
+
+namespace NetCoreReflectionShim.Agent
+{
+    public partial class NetCoreReflectionAgent
+    {
+<#
+    foreach (var member in this.ApiMembers.Where(m => !m.CacheResult))
+    {
+#>
+
+        public <#= member.ClientReturnType #> <#= member.ClientSignature #>
+        {
+<#
+        this.Write(GetApiBody(member));
+#>
+        }
+<#
+    }
+#>
+    }
+}
+<#+
+    public string GetApiBody(ApiMember apiMember)
+    {
+        var getApiBodyEventArgs = new GetApiBodyEventArgs(apiMember);
+
+        GetApiBodyCallback(this, getApiBodyEventArgs);
+
+        return getApiBodyEventArgs.Code;
+    }
+#>

@@ -7,14 +7,32 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Linq.Expressions;
 using System.Diagnostics;
+using Newtonsoft.Json.Linq;
+using System.IO;
+#if INCLUDE_SHARPSERIALIZER
+using Polenter.Serialization;
+#endif
 
 namespace Utils
 {
     public static class ObjectExtensions
     {
+        public unsafe static IntPtr GetPointer(this object obj)
+        {
+            TypedReference tr = __makeref(obj);
+            IntPtr ptr = **(IntPtr**)(&tr);
+
+            return ptr;
+        }
+
         public static object NullToZero(this object obj)
         {
             return obj == null ? 0 : obj;
+        }
+
+        public static string NullToEmpty(this string str)
+        {
+            return str == null ? string.Empty : str;
         }
 
         public static T CreateCopy<T>(this object objFrom) where T : new()
@@ -24,6 +42,37 @@ namespace Utils
             objFrom.CopyTo(objTo);
 
             return objTo;
+        }
+
+        public static void CopyTo(this IDictionary<string, dynamic> dictionary, object objTo)
+        {
+            foreach (var pair in dictionary)
+            {
+                if (objTo.HasProperty(pair.Key))
+                {
+                    var propertyInfoTo = objTo.GetProperty(pair.Key);
+                    var pairValueType = pair.Value.GetType();
+                    var value = (object) pair.Value;
+
+                    if (pairValueType == typeof(JArray) && propertyInfoTo.PropertyType.IsArray)
+                    {
+                        value = ((JArray)pair.Value).ToObject(propertyInfoTo.PropertyType);
+                    }
+
+                    if (propertyInfoTo.PropertyType.IsAssignableFrom(value.GetType()))
+                    {
+                        if (propertyInfoTo.CanWrite)
+                        {
+                            if (value is JObject jObject)
+                            {
+                                value = jObject.ToObject<object>();
+                            }
+
+                            objTo.SetPropertyValue(propertyInfoTo.Name, value);
+                        }
+                    }
+                }
+            }
         }
 
         public static void CopyTo(this object objFrom, object objTo)
@@ -47,13 +96,31 @@ namespace Utils
             }
         }
 
+        public static void CopyFieldsTo(this object objFrom, object objTo)
+        {
+            var fields = objFrom.GetPublicFields();
+
+            foreach (var fieldInfoFrom in fields)
+            {
+                if (objTo.HasField(fieldInfoFrom.Name))
+                {
+                    var fieldInfoTo = objTo.GetField(fieldInfoFrom.Name);
+
+                    if (fieldInfoTo.FieldType.IsAssignableFrom(fieldInfoFrom.FieldType))
+                    {
+                        objTo.SetFieldValue(fieldInfoTo.Name, objFrom.GetFieldValue<object>(fieldInfoFrom.Name));
+                    }
+                }
+            }
+        }
+
         public static IDisposable StartStopwatch(this object notUsed, Action<TimeSpan> func)
         {
             var stopWatch = new Stopwatch();
 
             stopWatch.Start();
 
-            return notUsed.AsDisposable(() =>
+            return notUsed.CreateDisposable(() =>
             {
                 stopWatch.Stop();
                 func(stopWatch.Elapsed);
@@ -69,7 +136,7 @@ namespace Utils
         {
             if (typeof(T) == typeof(Control))
             {
-                using (var disposable = typeof(Control).AsDisposable((s, e) => Control.CheckForIllegalCrossThreadCalls = true))
+                using (var disposable = typeof(Control).CreateDisposable((s, e) => Control.CheckForIllegalCrossThreadCalls = true))
                 {
                     Control.CheckForIllegalCrossThreadCalls = false;
 
@@ -133,7 +200,14 @@ namespace Utils
         {
             var hash = ((ulong) obj.GetHashCode()) << 32;
 
-            hash |= (uint) (obj.GetType().FullName + obj.ToString()).GetHashCode();
+            if (includeToString)
+            {
+                hash |= (uint)(obj.GetType().FullName + ">>" + obj.ToString()).GetHashCode();
+            }
+            else
+            {
+                hash |= (uint)(obj.GetType().FullName).GetHashCode();
+            }
 
             return (long) hash;
         }
@@ -145,7 +219,22 @@ namespace Utils
 
         public static int ToPercentageOf(this int x, int total)
         {
-            return (int)((x.As<float>() / total.As<float>()) * 100);
+            if (total == 0)
+            {
+                return 0;
+            }
+
+            return (int)Math.Floor(((x.As<float>() / total.As<float>()) * 100));
+        }
+
+        public static float ToDecimalPercentageOf(this int x, int total)
+        {
+            if (total == 0)
+            {
+                return 0;
+            }
+
+            return x.As<float>() / total.As<float>();
         }
 
         public static int ToPercentageOf(this float x, float total)
@@ -456,17 +545,17 @@ namespace Utils
             throw new NotSupportedException(string.Format("Utils.ObjectExtensions.Convert does not support conversion from type {0}", type.FullName));
         }
 
-        public static Type InspectIDispatch(this object obj)
-        {
-            if (IDispatchUtility.ImplementsIDispatch(obj))
-            {
-                var type = IDispatchUtility.GetType(obj, true);
+        //public static Type InspectIDispatch(this object obj)
+        //{
+        //    if (IDispatchUtility.ImplementsIDispatch(obj))
+        //    {
+        //        var type = IDispatchUtility.GetType(obj, true);
 
-                return type;
-            }
+        //        return type;
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         public static string InspectComObject(this object obj)
         {
@@ -477,6 +566,33 @@ namespace Utils
         {
             action(objectToAdd);
         }
+
+#if INCLUDE_SHARPSERIALIZER
+        public static string GetXML(this object obj, bool skipErrors = false, bool ignoreReadOnlyProperties = true, bool useObjectNaming = false)
+        {
+            return obj.GetXML(int.MaxValue, skipErrors, ignoreReadOnlyProperties, useObjectNaming);
+        }
+
+        public static string GetXML(this object obj, int depth = int.MaxValue, bool skipErrors = false, bool ignoreReadOnlyProperties = false, bool useObjectNaming = false)
+        {
+            var serializer = new SharpSerializer(new SharpSerializerXmlSettings
+            {
+                Depth = depth,
+                SkipErrors = skipErrors,
+                IgnoreReadOnlyProperties = ignoreReadOnlyProperties,
+                UseObjectNaming = useObjectNaming
+            });
+            var stream = new MemoryStream();
+            var text = string.Empty;
+
+            serializer.Serialize(obj, stream);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            text = stream.ToText();
+
+            return text;
+        }
+#endif
     }
 }
 
@@ -650,11 +766,16 @@ namespace Utils.Hierarchies
 
             recurseChildren = (parent) =>
             {
-                foreach (var subItem in childrenSelector(parent))
-                {
-                    callback(subItem);
+                var children = childrenSelector(parent);
 
-                    recurseChildren(subItem);
+                if (children != null)
+                {
+                    foreach (var subItem in children)
+                    {
+                        callback(subItem);
+
+                        recurseChildren(subItem);
+                    }
                 }
             };
 

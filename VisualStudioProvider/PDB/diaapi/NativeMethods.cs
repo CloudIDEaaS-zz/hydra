@@ -9,9 +9,7 @@ namespace VisualStudioProvider.PDB.diaapi
 {
     public static class NativeMethods
     {
-        private const string Ole32LibraryName = "ole32.dll";
-
-        [DllImport(Ole32LibraryName, PreserveSig = false)]
-        public static extern int CoCreateInstance(ref Guid rclsid, IntPtr pUnkOuter, Int32 dwClsContext, ref Guid riid, [MarshalAs(UnmanagedType.Interface)] out IDiaDataSource diaDataSourceInterface);
+        [DllImport("ole32.dll", EntryPoint = "CoCreateInstance", CallingConvention = CallingConvention.StdCall)]
+        public static extern int CoCreateInstance([In, MarshalAs(UnmanagedType.LPStruct)] Guid rclsid, IntPtr pUnkOuter, UInt32 dwClsContext, [In, MarshalAs(UnmanagedType.LPStruct)] Guid riid, out IntPtr pUnk);
     }
 }

@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "DeploySecrets": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\Ken\\AppData\\Roaming\\Microsoft\\UserSecrets\\2e7adf53-c46a-4e65-b207-9ea7859d45cc\\secrets.json",
+      "environmentVariables": {
+        "Key": "Value",
+        "AZURE_CLIENT_SECRET": "APaXBTuyM4f3Y.L7YsNRuM3WQmF2ajD-oK",
+        "AZURE_CLIENT_ID": "a2c46b46-270e-44b2-9163-da620127c448",
+        "AZURE_TENANT_ID": "96c71021-3c34-460c-b3a5-7906fccd559e"
+      }
+    }
+  }
+}

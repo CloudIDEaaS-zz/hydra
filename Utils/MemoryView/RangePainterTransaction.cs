@@ -44,7 +44,7 @@ namespace Utils.MemoryView
                 suppressions.Add(painter.TextRange.SuppressUpdate());
             }
 
-            return this.AsDisposable(() => 
+            return this.CreateDisposable(() => 
             {
                 foreach (var suppression in suppressions)
                 {

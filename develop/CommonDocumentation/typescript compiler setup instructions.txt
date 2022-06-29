@@ -1,0 +1,77 @@
+download from git gui
+	clone existing repository
+		source https://github.com/Microsoft/TypeScript
+		target D:\MC\RazorViewsDesigner\HydraScript (HydraScript folder must not exist)
+		check Recursively clone submodules
+	close git
+
+follow building instructions on github/typescript page
+	open command prompt
+		change directory to repo folder
+		npm install -g gulp
+		npm install		//this installs gulp		
+		gulp local		//creates built/local folder compilation
+
+
+open visual studio code
+	open typescript folder
+	go to debug tab
+	click configure/open launch.json
+	copy launch.json contents from binaries\typescript to the new launch.json file
+	update launch.json file
+		change program parameter to use built/local/tsc.js
+		change args parameter to use appropriate .ts file
+		make sure sourcemaps is true
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/built/local/tsc.js",
+            "stopOnEntry": false,
+            "args": ["C:/Mind Chemistry/RazorViewsDesigner/TestProject/SimpleClass.ts", 
+                "--target", 
+                "es6", 
+                "--experimentalDecorators", "true",
+                "--preserveConstEnums", "true",
+                "--sourceMap", "true"
+                ],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "externalConsole": false,
+            "sourceMaps": true,
+            "outDir": null
+        },
+        {
+            "name": "Attach",
+            "type": "node",
+            "request": "attach",
+            "port": 5858,
+            "address": "localhost",
+            "restart": false,
+            "sourceMaps": false,
+            "outDir": null,
+            "localRoot": "${workspaceRoot}",
+            "remoteRoot": null
+        },
+        {
+            "name": "Attach to Process",
+            "type": "node",
+            "request": "attach",
+            "processId": "${command.PickProcess}",
+            "port": 5858,
+            "sourceMaps": false,
+            "outDir": null
+        }
+    ]
+}

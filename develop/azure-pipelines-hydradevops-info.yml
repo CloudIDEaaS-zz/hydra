@@ -1,0 +1,226 @@
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+  fetchDepth: 1
+
+variables:
+
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'DockerRegistryServiceConnection'
+  namespace: 'hydradevops'
+  component: 'hydradevops-info'
+  release: 'hydradevopsinfo'
+  projectName: 'HydraDevOps.Info'
+  containerRegistry: 'hydracontainerregistry'
+  dockerfilePath: '$(Build.ArtifactStagingDirectory)/Dockerfile'
+  projectfilePath: '$(projectName)/$(projectName).csproj'
+  chartPath: '$(projectName)/charts/$(release)'
+  tag: '$(Build.BuildId)'
+  artifactPackageDirectory: '$(Build.ArtifactStagingDirectory)\package'
+  repository: 'hydracontainerregistry.azurecr.io/$(release)'
+  kubectlVersion: 'latest'
+  helmVersion: 'latest'
+  dockerVersion: '17.09.0-ce'
+  system.debug: false
+
+  # Agent VM image name
+  vmImageName: 'windows-latest'
+  buildConfiguration: 'Release'
+  versionNumber: $[format('{0}.{1}', variables['Build.BuildNumber'], variables['Build.BuildId'])]
+
+stages:
+- stage: Prepare
+  displayName: Prepare for Deploy stage
+  condition: true
+  jobs:
+    - job: Prepare
+      displayName: Prepare for Deploy
+      pool:
+        vmImage: $(vmImageName)
+      steps:
+      - checkout: none
+      - task: KubectlInstaller@0
+        inputs:
+          kubectlVersion: $(kubectlVersion)
+      - task: Kubernetes@1
+        inputs:
+          connectionType: 'Azure Resource Manager'
+          azureSubscriptionEndpoint: 'AzureServiceConnection'
+          azureResourceGroup: 'CloudIDEaaSResourceGroup'
+          kubernetesCluster: 'HydraCluster'
+          useClusterAdmin: true
+          command: 'login'
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: 'AzureServiceConnection'
+          scriptType: 'ps'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            $DEPLOY = (kubectl rollout status --namespace $(namespace) deploy/$(component) | Select-String -Pattern 'successfully rolled out').Matches.Count
+            echo "deploy count: $DEPLOY"
+            If ($DEPLOY -gt 0) {
+                kubectl delete deploy --namespace $(namespace) $(component)
+                kubectl delete ingress --namespace $(namespace) $(component)
+                kubectl delete service --namespace $(namespace) $(component)
+                kubectl delete secret --namespace $(namespace) --all
+                kubectl delete events --namespace $(namespace) --all
+            }
+          powerShellErrorActionPreference: 'silentlyContinue'
+          addSpnToEnvironment: true
+          useGlobalConfig: true
+            
+- stage: Build
+  condition: and(true, succeeded())
+  dependsOn: Prepare
+  displayName: Build stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - script: dotnet build $(projectfilePath) --configuration $(buildConfiguration)
+      displayName: 'dotnet build $(projectfilePath) $(buildConfiguration)'
+    - script: dotnet publish $(projectfilePath) --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)
+      displayName: 'dotnet publish $(projectfilePath) $(buildConfiguration)'
+    - script: dir $(Build.ArtifactStagingDirectory)
+      displayName: 'dir $(Build.ArtifactStagingDirectory)'
+    - task: DockerInstaller@0
+      inputs:
+        dockerVersion: $(dockerVersion)
+    - task: Docker@2
+      displayName: DockerBuild and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(release)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - script: dir $(Build.SourcesDirectory)\manifests
+      displayName: dir $(Build.SourcesDirectory)\manifests
+    - publish: manifests
+      artifact: manifests
+
+- stage: PushHelmCharts
+  displayName: Push Helm Charts stage
+  condition: and(true, succeeded())
+  dependsOn: Build 
+
+  jobs:
+  - job: PushHelmCharts
+    displayName: Push Helm Charts
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: HelmInstaller@1
+      inputs:
+        helmVersionToInstall: $(helmVersion)
+    - task: HelmDeploy@0
+      displayName: 'Initialize Helm'
+      inputs:
+        connectionType: 'Azure Resource Manager'
+        azureSubscription: 'AzureServiceConnection'
+        azureResourceGroup: 'CloudIDEaaSResourceGroup'
+        kubernetesCluster: 'HydraCluster'
+        useClusterAdmin: true
+        command: 'init'
+        waitForExecution: false
+        arguments: '--node-selectors "beta.kubernetes.io/os"="linux" --service-account tiller'
+    - task: HelmDeploy@0
+      displayName: 'Helm package $(chartPath)'
+      inputs:
+        command: 'package'
+        chartPath: '$(chartPath)'
+        chartVersion: '$(versionNumber)'
+        destination: '$(artifactPackageDirectory)'
+        updateDependency: true
+        save: false
+        arguments: '--app-version $(versionNumber)'
+    - script: dir $(artifactPackageDirectory)
+      displayName: dir $(artifactPackageDirectory)
+    - publish: $(artifactPackageDirectory)
+      artifact: package
+    - task: AzureCLI@2
+      displayName: 'Push Helm Chart'
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        scriptType: 'ps'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az acr helm push --name $(containerRegistry) $(artifactPackageDirectory)\$(release)-$(versionNumber).tgz
+    - task: AzureCLI@2
+      displayName: 'Show Helm Chart'
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        scriptType: 'ps'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az acr helm show --name $(containerRegistry) $(release) --version $(versionNumber)
+
+- stage: DeployToDev
+  displayName: Deploy to Dev stage
+  condition: and(true, succeeded())
+  dependsOn: PushHelmCharts
+  jobs:
+    - deployment: dev
+      displayName: Deploy to Dev
+      pool:
+        vmImage: $(vmImageName)
+      environment: dev.$(namespace)
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: none
+              - task: HelmInstaller@1
+                inputs:
+                  helmVersionToInstall: $(helmVersion)
+              - task: HelmDeploy@0
+                displayName: 'Initialize Helm'
+                inputs:
+                  connectionType: 'Azure Resource Manager'
+                  azureSubscription: 'AzureServiceConnection'
+                  azureResourceGroup: 'CloudIDEaaSResourceGroup'
+                  kubernetesCluster: 'HydraCluster'
+                  useClusterAdmin: true
+                  command: 'init'
+                  waitForExecution: false
+                  arguments: '--node-selectors "beta.kubernetes.io/os"="linux" --service-account tiller'
+              - task: AzureCLI@2
+                displayName: 'Add ACR to Helm Repository list'
+                inputs:
+                  azureSubscription: 'AzureServiceConnection'
+                  scriptType: 'ps'
+                  scriptLocation: 'inlineScript'
+                  inlineScript: 'az acr helm repo add --name $(containerRegistry)'
+                  failOnStandardError: true
+              - task: AzureCLI@2
+                displayName: 'Helm Repo List'
+                inputs:
+                  azureSubscription: 'AzureServiceConnection'
+                  scriptType: 'ps'
+                  scriptLocation: 'inlineScript'
+                  inlineScript: 'az acr repository list --name $(containerRegistry)'
+                  failOnStandardError: true
+              - task: HelmDeploy@0
+                displayName: 'Helm Deploy'
+                inputs:
+                  connectionType: 'Azure Resource Manager'
+                  azureSubscription: 'AzureServiceConnection'
+                  azureResourceGroup: 'CloudIDEaaSResourceGroup'
+                  kubernetesCluster: 'HydraCluster'
+                  useClusterAdmin: true
+                  namespace: '$(namespace)'
+                  command: 'upgrade'
+                  chartType: 'Name'
+                  chartName: '$(containerRegistry)/$(release)'
+                  releaseName: '$(release)'
+                  overrideValues: 'image.repository=$(repository),image.tag=$(tag),buildID=$(tag)'
+                  force: true

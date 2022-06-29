@@ -47,7 +47,6 @@ namespace Utils
 
             this.Load += ChildPopupForm_Load;
             this.Move += ChildPopupForm_Move;
-            this.FormClosing += ChildPopupForm_FormClosing;
 
             this.asControl = asControl;
             this.allowMove = allowMove;
@@ -168,9 +167,19 @@ namespace Utils
 
         private void ChildPopupForm_Load(object sender, EventArgs e)
         {
+            if (autoSetPosition)
+            {
+                SetPosition();
+            }
+        }
+
+        protected override void CreateHandle()
+        {
             bool result;
 
-            if (this.IsDisposed)
+            base.CreateHandle();
+
+            if (this.IsDisposed || parentControl == null)
             {
                 return;
             }
@@ -190,11 +199,6 @@ namespace Utils
             prevMsgBoxWndFunc = SetWindowLong(hwndPopupForm, (int)Utils.ControlExtensions.WindowLongIndex.GWL_WNDPROC, delegatePtr);
 
             result = this.SetAsChildOf(parentControl, asControl);
-
-            if (autoSetPosition)
-            {
-                SetPosition();
-            }
         }
 
         public new Point Location
@@ -233,15 +237,16 @@ namespace Utils
 
             this.Activate();
         }
-    
-        private void ChildPopupForm_FormClosing(object sender, FormClosingEventArgs e)
+
+        protected override void Dispose(bool disposing)
         {
             this.Load -= ChildPopupForm_Load;
             this.Move -= ChildPopupForm_Move;
-            this.FormClosing -= ChildPopupForm_FormClosing;
 
             SetWindowLong(hwndMain, (int)Utils.ControlExtensions.WindowLongIndex.GWL_WNDPROC, prevMainWndFunc);
             SetWindowLong(hwndPopupForm, (int)Utils.ControlExtensions.WindowLongIndex.GWL_WNDPROC, prevMsgBoxWndFunc);
+
+            base.Dispose(disposing);
         }
 
         private void ChildPopupForm_Move(object sender, EventArgs e)

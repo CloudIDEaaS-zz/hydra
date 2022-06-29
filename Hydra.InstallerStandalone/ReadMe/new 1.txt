@@ -1,0 +1,1 @@
+D:\MC\CloudIDEaaS\root\ApplicationGenerator\TestOutput\contoso.Entities>dotnet build contoso.Entities.csproj

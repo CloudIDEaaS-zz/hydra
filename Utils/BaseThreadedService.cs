@@ -18,9 +18,10 @@ namespace Utils
         private ManualResetEvent runningEvent;
         private TimeSpan iterationTimeOut;
         private TimeSpan startTimeOut;
-        public event EventHandler OnStarted;
+        public event EventHandler Started;
         public abstract void DoWork(bool stopping);
         private bool isRunning;
+        protected bool processingHalted;
 
         public bool IsRunning
         {
@@ -29,6 +30,8 @@ namespace Utils
                 return isRunning;
             }
         }
+
+        public DateTime StartTime { get; private set; }
 
         public BaseThreadedService(ThreadPriority threadPriority, TimeSpan iterationSleep, TimeSpan iterationTimeOut, TimeSpan startTimeOut)
         {
@@ -48,6 +51,10 @@ namespace Utils
         public BaseThreadedService(ThreadPriority threadPriority) : this(threadPriority, TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(15))
         {
         }
+        public BaseThreadedService(ThreadPriority threadPriority, int iterationSleepMilliseconds) : this(threadPriority, TimeSpan.FromMilliseconds(iterationSleepMilliseconds), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(15))
+        {
+        }
+
 
         public BaseThreadedService() : this(ThreadPriority.Lowest)
         {
@@ -56,6 +63,26 @@ namespace Utils
         public IDisposable Lock()
         {
             return lockObject.Lock();
+        }
+
+        public T LockReturn<T>(Func<T> func)
+        {
+            T returnVal;
+
+            using (this.Lock())
+            {
+                returnVal = func();
+            }
+
+            return returnVal;
+        }
+
+        public void LockSet(Action action)
+        {
+            using (this.Lock())
+            {
+                action();
+            }
         }
 
         public bool TryLock(out IDisposable disposable, int millisecondsTimeOut = 0)
@@ -68,6 +95,7 @@ namespace Utils
             workerThread = new Thread(WorkerThreadProc);
 
             workerThread.Priority = threadPriority;
+            this.StartTime = DateTime.Now;
 
             workerThread.Start();
         }
@@ -78,9 +106,9 @@ namespace Utils
 
             isRunning = running;
 
-            if (OnStarted != null)
+            if (Started != null)
             {
-                OnStarted(this, EventArgs.Empty);
+                Started(this, EventArgs.Empty);
             }
 
             while (true)
@@ -103,13 +131,13 @@ namespace Utils
                 {
                     DoWork(stopping);
                 }
-                catch
+                catch (Exception ex)
                 {
                 }
 
                 using (this.Lock())
                 {
-                    if (stopping)
+                    if (stopping || processingHalted)
                     {
                         runningEvent.Set();
                         return;
@@ -190,6 +218,8 @@ namespace Utils
             {
                 isRunning = false;
             }
+
+            runningEvent.Set();
         }
 
         public virtual void ForceStop()
@@ -198,9 +228,12 @@ namespace Utils
             {
                 this.workerThread.Abort();
             }
+            /// <summary>   An enum constant representing the catch option. </summary>
             catch
             {
             }
+
+            runningEvent.Set();
         }
 
         public virtual void Wait(int millisecondsTimeout = Timeout.Infinite)
@@ -208,6 +241,19 @@ namespace Utils
             if (!runningEvent.WaitOne(millisecondsTimeout))
             {
                 throw new Exception(string.Format(@"{0}: Service wait timeout", this.GetType().Name));
+            }
+        }
+
+        protected virtual void HaltProcessing()
+        {
+            if (workerThread == null)
+            {
+                return;
+            }
+
+            using (this.Lock())
+            {
+                processingHalted = true;
             }
         }
 
@@ -239,6 +285,8 @@ namespace Utils
                     throw new Exception(string.Format(@"{0}: Unable to stop service", this.GetType().Name));
                 }
             }
+
+            workerThread = null;
         }
     }
 }

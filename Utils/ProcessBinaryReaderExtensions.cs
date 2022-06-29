@@ -1,10 +1,9 @@
-﻿#if INCLUDE_PROCESSDIAGNOSTICSLIBRARY
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace System.IO
+namespace Utils.IO
 {
     internal static class ProcessBinaryReaderExtensions
     {
@@ -37,4 +36,3 @@ namespace System.IO
         }
     }
 }
-#endif

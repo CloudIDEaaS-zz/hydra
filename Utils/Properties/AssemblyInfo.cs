@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Utils")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Wells Fargo NA")]
+[assembly: AssemblyCompany("CloudIDEaaS")]
 [assembly: AssemblyProduct("Utils")]
-[assembly: AssemblyCopyright("Copyright © Wells Fargo NA 2012")]
+[assembly: AssemblyCopyright("Copyright © CloudIDEaaS")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,4 +33,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyFileVersion("1.0.0.115")]
+[assembly: AssemblyFileVersion("1.0.0.5403")]

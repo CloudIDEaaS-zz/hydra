@@ -1,0 +1,29 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: windows-latest
+
+variables:
+  environment: dev 
+  buildConfiguration: Release 
+  releaseType: ken.l.netherland-refs/heads/feature/WrapRemaining 
+  commitId: f4f58918ce591f9463af4f4c86bd1924083f76e1 
+  repositoryUri: https://cloudideaas@dev.azure.com/cloudideaas/Hydra/_git/Hydra
+
+steps:
+- checkout: none
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      '$json = `{ "environment": "$(environment)", "buildConfiguration": "$(buildConfiguration)", "releaseType": "$(releaseType)", "commitId": "$(commitId)", "repositoryUri": "$(repositoryUri)" }`
+      Write-Host $json
+      $json | Set-Content $(System.DefaultWorkingDirectory)\variables.json'
+- publish: $(System.DefaultWorkingDirectory)\variables.json
+

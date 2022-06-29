@@ -310,7 +310,7 @@ namespace Utils.TextObjectModel
         {
             suppressEvents = true;
 
-            return this.AsDisposable(() => suppressEvents = false);
+            return this.CreateDisposable(() => suppressEvents = false);
         }
 
         public int Move(int count)

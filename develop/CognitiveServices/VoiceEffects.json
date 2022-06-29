@@ -1,0 +1,125 @@
+{
+  "$schema": "effectschema/schema.json",
+  "Roles":
+  [
+    {
+      "AnyAge": true,
+      "Effects":
+      [
+        {
+          "BASS_BFX_FREEVERB":
+          {
+            "Damp": 0.5,
+            "DryMix": 0.5,
+            "RoomSize": 0.2,
+            "WetMix": 1.0,
+            "Width": 1,
+            "Mode": 0
+          },
+          "BASS_DX8_DISTORTION":
+          {
+            "Gain": -18,
+            "Edge": 8,
+            "PostEQCenterFrequency": 2400,
+            "PostEQBandwidth": 2400,
+            "PreLowpassCutoff": 8000
+          }
+        }
+      ]
+    },
+    {
+      "AgeMin": 1,
+      "AgeMax": 5,
+      "Attributes":
+      [
+        {
+          "BASS_ATTRIB_TEMPO_PITCH": 8
+        }
+      ]
+    },
+    {
+      "AgeMin": 6,
+      "AgeMax": 12,
+      "Attributes":
+      [
+        {
+          "BASS_ATTRIB_TEMPO_PITCH": 5
+        }
+      ]
+    },
+    {
+      "AgeMin": 13,
+      "AgeMax": 16,
+      "Attributes":
+      [
+        {
+          "BASS_ATTRIB_TEMPO_PITCH": 3
+        }
+      ]
+    },
+    {
+      "AgeMin": 50,
+      "AgeMax": 60,
+      "Effects":
+      [
+        {
+          "BASS_BFX_AUTOWAH":
+          {
+            "DryMix": 0.5,
+            "WetMix": 1.5,
+            "Feedback": 0.5,
+            "Rate": 2.0,
+            "Range": 8.3,
+            "Freq": 100.0
+          },
+          "BASS_DX8_DISTORTION":
+          {
+            "Gain": -18,
+            "Edge": 15,
+            "PostEQCenterFrequency": 2400,
+            "PostEQBandwidth": 2400,
+            "PreLowpassCutoff": 8000
+          }
+        }
+      ],
+      "Attributes":
+      [
+        {
+          "BASS_ATTRIB_TEMPO_PITCH": -2
+        }
+      ]
+    },
+    {
+      "AgeMin": 61,
+      "AgeMax": 100,
+      "Effects":
+      [
+        {
+          "BASS_BFX_AUTOWAH":
+          {
+            "DryMix": 0.5,
+            "WetMix": 1.5,
+            "Feedback": 0.5,
+            "Rate": 2.0,
+            "Range": 10.8,
+            "Freq": 150.0
+          },
+          "BASS_DX8_DISTORTION":
+          {
+            "Gain": -18,
+            "Edge": 15,
+            "PostEQCenterFrequency": 2400,
+            "PostEQBandwidth": 2400,
+            "PreLowpassCutoff": 8000
+          }
+        }
+      ],
+      "Attributes":
+      [
+        {
+          "BASS_ATTRIB_TEMPO_PITCH": -3
+        }
+      ]
+    }
+  ]
+}

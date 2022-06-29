@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows;
 using System.Drawing;
+using System.Drawing.Text;
 
 namespace Utils
 {
@@ -23,15 +24,28 @@ namespace Utils
         private int nCaretPosX;
         private int nCaretPosY;
         private StringBuilder builder;
+        private bool isValidText;
+        public Color BorderColor { get; set; }
 
-        public TextEdit()
+        public TextEdit(string text = null)
         {
             builder = new StringBuilder();
-            this.Text = string.Empty;
 
-            SetStyle(ControlStyles.Selectable, true);
+            isValidText = true;
+
+            if (text == null)
+            {
+                builder = new StringBuilder();
+            }
+            else
+            {
+                builder = new StringBuilder(text);
+            }
 
             InitializeComponent();
+
+            SetStyle(ControlStyles.Selectable, true);
+            this.Cursor = Cursors.IBeam;
         }
 
         public override string Text
@@ -65,9 +79,7 @@ namespace Utils
 
                     nCharX = tm.tmAveCharWidth; 
                     nCharY = tm.tmHeight;
-                    this.BackColor = SystemColors.Window;
-
-                    builder = new StringBuilder();
+                    this.BackColor = System.Drawing.SystemColors.Window;
 
                     break;
 
@@ -129,7 +141,7 @@ namespace Utils
                                 using (graphics = this.CreateGraphics())
                                 {
                                     brush = new SolidBrush(this.BackColor);
-                                    fontBrush = SystemBrushes.WindowText;
+                                    fontBrush = new SolidBrush(this.ForeColor);
                                     stringFormat = new StringFormat(StringFormatFlags.MeasureTrailingSpaces);
 
                                     size = graphics.MeasureString(this.Text, this.Font, int.MaxValue, stringFormat);
@@ -201,7 +213,7 @@ namespace Utils
                             using (graphics = this.CreateGraphics())
                             {
                                 brush = new SolidBrush(this.BackColor);
-                                fontBrush = SystemBrushes.WindowText;
+                                fontBrush = new SolidBrush(this.ForeColor);
                                 stringFormat = new StringFormat(StringFormatFlags.MeasureTrailingSpaces);
 
                                 size = graphics.MeasureString(this.Text, this.Font, int.MaxValue, stringFormat);
@@ -235,6 +247,9 @@ namespace Utils
 
                     break;
 
+                case ControlExtensions.WindowsMessage.DESTROY:
+                    break;
+
                 case ControlExtensions.WindowsMessage.KILLFOCUS:
 
                     if (caret != null)
@@ -248,12 +263,47 @@ namespace Utils
             base.WndProc(ref m);
         }
 
+        public bool IsValidText
+        {
+            get
+            {
+                return isValidText;
+            }
+
+            set
+            {
+                isValidText = value;
+
+                using (var graphics = this.CreateGraphics())
+                {
+                    var brush = new SolidBrush(this.BackColor);
+                    var fontBrush = new SolidBrush(this.ForeColor);
+                    var stringFormat = new StringFormat(StringFormatFlags.MeasureTrailingSpaces);
+                    var size = graphics.MeasureString(this.Text, this.Font, int.MaxValue, stringFormat);
+                    var rect = new RectangleF(0, 0, size.Width, size.Height);
+                    var point = new System.Drawing.Point((int)rect.Right, (int)rect.Top);
+                    var clientRect = this.ClientRectangle;
+
+                    graphics.FillRectangle(brush, clientRect);
+                    graphics.DrawString(this.Text, this.Font, fontBrush, rect.Location);
+
+                    if (!isValidText)
+                    {
+                        graphics.DrawErrorSquiggly(this.Text, this.Font, rect);
+                    }
+
+                    brush.Dispose();
+                }
+            }
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             using (var graphics = this.CreateGraphics())
             {
                 var brush = new SolidBrush(this.BackColor);
-                var fontBrush = SystemBrushes.WindowText;
+                var borderPen = new Pen(this.BorderColor);
+                var fontBrush = new SolidBrush(this.ForeColor);
                 var stringFormat = new StringFormat(StringFormatFlags.MeasureTrailingSpaces);
                 var size = graphics.MeasureString(this.Text, this.Font, int.MaxValue, stringFormat);
                 var rect = new RectangleF(0, 0, size.Width, size.Height);
@@ -262,6 +312,12 @@ namespace Utils
 
                 graphics.FillRectangle(brush, clientRect);
                 graphics.DrawString(this.Text, this.Font, fontBrush, rect.Location);
+                graphics.DrawRectangle(borderPen, clientRect);
+
+                if (!isValidText)
+                {
+                    graphics.DrawErrorSquiggly(this.Text, this.Font, rect);
+                }
 
                 brush.Dispose();
             }

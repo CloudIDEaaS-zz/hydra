@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class NgxTranslatePackage : Package
+    {
+        public NgxTranslatePackage()
+        {
+            this.PackageInstalls = new string[] { "ngxtranslate" };
+        }
+    }
+}

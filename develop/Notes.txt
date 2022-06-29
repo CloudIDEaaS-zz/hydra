@@ -1,0 +1,1 @@
+https://github.com/microsoft/azure-pipelines-agent/blob/master/docs/contribute.md

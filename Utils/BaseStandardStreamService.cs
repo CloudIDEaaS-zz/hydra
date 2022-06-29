@@ -16,6 +16,7 @@ namespace Utils
         protected StreamReader reader;
         protected StreamWriter outputWriter;
         protected StreamWriter errorWriter;
+        public Action<string> JsonTextReadCallback { set; private get; }
         protected abstract void HandleCommand(CommandPacket commandPacket);
 
         public BaseStandardStreamService() : base(ThreadPriority.Lowest, TimeSpan.FromMilliseconds(100), TimeSpan.MaxValue, TimeSpan.FromSeconds(15))
@@ -28,11 +29,16 @@ namespace Utils
             {
                 try
                 {
-                    var commandPacket = reader.ReadJsonCommand();
+                    var commandPacket = reader.ReadJsonCommand(this.JsonTextReadCallback);
                     var threadTimer = new OneTimeThreadTimer(1);
 
                     if (commandPacket == null)
                     {
+                        return;
+                    }
+                    else if (processingHalted)
+                    {
+                        HandleCommand(commandPacket);
                         return;
                     }
 
@@ -41,17 +47,20 @@ namespace Utils
                         HandleCommand(commandPacket);
                     });
                 }
-                catch
+                catch (Exception ex)
                 {
                 }
             }
         }
 
+        protected override void HaltProcessing()
+        {
+            base.HaltProcessing();
+        }
+
         public override void Stop()
         {
             reader.Dispose();
-
-            outputWriter.Write("\r\n\r\n");
 
             outputWriter.Dispose();
             errorWriter.Dispose();

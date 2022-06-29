@@ -10,12 +10,21 @@
     <OutputType>Package</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>$(HYDRASOLUTIONPATH)\Hydra.Installer\Installers</OutputPath>
+    <OutputPath>..\Hydra.Installer\Installers\$(Configuration)</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>$(HYDRASOLUTIONPATH)\Hydra.Installer\Installers</OutputPath>
+    <OutputPath>..\Hydra.Installer\Installers\$(Configuration)</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\Hydra.Installer\Installers\$(Configuration)</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\Hydra.Installer\Installers\$(Configuration)</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
@@ -32,13 +41,18 @@
     <Content Include="Hydra - EULA.doc" />
     <Content Include="Hydra - EULA.rtf" />
     <Content Include="Hydra.ico" />
-    <Content Include="HydraBanner.bmp" />
+    <Content Include="HydraBaby.png" />
+    <Content Include="HydraSculpture.jpg" />
     <Content Include="MythologySmall.png" />
     <Content Include="ReadMe\Builds.xlsx" />
     <Content Include="ReadMe\ReadMe.txt" />
+    <Content Include="Resources\USBCord.png" />
+    <Content Include="Resources\Wave.png" />
     <Content Include="Resources\WiXDefBannerBitmap.bmp" />
     <Content Include="Resources\WiXNewFolderBtn.ico" />
     <Content Include="Resources\WiXUpFolderBtn.ico" />
+    <Content Include="HydraBanner.bmp" />
+    <Content Include="TagLine.png" />
     <Content Include="XSLT\readme.txt" />
     <Content Include="XSLT\RegisterForCOM.xml" />
     <Content Include="XSLT\XslFile.xslt" />

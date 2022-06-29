@@ -1,0 +1,98 @@
+﻿C:\Program Files\nodejs\node_modules\npm\node_modules\node-fetch-npm\src\index.js
+Line 68 fetch
+
+C:\Program Files\nodejs\node_modules\npm\lib\install\deps.js
+Line 226 exports.getAllMetadata
+
+C:\Users\Ken\AppData\Roaming\npm-cache
+
+C:\Program Files\nodejs\node_modules\npm\node_modules\pacote\lib\fetch.js
+
+https://flaviocopes.com/commonjs/
+
+"C:\Program Files\nodejs\node_modules\npm\lib\install.js"
+"C:\Users\Ken\AppData\Roaming\npm\node_modules"
+
+RestService AbstraX Model:
+
+	Variables in Model.json (anything within []):
+		$$ = global variable
+		$ = user variable
+		{/ } = xpath expression
+		{{  } = handle bars
+		{$.. } = jsonpath
+		// = regex
+		@ = property of local object (in xpath)
+
+
+	Generates models (WebAPIModel)
+	Generates Rest backend service
+		Does not wrap with object model
+		Has an interface for D.I.
+		Reads Model.json 
+		Uses Handlebars
+		Calls third party service
+			HttpClient
+				await client.SendAsync(..)
+				await client.PostAsync(..)
+	Generates Rest entities project (Shared Project)  /* in future will need to support multiple entities projects */
+		Generates partial class with Rest backend service (in a text file, i.e. DevOpsService.metadata.txt):
+
+			[MetadataType(typeof(DevOpsEntitiesMetaData))]
+			public partial class DevOpsService
+			{
+			}
+
+			public partial class DevOpsEntitiesMetaData
+			{
+			}
+
+		Generates text files for partial metadata classes
+	
+		x kn todo - you were working on IBase.BaseObjectDictionary
+			GeneratorEngine.cs, line 308 (how do you not recurse indefinitely? based on UI path?)
+		kn todo - you finished up the pilot Provider, Controller, and config
+			
+	Generation items:
+		x AbstraXProviderContext
+		x ServiceProvider
+		x ConfigJson
+
+		x Models
+		x StartupSchemas
+		Schemas
+		Queries
+
+		todo - Configure: app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
+		todo - data contexts in ConfigureServices, also:
+
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
+			services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+            services.AddGraphQL(o =>
+            {
+                o.ExposeExceptions = true;
+            })
+            .AddGraphTypes(ServiceLifetime.Scoped);
+
+		todo - enum type on entity type
+		todo - add GraphQL methods to EntityProviderClassTemplate.tt
+
+SELECT * FROM Projects 
+INNER JOIN (SELECT * FROM CHANGETABLE(CHANGES Projects, 1) AS ChangeTable) ChangeTable
+ON Projects.ProjectId = ChangeTable.ProjectId
+
+
+Docker
+https://hub.docker.com/
+
+kennetherland
+super secure password

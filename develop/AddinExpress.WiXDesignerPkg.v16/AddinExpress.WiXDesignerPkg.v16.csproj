@@ -1,0 +1,2116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <ProjectGuid>{635E5136-08B6-4EBD-87EB-48C45302746A}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyName>AddinExpress.WiXDesignerPkg.v16</AssemblyName>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>false</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>false</DebugSymbols>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop">
+      <HintPath>.\AddinExpress.WiXDesignerPkg.v16References\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop">
+      <HintPath>.\AddinExpress.WiXDesignerPkg.v16References\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="EnvDTE">
+      <HintPath>.\AddinExpress.WiXDesignerPkg.v16References\EnvDTE.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0">
+      <HintPath>.\AddinExpress.WiXDesignerPkg.v16References\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop">
+      <HintPath>.\AddinExpress.WiXDesignerPkg.v16References\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Threading, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0">
+      <HintPath>.\AddinExpress.WiXDesignerPkg.v16References\Microsoft.VisualStudio.Shell.Immutable.10.0.dll</HintPath>
+    </Reference>
+    <Reference Include="EnvDTE80">
+      <HintPath>.\AddinExpress.WiXDesignerPkg.v16References\EnvDTE80.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\AfterParseEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BuildProjConfigBegin_EventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BuildProjConfigDone_EventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Microsoft.Bootstrapper.Manifests\MySettings.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSCustomActionEXE.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXLocalization.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\TargetPropertyEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRegistryValueBinary.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IBuildManager.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Paths.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BeforeParseEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\TargetPropertyConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXMIME.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRegistryValueEnvString.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FolderPropertyConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSCustomActionScript.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRegistryValueInteger.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FolderPropertyEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BannerBitmapEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXPackage.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRegistryValues.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXPublish.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BannerBitmapConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRegistryValueString.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\BuildResultsControl.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>BuildResultsControl.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXRadioButton.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXRadioButtonGroup.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\ClipboardHelper.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\CheckboxValueEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXSchema.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\CheckboxValueConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BuildManager.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXMerge.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\CommandPropertyConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\LaunchConditionsPane.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXConfigurationData.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\CustomActionsPane.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ControlVisibilityEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSCustomActionBase.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXMergeRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\UserInterfacePane.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ControlVisibilityConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXDependency.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FileTypesPane.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXShow.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXSubscribe.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\RegistryPane.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ExecutableEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FileSystemPane.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\ExternalCheck.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>ExternalCheck.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSCheckboxesDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXTextStyle.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXUI.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ExecutableConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXUIRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSConfirmDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXUIText.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FilesPropertyConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXUpgrade.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSCustomDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXVerb.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FilesPropertyEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VsPaneBase.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXExtension.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSCustomerInfoDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DialogScope.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXProgId.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DialogType.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DialogStage.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ViewControlBase.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>ViewControlBase.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXRegistryKey.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ViewTextModelChangedEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ViewXmlModelChangedEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\FileCheck.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>FileCheck.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ToolWindowCreatedEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ToolWindowBeforeCloseEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ToolWindowActivateEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXRegistryValue.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IconPropertyConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ToolWindowDeactivateEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BeforeShowErrorEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ThemeChangedEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\SaveUserSettingsEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IconPropertyEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXRegistry.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\LoadUserSettingsEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FileAddedEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FileRemovedEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXModule.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ReferenceAddedEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXIcon.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ReferenceRemovedEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ReferenceRenamedEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ReferenceRefreshedEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BuildNotificationEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ProjectNotificationEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\SolutionNotificationEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IViewManager.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXShortcut.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXDirectorySearch.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXDirectorySearchRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\OutputGroup.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSCustomActions.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\OutputGroupCanonical.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\GACCheck.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>GACCheck.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\OutputGroupProperties.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSFeature.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXSupportedPlatforms.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXFileSearch.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IVsSolutionBuildManagerExtensions.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\TestClass.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXFileSearchRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BrowseFlags.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSFeatureGroup.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXComponentSearch.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IVsWebConnectionDlgSvc.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ComboTreeBox.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXProduct.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSBinary.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXRegistrySearchRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXRegistrySearch.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\Consts.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Helpers.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IWiXEntity.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXEntityList.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSMergeModule.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ModuleDependency.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\MsiSummaryInfoProperties.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXEntity.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ProjectDescriptor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\BuildErrorLevel.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXError.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\MsiHelper.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\BuildMessageEventHandler.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\Common.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\IProject.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSMergeModuleReference.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXComponent.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXComponentGroup.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSProjectOutputFile.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXComponentGroupRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ComboTreeDropDown.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXComponentRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSProjectOutputUnknown.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VsViewManager.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXCondition.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\MsiProductCheck.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>MsiProductCheck.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXCreateFolder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ProjectUtilities.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ComboTreeNode.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSBaseFile.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXCustomAction.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\CommonUtilities.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXDirectory.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXDirectoryRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ComboTreeNodeCollection.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\MsiUtils.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DataStreamFromComStream.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXFeature.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXProjectParser.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSWebSetupParameters.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXFeatureGroup.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXCustomVariables.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\MyToolStrip.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\CustomVariableType.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXFeatureGroupRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSProjectOutputVDProj.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXFeatureRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXCustomVariable.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSColorTable.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VsSysColors.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\KeyOutputDescriptorClass.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\GuidList.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRegister.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\PkgCmdIDList.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXFile.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\Constants.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXFragment.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DropDownControlBase.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\HierarchyConstants.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IncludeChangesHandling.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DropDownPaintEventArgs.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\EvaluationChecker.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WixSettings.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BinDirectoryStructure.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BufferedPainter_TState_.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BufferedPaintTransition_TState_.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSShortcut.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DependencyScanner.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ShowCmdMode.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VisualStateTrigger_TState_.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VisualStateTriggerTypes.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BufferedPaintEventArgs_TState_.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\Interop.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSAssembly.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BP_ANIMATIONPARAMS.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BP_BUFFERFORMAT.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSPackageAs.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\BP_ANIMATIONSTYLE.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXProjectItem.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXEngine.UserInterface\UIMultiLangResources.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UIMultiLangResources.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXProperty.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\CustomActionsView.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>CustomActionsView.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXRemoveFolder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\ProjectExceptions.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXSetDirectory.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\ProjectProperties.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXSetProperty.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXProjectType.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\YesNoType.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\ProjectSupport.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\PathHandling.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSFile.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSFiles.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\StandardValueConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\ExpandableIEnumerationConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\RegistryCheck.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>RegistryCheck.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSFileTypeVerb.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\EnumConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\PropertySorter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSFileTypeVerbs.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\RegistryFileCheck.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>RegistryFileCheck.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\TypeDescriptor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\StructWrapper.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\TypeDescriptionProvider.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Relationship.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>Relationship.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ErrorView.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>ErrorView.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\PropertyDescriptor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\ProxyPropertyDescriptor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSFileType.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\EnumPropertyDescriptor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSFileTypes.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\EnumProxyPropertyDescriptor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\EnumChildPropertyDescriptor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSWebCustomFolder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\AppProtection.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSWebApplicationExtension.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSWebApplicationFolder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\EnumUtil.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\DisplayNameAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\CategoryResourceKeyAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXEngine.UserInterface\UIResources.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UIResources.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSWebFolder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DirectoryExecutePermissions.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\MyPrerequisites\MyResources.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>MyResources.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\SortOrder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\BooleanConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\ExpandEnumAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSApplicationFolder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\ExclusiveStandardValuesAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\BooleanPropertyDescriptor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\PropertyValueUIService.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\ResourceAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\SortIDAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\SimpleSite.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\UIChecks.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UIChecks.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\AttributeCollectionExtension.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\StandardValue.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSDialogBase.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\UICustomSchedule.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UICustomSchedule.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\StandardValueEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\PropertyValuePaintEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignTime\StandardValueEditorUI.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>StandardValueEditorUI.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSEulaDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSBaseFolder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\KeyOutputPropertyConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSFinishDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSCustomFolder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\UISchedules.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UISchedules.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSFolder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\InstallerLanguagesEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSInstallFolderDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\AppMappingsPropertyConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Engine.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\AssemblyCheck.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\AppMappingsPropertyEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSProgressDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\InstalledPackages.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\baseExitCode.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\OpenRtfFileDialogEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\UIExitCodes.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UIExitCodes.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\OpenRtfFileConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRadioButtonsDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\PackageInfo.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\OutputsPropertyConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\PackageManifest.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\BootstrapperProduct.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\InstallCheck.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\OutputsPropertyEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\BuiltInProperties.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSReadmeDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\ByPassIf.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\InstallCondition.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\LocString.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\Command.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DependenciesPropertyEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSFolders.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DependenciesPropertyConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\MsiProductCheck.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSGACFolder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\CommandsNode.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\SpecialFolderType.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\DefaultExitCode.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\Package.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRegisterUserDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\Element.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\InstallerIconEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSSplashDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSSpecialFolder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\Exceptions.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\PackageFile.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\ExitCode.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\ExternalCheck.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\PackageFilesNode.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\InstallerLocalizationEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\FailIf.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\Product.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\FileCheck.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\RegistryCheck.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\InstallerNewCodeEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\Globals.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\TreeViewNodeSorter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\RegistryFileCheck.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\UIInstallConditions.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UIInstallConditions.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSSearches.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\Relationships.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\InstallerPrerequisitesEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\Schedule.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\Manifests\ValueProperty.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSLaunchConditions.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\InstallerMyPrerequisitesEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\SourcePathPropertyConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSSearchRegistry.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\RootRegistryEntries.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSTextboxesDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\MessageBoxEx.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSSearchComponent.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\MessageBoxExButtons.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\MessageBoxExIcon.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\SplashBitmapEditor.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\SplashBitmapConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\MessageBoxExButton.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\TargetNamePropertyConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VsWiXProject.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\TimeoutResult.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSUserInterface.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\MessageBoxExResult.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSSearchFile.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSSearchFileFolderConverter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSWebFolderDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\MessageBoxExManager.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DesignerFactory.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FileTypesView.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>FileTypesView.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\EmptyEvent.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSSearchBase.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSWelcomeDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSLaunchCondition.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRegistry.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\Resources.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ErrorList.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSComponentBase.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\OutputWindowHelper.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXAdminUISequence.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\HierarchyEventArgs.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRegistryKey.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXBinary.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\HierarchyListener.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FileSystemView.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>FileSystemView.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\UIInstallFile.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UIInstallFile.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRegistryKeys.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXControl.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISCertificate.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\LaunchConditionsView.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>LaunchConditionsView.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\LC_TreeViewNodeSorter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISCertificateRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRegistryValueBase.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISHttpHeader.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXCustom.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISSchema.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSRegistryValueType.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISMimeMap.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSComponent.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISRecycleTime.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebSite.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebAddress.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSComponentGroup.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebVirtualDir.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSComponentGroups.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\UtilSchema.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSComponents.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebApplication.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\UtilGroup.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebApplicationExtension.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VSCustomActionDLL.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\UtilGroupRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\UILooseFiles.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UILooseFiles.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebAppPool.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXDialogRef.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ListViewEditor.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>ListViewEditor.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebDir.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXInstallExecuteSequence.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\WiXInstallUISequence.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ListViewColumnSorter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\CustomTreeViewComboBox.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebDirProperties.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebError.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\VsPackage.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\UIPackage.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UIPackage.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ADXDefaultRegistryRootAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebFilter.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebLog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ADXProvideSolutionProps.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebProperty.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IISWebServiceExtension.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\UIPackages.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UIPackages.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ADXPackageRegistrationAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ADXInstalledProductRegistrationAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\UIRelationships.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UIRelationships.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ADXProvideAutoLoadAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ADXProvideMenuResourceAttribute.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\Hive.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\RegHive.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\RegKey.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\RegPkgContext.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\DTEHelperObject.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\RegistryView.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>RegistryView.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\RegistryFileUtils.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\RegistryFile.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\RegistryValue.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\TreeViewEditor.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>TreeViewEditor.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\Extensions.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\UserInterfaceView.Designer.cs">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>UserInterfaceView.resx</DependentUpon>
+      <DesignTimeSharedInput>true</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\IApplicationContext.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ExceptionManager.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FormSelectFolder.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FormSelectIcon.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\ErrorForm.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\InstalledProducts.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\PrerequisitesForm.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FormAssemblyFiles.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FormDependenciesOutputs.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FormMapping.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FormMappings.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\SelectFromGACDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FormNewCode.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FormPrerequisites.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FormSelectDialog.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.Prerequisites\AddFile.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FormAddProjectOutput.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\FormSelectItemInProject.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddinExpress.Installer.WiXDesigner\MessageBoxExForm.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+      <SubType>Form</SubType>
+    </Compile>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FormSelectFolder.resx">
+      <DependentUpon>FormSelectFolder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FormSelectIcon.resx">
+      <DependentUpon>FormSelectIcon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\ErrorForm.resx">
+      <DependentUpon>ErrorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\InstalledProducts.resx">
+      <DependentUpon>InstalledProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\PrerequisitesForm.resx">
+      <DependentUpon>PrerequisitesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FormAssemblyFiles.resx">
+      <DependentUpon>FormAssemblyFiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FormDependenciesOutputs.resx">
+      <DependentUpon>FormDependenciesOutputs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FormMapping.resx">
+      <DependentUpon>FormMapping.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FormMappings.resx">
+      <DependentUpon>FormMappings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\SelectFromGACDialog.resx">
+      <DependentUpon>SelectFromGACDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FormNewCode.resx">
+      <DependentUpon>FormNewCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FormPrerequisites.resx">
+      <DependentUpon>FormPrerequisites.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FormSelectDialog.resx">
+      <DependentUpon>FormSelectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\AddFile.resx">
+      <DependentUpon>AddFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FormAddProjectOutput.resx">
+      <DependentUpon>FormAddProjectOutput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FormSelectItemInProject.resx">
+      <DependentUpon>FormSelectItemInProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\MessageBoxExForm.resx">
+      <DependentUpon>MessageBoxExForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\BuildResultsControl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BuildResultsControl.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\ExternalCheck.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExternalCheck.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\ViewControlBase.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ViewControlBase.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\FileCheck.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FileCheck.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\GACCheck.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GACCheck.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\MsiProductCheck.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MsiProductCheck.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\WiXEngine.UserInterface\UIMultiLangResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UIMultiLangResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\CustomActionsView.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CustomActionsView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\RegistryCheck.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegistryCheck.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\RegistryFileCheck.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegistryFileCheck.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\Relationship.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Relationship.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\ErrorView.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\WiXEngine.UserInterface\UIResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UIResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\MyPrerequisites\MyResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MyResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\UIChecks.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UIChecks.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\UICustomSchedule.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UICustomSchedule.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\DesignTime\StandardValueEditorUI.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StandardValueEditorUI.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\UISchedules.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UISchedules.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\UIExitCodes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UIExitCodes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\UIInstallConditions.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UIInstallConditions.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FileTypesView.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FileTypesView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\FileSystemView.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FileSystemView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\UIInstallFile.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UIInstallFile.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\LaunchConditionsView.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LaunchConditionsView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\UILooseFiles.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UILooseFiles.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\ListViewEditor.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ListViewEditor.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\UIPackage.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UIPackage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\UIPackages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UIPackages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.Prerequisites\UIRelationships.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UIRelationships.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\RegistryView.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegistryView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\TreeViewEditor.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TreeViewEditor.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddinExpress.Installer.WiXDesigner\UserInterfaceView.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserInterfaceView.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Resource Include="resources\file.ico" />
+    <Resource Include="docs\projectproperties.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

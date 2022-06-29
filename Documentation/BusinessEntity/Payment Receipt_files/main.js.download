@@ -1,0 +1,284 @@
+var utils = {
+
+	// utils.convertDate(feeModel,"feeReceiptDate");
+	convertDate : function(model, dateAttrName) {
+		var initialDate = model[dateAttrName];
+		if (!initialDate)
+			return undefined;
+		initialDate += "";
+		var targetDate = (initialDate.replace("-", "/").replace("-", "/"));
+
+		model[dateAttrName] = targetDate;
+
+	}
+
+};
+
+(function boot() {
+
+	$
+			.ajax({
+				url : "rest/GlobalParams",
+				contentType : "application/json"
+			})
+			.done(
+					function(uiData) {
+
+			
+
+						function AuthService($rootScope, $location) {
+
+							var auth = {};
+
+							//Saves the current user in the root scope Call  this in the app run() method
+							 
+							auth.init = function() {
+								if (auth.isLoggedIn()) {
+									$rootScope.currentUser = auth.currentUser();
+								}
+							};
+
+							auth.logout = function() {
+								sessionStorage.clear();
+								delete $rootScope.userId;
+								delete $rootScope.roles;
+							};
+
+							auth.checkPermissionForView = function(view) {
+								if (!view.requiresAuthentication) {
+									return true;
+								}
+
+								return userHasPermissionForView(view);
+							};
+
+							var userHasPermissionForView = function(view) {
+								if (!auth.isLoggedIn()) {
+									return false;
+								}
+
+								if (!view.permissions
+										|| !view.permissions.length) {
+									return true;
+								}
+
+								return auth.userHasPermission(view.permissions);
+							};
+
+							auth.userHasPermission = function(permissions) {
+								if (!auth.isLoggedIn()) {
+									return false;
+								}
+
+								var found = false;
+								if (!sessionStorage.user_permissions) {
+									found = false;
+									return;
+								}
+								var foundPerm = JSON
+										.parse(sessionStorage.user_permissions);
+								angular.forEach(permissions, function(
+										permission, index) {
+									// if
+									// (sessionStorage.user_permissions.indexOf(permission)
+									// >= 0){
+									angular.forEach(foundPerm.roleList,
+											function(perm, ind) {
+												// console.log(perm);
+												// console.log(permission);
+												// console.log(perm ===
+												// permission);
+												if (perm === permission) {
+													found = true;
+													return;
+												}
+											});
+								});
+
+								return found;
+							};
+
+							auth.currentUser = function() {
+								sessionStorage.currentUser = sessionStorage.userId;
+								var currUser = {
+									username : sessionStorage.currentUser,
+									roleList : []
+								};
+								if ($rootScope.roles
+										&& Array === $rootScope.roles.constructor) {
+									// sessionStorage.user_permissions =
+									// sessionStorage.user_permissions.concat($rootScope.roles);
+									currUser.roleList = $rootScope.roles;
+									sessionStorage.user_permissions = JSON
+											.stringify(currUser);
+								} else {
+									if (($rootScope.roles != undefined)
+											|| !($rootScope.roles == null)) {
+										// var found = [];
+										// found.push($rootScope.roles);
+										// sessionStorage.user_permissions =
+										// found;
+										currUser.roleList
+												.push($rootScope.roles);
+										sessionStorage.user_permissions = JSON
+												.stringify(currUser);
+									}
+								}
+								// sessionStorage.user_permissions =
+								// ["Admin","User"];
+								// console.log(sessionStorage.user_permissions);
+								return sessionStorage.currentUser;
+							};
+
+							auth.isLoggedIn = function() {
+								return sessionStorage.getItem("userId") != null;
+							};
+
+							return auth;
+						}
+						;
+
+						module();
+
+						angular.module("AZ_PORTAL").factory('AuthService',AuthService);
+
+						angular
+								.module("AZ_PORTAL")
+								.run(
+										function($http, $rootScope, $log,
+												$location, AuthService, GLOBAL,
+												editableOptions) {
+											editableOptions.theme = 'bs3';
+											// // bootstrap3 theme. Can be
+											// also 'bs2', 'default'
+
+											$rootScope.UI = {
+												APP_NAME : uiData.appName,
+												DEPART_NAME : uiData.depName,
+												LOGIN : uiData.login,
+												FEEDBACK : uiData.feedBack,
+												AGENCY_ID : uiData.agencyId,
+												SAS_HOME : uiData.sasHome,
+												APP_HOME : uiData.appHome,
+												PWD_RESET: uiData.pwdReset,
+												ACC_REG: uiData.accReg
+											};
+
+											if (!uiData.login) {
+												$rootScope.userId = "anonymous";
+												sessionStorage.setItem(
+														"userId", "anonymous");
+											} else {
+												// console.log("clear session")
+												// sessionStorage.clear();
+											}
+											;
+
+											$rootScope
+													.$on(
+															"$routeChangeStart",
+															function(event,
+																	next,
+																	current) {
+
+																$rootScope.CURRENT_SCREEN = null;
+																if (current)
+																	$rootScope.CURRENT_SCREEN = current.templateUrl;
+
+																if (next)
+																	$rootScope.CURRENT_SCREEN = next.templateUrl;
+
+																$rootScope.messageCenter = {};
+																// console.log($rootScope.roles);
+																AuthService
+																		.init();
+																// console.log(!AuthService.checkPermissionForView(next))
+																if (!AuthService
+																		.checkPermissionForView(next)) {
+																	event
+																			.preventDefault();
+																	GLOBAL.LOGIN_SUCCESS_PAGE = next.originalPath;
+																	$location
+																			.path("/login");
+																}
+																// $log.debug("CURRENT
+																// SCREEN:
+																// "+$rootScope.CURRENT_SCREEN);
+															});
+											$rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+										        $rootScope.title = current.$$route.title;
+										    });
+
+										});
+
+						angular.module("AZ_PORTAL").config(
+								[ '$routeProvider','GLOBAL', route ]);
+
+						initTranslations();
+						initInterceptors(uiData);
+
+						angular.module("AZ_PORTAL")
+								.service(
+										"alertService",
+										function($injector) {
+
+											var service = this;
+
+											service.success = function(message,
+													detail) {
+												$injector.get('toastr')
+														.success(message,
+																detail);
+											};
+
+											service.fail = function(message,
+													detail) {
+												$injector.get('toastr').error(
+														message, detail);
+											};
+										});
+
+						angular
+								.module("AZ_PORTAL")
+								.controller(
+										"ScrollCtrl",
+										function($document) {
+
+											var vm = this;
+
+											vm.sections = [];
+
+											angular
+													.forEach(
+															angular
+																	.element($document[0]
+																			.querySelectorAll(".scroll-section")),
+															function(value, key) {
+
+																var id = value
+																		.getAttribute("id");
+
+																vm.sections
+																		.push(id);
+
+															});
+
+										});
+
+						initMasks();
+
+						services();
+						controllers();
+						directives();
+						filters();
+
+						loadFeedBackPlugin();
+						loadSecurityPlugin();
+
+						angular.bootstrap(document, [ "AZ_PORTAL" ]);
+
+						// end of the boot request
+					});
+
+	// end of boot function;
+})();

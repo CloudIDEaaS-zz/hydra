@@ -1,0 +1,76 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+ paths:
+   include:
+     - Hydra.Apps.ImageBuilder
+
+resources:
+- repo: self
+  fetchDepth: 1
+
+variables:
+
+  component: 'hydra.apps.imagebuilder'
+  release: 'hydraappsimagebuilder'
+  projectName: 'Hydra.Apps.ImageBuilder'
+  projectfilePath: '$(projectName)/$(projectName).pyproj'
+  tag: '$(Build.BuildId)'
+  system.debug: true
+
+  # Agent VM image name
+  vmImageName: 'windows-latest'
+  buildConfiguration: 'Release'
+  versionNumber: $[format('{0}.{1}', variables['Build.BuildNumber'], variables['Build.BuildId'])]
+
+stages:
+- stage: CopyToHydraServices
+  displayName: Copy to the HydraServices Virtual Machine
+  condition: true
+  jobs:
+    - job: Copy
+      displayName: Copy
+      pool:
+        vmImage: $(vmImageName)
+      steps:
+      - task: ArchiveFiles@2
+        inputs:
+          rootFolderOrFile: '$(Build.SourcesDirectory)/Hydra.Apps.ImageBuilder'
+      - task: AzureFileCopy@4
+        inputs:
+          SourcePath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+          azureSubscription: 'CloudIDEaaS Azure subscription(ae1dd601-97d2-4921-a35b-370da2ccebec)'
+          Destination: 'AzureVMs'
+          storage: 'hydracopystorage'
+          resourceGroup: 'CLOUDIDEAASRESOURCEGROUP'
+          MachineNames: 'hydraservices'
+          vmsAdminUserName: 'HydraAdmin'
+          vmsAdminPassword: 'tMFVRCOMx!EA%CSUrP#xMJkG'
+          TargetPath: 'C:\CodeUploads\Hydra.Apps.ImageBuilder'
+          AdditionalArgumentsForBlobCopy: '--log-level=DEBUG'
+          AdditionalArgumentsForVMCopy: '--log-level=DEBUG'
+          enableCopyPrerequisites: true
+          CleanTargetBeforeCopy: true
+
+- stage: FTPUploadToUbuntu
+  displayName: FTP Upload To Ubuntu
+  dependsOn: CopyToHydraServices
+  condition: and(true, succeeded())
+  jobs:
+  - job: RunFTPPSScript
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+      - checkout: none
+      - task: PowerShellOnTargetMachines@3
+        inputs:
+          Machines: '20.83.249.146'
+          UserName: 'HydraAdmin'
+          UserPassword: 'tMFVRCOMx!EA%CSUrP#xMJkG'
+          ScriptType: 'FilePath'
+          ScriptPath: 'C:\ServerConfig\FTPUploadToUbuntu.ps1'
+          SessionVariables: '$DjangoFTPPassword="[3rER4sXAk@m"'
+

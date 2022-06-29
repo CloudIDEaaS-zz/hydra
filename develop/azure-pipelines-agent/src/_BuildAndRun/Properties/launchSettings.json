@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "_BuildAndRun": {
+      "commandName": "Executable",
+      "executablePath": "D:\\MC\\CloudIDEaaS\\root\\azure-pipelines-agent\\_layout\\win-x64\\bin\\Agent.Listener.exe",
+      "commandLineArgs": "run --once",
+      "workingDirectory": "D:\\MC\\CloudIDEaaS\\root\\azure-pipelines-agent\\_layout\\win-x64\\bin"
+    }
+  }
+}

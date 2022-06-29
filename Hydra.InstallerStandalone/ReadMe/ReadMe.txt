@@ -1,14 +1,12 @@
-﻿Steps to build:
-		Set configuration to PreRelease
-		Build ApplicationGenerator with Shift Key held down
-		Look for message box asking "Clean Hydra.Installer files?".  Click "Yes"
-		Follow instructions below starting with step #4
+﻿Manual steps:
+
+If WIX editor screens do not show:
+https://marketplace.visualstudio.com/items?itemName=Add-inExpress.DesignerforVisualStudioWiXSetupProjects&ssr=false#qna
 
 In Hydra.InstallerStandalone, update dependencies:
 	Go into Product.wxs.. 
 	Assure deletion of all elements under Feature Element
 	Assure deletion of all elements under Directory Element which is under Fragment
-		(For all those above, should be done automatically by building ApplicationGenerator as "PreRelease" configuration.  See ApplicationGeneratorBuildTasks\CleanHydraInstaller.cs)
 		
 	Right click project.. View WiX Editors.. File System Editor
 	Right Application Folder project.. Add.. Project Output

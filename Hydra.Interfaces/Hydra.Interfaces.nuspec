@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Hydra.Interfaces</id>
+    <version>1.0.0.483</version>
+    <authors>CloudIDEaaS</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">Hydra - EULA.txt</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <icon>HydraPackage.png</icon>
+    <projectUrl>https://github.com/CloudIDEaaS/hydra</projectUrl>
+    <description>Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes.</description>
+    <copyright>Copyright ©  2018 CloudIDEaaS</copyright>
+    <tags>codegen app generation code generation code scaffolding rapid application development .net .net core sql server entity framework core mobile app docker helm azure devops kubernetes</tags>
+    <repository type="Github" url="https://github.com/CloudIDEaaS/hydra" />
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" src="D:\MC\CloudIDEaaS\develop\Hydra.Interfaces\bin\Debug\netcoreapp3.1\Hydra.Interfaces.deps.json" target="lib\netcoreapp3.1\Hydra.Interfaces.deps.json" xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd" />
+    <file xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" src="D:\MC\CloudIDEaaS\develop\Hydra.Interfaces\bin\Debug\netcoreapp3.1\Hydra.Interfaces.dll" target="lib\netcoreapp3.1\Hydra.Interfaces.dll" xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd" />
+    <file xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" src="D:\MC\CloudIDEaaS\develop\Hydra.Interfaces\bin\Debug\netcoreapp3.1\Hydra.Interfaces.pdb" target="lib\netcoreapp3.1\Hydra.Interfaces.pdb" xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd" />
+    <file xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" src="D:\MC\CloudIDEaaS\develop\Hydra.Interfaces\bin\Debug\netcoreapp3.1\Utils.Core.dll" target="lib\netcoreapp3.1\Utils.Core.dll" xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd" />
+    <file xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" src="D:\MC\CloudIDEaaS\develop\Hydra.Interfaces\bin\Debug\netcoreapp3.1\Utils.Core.pdb" target="lib\netcoreapp3.1\Utils.Core.pdb" xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd" />
+    <file xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" src="D:\MC\CloudIDEaaS\develop\Utils.Core\bin\Debug\netcoreapp3.1\System.Runtime.dll" target="lib\netcoreapp3.1\System.Runtime.dll" xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd" />
+    <file xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" src="D:\MC\CloudIDEaaS\develop\Utils.Core\bin\Debug\netcoreapp3.1\Utils.Core.deps.json" target="lib\netcoreapp3.1\Utils.Core.deps.json" xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd" />
+    <file xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" src="D:\MC\CloudIDEaaS\develop\ApplicationGenerator.Interfaces\images\HydraPackage.png" target="HydraPackage.png" xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd" />
+    <file xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" src="D:\MC\CloudIDEaaS\develop\Hydra.InstallerStandalone\Hydra - EULA.txt" target="Hydra - EULA.txt" xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd" />
+  </files>
+</package>

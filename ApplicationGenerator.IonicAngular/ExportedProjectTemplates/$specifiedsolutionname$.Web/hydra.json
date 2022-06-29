@@ -1,0 +1,22 @@
+{
+  "appName": "$appname$",
+  "appDescription": "$appdescription$",
+  "organizationName": "$registeredorganization$",
+  "solutionPath": "..\\..\\$specifiedsolutionname$.sln",
+  "servicesProjectPath": "..\\..\\$specifiedsolutionname$.Services\\$specifiedsolutionname$.Services.csproj",
+  "entitiesProjectPath": "..\\..\\$specifiedsolutionname$.Entities\\$specifiedsolutionname$.Entities.csproj",
+  "webProjectPath": "..\\..\\$specifiedsolutionname$.Web\\$specifiedsolutionname$.Web.csproj",
+  "webFrontEndRootPath": "..\\..\\$specifiedsolutionname$.Web\\$specifiedsolutionname$",
+  "generatorMode": "Console",
+  "generatorKind": "App",
+  "generatorHandlerType": "Ionic/Angular",
+  "argumentsKind": null,
+  "generatorOptions":
+  {
+    "defaultGeneratorOptions":
+    {
+      "printMode": "PrintUIHierarchyPathAndModuleAssembliesStackOnly",
+      "generatorPass": "All"
+    }
+  }
+}

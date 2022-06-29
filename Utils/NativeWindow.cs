@@ -9,11 +9,15 @@ namespace Utils
     public class NativeWindow : System.Windows.Forms.NativeWindow, IDisposable
     {
         private Func<Message, bool> msgProc;
+        private bool callBaseMethodFirst;
         private Action<Message> msgPostProc;
+        private ControlExtensions.MsgProc msgProcByRef;
+        private ControlExtensions.MsgPostProc msgPostProcByRef;
 
-        public NativeWindow(Func<Message, bool> msgProc)
+        public NativeWindow(Func<Message, bool> msgProc, bool callBaseMethodFirst = false)
         {
             this.msgProc = msgProc;
+            this.callBaseMethodFirst = callBaseMethodFirst;
         }
 
         public NativeWindow(Func<Message, bool> msgProc, Action<Message> msgPostProc)
@@ -35,16 +39,62 @@ namespace Utils
             this.msgPostProc = msgPostProc;
         }
 
-        protected override void WndProc(ref Message m)
+        public NativeWindow(ControlExtensions.MsgProc msgProcByRef, ControlExtensions.MsgPostProc msgPostProcByRef)
         {
-            if (msgProc(m))
+            this.msgProcByRef = msgProcByRef;
+            this.msgPostProcByRef = msgPostProcByRef;
+        }
+
+        protected unsafe override void WndProc(ref Message m)
+        {
+            if (msgProc != null)
             {
-                base.WndProc(ref m);
+                if (msgProc(m))
+                {
+                    if (callBaseMethodFirst)
+                    {
+                        var result = m.Result;
+
+                        base.WndProc(ref m);
+
+                        m.Result = result;
+                    }
+                    else
+                    {
+                        base.WndProc(ref m);
+                    }
+                }
+            }
+            else if (msgProcByRef != null)
+            {
+                if (msgProcByRef(ref m))
+                {
+                    if (callBaseMethodFirst)
+                    {
+                        var result = m.Result;
+
+                        base.WndProc(ref m);
+
+                        m.Result = result;
+                    }
+                    else
+                    {
+                        base.WndProc(ref m);
+                    }
+                }
+            }
+            else
+            {
+                DebugUtils.Break();
             }
 
             if (msgPostProc != null)
             {
                 msgPostProc(m);
+            }
+            else if (msgPostProcByRef != null)
+            {
+                msgPostProcByRef(ref m);
             }
         }
 

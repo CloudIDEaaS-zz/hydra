@@ -98,6 +98,12 @@ namespace PackageCacheStatus
                 cacheStatusProperties.RequestedRemaining = status.RequestedRemaining;
                 cacheStatusProperties.StatusSummary = status.StatusSummary;
                 cacheStatusProperties.StatusText = status.StatusText;
+
+                if (cacheStatusProperties.RequestedRemaining < 0)
+                {
+                    DebugUtils.Break();
+                }
+
             });
         }
 
@@ -119,6 +125,7 @@ namespace PackageCacheStatus
                 cacheStatusProperties.InstallStatus = status.InstallStatus;
                 cacheStatusProperties.LastUpdate = DateTime.Now == DateTime.MinValue ? string.Empty : DateTime.Now.ToDateTimeText();
                 cacheStatusProperties.MemoryStatus = new MemoryStatusProperties(status.MemoryStatus);
+                cacheStatusProperties.StatusProgressPercent = status.StatusProgressPercent;
 
                 if (status.NoCaching)
                 {
@@ -126,7 +133,7 @@ namespace PackageCacheStatus
                 }
                 else
                 {
-                    toolStripAlert1.Text = null;
+                    toolStripAlert1.Text = "Caching enabled";
                 }
 
                 if (status.NoInstallFromCache)
@@ -135,7 +142,7 @@ namespace PackageCacheStatus
                 }
                 else
                 {
-                    toolStripAlert2.Text = null;
+                    toolStripAlert2.Text = "Install from cache enabled";
                 }
 
                 if (cacheStatusAgent.LastAttemptedUpdate != DateTime.MinValue)
@@ -190,7 +197,7 @@ namespace PackageCacheStatus
                 {
                     var statusReportDirectory = new DirectoryInfo(Path.Combine(cacheStatusProperties.PackageCachePath, "reports"));
                     var statusReportFile = Path.Combine(statusReportDirectory.FullName, DateTime.Now.ToSortableDateTimeText() + ".json");
-                    var jsonReport = cacheStatusProperties.ToJson();
+                    var jsonReport = cacheStatusProperties.ToJsonText();
 
                     if (!statusReportDirectory.Exists)
                     {
@@ -650,7 +657,7 @@ namespace PackageCacheStatus
         {
             progressBar.ProgressBar.Visible = true;
 
-            return progressBar.AsDisposable(() =>
+            return progressBar.CreateDisposable(() =>
             {
                 if (delayHide)
                 {

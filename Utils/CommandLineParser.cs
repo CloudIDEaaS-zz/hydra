@@ -40,7 +40,11 @@ namespace Utils
                 if (!string.IsNullOrEmpty(str))
                 {
                     int colonIndex;
+                    int equalsIndex;
+                    int spaceIndex;
                     string colonArgument = null;
+                    string equalsArgument = null;
+                    string spaceArgument = null;
 
                     str = str.Trim();
 
@@ -49,22 +53,47 @@ namespace Utils
                         if ((str[0] == '/') || (str[0] == '-'))
                         {
                             str = str.Substring(1);
+
+                            if ((str[0] == '-'))
+                            {
+                                str = str.Substring(1);
+                            }
                         }
                         else
                         {
-                            parseArg((T) result, str);
+                            parseArg((T)result, str);
                             continue;
                         }
 
+                        equalsIndex = str.IndexOf('=');
                         colonIndex = str.IndexOf(':');
+                        spaceIndex = str.IndexOf(' ');
 
-                        if (colonIndex != -1)
+                        if (equalsIndex != -1)
+                        {
+                            equalsArgument = str.Right(str.Length - equalsIndex - 1);
+                            str = str.Left(equalsIndex);
+
+                            parseSwitch((T)result, str, equalsArgument);
+                        }
+                        else if (colonIndex != -1)
                         {
                             colonArgument = str.Right(str.Length - colonIndex - 1);
                             str = str.Left(colonIndex);
-                        }
 
-                        parseSwitch((T) result, str, colonArgument);
+                            parseSwitch((T)result, str, colonArgument);
+                        }
+                        else if (spaceIndex != -1)
+                        {
+                            spaceArgument = str.Right(str.Length - spaceIndex - 1);
+                            str = str.Left(spaceIndex);
+
+                            parseSwitch((T)result, str, spaceArgument);
+                        }
+                        else
+                        {
+                            parseSwitch((T)result, str, null);
+                        }
                     }
                 }
             }

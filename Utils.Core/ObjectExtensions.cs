@@ -11,6 +11,36 @@ namespace Utils
 {
     public static class ObjectExtensions
     {
+        public static T CreateCopy<T>(this object objFrom) where T : new()
+        {
+            var objTo = Activator.CreateInstance<T>();
+
+            objFrom.CopyTo(objTo);
+
+            return objTo;
+        }
+
+        public static void CopyTo(this object objFrom, object objTo)
+        {
+            var properties = objFrom.GetPublicProperties();
+
+            foreach (var propertyInfoFrom in properties)
+            {
+                if (objTo.HasProperty(propertyInfoFrom.Name))
+                {
+                    var propertyInfoTo = objTo.GetProperty(propertyInfoFrom.Name);
+
+                    if (propertyInfoTo.PropertyType.IsAssignableFrom(propertyInfoFrom.PropertyType))
+                    {
+                        if (propertyInfoTo.CanWrite)
+                        {
+                            objTo.SetPropertyValue(propertyInfoTo.Name, objFrom.GetPropertyValue<object>(propertyInfoFrom.Name));
+                        }
+                    }
+                }
+            }
+        }
+
         public static object NullToZero(this object obj)
         {
             return obj == null ? 0 : obj;
@@ -55,7 +85,7 @@ namespace Utils
 
             stopWatch.Start();
 
-            return notUsed.AsDisposable(() =>
+            return notUsed.CreateDisposable(() =>
             {
                 stopWatch.Stop();
                 func(stopWatch.Elapsed);

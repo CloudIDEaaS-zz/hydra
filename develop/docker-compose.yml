@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  hydradevops.automation:
+    image: ${DOCKER_REGISTRY-}hydradevopsautomation
+    build:
+      context: .
+      dockerfile: HydraDevOps.Automation\Dockerfile

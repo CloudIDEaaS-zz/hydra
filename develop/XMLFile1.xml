@@ -1,0 +1,46 @@
+﻿<x:xmpmeta xmlns:x="adobe:ns:meta/">
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+		<rdf:Description rdf:about="uuid:faf5bdd5-ba3d-11da-ad31-d33d75182f1b" xmlns:dc="http://purl.org/dc/elements/1.1/">
+			<dc:title>
+				<rdf:Alt xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+					<rdf:li xml:lang="x-default">End User License Image</rdf:li>
+				</rdf:Alt>
+			</dc:title>
+			<dc:description>
+				<rdf:Alt xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+					<rdf:li xml:lang="x-default">End User License Image</rdf:li>
+				</rdf:Alt>
+			</dc:description>
+			<dc:rights>
+				<rdf:Alt xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+					<rdf:li xml:lang="x-default">Copyright 2021</rdf:li>
+				</rdf:Alt>
+			</dc:rights>
+			<dc:subject>
+				<rdf:Bag xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+					<rdf:li>Licenses</rdf:li>
+					<rdf:li>EULA</rdf:li>
+				</rdf:Bag>
+			</dc:subject>
+		</rdf:Description>
+		<rdf:Description rdf:about="uuid:faf5bdd5-ba3d-11da-ad31-d33d75182f1b" xmlns:dc="http://purl.org/dc/elements/1.1/">
+			<dc:creator>
+				<rdf:Seq xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+					<rdf:li>Us</rdf:li>
+				</rdf:Seq>
+			</dc:creator>
+		</rdf:Description>
+		<rdf:Description xmlns:xmp="http://ns.adobe.com/xap/1.0/">
+			<xmp:Rating>5</xmp:Rating>
+		</rdf:Description>
+		<rdf:Description xmlns:MicrosoftPhoto="http://ns.microsoft.com/photo/1.0/">
+			<MicrosoftPhoto:Rating>90</MicrosoftPhoto:Rating>
+			<MicrosoftPhoto:LastKeywordXMP>
+				<rdf:Bag xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+					<rdf:li>Licenses</rdf:li>
+					<rdf:li>EULA</rdf:li>
+				</rdf:Bag>
+			</MicrosoftPhoto:LastKeywordXMP>
+		</rdf:Description>
+	</rdf:RDF>
+</x:xmpmeta>

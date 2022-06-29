@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NetCoreReflectionShim.Service": {
+      "commandName": "Project",
+      "commandLineArgs": "-testCrashAnalyzer"
+    }
+  }
+}

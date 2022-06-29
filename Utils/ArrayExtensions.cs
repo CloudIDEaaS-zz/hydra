@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices; 
 
 namespace Utils
-{ 
+{
     public class ArrayBuilder
     { 
         public byte[] Data { get; private set; }
@@ -33,8 +33,21 @@ namespace Utils
     public static class ArrayExtensions
     {
 #if !SILVERLIGHT
-        [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
+        [DllImport("msvcrt.dll", EntryPoint = " ", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
         public unsafe static extern IntPtr MemSet(byte* dest, int c, int count);
+
+        public static unsafe float[] ToFloatArray(this byte[] bytes, int readCount)
+        {
+            var floatCount = readCount / 4;
+            var ptr = stackalloc float[floatCount];
+            var nPtr = (IntPtr)ptr;
+            var floatArray = new float[floatCount];
+
+            Marshal.Copy(bytes, 0, nPtr, readCount);
+            Marshal.Copy(nPtr, floatArray, 0, floatCount);
+
+            return floatArray;
+        }
 
         public static void Xor(this byte[] bytes, byte[] with)
         {
@@ -62,6 +75,11 @@ namespace Utils
         public static string ToBase64(this byte[] bytes)
         {
             return Convert.ToBase64String(bytes);
+        }
+
+        public static string FromBase64ToString(this string str)
+        {
+            return Convert.FromBase64String(str).ToText();
         }
 
         public static byte[] FromBase64(this string str)
@@ -155,6 +173,21 @@ namespace Utils
             }
 
             return bytes.ToArray();
+        }
+
+        public static string FromHexToString(this string text)
+        {
+            var bytes = new List<byte>();
+
+            for (var x = 0; x < text.Length; x += 2)
+            {
+                var byteText = text.Substring(x, 2);
+                var _byte = byte.Parse(byteText, System.Globalization.NumberStyles.HexNumber);
+
+                bytes.Add(_byte);
+            }
+
+            return ASCIIEncoding.ASCII.GetString(bytes.ToArray());
         }
 
         public static byte[] ToBytes(this string text)

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AssemblyAttributesService": {
+      "commandName": "Project",
+      "commandLineArgs": "-testCrashAnalyzer"
+    }
+  }
+}

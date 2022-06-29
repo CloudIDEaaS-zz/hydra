@@ -1,0 +1,4 @@
+ApplicationGenerator Build Tasks (in project csproj)
+Ripley.Metadata.Context.tt
+	Line 121
+ModuleImports.tt - TextTemplatingFileGenerator to TextTemplatingFileGenerator2

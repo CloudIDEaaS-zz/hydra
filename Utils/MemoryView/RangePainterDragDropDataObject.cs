@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Utils.MemoryView
 {
-    public abstract class RangePainterDragDropDataObject : TextRange, IDataObject
+    public abstract class RangePainterDragDropDataObject : TextRange, System.Windows.Forms.IDataObject
     {
         public RangePainter RangePainter { get; set; }
         public Point MouseLocation { get; set; }

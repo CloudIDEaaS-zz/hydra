@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class AngularFormsPackage : Package
+    {
+        public AngularFormsPackage()
+        {
+            this.PackageInstalls = new string[] { "angularforms" };
+        }
+    }
+}

@@ -1,0 +1,114 @@
+trigger: none
+resources:
+  pipelines:
+  - pipeline: ApplicationGeneratorBuildDev
+    source: ApplicationGeneratorBuildDev
+    trigger:
+      branches:
+        include:
+        - feature/*
+
+variables:
+  workspace: "null"  
+  environment: "null"
+  buildConfiguration: "null"
+  releaseType: "null"
+  commitId: "null"  
+  repositoryUri: "null"
+  primaryProductBinaryName: "ApplicationGenerator.exe"
+  vmImageName: 'windows-latest'
+  system.debug: true
+  
+pool:
+  vmImage: $(vmImageName)
+
+jobs:
+  - deployment: DeployDev
+    displayName: 'Deploy to Dev'
+    condition: and(true, succeeded()) 
+    environment: dev
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                buildType: 'specific'
+                project: '441c02f9-baf2-486f-a70b-c4349004f95a'
+                definition: '176'
+                buildVersionToDownload: 'latest'
+                artifactName: 'variables'
+                targetPath: '$(Pipeline.Workspace)'
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                buildType: 'specific'
+                project: '441c02f9-baf2-486f-a70b-c4349004f95a'
+                definition: '176'
+                buildVersionToDownload: 'latest'
+                artifactName: 'PrimaryProject'
+                targetPath: '$(Pipeline.Workspace)\PrimaryProject'
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                buildType: 'specific'
+                project: '441c02f9-baf2-486f-a70b-c4349004f95a'
+                definition: '176'
+                buildVersionToDownload: 'latest'
+                artifactName: 'ReleaseInfo'
+                targetPath: '$(Pipeline.Workspace)\ReleaseInfo'
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                buildType: 'specific'
+                project: '441c02f9-baf2-486f-a70b-c4349004f95a'
+                definition: '176'
+                buildVersionToDownload: 'latest'
+                artifactName: 'ReleaseAgent'
+                targetPath: '$(Pipeline.Workspace)\ReleaseAgent'
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                buildType: 'specific'
+                project: '441c02f9-baf2-486f-a70b-c4349004f95a'
+                definition: '176'
+                buildVersionToDownload: 'latest'
+                artifactName: 'InstallerBundle'
+                targetPath: '$(Pipeline.Workspace)\InstallerBundle'
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                buildType: 'specific'
+                project: '441c02f9-baf2-486f-a70b-c4349004f95a'
+                definition: '176'
+                buildVersionToDownload: 'latest'
+                artifactName: 'Installer'
+                targetPath: '$(Pipeline.Workspace)\Installer'
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                buildType: 'specific'
+                project: '441c02f9-baf2-486f-a70b-c4349004f95a'
+                definition: '176'
+                buildVersionToDownload: 'latest'
+                artifactName: 'InstallerBundleWix'
+                targetPath: '$(Pipeline.Workspace)\InstallerBundleWix'
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                buildType: 'specific'
+                project: '441c02f9-baf2-486f-a70b-c4349004f95a'
+                definition: '176'
+                buildVersionToDownload: 'latest'
+                artifactName: 'InstallerWix'
+                targetPath: '$(Pipeline.Workspace)\InstallerWix'
+            - task: CmdLine@2
+              displayName: "List Artifacts"
+              inputs:
+                script: |
+                  cd $(Pipeline.Workspace)
+                  dir /s
+            - task: oneLuckiDevJson2Variable@1
+              inputs:
+                jsonFile: '$(Pipeline.Workspace)\variables.json'
+                shouldPrefixVariables: false
+            - task: CmdLine@2
+              displayName: Run release agent
+              inputs:
+                script: |
+                  cd $(Pipeline.Workspace) 
+                  .\ReleaseAgent\ReleaseAgent.exe "$(Pipeline.Workspace)" "$(primaryProductBinaryName)" "$(environment)" "$(buildConfiguration)" "$(releaseType)" "$(commitId)" "(Build.BuildUri)" "$(repositoryUri)"

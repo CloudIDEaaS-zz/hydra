@@ -1,0 +1,41 @@
+﻿<#@ template language="C#" inherits="NetCoreReflectionShim.CodeGen.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="NetCoreReflectionShim.CodeGen.ReflectMemberEventHandler" name="ReflectMemberCallback" #>
+<#@ parameter type="System.Collections.Generic.List<ApiMember>" name="ApiMembers" #>
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace NetCoreReflectionShim
+{
+    public static class SwitchCommands
+    {
+        public const string DEBUG = "debug";
+        public const string WAIT_FOR_INPUT = "waitForInput";
+        public const string CWD = "cwd";
+    }
+
+    public static partial class ServerCommands
+    {
+        public const string LOAD_ASSEMBLY = "loadAssembly";
+        public const string TERMINATE = "terminate";
+        public const string CONNECT = "connect";
+        public const string PING = "ping";
+        public const string GET_VERSION = "getversion";
+<#
+    foreach (var member in this.ApiMembers)
+    {
+#>
+        public const string <#= member.CommandMember #> = "<#= member.CommandText #>";
+<#
+    }
+#>
+    }
+}

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Utils;
+using System.ComponentModel;
+using Utils.PortableExecutable.Enums;
 
 namespace Utils.PortableExecutable
 {
-    [DebuggerDisplay(" { DebugInfo } ")]
-    public class Section
+    [DebuggerDisplay(" { DebugInfo } "), TreeImage(@"..\Images\Section{ Name }.png"), TreeBackupImage(@"..\Images\Section.unknown.png")]
+    public class Section : IImageLayoutItem
     {
         public string Name { get; set; }
         public ulong VirtualSize { get; set; }
@@ -18,7 +21,18 @@ namespace Utils.PortableExecutable
         public ulong PointerToLinenumbers { get; set; }
         public ushort NumberOfRelocations { get; set; }
         public ushort NumberOfLinenumbers { get; set; }
-        public ulong Characteristics { get; set; }
+        public DataSectionFlags Characteristics { get; set; }
+        public byte[] SectionData { get; set; }
+        public ulong Size { get; set; }
+        public Guid UniqueId { get; private set; } 
+		[Browsable(false)]
+		public ISite Site { get; set; }
+		public event EventHandler Disposed;
+
+        public Section()
+        {
+            this.UniqueId = Guid.NewGuid();
+        }
 
         public string DebugInfo
         {
@@ -27,5 +41,10 @@ namespace Utils.PortableExecutable
                 return string.Format("Name: {0}, VirtualAddress: 0x{1:x8}, VirtualSizeHex: 0x{2:x8}, VirtualSize: {2}, RawSizeHex: 0x{3:x8}, RawSize: {3}", this.Name, this.VirtualAddress, this.VirtualSize, this.SizeOfRawData);
             }
         }
+
+		public void Dispose()
+		{
+			this.Raise(Disposed);
+		}
     }
 }

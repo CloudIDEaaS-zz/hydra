@@ -56,6 +56,8 @@ namespace PackageCacheStatus
         public string StatusSummary { get; internal set; }
         [Category("Install From Cache Status"), Description("Status text")]
         public string StatusText { get; internal set; }
+        [Category("Cache Status"), Description("Percentage of status progress")]
+        public int StatusProgressPercent { get; internal set; }
 
         public CacheStatusProperties()
         {

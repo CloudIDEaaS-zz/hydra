@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace Utils
@@ -75,6 +76,32 @@ namespace Utils
         public static string ToSortableDateTimeText(this DateTime time)
         {
             return time.ToString("yyyyMMdd_HHmmss_fffffff");
+        }
+
+        public static bool IsSortableDateTimeText(string text, out DateTime dateTime)
+        {
+            var regex = new Regex(@"(?<year>\d{4})(?<month>\d{2})(?<day>\d{2})_(?<hour>\d{2})(?<minute>\d{2})(?<second>\d{2})_");
+
+            if (regex.IsMatch(text))
+            {
+                var match = regex.Match(text);
+                var year = int.Parse(match.GetGroupValue("year"));
+                var month = int.Parse(match.GetGroupValue("month"));
+                var day = int.Parse(match.GetGroupValue("day"));
+                var hour = int.Parse(match.GetGroupValue("hour"));
+                var minute = int.Parse(match.GetGroupValue("minute"));
+                var second = int.Parse(match.GetGroupValue("second"));
+
+                dateTime = new DateTime(year, month, day, hour, minute, second);
+
+                return true;
+            }
+            else
+            {
+                dateTime = DateTime.MinValue;
+
+                return false;
+            }
         }
 
         public static string ToPreciseDateTimeText(this DateTime time)

@@ -15,16 +15,50 @@ namespace Utils
 {
     public static class JsonExtensions
     {
+        public static void ChangeTo(this JToken jToken, string newValue)
+        {
+            var owner = jToken.Parent.Parent;
+            var property = (JProperty)jToken.Parent;
+
+            property.Remove();
+            owner.Add(new JProperty(property.Name, newValue));
+        }
+
         public static void WriteJson(this TextWriter writer, string text)
         {
-            text = text.Replace("'", "\"").Replace("\r\n", "");
+            //text = text.Replace("'", "\"").Replace("\r\n", "");
 
             writer.WriteLine(text);
         }
 
-        public static string ToJsonText(this object obj)
+        public static string ToJsonText(this object obj, Formatting formatting = Formatting.None, NamingStrategy namingStrategy = null)
         {
-            return JsonConvert.SerializeObject(obj);
+            var serializer = new JsonSerializer();
+            var builder = new StringBuilder();
+
+            serializer.Converters.Add(new KeyValuePairConverter());
+            serializer.Converters.Add(new StringEnumConverter());
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+            serializer.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+            serializer.Formatting = formatting;
+
+            if (namingStrategy != null)
+            {
+                serializer.ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = namingStrategy
+                };
+            }
+
+            using (var stringWriter = new StringWriter(builder))
+            {
+                using (var jsonWriter = new JsonTextWriter(stringWriter))
+                {
+                    serializer.Serialize(jsonWriter, obj);
+                }
+            }
+
+            return builder.ToString();
         }
 
         public static void WriteJson(this TextWriter writer, dynamic obj, Formatting formatting = Formatting.None, NamingStrategy namingStrategy = null)
@@ -32,8 +66,10 @@ namespace Utils
             var serializer = new JsonSerializer();
             var builder = new StringBuilder();
 
-            serializer.Converters.Add(new JavaScriptDateTimeConverter());
+            serializer.Converters.Add(new StringEnumConverter());
+            serializer.Converters.Add(new KeyValuePairConverter());
             serializer.NullValueHandling = NullValueHandling.Ignore;
+            serializer.DateFormatHandling = DateFormatHandling.IsoDateFormat;
 
             if (formatting != Formatting.None)
             {
@@ -59,17 +95,38 @@ namespace Utils
             writer.WriteLine(builder.ToString());
         }
 
-        public static T ReadJson<T>(this TextReader reader)
+        public static T Convert<T>(object obj)
+        {
+            var json = obj.ToJsonText();
+
+            return ReadJson<T>(json);
+        }
+
+        public static T ReadJson<T>(this TextReader reader, NamingStrategy namingStrategy = null)
         {
             var json = string.Empty;
             var text = reader.ReadToEnd();
 
-            return ReadJson<T>(text);
+            return ReadJson<T>(text, namingStrategy);
         }
 
-        public static T ReadJson<T>(string json)
+        public static T ReadJson<T>(string json, NamingStrategy namingStrategy = null)
         {
-            return JsonConvert.DeserializeObject<T>(json);
+            var settings = new JsonSerializerSettings();
+
+            settings.Converters.Add(new KeyValuePairConverter());
+            settings.NullValueHandling = NullValueHandling.Ignore;
+            settings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+
+            if (namingStrategy != null)
+            {
+                settings.ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = namingStrategy
+                };
+            }
+
+            return JsonConvert.DeserializeObject<T>(json, settings);
         }
 
         public static string ToJsonDynamic(this object obj, bool prettyPrint = true)
@@ -79,38 +136,58 @@ namespace Utils
             return jsonObject.ToString();
         }
 
-        public static void WriteJsonCommand(this TextWriter writer, CommandPacket commandPacket)
+        public static void WriteJsonCommand(this TextWriter writer, CommandPacket commandPacket, Action<string> textWriteCallback = null)
         {
-            writer.WriteJsonCommand(commandPacket, Environment.NewLine);
-        }
-
-        public static void WriteJsonCommand(this TextWriter writer, CommandPacket commandPacket, string lineTerminator)
-        {
-            var serializer = new JavaScriptSerializer();
-            var builder = new StringBuilder();
-
-            using (var stringWriter = new StringWriter(builder))
+            if (commandPacket.Arguments == null)
             {
-                serializer.Serialize(commandPacket, builder);
+                commandPacket.Arguments = new KeyValuePair<string, object>[0];
             }
 
-            writer.WriteLine(builder.ToString());
+            writer.WriteJsonCommand(commandPacket, Environment.NewLine, textWriteCallback);
+        }
+
+        public static void WriteJsonCommand(this TextWriter writer, CommandPacket commandPacket, string lineTerminator, Action<string> textWriteCallback = null)
+        {
+            var json = commandPacket.ToJsonText();
+
+            if (textWriteCallback != null)
+            {
+                textWriteCallback(json);
+            }
+
+            writer.WriteJson(json);
 
             if (!lineTerminator.IsNullOrEmpty())
             {
-                writer.WriteLine(lineTerminator);
-                writer.Flush();
+                writer.WriteLine(lineTerminator + lineTerminator);
             }
+
+            writer.Flush();
         }
 
-        public static CommandPacket ReadJsonCommand(this TextReader reader)
+        public static CommandPacket ReadJsonCommand(this TextReader reader, Action<string> textReadCallback = null)
         {
-            var json = string.Empty;
-            var text = reader.ReadUntil(Environment.NewLine.Repeat(2), true);
+            var jsonText = reader.ReadUntil(Environment.NewLine.Repeat(2), true);
 
-            return ReadJson<CommandPacket>(text);
+            if (textReadCallback != null)
+            {
+                textReadCallback(jsonText);
+            }
+
+            return ReadJson<CommandPacket>(jsonText);
         }
 
+        public static CommandPacket<T> ReadJsonCommand<T>(this TextReader reader, Action<string> textReadCallback = null)
+        {
+            var jsonText = reader.ReadUntil(Environment.NewLine.Repeat(2), true);
+
+            if (textReadCallback != null)
+            {
+                textReadCallback(jsonText);
+            }
+
+            return ReadJson<CommandPacket<T>>(jsonText);
+        }
 
         public static bool IsValidJson(string json)
         {
@@ -132,9 +209,36 @@ namespace Utils
                 }
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        public static Exception GetJsonExceptions(string json)
+        {
+            json = json.Trim();
+
+            try
+            {
+                if (json.StartsWith("{") && json.EndsWith("}"))
+                {
+                    JToken.Parse(json);
+                }
+                else if (json.StartsWith("[") && json.EndsWith("]"))
+                {
+                    JArray.Parse(json);
+                }
+                else
+                {
+                    return new FormatException("json does not start with a { or [");
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex;
             }
         }
 
@@ -166,7 +270,14 @@ namespace Utils
             {
                 json = token.ToString();
 
-                return ReadJson<object>(json);
+                if (IsValidJson(json))
+                {
+                    return ReadJson<object>(json);
+                }
+                else
+                {
+                    return token;
+                }
             }
             else
             {

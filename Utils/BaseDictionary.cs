@@ -77,7 +77,7 @@ namespace Utils
 
                 if (!this.TryGetValue(key, out value))
                 {
-                    throw new KeyNotFoundException();
+                    return default(TValue);
                 }
 
                 return value;

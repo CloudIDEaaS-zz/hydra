@@ -134,7 +134,7 @@ namespace Utils
                 Marshal.ZeroFreeGlobalAllocUnicode(passwordPtr);
             }
 
-            return this.AsDisposable(() => Revert());
+            return this.CreateDisposable(() => Revert());
         }
 
         public void Revert()

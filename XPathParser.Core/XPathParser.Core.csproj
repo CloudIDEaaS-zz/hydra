@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyVersion>1.0.0.104</AssemblyVersion>
+    <FileVersion>1.0.0.104</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\XPathParser\IXPathBuilder.cs" Link="IXPathBuilder.cs" />
+    <Compile Include="..\XPathParser\MaxOccursAttribute.cs" Link="MaxOccursAttribute.cs" />
+    <Compile Include="..\XPathParser\MinOccursAttribute.cs" Link="MinOccursAttribute.cs" />
+    <Compile Include="..\XPathParser\RestrictionEnumerationAttribute.cs" Link="RestrictionEnumerationAttribute.cs" />
+    <Compile Include="..\XPathParser\RestrictionPatternAttribute.cs" Link="RestrictionPatternAttribute.cs" />
+    <Compile Include="..\XPathParser\UseAttribute.cs" Link="UseAttribute.cs" />
+    <Compile Include="..\XPathParser\XPathAttribute.cs" Link="XPathAttribute.cs" />
+    <Compile Include="..\XPathParser\XPathAxis.cs" Link="XPathAxis.cs" />
+    <Compile Include="..\XPathParser\XPathOperator.cs" Link="XPathOperator.cs" />
+    <Compile Include="..\XPathParser\XPathParser.cs" Link="XPathParser.cs" />
+    <Compile Include="..\XPathParser\XPathParserException.cs" Link="XPathParserException.cs" />
+    <Compile Include="..\XPathParser\XPathScanner.cs" Link="XPathScanner.cs" />
+  </ItemGroup>
+
+</Project>

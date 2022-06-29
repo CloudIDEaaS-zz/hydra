@@ -32,7 +32,7 @@ namespace Utils
 
             originalValue = value;
 
-            return bytes.GetBytesHexString() + "  " + bytes.GetBytesDataString();
+            return bytes.GetHexString() + "  " + bytes.GetDataString();
         }
     }
 }

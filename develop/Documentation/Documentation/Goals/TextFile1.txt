@@ -1,0 +1,4 @@
+﻿In this sprint, the team will target two achievements:
+
+Wrapping up the RestAbstraXProvider Functionality.  This will allow HydraDevOps to communicate with AzureDevOps to set up the Azure DevOps framework for the "target app" for continuous integration and deployment.  It will also be the basis for future cloud based plugins.
+Starting the process of "target app" solution creation and source control

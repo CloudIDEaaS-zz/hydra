@@ -60,7 +60,7 @@ namespace PackageCacheStatus
                 {
                     if (fileSystemInfo is FileInfo)
                     {
-                        return ((FileInfo)fileSystemInfo).GetIcon<Bitmap>();
+                        return ((FileInfo)fileSystemInfo).GetSmallIcon<Bitmap>();
                     }
                     else
                     {
@@ -117,7 +117,7 @@ namespace PackageCacheStatus
                 fileSystemWatcher.EnableRaisingEvents = false;
             }
 
-            disposable = this.AsDisposable(() =>
+            disposable = this.CreateDisposable(() =>
             {
                 using (lockObject.Lock())
                 {

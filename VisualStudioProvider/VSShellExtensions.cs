@@ -15,6 +15,10 @@ using EnvDTE80;
 using CodeInterfaces;
 using Microsoft.VisualStudio.OLE.Interop;
 using System.Reflection;
+using Microsoft.VisualStudio.PlatformUI;
+using WPFControlLibrary;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace VisualStudioProvider
 {
@@ -27,7 +31,44 @@ namespace VisualStudioProvider
             ////return VsComObjectUtility.InspectVsComObject(obj);
             return null;
         }
-         
+
+#if USE_VS         
+        public static string GetCaption(this VsMenuItem vsMenuItem)
+        {
+            string caption = string.Empty;
+
+            vsMenuItem.GetDescendants(d =>
+            {
+                var element = (FrameworkElement)d;
+
+                if (element is TextBlock textBlock)
+                {
+                    if (!textBlock.Text.IsNullOrEmpty())
+                    {
+                        caption = textBlock.Text;
+                    }
+                }
+                else if (element is TextBox textBox)
+                {
+                    if (!textBox.Text.IsNullOrEmpty())
+                    {
+                        caption = textBox.Text;
+                    }
+                }
+                else if (element is AccessText accessText)
+                {
+                    if (!accessText.Text.IsNullOrEmpty())
+                    {
+                        caption = accessText.Text;
+                    }
+                }
+
+                return true;
+            });
+
+            return caption;
+        }
+#endif
         public static IEnumerable<object> GetObjects(this ISelectionContainer selectionContainer)
         {
             uint count;
@@ -79,6 +120,23 @@ namespace VisualStudioProvider
             return (T)Marshal.GetObjectForIUnknown(ppvObject);
         }
 
+        public static object QueryService(this Microsoft.VisualStudio.OLE.Interop.IServiceProvider serviceProvider, Type type)
+        {
+            var guidAttribute = type.GetCustomAttribute<GuidAttribute>();
+            var guid = Guid.Parse(guidAttribute.Value);
+            IntPtr ppvObject;
+            int hr;
+
+            hr = serviceProvider.QueryService(ref guid, ref IID_IUnknown, out ppvObject);
+
+            if (hr != VSConstants.S_OK)
+            {
+                Marshal.ThrowExceptionForHR(hr);
+            }
+
+            return Marshal.GetObjectForIUnknown(ppvObject);
+        }
+
         public static T GetPropertyValue<T>(this IVsHierarchy hierarchy, uint itemid, __VSHPROPID property)
         {
             object obj;
@@ -121,6 +179,7 @@ namespace VisualStudioProvider
             }
         }
 
+
         public static IOleDocumentView GetView(this IOleDocument document)
         {
             IEnumOleDocumentViews enumViews;
@@ -129,6 +188,50 @@ namespace VisualStudioProvider
             document.EnumViews(out enumViews, out view);
 
             return view;
+        }
+
+        public static IEnumerable<string> GetVerbs(this IVsUIDataSource dataSource)
+        {
+            IVsUIEnumDataSourceVerbs enumVerbs;
+            var verbs = new string[1];
+            uint fetched;
+
+            dataSource.EnumVerbs(out enumVerbs);
+
+            while (enumVerbs.Next(1, verbs, out fetched) == VSConstants.S_OK)
+            {
+                yield return verbs[0];
+            }
+        }
+
+        public static object GetValue(this IVsUIDataSource dataSource, string name)
+        {
+            IVsUIObject vsUIObject;
+            object value;
+
+            dataSource.GetValue(name, out vsUIObject);
+
+            if (vsUIObject != null)
+            {
+                vsUIObject.get_Data(out value);
+                return value;
+            }
+
+            return null;
+        }
+
+        public static IEnumerable<VsUIPropertyDescriptor> GetProperties(this IVsUIDataSource dataSource)
+        {
+            IVsUIEnumDataSourceProperties enumProperties;
+            var properties = new VsUIPropertyDescriptor[1];
+            uint fetched;
+
+            dataSource.EnumProperties(out enumProperties);
+
+            while (enumProperties.Next(1, properties, out fetched) == VSConstants.S_OK)
+            {
+                yield return properties[0];
+            }
         }
 
         public static IEnumerable<IOleDocumentView> GetViews(this IOleDocument document)
@@ -346,7 +449,7 @@ namespace VisualStudioProvider
             return null;
         }
 
-        public static UIHierarchyItem GetItem(this Window window, string path)
+        public static UIHierarchyItem GetItem(this EnvDTE.Window window, string path)
         {
             UIHierarchyItem item = null;
             string ancestorPath;
@@ -549,6 +652,13 @@ namespace VisualStudioProvider
             var serviceProvider = new ServiceProvider(provider);
 
             return (T) serviceProvider.GetService(typeof(T));
+        }
+
+        public static object GetService(this IServiceProvider provider, Type type)
+        {
+            var serviceProvider = new ServiceProvider(provider);
+
+            return serviceProvider.GetService(type);
         }
 
         public static string GetFileName(this IVsProject project)
@@ -1018,6 +1128,42 @@ namespace VisualStudioProvider
             return (string)caption;
         }
 
+        public static string GetEditorCaption(this IVsWindowFrame frame)
+        {
+            object caption;
+
+            frame.GetProperty((int)__VSFPROPID.VSFPROPID_EditorCaption, out caption);
+
+            return (string)caption;
+        }
+
+        public static Guid GetEditorType(this IVsWindowFrame frame)
+        {
+            Guid type;
+
+            frame.GetGuidProperty((int)__VSFPROPID.VSFPROPID_guidEditorType, out type);
+
+            return type;
+        }
+
+        public static object GetDocData(this IVsWindowFrame frame)
+        {
+            object docData;
+
+            frame.GetProperty((int)__VSFPROPID.VSFPROPID_DocData, out docData);
+
+            return docData;
+        }
+
+        public static string GetDocName(this IVsWindowFrame frame)
+        {
+            object name;
+
+            frame.GetProperty((int)__VSFPROPID.VSFPROPID_pszMkDocument, out name);
+
+            return (string) name;
+        }
+
         public static IVsUserContext GetUserContext(this IVsWindowFrame frame)
         {
             object userContext;
@@ -1054,6 +1200,23 @@ namespace VisualStudioProvider
             }
         }
 
+        public static IEnumerable<IVsPackage> GetPackages(this IVsShell shell)
+        {
+            IEnumPackages enumPackages;
+            var packages = new IVsPackage[1];
+            uint fetched;
+            int hr = shell.GetPackageEnum(out enumPackages);
+
+            if (ErrorHandler.Failed(hr))
+            {
+                throw Marshal.GetExceptionForHR(hr);
+            }
+
+            while (enumPackages.Next(1, packages, out fetched) == VSConstants.S_OK)
+            {
+                yield return packages[0];
+            }
+        }
         public static IEnumerable<IVsWindowFrame> GetDocumentWindows(this IVsUIShell shell)
         {
             IEnumWindowFrames enumWindowFrames;
@@ -1074,10 +1237,6 @@ namespace VisualStudioProvider
 
         public static void InspectIDispatch(this object obj)
         {
-            if (IDispatchUtility.ImplementsIDispatch(obj))
-            {
-                var type = IDispatchUtility.GetType(obj, true);
-            }
         }
 
         public static void Inspect(this VSHierarchyItem item)

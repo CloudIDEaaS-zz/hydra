@@ -22,10 +22,12 @@ namespace VisualStudioProvider.Configuration
         public VSPackage Package { get; set; }
         private IntPtr hModule;
         private FileInfo serviceFile;
+        private Dictionary<Guid, VSPackage> otherPackages;
+
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate int GetClassObjectHandler([In, MarshalAs(UnmanagedType.LPStruct)] Guid rclsid, [In, MarshalAs(UnmanagedType.LPStruct)] Guid riid, [MarshalAs(UnmanagedType.IUnknown)] out object pUnk);
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private delegate int VStudioMainHandler(ref int version);
+        private delegate int VStudioMainHandler([In, MarshalAs(UnmanagedType.LPStruct)] MainParam mainParam);
         [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
         static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
         [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
@@ -51,6 +53,19 @@ namespace VisualStudioProvider.Configuration
             return new VSEnvironmentService(serviceFile);
         }
 
+        public Dictionary<Guid, VSPackage> OtherPackages
+        {
+            get
+            {
+                Interop.IServiceProvider serviceProvider;
+
+                otherPackages = new Dictionary<Guid, VSPackage>();
+                serviceProvider = this.ServiceProvider;
+
+                return otherPackages;
+            }
+        }
+
         public override Interop.IServiceProvider ServiceProvider
         {
             get
@@ -61,7 +76,23 @@ namespace VisualStudioProvider.Configuration
 
                     if (hModule != IntPtr.Zero)
                     {
-                        var proc = GetProcAddress(hModule, "DllGetClassObject");
+                        var proc = GetProcAddress(hModule, "VStudioMain");
+
+                        if (proc != IntPtr.Zero)
+                        {
+                            var vStudioMain = (VStudioMainHandler)Marshal.GetDelegateForFunctionPointer(proc, typeof(VStudioMainHandler));
+                            var hResult = 0;
+                            var mainParam = new MainParam
+                            {
+                                exeLocation = @"C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\devenv.exe",
+                                registryRoot = @"Software\Microsoft\VisualStudio\10.0",
+                                userDataFolder = @"C:\Users\Ken\AppData\Roaming\Microsoft\VisualStudio\10.0\"
+                            };
+
+                           // hResult = vStudioMain(mainParam);
+                        }
+
+                        proc = GetProcAddress(hModule, "DllGetClassObject");
 
                         if (proc != IntPtr.Zero)
                         {
@@ -106,7 +137,7 @@ namespace VisualStudioProvider.Configuration
                             {
                                 if (serviceProvider == null)
                                 {
-                                    var hr = getClassObject(typeof(SVsShell).GUID, IID_ClassFactory, out objUnknown);
+                                    var hr = getClassObject(Guid.Parse("{05DD7650-130A-11d3-AFCB-00105A9991EF}"), IID_IUnknown, out objUnknown);
 
                                     if (hr != 0)
                                     {
@@ -119,7 +150,9 @@ namespace VisualStudioProvider.Configuration
 
                                     if (hr != 0)
                                     {
-                                        Debugger.Break();
+                                        var refGuid = guid;
+
+                                        hr = classFactory.CreateInstance(null, ref refGuid, out objUnknown);
                                     }
 
                                     serviceProvider = (Interop.IServiceProvider)objUnknown;

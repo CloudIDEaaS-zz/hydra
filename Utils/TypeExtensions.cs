@@ -20,11 +20,28 @@ using Utils.Parsing.Nodes;
 using System.Xml.Linq;
 using System.Numerics;
 using System.CodeDom.Compiler;
+using BTreeIndex.Collections.Generic.BTree;
 
 namespace Utils
 {
 	public static class TypeExtensions
 	{
+		public static class ScalarType
+		{
+			public static List<Type> Types
+			{
+				get
+				{
+					return new List<Type>()
+				{
+					typeof(Guid),
+					typeof(DateTime),
+					typeof(string)
+				};
+				}
+			}
+		}
+
 		public class ReflectionMemberCategoryNameAttribute : Attribute
 		{
 			public string Name { get; private set; }
@@ -127,7 +144,6 @@ namespace Utils
 			EnumItem
 		}
 
-
 		public static string GetPrimitiveTypeFullName(string shortTypeName)
 		{
 			switch (shortTypeName)
@@ -169,6 +185,89 @@ namespace Utils
 					return null;
 			}
 		}
+
+		public static Type GetType(string typeName, TypeCache typeCache = null)
+		{
+			var type = Type.GetType(typeName);
+
+			if (type == null)
+			{
+				if (typeCache != null)
+				{
+					if (typeCache.ContainsKey(typeName))
+					{
+						return typeCache[typeName];
+					}
+					else
+					{
+						if (typeCache.IsStale)
+						{
+							try
+							{
+								// exported types always ruin the party
+
+								var exportedTypes = AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.FullName.StartsWith("Anonymously Hosted")).SelectMany(a =>
+								{
+									try
+									{
+										return a.ExportedTypes;
+									}
+									catch
+									{
+										return new Type[0];
+									}
+								});
+
+								typeCache.BuildIndex(exportedTypes);
+
+								if (typeCache.ContainsKey(typeName))
+								{
+									return typeCache[typeName];
+								}
+								else
+								{
+									return null;
+								}
+							}
+							catch
+							{
+							}
+						}
+						else
+						{
+							return null;
+						}
+					}
+				}
+				else
+				{
+					try
+					{
+						// exported types always ruin the party
+
+						var exportedTypes = AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.FullName.StartsWith("Anonymously Hosted")).SelectMany(a =>
+						{
+							try
+							{
+								return a.ExportedTypes;
+							}
+							catch
+							{
+								return new Type[0];
+							}
+						});
+
+						type = exportedTypes.SingleOrDefault(t => t.FullName == typeName);
+					}
+					catch
+					{
+					}
+				}
+			}
+
+			return type;
+		}
+
 		public static bool IsType(this ReflectionMemberCategory category)
 		{
 			return category.IsOneOf(ReflectionMemberCategory.ImplementedInterface,
@@ -412,10 +511,36 @@ namespace Utils
 
 				return type.IsScalar();
 			}
+			else if (type.Name.EndsWith("&"))
+			{
+				type = type.GetElementType();
+
+				return type.IsScalar();
+			}
+			else if (type.IsArray)
+			{
+				type = type.GetElementType();
+
+				return type.IsScalar();
+			}
 			else
 			{
 				return type.IsPrimitive || type.IsEnum || type.IsOneOf(typeof(string), typeof(Guid), typeof(DateTime), typeof(BigInteger));
 			}
+		}
+
+		public static bool IsAtomicallyEnum(this Type type)
+		{
+			if (type.Name.EndsWith("&"))
+			{
+				type = type.GetElementType();
+			}
+			else if (type.IsArray)
+			{
+				type = type.GetElementType();
+			}
+
+			return type.IsEnum;
 		}
 
 		public static bool IsAction(this Type type)
@@ -744,6 +869,43 @@ namespace Utils
 			return value;
 		}
 
+		public static void SetFieldValue<T>(this object obj, string field, T value)
+		{
+			var type = obj.GetType();
+			var fieldInfo = type.GetField(field, BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.GetField);
+
+			if (fieldInfo != null)
+			{
+				fieldInfo.SetValue(obj, value);
+			}
+			else
+			{
+				fieldInfo = type.GetField(field, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.GetField);
+
+				if (fieldInfo != null)
+				{
+					fieldInfo.SetValue(obj, value);
+				}
+				else
+				{
+					var baseType = type.BaseType;
+
+					while (baseType != null)
+					{
+						fieldInfo = baseType.GetField(field, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.GetField);
+
+						if (fieldInfo != null)
+						{
+							fieldInfo.SetValue(obj, value);
+							break;
+						}
+
+						baseType = baseType.BaseType;
+					}
+				}
+			}
+		}
+
 		public static T GetStaticFieldValue<T>(this object obj, string field)
 		{
 			var type = obj.GetType();
@@ -960,6 +1122,35 @@ namespace Utils
 			return false;
 		}
 
+		public static bool HasField(this object obj, string field)
+		{
+			var type = obj.GetType();
+			var fieldInfo = type.GetField(field, BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.GetField);
+
+			if (fieldInfo != null)
+			{
+				return true;
+			}
+			else
+			{
+				var baseType = type.BaseType;
+
+				while (baseType != null)
+				{
+					fieldInfo = type.GetField(field, BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.GetField);
+
+					if (fieldInfo != null)
+					{
+						return true;
+					}
+
+					baseType = baseType.BaseType;
+				}
+			}
+
+			return false;
+		}
+
 		public static PropertyInfo GetProperty(this object obj, string property)
 		{
 			var type = obj.GetType();
@@ -980,6 +1171,35 @@ namespace Utils
 					if (propertyInfo != null)
 					{
 						return propertyInfo;
+					}
+
+					baseType = baseType.BaseType;
+				}
+			}
+
+			return null;
+		}
+
+		public static FieldInfo GetField(this object obj, string field)
+		{
+			var type = obj.GetType();
+			var fieldInfo = type.GetField(field, BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.GetField);
+
+			if (fieldInfo != null)
+			{
+				return fieldInfo;
+			}
+			else
+			{
+				var baseType = type.BaseType;
+
+				while (baseType != null)
+				{
+					fieldInfo = type.GetField(field, BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.GetField);
+
+					if (fieldInfo != null)
+					{
+						return fieldInfo;
 					}
 
 					baseType = baseType.BaseType;
@@ -1017,6 +1237,21 @@ namespace Utils
 			return value;
 		}
 
+		public static IEnumerable<KeyValuePair<string, object>> GetPublicPropertyValues(this object obj, bool skipNullValues = false)
+		{
+			var type = obj.GetType();
+
+			foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.GetProperty))
+			{
+				var value = propertyInfo.GetValue(obj, null);
+
+				if (!skipNullValues || (value != null))
+				{
+					yield return new KeyValuePair<string, object>(propertyInfo.Name, value);
+				}
+			}
+		}
+
 		public static IEnumerable<KeyValuePair<string, T>> GetPublicPropertyValuesOfType<T>(this object obj)
 		{
 			var type = obj.GetType();
@@ -1045,6 +1280,26 @@ namespace Utils
 			}
 		}
 
+		public static IEnumerable<string> GetPublicPropertyNames<T>()
+		{
+			var type = typeof(T);
+
+			foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.FlattenHierarchy))
+			{
+				yield return propertyInfo.Name;
+			}
+		}
+
+		public static IEnumerable<string> GetImmediatePublicPropertyNames<T>()
+		{
+			var type = typeof(T);
+
+			foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.DeclaredOnly))
+			{
+				yield return propertyInfo.Name;
+			}
+		}
+
 		public static IEnumerable<PropertyInfo> GetPublicProperties(this object obj)
 		{
 			var type = obj.GetType();
@@ -1052,6 +1307,16 @@ namespace Utils
 			foreach (var propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.GetProperty))
 			{
 				yield return propertyInfo;
+			}
+		}
+
+		public static IEnumerable<FieldInfo> GetPublicFields(this object obj)
+		{
+			var type = obj.GetType();
+
+			foreach (var fieldInfo in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.GetField))
+			{
+				yield return fieldInfo;
 			}
 		}
 
@@ -1099,6 +1364,85 @@ namespace Utils
 			}
 
 			return value;
+		}
+
+		public static T CallPrivateMethod<T>(this object obj, string method, params object[] parms)
+		{
+			var type = obj.GetType();
+			var methodInfo = type.GetMethod(method, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.InvokeMethod);
+			T value = default(T);
+
+			if (methodInfo == null)
+			{
+				throw new NotImplementedException();
+			}
+
+			value = (T) methodInfo.Invoke(obj, parms);
+
+			return value;
+		}
+
+		public static void CallPrivateMethod(this object obj, string method, params object[] parms)
+		{
+			var type = obj.GetType();
+			var methodInfo = type.GetMethod(method, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.InvokeMethod);
+
+			if (methodInfo == null)
+			{
+				throw new NotImplementedException();
+			}
+
+			methodInfo.Invoke(obj, parms);
+		}
+
+		public static void CallInternalMethod(this object obj, string method, params object[] parms)
+		{
+			var type = obj.GetType();
+			var methodInfo = type.GetMethod(method, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.InvokeMethod);
+
+			if (methodInfo == null)
+			{
+				throw new NotImplementedException();
+			}
+
+			methodInfo.Invoke(obj, parms);
+		}
+
+		public static T CreateInstance<T>(params object[] args)
+		{
+			var type = typeof(T);
+			var instance = type.Assembly.CreateInstance(type.FullName, false, BindingFlags.Instance | BindingFlags.NonPublic, null, args, null, null);
+
+			return (T)instance;
+		}
+
+		public static T CallPrivateStaticMethod<T>(this object obj, string method, params object[] parms)
+		{
+			var type = obj.GetType();
+			var methodInfo = type.GetMethod(method, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.InvokeMethod);
+			T value = default(T);
+
+			if (methodInfo == null)
+			{
+				throw new NotImplementedException();
+			}
+
+			value = (T)methodInfo.Invoke(obj, parms);
+
+			return value;
+		}
+
+		public static void CallPrivateStaticMethod(this object obj, string method, params object[] parms)
+		{
+			var type = obj.GetType();
+			var methodInfo = type.GetMethod(method, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.InvokeMethod);
+
+			if (methodInfo == null)
+			{
+				throw new NotImplementedException();
+			}
+
+			methodInfo.Invoke(obj, parms);
 		}
 
 		public static T GetPrivatePropertyValue<T>(this object obj, string property)
@@ -1165,6 +1509,13 @@ namespace Utils
 		public static T GetCustomAttribute<T>(this Type type)
 		{
 			var attribute = (T)type.GetCustomAttributes(true).OfType<T>().First();
+
+			return attribute;
+		}
+
+		public static T GetCustomAttribute<T>(this PropertyInfo property)
+		{
+			var attribute = (T)property.GetCustomAttributes(true).OfType<T>().First();
 
 			return attribute;
 		}
@@ -1455,12 +1806,14 @@ namespace Utils
 			var type = property.PropertyType.GetCodeDeclaration();
 			var name = property.Name;
 			var modifiers = string.Empty;
-			var accessors = property.GetAccessorSignatures(includeModifiers);
+			string accessors;
 
 			if (includeModifiers)
 			{
 				modifiers = property.GetModifiersString().AppendIfNotNullOrEmpty(" ");
 			}
+
+			accessors = property.GetAccessorSignatures(includeModifiers, modifiers);
 
 			if (includeDeclaringType)
 			{
@@ -1537,6 +1890,73 @@ namespace Utils
 				}
 			}
 		}
+
+		public static bool IsCollectionType(this Type type)
+		{
+			if (type.IsArray)
+			{
+				return true;
+			}
+			else if (type.IsDictionaryGeneric())
+			{
+				if (type.Namespace.StartsWith("System.Collections"))
+				{
+					return true;
+				}
+			}
+			else if (type.IsEnumerableGeneric())
+			{
+				if (type.Namespace.StartsWith("System.Collections") || type.Namespace.StartsWith("Google.Protobuf.Collections"))
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public static bool IsEnumerableGeneric(this Type type)
+		{
+			try
+			{
+				foreach (Type intType in type.GetInterfaces())
+				{
+					if (intType.IsGenericType && intType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+					{
+						return true;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				return type.BaseType.IsEnumerableGeneric() || type.GetGenericTypeDefinition().IsEnumerableGeneric();
+			}
+
+			return false;
+		}
+
+		public static bool IsDictionaryGeneric(this Type type)
+		{
+			try
+			{
+				foreach (Type intType in type.GetInterfaces())
+				{
+					if (intType.IsGenericType && intType.GetGenericTypeDefinition() == typeof(IDictionary<,>))
+					{
+						return true;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				var underlyingType = type.BaseType;
+
+				return underlyingType.IsDictionaryGeneric();
+			}
+
+			return false;
+		}
+
 
 		public static string GenerateExtensionMethodSignature(this MethodInfo method, MethodInfo genericMethodInfo, bool skipThisParameter, bool includeDeclaringType = false, bool includeModifiers = false)
 		{
@@ -1793,12 +2213,12 @@ namespace Utils
 			return codeDeclaration;
 		}
 
-		public static string GetSignature(this MethodInfo method, bool includeDeclaringType = false, bool includeModifiers = false, bool skipThisParameter = false, bool useExplicitInterfaceFormat = false)
+		public static string GetSignature(this MethodInfo method, bool includeDeclaringType = false, bool includeModifiers = false, bool skipThisParameter = false, bool useExplicitInterfaceFormat = false, bool noReturnType = false)
 		{
-			return method.GenerateSignature(includeDeclaringType, includeModifiers, skipThisParameter, useExplicitInterfaceFormat);
+			return method.GenerateSignature(includeDeclaringType, includeModifiers, skipThisParameter, useExplicitInterfaceFormat, noReturnType);
 		}
 
-		public static string GetAccessorSignatures(this PropertyInfo property, bool includeModifiers = false)
+		public static string GetAccessorSignatures(this PropertyInfo property, bool includeModifiers = false, string propertyModifiers = null)
 		{
 			var signature = new StringBuilder();
 
@@ -1809,7 +2229,11 @@ namespace Utils
 					if (includeModifiers)
 					{
 						var modifiers = accessor.GetModifiersString();
-						signature.Append(modifiers);
+
+						if (propertyModifiers == null || propertyModifiers.Trim() != modifiers)
+						{
+							signature.Append(modifiers);
+						}
 					}
 
 					signature.AppendWithLeadingIfLength(" ", "set;");
@@ -1819,7 +2243,11 @@ namespace Utils
 					if (includeModifiers)
 					{
 						var modifiers = accessor.GetModifiersString();
-						signature.Append(modifiers);
+
+						if (propertyModifiers == null || propertyModifiers.Trim() != modifiers)
+						{
+							signature.Append(modifiers);
+						}
 					}
 
 					signature.AppendWithLeadingIfLength(" ", "get;");
@@ -1833,7 +2261,7 @@ namespace Utils
 
 		public static bool IsGetter(this MethodInfo method)
 		{
-			if (method.Name.StartsWith("get") && method.ReturnType != null)
+			if (method.Name.StartsWith("get_") && method.ReturnType != null)
 			{
 				return true;
 			}
@@ -1845,7 +2273,37 @@ namespace Utils
 
 		public static bool IsSetter(this MethodInfo method)
 		{
-			if (method.Name.StartsWith("set") && method.ReturnType == null && method.GetParameters().Length == 1)
+			if (method.Name.StartsWith("set_") && (method.ReturnType == null || method.ReturnType == typeof(void)) && method.GetParameters().Length == 1)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+
+		public static bool IsAccessor(this MethodInfo method)
+		{
+			return method.IsGetter() || method.IsSetter() || method.IsAdder() || method.IsRemover();
+		}
+
+		public static bool IsAdder(this MethodInfo method)
+		{
+			if (method.Name.StartsWith("add_") && method.ReturnType != null)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public static bool IsRemover(this MethodInfo method)
+		{
+			if (method.Name.StartsWith("remove_") && method.ReturnType != null)
 			{
 				return true;
 			}
@@ -2747,7 +3205,7 @@ namespace Utils
 			return modifiersBuilder.ToString();
 		}
 
-		public static string GenerateSignature(this MethodInfo method, bool includeDeclaringType = false, bool includeModifiers = false, bool skipThisParameter = false, bool useExplicitInterfaceFormat = false)
+		public static string GenerateSignature(this MethodInfo method, bool includeDeclaringType = false, bool includeModifiers = false, bool skipThisParameter = false, bool useExplicitInterfaceFormat = false, bool noReturnType = false)
 		{
 			var type = method.ReturnType.GetCodeDeclaration();
 			var name = method.GetMethodName(useExplicitInterfaceFormat);
@@ -2786,11 +3244,25 @@ namespace Utils
 
 			if (includeDeclaringType)
 			{
-				return modifierString + type + " " + declaringType.GetCodeDeclaration() + "." + name + GenerateParmStringSignature(method.GetParameters(), isExtension, skipThisParameter);
+				if (noReturnType)
+				{
+					return modifierString + type + " " + declaringType.GetCodeDeclaration() + "." + name + GenerateParmStringSignature(method.GetParameters(), isExtension, skipThisParameter);
+				}
+				else
+				{
+					return modifierString + type + " " + declaringType.GetCodeDeclaration() + "." + name + GenerateParmStringSignature(method.GetParameters(), isExtension, skipThisParameter);
+				}
 			}
 			else
 			{
-				return modifierString + type + " " + name + GenerateParmStringSignature(method.GetParameters(), isExtension, skipThisParameter);
+				if (noReturnType)
+				{
+					return name + GenerateParmStringSignature(method.GetParameters(), isExtension, skipThisParameter);
+				}
+				else
+				{
+					return modifierString + type + " " + name + GenerateParmStringSignature(method.GetParameters(), isExtension, skipThisParameter);
+				}
 			}
 		}
 
@@ -3227,7 +3699,16 @@ namespace Utils
 							codeDeclaration = "string";
 							break;
 						default:
-							codeDeclaration = type.Name;
+
+							if (type.Name.EndsWith("&"))
+							{
+								codeDeclaration = type.GetElementType().Name;
+							}
+							else
+							{
+								codeDeclaration = type.Name;
+							}
+
 							break;
 					}
 				}
@@ -3537,6 +4018,13 @@ namespace Utils
 			var json = JsonExtensions.ToJsonDynamic(source);
 
 			return JsonExtensions.ReadJson<object>(json);
+		}
+
+		public static T CloneJson<T>(this object source)
+		{
+			var json = JsonExtensions.ToJsonDynamic(source);
+
+			return JsonExtensions.ReadJson<T>(json);
 		}
 
 		public static T Clone<T>(this object source) 

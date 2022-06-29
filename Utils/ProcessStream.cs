@@ -1,10 +1,11 @@
-﻿#if INCLUDE_PROCESSDIAGNOSTICSLIBRARY
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+#if INCLUDE_PROCESSDIAGNOSTICSLIBRARY
 using ProcessDiagnosticsLibrary;
+#endif
 
 namespace Utils
 {
@@ -21,7 +22,9 @@ namespace Utils
         internal event SeekOverunHandler OnSeekOverun;
         private ulong internalLength;
         private long outOfRegionPosition;
+#if INCLUDE_PROCESSDIAGNOSTICSLIBRARY
         public IProcessDiagnostics ProcessDiagnostics { get; set; }
+#endif
 
         public ProcessStream(ulong length)
         {
@@ -200,4 +203,3 @@ namespace Utils
         }
     }
 }
-#endif

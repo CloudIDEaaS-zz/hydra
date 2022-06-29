@@ -150,7 +150,7 @@
             // 
             // propertyGridStatus
             // 
-            this.propertyGridStatus.Caption = "Cache Status";
+            this.propertyGridStatus.Title = "Cache Status";
             this.propertyGridStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGridStatus.Location = new System.Drawing.Point(0, 0);
             this.propertyGridStatus.Name = "propertyGridStatus";

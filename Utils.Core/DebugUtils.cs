@@ -11,6 +11,10 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using Utils.Core.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.InteropServices;
+using Microsoft.Diagnostics.Runtime;
+using System.IO;
+using Utils.ProcessHelpers;
 #if SILVERLIGHT
 using Utils.DebugListenerServiceReference;
 using System.Windows.Controls;
@@ -20,6 +24,8 @@ namespace Utils
 {
     public static class DebugUtils
     {
+        [DllImport("Dbghelp.dll")]
+        static extern bool MiniDumpWriteDump(IntPtr hProcess, uint ProcessId, IntPtr hFile, int DumpType, IntPtr ExceptionParam, IntPtr UserStreamParam, IntPtr CallbackParam);
         public static FixedDictionary<string, LineTracker> Trackers { get; private set; }
 
         [Conditional("DEBUG")]
@@ -27,6 +33,20 @@ namespace Utils
         public static void NoOp()
         {
         }
+
+        [DllImport("kernel32.dll")]
+        public static extern uint GetCurrentThreadId();
+
+        [StructLayout(LayoutKind.Sequential, Pack = 4)]
+        public struct MINIDUMP_EXCEPTION_INFORMATION
+        {
+
+            public uint ThreadId;
+            public IntPtr ExceptionPointers;
+            public int ClientPointers;
+        }
+
+        private static readonly int MiniDumpWithFullMemory = 2;
 
         public static void OpenLogFile(string logFile)
         {
@@ -49,6 +69,116 @@ namespace Utils
             builder.AddFilter<LineLoggerProvider>(null, LogLevel.Trace);
 
             return builder;
+        }
+
+        public static DebugState GetDebugState(this Process process, int threadId)
+        {
+            var dataTarget = DataTarget.AttachToProcess(process.Id, true);
+            var version = dataTarget.ClrVersions[0];
+            var debugState = new DebugState();
+
+            debugState.ProcessName = process.ProcessName;
+            debugState.ExceptionMessage = "Unknown";
+            debugState.ExceptionText = "Unknown";
+
+            try
+            {
+                using (var runtime = version.CreateRuntime())
+                {
+                    var thread = runtime.Threads.Single(t => t.ManagedThreadId == threadId);
+                    var currentException = thread.CurrentException;
+                    var heap = runtime.Heap;
+                    var stackBase = thread.StackBase;
+                    var stackTrace = currentException.StackTrace;
+
+                    debugState.ProcessName = process.ProcessName;
+                    debugState.ExceptionMessage = currentException.Message;
+                    debugState.ExceptionText = currentException.ToString();
+
+                    foreach (var frame in stackTrace)
+                    {
+                        try
+                        {
+                            var index = stackTrace.IndexOf(frame);
+                            var stackPointer = frame.StackPointer;
+                            var clrMethod = frame.Method;
+                            var clrType = clrMethod.Type;
+                            var location = clrType.Module.AssemblyName;
+                            Assembly assembly = null;
+                            Type type = null;
+                            MethodBase method = null;
+                            ClrStackFrame nextFrame;
+                            ulong nextPointer;
+
+                            try
+                            {
+                                assembly = Assembly.LoadFrom(location);
+                                type = assembly.ManifestModule.ResolveType(clrType.MetadataToken);
+                                method = assembly.ManifestModule.ResolveMethod(clrMethod.MetadataToken);
+                            }
+                            catch
+                            {
+                            }
+
+                            if (index >= stackTrace.Length - 1)
+                            {
+                                nextPointer = stackBase;
+                            }
+                            else
+                            {
+                                nextFrame = stackTrace[index + 1];
+                                nextPointer = nextFrame.StackPointer;
+                            }
+
+                            try
+                            {
+                                debugState.WriteLine("{0}!{1}.{2}", assembly.FullName, type.FullName, method.Name);
+                            }
+                            catch
+                            {
+                                debugState.WriteLine("Unknown");
+                            }
+
+                            debugState.WriteLine("    Stack objects:");
+
+                            for (var ptr = stackPointer; ptr < nextPointer; ptr += (uint)IntPtr.Size)
+                            {
+                                if (!dataTarget.DataReader.ReadPointer(ptr, out ulong ptrToObject))
+                                {
+                                    break;
+                                }
+
+                                try
+                                {
+                                    clrType = heap.GetObjectType(ptrToObject);
+                                }
+                                catch
+                                {
+                                }
+
+                                if (clrType == null)
+                                {
+                                    continue;
+                                }
+
+                                if (!clrType.IsFree)
+                                {
+                                    debugState.WriteLine("    {0,16:X} {1,16:X} {2}", ptr, ptrToObject, clrType.Name);
+                                }
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            return debugState;
         }
 
         public static IDisposable StartLineTracking(IServiceProvider serviceProvider, string scope = null, [CallerFilePath] string filePath = null, int lineNumber = 0, [CallerMemberName] string caller = null)
@@ -74,7 +204,7 @@ namespace Utils
 
             TrackLine(filePath, lineNumber, caller);
 
-            return lineTracker.AsDisposable(() =>
+            return lineTracker.CreateDisposable(() =>
             {
                 if (lineTracker.PrimaryFilePath == filePath)
                 {
@@ -152,6 +282,19 @@ namespace Utils
 #else
             throw new InvalidOperationException(error);
 #endif
+        }
+
+        public static void CreateDump(this Process process, string dumpFile, int threadId)
+        {
+            using (var file = new FileStream(dumpFile, FileMode.Create))
+            {
+                bool result;
+                var processHandle = NativeMethods.OpenProcess(ProcessAccessRights.PROCESS_DUP_HANDLE | ProcessAccessRights.PROCESS_QUERY_INFORMATION | ProcessAccessRights.PROCESS_VM_READ, true, process.Id);
+
+                result = MiniDumpWriteDump(process.Handle, (uint)process.Id, file.SafeFileHandle.DangerousGetHandle(), MiniDumpWithFullMemory, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+
+                processHandle.Close();
+            }
         }
 
         public static IEnumerable<StackFrame> GetStack(this object obj, int count)

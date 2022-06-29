@@ -1,0 +1,94 @@
+
+function firstUrl() {
+
+	return {
+		templateUrl : 'views/home.html',
+		controller : 'HomeCtrl as vm',
+		requiresAuthentication : true,
+		permissions : [ "user", "super user", "service admin"]
+
+	};
+
+}
+function route($routeProvider, GLOBAL) {
+
+	$routeProvider.when('/', GLOBAL.FIRST_VIEW_PAGE)
+
+	$routeProvider.when('/home', {
+		title: 'Home',
+		templateUrl : 'views/home.html',
+		controller : 'HomeCtrl as vm',
+		requiresAuthentication : true,
+		permissions : [ "user", "super user", "service admin"]
+
+	})
+	$routeProvider.when('/paymentInformation', {
+		title: 'Payment Information',
+		templateUrl : 'views/payment_information.html',
+		controller : 'PaymentCtrl as vm'
+
+	})
+	$routeProvider.when('/paymentReceipt', {
+		title: 'Payment Receipt',
+		templateUrl : 'views/payment_receipt.html',
+		controller : 'PaymentCtrl as vm'
+
+	})
+
+	$routeProvider.when('/error', {
+		title: 'Error',
+		templateUrl : 'views/error.html',
+		controller : 'PaymentCtrl as vm'
+
+	})
+	$routeProvider.when('/TimeoutError', {
+		title: 'Error',
+		templateUrl : 'views/TimeoutError.html',
+		controller : 'PaymentCtrl as vm'
+
+	})
+	$routeProvider.when('/paymentSummary', {
+		title: 'Payment Summary',
+		templateUrl : 'views/payment_summary.html',
+		controller : 'PaymentCtrl as vm'
+
+	})
+	$routeProvider.when('/thankYou', {
+		title: 'Payment Success',
+		templateUrl : 'views/thank_you.html',
+		controller : 'PaymentCtrl as vm'
+
+	})
+
+	$routeProvider.when('/merchantAdmin', {
+		title: 'Merchant Administration',
+		templateUrl : 'views/admin/merchant_admin.html',
+		controller : 'MerchantAdminCtrl as vm',
+		requiresAuthentication : true,
+		permissions : [ "user", "super user", "service admin" ]
+
+	})
+
+	$routeProvider.when('/transactionAdmin', {
+		title: 'Transaction Administration',
+		templateUrl : 'views/admin/transaction_admin.html',
+		controller : 'TransactionHistoryCtrl as vm',
+		requiresAuthentication : true,
+		permissions : [ "user", "super user", "service admin" ]
+		
+
+	})
+	
+	$routeProvider.when('/transactionHistory', {
+		title: 'Transaction History',
+		templateUrl : 'views/admin/transaction_history.html',
+		controller : 'TransactionHistoryCtrl as vm',
+		requiresAuthentication : true,
+		permissions : [ "user", "super user", "service admin" ]
+
+	})
+
+
+	.otherwise(GLOBAL.FIRST_VIEW_PAGE);
+
+};

@@ -17,7 +17,7 @@ namespace VisualStudioProvider.Configuration.Services
         private Dictionary<Guid, Type> serviceLookupTable;
         private bool corePackagesLoaded;
 
-        internal VsServiceProvider()
+        public VsServiceProvider()
         {
             CreateLookupTable();
         }
@@ -26,6 +26,7 @@ namespace VisualStudioProvider.Configuration.Services
         {
             var list = new List<Guid>();
             var guidAdd = Guid.Empty;
+            var environmentService = VSConfigProvider.EnvironmentService;
 
             //Undo Package
             guidAdd = new Guid("{1D76B2E0-F11B-11D2-AFC3-00105A9991EF}");
@@ -71,11 +72,27 @@ namespace VisualStudioProvider.Configuration.Services
             guidAdd = new Guid("{F74C5077-D848-4630-80C9-B00E68A1CA0C}");
             list.Add(guidAdd);
 
-            corePackagesLoaded = true;
-
             foreach (var guid in list)
             {
-                if (VSConfigProvider.Services.ContainsKey(guid))
+                if (environmentService.OtherPackages.ContainsKey(guid))
+                {
+                    var href = 0;
+                    var pUnk = IntPtr.Zero;
+                    var package = VSConfigProvider.Packages[guid];
+                    var serviceProvider = package.ClassName;
+                    var objUnknown = Marshal.GetIUnknownForObject(serviceProvider);
+                    var vsPackage = (IVsPackage)null;
+
+                    href = Marshal.QueryInterface(objUnknown, ref VSPackage.IID_IVsPackage, out pUnk);
+
+                    if (href == 0)
+                    {
+                        vsPackage = (IVsPackage)Marshal.GetObjectForIUnknown(pUnk);
+
+                        vsPackage.SetSite(this);
+                    }
+                }
+                else if (VSConfigProvider.Services.ContainsKey(guid))
                 {
                     var href = 0;
                     var pUnk = IntPtr.Zero;
@@ -88,12 +105,21 @@ namespace VisualStudioProvider.Configuration.Services
 
                     if (href == 0)
                     {
-                        vsPackage = (IVsPackage) Marshal.GetObjectForIUnknown(pUnk);
+                        vsPackage = (IVsPackage)Marshal.GetObjectForIUnknown(pUnk);
 
                         vsPackage.SetSite(this);
                     }
                 }
+                else if (VSConfigProvider.Packages.ContainsKey(guid))
+                {
+                    var href = 0;
+                    var pUnk = IntPtr.Zero;
+                    var package = VSConfigProvider.Packages[guid];
+                    var className = package.ClassName;
+                }
             }
+
+            corePackagesLoaded = true;
         }
 
         private void CreateLookupTable()

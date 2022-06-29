@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class AgGridPackage : Package
+    {
+        public AgGridPackage()
+        {
+            this.PackageInstalls = new string[] { "aggrid" };
+        }
+    }
+}

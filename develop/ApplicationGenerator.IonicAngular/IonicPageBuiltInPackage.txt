@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class IonicPageBuiltInPackage : Package
+    {
+        public IonicPageBuiltInPackage()
+        {
+            this.PackageInstalls = new string[] { "ionicpagebuiltin" };
+        }
+    }
+}

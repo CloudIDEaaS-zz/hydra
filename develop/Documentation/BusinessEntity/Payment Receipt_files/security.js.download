@@ -1,0 +1,339 @@
+function loadSecurityPlugin(){
+
+var p=null;
+
+function authenticationService($http,$sanitize,$rootScope) {
+
+	var service = this;
+
+	function authenticate(user) {
+		var req = {
+			method : 'POST',
+			url : 'rest/authenticate',
+			headers : {
+				'Content-Type' : 'application/x-authc-username-password+json'
+			},
+			data : {
+				userId : $sanitize(user.login),
+				password : $sanitize(user.password),
+				agencyId : $rootScope.UI.AGENCY_ID
+			}
+		};
+		return $http(req);
+
+	}
+
+	function logout() {
+
+		var req = {
+			method : 'POST',
+			url : 'rest/logout',
+			headers : {
+				'Content-Type' : ''//'application/json'
+			},
+		// data: {userId: user.login,password:user.password,agencyId:1}
+
+		};
+
+
+		return $http(req);
+
+	}
+
+	service.logout = logout;
+	service.authenticate = authenticate;
+
+	return service;
+
+};
+
+function LoginCtrl($rootScope,$log, $http,$location,$interval, authenticationService,GLOBAL) {
+
+	var vm = this;
+
+
+	
+	vm.messages=[];
+	
+	vm.clear=function(){
+		if(vm.messages.length > 0 ){
+			vm.messages=[];
+			vm.user.login="";
+			vm.user.password="";
+		}
+		
+		
+	}
+	
+	vm.login = function(user) {
+
+		vm.user=user;
+		
+		vm.messages=[{severity:"INFO",message:"CHECKING..."}];
+		if(!user||!user.login||!user.password){
+			vm.messages=[{severity:"ERROR",message:"Username and/or Password cannot be empty!"}];
+		}else{
+		
+		authenticationService.authenticate(user).success(
+				function(response, status) {
+					
+					if (response.status!="NOT_LOGGED_IN") {
+						
+						sessionStorage.setItem("userId",response.mainMessage);
+						
+						p=$interval(function(){
+							  
+							var req = {
+									method : 'GET',
+									url : 'rest/authenticate/isLoggedIn',
+									headers : {
+										'Content-Type' : 'application/json'
+									}
+								};
+
+						
+						  
+								$http(req).success(function(data){
+							  
+							  if(data){
+								  if(data.status=='SESSION_EXPIRED')
+								  {
+									  $interval.cancel(p);
+									  /*localStorage.removeItem("userId");
+									  $rootScope.userId = null;
+									  $location.path("/login");*/
+									  }
+							  };
+							  
+						  });
+						  
+						  
+					  }, 300000);
+						
+						var req2 = {
+								method : 'GET',
+								url : 'rest/user',
+							/*	headers : {
+									'Content-Type' : 'application/json'
+								}*/
+							};
+
+							var userId = null;
+							var userRole = null;
+							$http(req2).success(function(user) {
+
+								userId = user.businessName;
+								if (userId) {
+									$rootScope.userId = userId;
+									$rootScope.roles = user.roles;
+									sessionStorage.setItem("userId", userId);
+									sessionStorage.setItem("userRole", user.roles);
+									userRole= user.roles;
+									console.debug("User ROLES "+userRole);
+								};
+								$location.path(GLOBAL.LOGIN_SUCCESS_PAGE);
+
+							});
+						
+						
+						
+					} else {
+						vm.messages=response.errorMessages;
+						/*$log.debug(angular.toJson(response));
+						$log.debug("unhautorized");*/
+						
+					}
+				});
+		}
+	};
+
+	vm.logout = function() {
+		authenticationService.logout().success(function(data, status) {
+			$log.debug("you are logged out");
+			sessionStorage.clear();
+        	delete $rootScope.userId;
+        	delete $rootScope.roles;
+			$interval.cancel(p);
+			$location.path('/');
+			 
+		});
+	}
+
+};
+function roleBasedPermissionService($rootScope, $location, $interval, authenticationService) {
+    var auth = this;
+    
+    /**
+     *  Saves the current user in the root scope
+     *  Call this in the app run() method
+     */
+    auth.init = function(){
+        if (auth.isLoggedIn()){
+            $rootScope.currentUser = auth.currentUser();
+        }
+    };
+	
+	auth.currentUser = function(){
+    	var currentUserId = sessionStorage.userId;
+    	var currUser = {username : currentUserId, roleList : []};
+    	if ($rootScope.roles && Array === $rootScope.roles.constructor) {
+
+    		currUser.roleList = $rootScope.roles;
+    		sessionStorage.user_permissions = JSON.stringify(currUser);
+		} else {
+			if (($rootScope.roles != undefined) || !($rootScope.roles == null))
+				{
+
+					currUser.roleList.push($rootScope.roles);
+					sessionStorage.user_permissions = JSON.stringify(currUser);
+				}
+		}
+
+        return currentUserId;
+    };
+
+     
+    auth.checkPermissionOnRoute = function(view) {
+    //auth.checkRoleBasedPermissionOnRoute = function(view) {
+        if (!view.requiresAuthentication) {
+			//if route doesn't require authentication return true
+            return true;
+        }
+         
+        return userHasPermissionOnRoute(view);
+    };
+     
+     
+    var userHasPermissionOnRoute = function(view){
+        if(!auth.isLoggedIn()){
+			//if user is not logged in return false
+            return false;
+        }
+         
+        if(!view.permissions || !view.permissions.length){
+			//if route doesn't require specefic permissions return true
+            return true;
+        }
+         
+        return auth.userHasPermission(view.permissions);
+    };
+     
+     
+    auth.userHasPermission = function(permissions){
+        if(!auth.isLoggedIn()){
+			/*if user is not logged in return false*/
+            return false;
+        }
+         
+        var found = false;
+        if(!sessionStorage.user_permissions){
+			/*if (null) */
+        	found = false;
+            return;
+        }
+        var foundPerm = JSON.parse(sessionStorage.user_permissions);
+        angular.forEach(permissions, function(permission, index){
+
+        	angular.forEach(foundPerm.roleList, function(perm, ind){
+	        	if (perm === permission){
+	                found = true;
+	                return;
+	            }
+        	});
+        });
+         
+        return found;
+    };
+     
+    auth.isLoggedIn = function(){
+        return sessionStorage.getItem("userId") != null;
+    };
+    
+    auth.logout= function() {
+    	console.log("Logging out not authorized user");		
+		authenticationService.logout().success(function(data, status) {
+			sessionStorage.clear();
+        	delete $rootScope.userId;
+        	delete $rootScope.roles;
+			$interval.cancel(p);	 
+		});
+	}
+     
+ 
+    return auth;
+}
+;
+//show & hide html elements based  on the user permissions
+function permission(roleBasedPermissionService) {
+	return {
+	       restrict: 'A',
+	       scope: {
+	          permission: '='
+	       },
+	 
+	       link: function (scope, elem, attrs) {
+	            scope.$watch(roleBasedPermissionService.isLoggedIn, function() {
+	                if (roleBasedPermissionService.userHasPermission(scope.permission)) {
+	                    elem.show();
+	                } else {
+	                    elem.hide();
+	                }
+	            });                
+	       }
+	   }
+}
+;
+
+
+
+
+angular.module("AZ_PORTAL")
+.config(function($routeProvider){
+	
+	$routeProvider.when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl as vm'
+      });
+})
+
+
+
+.run(function($location,$rootScope,$http,$interval, GLOBAL,roleBasedPermissionService) {
+
+		$rootScope.$on("$routeChangeStart",function(event,next,current) {	
+				$rootScope.CURRENT_SCREEN = null;
+				if (current)
+					$rootScope.CURRENT_SCREEN = current.templateUrl;
+				if (next)
+					$rootScope.CURRENT_SCREEN = next.templateUrl;
+
+				$rootScope.messageCenter = {};
+				roleBasedPermissionService.init();
+
+				//If user is not authenticated OR unauthorized, redirect to login page
+				if (!roleBasedPermissionService.checkPermissionOnRoute(next)){
+					event.preventDefault();
+					$location.path("/login");
+					GLOBAL.LOGIN_SUCCESS_PAGE = next.originalPath;
+					
+					//If user is already authenticated, then he's unauthorized -> log out and redirect him to the first view page next log in
+					if(sessionStorage.getItem("userId")){
+						roleBasedPermissionService.logout();
+						GLOBAL.LOGIN_SUCCESS_PAGE = GLOBAL.FIRST_VIEW_PAGE;
+						
+
+					}
+
+				
+			}
+
+		});
+
+	  })
+
+.factory("authenticationService",authenticationService)
+.factory('roleBasedPermissionService', roleBasedPermissionService)
+.directive('permission', permission)
+.controller("LoginCtrl",LoginCtrl);
+
+}

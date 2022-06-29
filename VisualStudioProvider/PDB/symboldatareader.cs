@@ -43,8 +43,10 @@ namespace Pdb
         /// </summary>
         public SymbolData ReadSymbols()
         {
+            var symbolCacheDirectory = new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Local\Temp\SymbolCache"));
+
             // Actually load the files
-            var reader = SymbolAccess.GetReaderForFile(symFormat, assemblyPath, null);
+            var reader = SymbolAccess.GetReaderForFile(symFormat, assemblyPath, symbolCacheDirectory.FullName);
 
             if (reader == null)
             {

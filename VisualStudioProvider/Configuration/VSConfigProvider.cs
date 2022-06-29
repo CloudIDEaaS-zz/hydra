@@ -71,7 +71,13 @@ namespace VisualStudioProvider.Configuration
             lockObject = new object();
             statusQueue = new Queue<string>();
 
-            DoCount();
+            try
+            {
+                DoCount();
+            }
+            catch
+            {
+            }
         }
 
         public static VsServiceProvider ServiceProvider
@@ -276,12 +282,17 @@ namespace VisualStudioProvider.Configuration
 
                 if (options == null || options.LoadEnvironmentServices)
                 {
-                    VSEnvironmentService.LoadEnvironmentServices();
+                    EnvironmentService = VSEnvironmentService.LoadEnvironmentServices();
                 }
 
                 if (options == null || options.IndexProjectTemplates)
                 {
                     // start project templates
+                    
+                    if (options == null)
+                    {
+                        options = new VSConfigIndexOptions();
+                    }
 
                     options.IndexPackages = true;
 
@@ -295,6 +306,11 @@ namespace VisualStudioProvider.Configuration
                 if (options == null || options.IndexItemTemplates)
                 {
                     // start item templates
+
+                    if (options == null)
+                    {
+                        options = new VSConfigIndexOptions();
+                    }
 
                     options.IndexPackages = true;
 
@@ -371,11 +387,15 @@ namespace VisualStudioProvider.Configuration
                 }
             };
 
-            Debug.Assert(projectTemplateDirectory.Exists);
-            Debug.Assert(itemTemplateDirectory.Exists);
+            if (projectTemplateDirectory.Exists)
+            {
+                recurseCount(projectTemplateDirectory);
+            }
 
-            recurseCount(projectTemplateDirectory);
-            recurseCount(itemTemplateDirectory);
+            if (itemTemplateDirectory.Exists)
+            {
+                recurseCount(itemTemplateDirectory);
+            }
 
             if (additionalLocations != null)
             {
@@ -836,6 +856,8 @@ namespace VisualStudioProvider.Configuration
             }
         }
 
+        public static VSEnvironmentService EnvironmentService { get; private set; }
+
         public static string Decompress(FileInfo fileInfo, string outputDirectory, bool overwriteExisting = true, List<string> skip = null)
         {
             var templateFilePath = (string)null;
@@ -971,6 +993,10 @@ namespace VisualStudioProvider.Configuration
                 itemTemplates.Add(key, (VSItemTemplate) template);
             }
             else if (templateType == TemplateType.ProjectGroup)
+            {
+                // TODO
+            }
+            else if (templateType == TemplateType.Custom)
             {
                 // TODO
             }

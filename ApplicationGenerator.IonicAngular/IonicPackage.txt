@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class IonicPackage : Package
+    {
+        public IonicPackage()
+        {
+            this.PackageInstalls = new string[] { "ionic" };
+        }
+    }
+}

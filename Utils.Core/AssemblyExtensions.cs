@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 using System.ComponentModel;
 using Microsoft.Win32;
-using PostSharp.Aspects.Advices;
+//using PostSharp.Aspects.Advices;
 #endif
 
 namespace Utils
@@ -149,11 +149,193 @@ namespace Utils
         [DllImport("psapi.dll", SetLastError = true)]
         private static extern uint GetMappedFileName(uint m_hProcess, uint lpv, StringBuilder lpFilename, uint nSize);
 
+        public static Assembly AssemblyResolve(object sender, ResolveEventArgs e)
+        {
+            try
+            {
+                var location = e.RequestingAssembly.Location;
+                var parts = AssemblyExtensions.GetNameParts(e.Name);
+                var name = parts.AssemblyName;
+                var version = parts.Version;
+                var regex = new Regex(@"(?<framework>[A-Za-z]*)?,Version=v(?<major>\d)\.?(?<minor>\d)");
+                var assembly = Assembly.GetEntryAssembly();
+                var targetFramework = assembly.GetFramework();
+                var dotNetVersion = Version.Parse(assembly.GetFrameworkVersion());
+                var binariesDirectory = new DirectoryInfo(Path.GetDirectoryName(location));
+                var packagesDirectory = new DirectoryInfo(Path.GetFullPath(Path.Combine(binariesDirectory.FullName, @"..\..\..\packages")));
+                var packageSubDirectories = new List<DirectoryInfo>();
+                DirectoryInfo packageDirectory;
+                DirectoryInfo packageLibDirectory;
+                FrameworkVersion targetFrameworkVersion;
+
+                if (packagesDirectory.Exists)
+                {
+                    packageSubDirectories = packagesDirectory.GetDirectories().ToList();
+                }
+
+                packagesDirectory = new DirectoryInfo(Path.GetFullPath(Path.Combine(binariesDirectory.FullName, @"..\..\..\..\packages")));
+
+                if (packagesDirectory.Exists)
+                {
+                    if (packageSubDirectories != null)
+                    {
+                        packageSubDirectories.AddRange(packagesDirectory.GetDirectories());
+                    }
+                    else
+                    {
+                        packageSubDirectories = packagesDirectory.GetDirectories().ToList();
+                    }
+                }
+
+                if (regex.IsMatch(targetFramework))
+                {
+                    var match = regex.Match(targetFramework);
+                    var framework = match.GetGroupValue("framework");
+                    var major = match.GetGroupValue("major");
+                    var minor = match.GetGroupValue("minor");
+
+                    targetFrameworkVersion = new FrameworkVersion(framework, Version.Parse(major + "." + minor));
+                }
+                else
+                {
+                    targetFrameworkVersion = null;
+                    DebugUtils.Break();
+                }
+
+                packagesDirectory = new DirectoryInfo(Environment.ExpandEnvironmentVariables(@"%userprofile%\.nuget\packages"));
+                packageSubDirectories.AddRange(packagesDirectory.GetDirectories());
+
+                packageSubDirectories = packageSubDirectories.OrderBy(p => p.Name).ToList();
+
+                if (packageSubDirectories.Any(d => d.Name.AsCaseless() == name + "." + version))
+                {
+                    packageDirectory = packageSubDirectories.Single(d => d.Name.AsCaseless() == name + "." + version);
+                }
+                else if (packageSubDirectories.Any(d => d.Name.AsCaseless() == name && d.GetDirectories().Any(d2 => d2.Name == version)))
+                {
+                    packageDirectory = packageSubDirectories.Single(d => d.Name.AsCaseless() == name && d.GetDirectories().Any(d2 => d2.Name == version));
+                    packageDirectory = new DirectoryInfo(Path.Combine(packageDirectory.FullName, version));
+                }
+                else
+                {
+                    packageDirectory = null;
+                    return null;
+                }
+
+                packageLibDirectory = new DirectoryInfo(Path.Combine(packageDirectory.FullName, "lib"));
+
+                if (packageLibDirectory.Exists)
+                {
+                    var frameworkVersions = new List<FrameworkVersion>();
+                    FrameworkVersion bestFrameworkVersion;
+                    DirectoryInfo componentDirectory;
+
+                    foreach (var frameworkDirectory in packageLibDirectory.GetDirectories())
+                    {
+                        regex = new Regex(@"(?<framework>[a-z]*)?(?<major>\d)\.?(?<minor>\d)");
+
+                        if (regex.IsMatch(frameworkDirectory.Name))
+                        {
+                            var match = regex.Match(frameworkDirectory.Name);
+                            var major = match.GetGroupValue("major");
+                            var minor = match.GetGroupValue("minor");
+                            var framework = match.GetGroupValue("framework");
+                            var frameworkVersion = new FrameworkVersion(framework, Version.Parse(major + "." + minor));
+
+                            if (framework == string.Empty)
+                            {
+                                framework = "net";
+                            }
+
+                            if (framework.AsCaseless() == targetFrameworkVersion.Framework)
+                            {
+                                frameworkVersions.Add(frameworkVersion);
+                            }
+                            else if (framework == "standard")
+                            {
+
+                            }
+                        }
+                        else
+                        {
+                            DebugUtils.Break();
+                        }
+                    }
+
+                    if (frameworkVersions.Count == 0)
+                    {
+                        // fallback to standard if none found
+
+                        foreach (var frameworkDirectory in packageLibDirectory.GetDirectories())
+                        {
+                            regex = new Regex(@"net(?<framework>[a-z]*)?(?<major>\d)\.?(?<minor>\d)");
+
+                            if (regex.IsMatch(frameworkDirectory.Name))
+                            {
+                                var match = regex.Match(frameworkDirectory.Name);
+                                var major = match.GetGroupValue("major");
+                                var minor = match.GetGroupValue("minor");
+                                var framework = match.GetGroupValue("framework");
+                                var frameworkVersion = new FrameworkVersion(framework, Version.Parse(major + "." + minor));
+
+                                if (framework == "standard" && targetFrameworkVersion.Framework == "net")
+                                {
+                                    componentDirectory = frameworkDirectory;
+
+                                    foreach (var componentDll in componentDirectory.GetFiles(".dll"))
+                                    {
+                                        if (Path.GetFileNameWithoutExtension(componentDll.FullName) == name)
+                                        {
+                                            return Assembly.LoadFrom(componentDll.FullName);
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                DebugUtils.Break();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        bestFrameworkVersion = frameworkVersions.FirstOrDefault(v => v.Framework.AsCaseless() == targetFrameworkVersion.Framework && v.Version <= dotNetVersion);
+                        componentDirectory = new DirectoryInfo(Path.Combine(packageLibDirectory.FullName, string.Format("{0}{1}.{2}", bestFrameworkVersion.Framework, bestFrameworkVersion.Version.Major, bestFrameworkVersion.Version.Minor)));
+
+                        if (!componentDirectory.Exists)
+                        {
+                            DebugUtils.Break();
+                        }
+
+                        foreach (var componentDll in componentDirectory.GetFiles("*.dll"))
+                        {
+                            if (Path.GetFileNameWithoutExtension(componentDll.FullName) == name)
+                            {
+                                return Assembly.LoadFrom(componentDll.FullName);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return null;
+        }
+
         public static void SetToAutoRun(this Assembly assembly)
         {
             var runKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
 
             runKey.SetValue(assembly.GetNameParts().AssemblyName, assembly.Location);
+        }
+
+        public static AssemblyNameParts GetNameParts(this AssemblyName assemblyName)
+        {
+            var parts = AssemblyExtensions.ParseAssemblyName(assemblyName.FullName);
+
+            return parts;
         }
 
         public static AssemblyNameParts GetNameParts(this Assembly assembly)
@@ -162,6 +344,7 @@ namespace Utils
 
             return parts;
         }
+
         public static IEnumerable<Type> GetTypes(this Assembly assembly, bool skipExceptions)
         {
             IEnumerable<Type> types = null;

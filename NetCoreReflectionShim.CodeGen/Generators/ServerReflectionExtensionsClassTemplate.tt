@@ -1,0 +1,334 @@
+﻿<#@ template language="C#" inherits="NetCoreReflectionShim.CodeGen.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<ApiMember>" name="ApiMembers" #>
+using NetCoreReflectionShim.Service;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Utils;
+using System.Linq;
+using System.Reflection;
+using System.IO;
+using CoreShim.Reflection.JsonTypes;
+using CodePlex.XPathParser;
+using AbstraX.XPathBuilder;
+
+namespace NetCoreReflectionShim
+{
+    public static class ReflectionExtensions
+    {
+        public static void HandleReflectionCommand(this INetCoreReflectionService service, StreamWriter outputWriter, CommandPacket commandPacket)
+        {
+            switch (commandPacket.Command)
+            {
+                case ServerCommands.LOAD_ASSEMBLY:
+                    {
+                        Assembly assembly;
+                        AssemblyJson assemblyJson;
+                        var location = (string)commandPacket.Arguments.SingleOrDefault(a => a.Key == "Location").Value;
+                        string assemblyName = null;
+
+                        if (location == null)
+                        {
+                            location = (string)commandPacket.Arguments.Single(a => a.Key == "Name").Value;
+                            assemblyName = commandPacket.Arguments.GetAssemblyName();
+                        }
+
+                        if (service.CachedAssemblies.ContainsKey(location))
+                        {
+                            assembly = service.CachedAssemblies[location];
+                        }
+                        else if (assemblyName != null)
+                        {
+                            assembly = Assembly.Load(assemblyName);
+                            service.CachedAssemblies.Add(location, assembly);
+                        }
+                        else
+                        {
+                            assembly = Assembly.LoadFrom(location);
+                            service.CachedAssemblies.Add(location, assembly);
+                        }
+
+                        assemblyJson = ClientMapper.Map(assembly).MapCachedValues(assembly);
+
+                        commandPacket = new CommandPacket(commandPacket.Command, commandPacket.SentTimestamp, assemblyJson);
+                        outputWriter.WriteJsonCommand(commandPacket);
+                    }
+
+                    break;
+
+<#
+    foreach (var member in this.ApiMembers.Where(m => !m.CacheResult))
+    {
+        var memberName = member.MemberInfo.Name;
+
+#>
+                case ServerCommands.<#= member.CommandMember #>:
+                    {
+                        Assembly assembly;
+                        (string locationOrName, int metadataToken, string[] args) = commandPacket.Arguments.GetParts();
+<# 
+        foreach (var line in member.ServerGetArgumentsCode.GetLines())
+        {
+#>
+                        <#= line #>
+<#
+        }
+#>
+
+                        if (service.CachedAssemblies.ContainsKey(locationOrName))
+                        {
+                            assembly = service.CachedAssemblies[locationOrName];
+                        }
+                        else
+                        {
+                            assembly = Assembly.LoadFrom(locationOrName);
+                            service.CachedAssemblies.Add(locationOrName, assembly);
+                        }
+
+<#
+        if (member.ParentTypeIsAssembly)
+        {
+#>
+                        if (metadataToken == 0)
+                        {
+                            var module = assembly.GetModules().Single();
+<#
+            if (member.IsCollectionReturn || member.IsArrayReturn)
+            {
+#>
+                            CommandPacket<List<<#= member.ReturnElementTypeText #>Json>> returnCommandPacket;
+                            List<<#= member.ReturnElementTypeText #>Json> <#= member.ReturnVariable #>;
+
+<#  
+                if (member.ReturnElementType.Implements<ICustomAttributeProvider>())
+                {
+#>
+                            <#= member.ReturnVariable #> = assembly.<#= member.ServerCallCode #>.AddTo(service.CachedTokenObjects).Select(<#= member.ReturnLambdaVariable #> => ClientMapper.Map(<#= member.ReturnLambdaVariable #>).MapCachedValues(<#= member.ReturnLambdaVariable #>)).ToList();
+<#
+                }
+                else if (member.NoCacheResult)
+                {
+                    if (member.MemberInfo.Name == "GetCustomAttributes")
+                    {
+#>
+                            <#= member.ReturnVariable #> = assembly.<#= member.ServerCallCode #>.Select(<#= member.ReturnLambdaVariable #> => ClientMapper.Map(<#= member.ReturnLambdaVariable #>)).ToList();
+<#
+                    }
+                    else
+                    {
+#>
+                            <#= member.ReturnVariable #> = assembly.<#= member.ServerCallCode #>.Select(<#= member.ReturnLambdaVariable #> => ClientMapper.Map(<#= member.ReturnLambdaVariable #>)).ToList();
+<#
+                    }
+
+                }
+                else
+                {
+#>
+                            <#= member.ReturnVariable #> = assembly.<#= member.ServerCallCode #>.Select(<#= member.ReturnLambdaVariable #> => ClientMapper.Map(<#= member.ReturnLambdaVariable #>).MapCachedValues(<#= member.ReturnLambdaVariable #>)).ToList();
+<#
+                }
+#>
+
+                            returnCommandPacket = new CommandPacket<List<<#= member.ReturnElementTypeText #>Json>>(commandPacket.Command, commandPacket.SentTimestamp, <#= member.ReturnVariable #>);
+<#
+            }
+            else
+            {
+#>
+                            CommandPacket<<#= member.ReturnElementTypeText #>Json> returnCommandPacket;
+                            <#= member.ReturnElementTypeText #>Json <#= member.ReturnVariable #>;
+
+                            <#= member.ReturnVariable #> = assembly.<#= member.ServerCallCode #>;
+
+                            returnCommandPacket = new CommandPacket<List<<#= member.ReturnElementTypeText #>Json>>(commandPacket.Command, commandPacket.SentTimestamp, <#= member.ReturnVariable #>);
+<#
+            }
+#>
+                            outputWriter.WriteJsonCommand(returnCommandPacket);
+                        }
+                        else
+                        {
+                            DebugUtils.Break();
+                        }
+                    }
+<#
+        }
+        else
+        {
+#>
+                        if (metadataToken != 0)
+                        {
+                            var module = assembly.GetModules().Single();
+<#
+            if (member.IsCollectionReturn || member.IsArrayReturn)
+            {
+#>
+                            CommandPacket<List<<#= member.ReturnElementTypeText #>Json>> returnCommandPacket;
+                            List<<#= member.ReturnElementTypeText #>Json> <#= member.ReturnVariable #>;
+                            <#= member.ParentTypeName #> <#= member.ParentVariable #>;
+
+                            if (service.CachedTokenObjects.ContainsKey(metadataToken))
+                            {
+                                <#= member.ParentVariable #> = (<#= member.ParentTypeName #>) service.CachedTokenObjects[metadataToken];
+                            }
+                            else
+                            {
+                                DebugUtils.Break();
+                                <#= member.ParentVariable #> = null;
+                            }
+
+<#  
+                if (member.ReturnElementType.Implements<ICustomAttributeProvider>())
+                {
+#>
+                            <#= member.ReturnVariable #> = <#= member.ParentVariable #>.<#= member.ServerCallCode #>.AddTo(service.CachedTokenObjects).Select(<#= member.ReturnLambdaVariable #> => ClientMapper.Map(<#= member.ReturnLambdaVariable #>).MapCachedValues(<#= member.ReturnLambdaVariable #>)).ToList();
+<#  
+                }
+                else if (member.NoCacheResult)
+                {
+                    if (member.MemberInfo.Name == "GetCustomAttributes")
+                    {
+
+#>
+                            <#= member.ReturnVariable #> = <#= member.ParentVariable #>.<#= member.ServerCallCode #>.Select(<#= member.ReturnLambdaVariable #> => ClientMapper.Map(<#= member.ReturnLambdaVariable #>)).ToList();
+<#  
+                    }
+                    else
+                    {
+#>
+                            <#= member.ReturnVariable #> = <#= member.ParentVariable #>.<#= member.ServerCallCode #>.Select(<#= member.ReturnLambdaVariable #> => ClientMapper.Map(<#= member.ReturnLambdaVariable #>)).ToList();
+<#  
+                    }
+                }
+                else
+                {
+#>
+                            <#= member.ReturnVariable #> = <#= member.ParentVariable #>.<#= member.ServerCallCode #>.Select(<#= member.ReturnLambdaVariable #> => ClientMapper.Map(<#= member.ReturnLambdaVariable #>).MapCachedValues(<#= member.ReturnLambdaVariable #>)).ToList();
+<#  
+                }
+#>
+
+                            returnCommandPacket = new CommandPacket<List<<#= member.ReturnElementTypeText #>Json>>(commandPacket.Command, commandPacket.SentTimestamp, <#= member.ReturnVariable #>);
+<#
+            }
+            else
+            {
+#>
+                            CommandPacket<<#= member.ReturnElementTypeText #>Json> returnCommandPacket;
+                            <#= member.ReturnElementTypeText #>Json <#= member.ReturnVariable #>;
+                            <#= member.ParentTypeName #> <#= member.ParentVariable #>;
+
+                            if (service.CachedTokenObjects.ContainsKey(metadataToken))
+                            {
+                                <#= member.ParentVariable #> = (<#= member.ParentTypeName #>) service.CachedTokenObjects[metadataToken];
+                            }
+                            else
+                            {
+                                DebugUtils.Break();
+                                <#= member.ParentVariable #> = null;
+                            }
+
+                            <#= member.ReturnVariable #> = <#= member.ParentVariable #>.<#= member.ServerCallCode #>;
+
+                            returnCommandPacket = new CommandPacket<List<<#= member.ReturnElementTypeText #>Json>>(commandPacket.Command, commandPacket.SentTimestamp, <#= member.ReturnVariable #>);
+<#
+            }
+#>
+                            outputWriter.WriteJsonCommand(returnCommandPacket);
+                        }
+                        else
+                        {
+                            DebugUtils.Break();
+                        }
+                    }
+<#
+        }
+#>
+
+                    break;
+<#
+    }
+
+#>
+
+                default:
+                    DebugUtils.Break();
+                    break;
+            }
+        }
+<#
+    foreach (var grouping in this.ApiMembers.Where(m => m.CacheResult).GroupBy(m => m.ParentTypeName))
+    {
+        var firstMember = grouping.First();
+#>
+
+        public static <#= firstMember.ParentTypeName #>Json MapCachedValues(this <#= firstMember.ParentTypeName #>Json <#= firstMember.ParentVariable #>Json, <#= firstMember.ParentTypeName #> <#= firstMember.ParentVariable #>)
+        {
+<#
+        foreach (var member in grouping)
+        {
+            if (member.ReturnElementType.IsEnum)
+            {
+#>
+            <#= firstMember.ParentVariable #>Json.<#= member.MemberInfo.Name #>MemberEnum = <#= member.ParentVariable #>.<#= member.ServerCallCode #>;
+<#
+            }
+            else
+            {
+#>
+            <#= firstMember.ParentVariable #>Json.<#= member.MemberInfo.Name #>Member = <#= member.ParentVariable #>.<#= member.ServerCallCode #>;
+<#
+            }
+        }
+#>
+
+            return <#= firstMember.ParentVariable #>Json;
+        }
+<#
+    }
+#>
+
+        public static IEnumerable<T> AddTo<T>(this IEnumerable<T> customAttributeProviders, Dictionary<int, ICustomAttributeProvider> tokenObjects) where T : ICustomAttributeProvider
+        {
+            customAttributeProviders.ForEach(p =>
+            {
+                switch (p)
+                {
+                    case MemberInfo memberInfo:
+
+                        if (!tokenObjects.ContainsKey(memberInfo.MetadataToken))
+                        {
+                            tokenObjects.Add(memberInfo.MetadataToken, memberInfo);
+                        }
+
+                        break;
+
+                    case ParameterInfo parameterInfo:
+                        
+                        if (!tokenObjects.ContainsKey(parameterInfo.MetadataToken))
+                        {
+                            tokenObjects.Add(parameterInfo.MetadataToken, parameterInfo);
+                        }
+                        
+                        break;
+
+                    default:
+                        DebugUtils.Break();
+                        break;
+                }
+            });
+
+            return customAttributeProviders;
+        }
+
+    }
+}

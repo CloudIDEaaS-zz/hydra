@@ -11,22 +11,35 @@ using Microsoft.Samples.Debugging.CorSymbolStore;
 using System.Diagnostics;
 using Microsoft.Samples.Debugging.Native;
 using VisualStudioProvider.PDB.diaapi;
+using System.Linq;
+using Utils;
 
 namespace Pdb
 {
     public static class PdbReader
     {
-        public static DiaDataSource GetPdbDataSource(string nonClrImage, bool searchForPdb = true)
+        public static DiaDataSource GetPdbDataSource(string nonClrImage)
         {
-            var fileInfo = new FileInfo(Path.Combine(Path.GetDirectoryName(nonClrImage), Path.GetFileNameWithoutExtension(nonClrImage) + ".pdb"));
+            var pdbFileName = Path.GetFileNameWithoutExtension(nonClrImage) + ".pdb";
+            var fileInfo = new FileInfo(Path.Combine(Path.GetDirectoryName(nonClrImage), pdbFileName));
             var diaDataSource = new DiaDataSource();
 
             if (!fileInfo.Exists)
             {
-                Debugger.Break();
+                var directoryInfo = new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Temp\SymbolCache"));
+
+                if (directoryInfo.Exists)
+                {
+                    fileInfo = directoryInfo.GetFiles("*.*", SearchOption.AllDirectories).SingleOrDefault(f => f.Name.AsCaseless() == pdbFileName);
+                }
+
+                if (fileInfo == null || !fileInfo.Exists)
+                {
+                    DebugUtils.Break();
+                }
             }
 
-            diaDataSource.LoadExe(nonClrImage);
+            diaDataSource.LoadPdb(fileInfo.FullName);
 
             return diaDataSource;
         }

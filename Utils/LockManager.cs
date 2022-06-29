@@ -31,5 +31,12 @@ namespace Utils
 
             return lockObject;
         }
+
+        public static IManagedSemaphoreObject CreateSemaphore(int initialCount = 1, int maximumCount = 1)
+        {
+            var semaphoreLockObject = new ManagedSemaphoreObject(initialCount, maximumCount);
+
+            return semaphoreLockObject;
+        }
     }
 }

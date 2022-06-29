@@ -8,6 +8,15 @@ namespace Utils
 {
     public static class PathExtensions
     {
+        public static string EnvironmentPathCombine(string enviromentVariableNoPercents, params string[] paths)
+        {
+            var environmentVariableExpanded = Path.GetFullPath(Environment.ExpandEnvironmentVariables(enviromentVariableNoPercents.SurroundWith("%")));
+            var possibleRelativePath = Path.Combine(new string[] { environmentVariableExpanded }.Concat(paths).ToArray());
+            var path = Path.GetFullPath(possibleRelativePath);
+
+            return path;
+        }
+
         public static string GetPathFromFolder(this FileInfo file, string folder, bool includeFolderName = false)
         {
             var path = file.FullName;
@@ -94,6 +103,26 @@ namespace Utils
             {
                 return false;
             }
+        }
+
+        public static IEnumerable<DirectoryInfo> GetAncestors(this DirectoryInfo directory, bool includeSelf = true)
+        {
+            var list = new List<DirectoryInfo>();
+            var parent = directory.Parent;
+
+            if (includeSelf)
+            {
+                list.Add(directory);
+            }
+
+            while (parent != null)
+            {
+                list.Add(parent);
+
+                parent = parent.Parent;
+            }
+
+            return list;
         }
 
         public static string GetParentPathToFolder(this DirectoryInfo directory, string folder, bool includeFolderName = false)

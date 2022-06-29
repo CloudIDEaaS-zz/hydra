@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class AngularRouterPackage : Package
+    {
+        public AngularRouterPackage()
+        {
+            this.PackageInstalls = new string[] { "angularrouter" };
+        }
+    }
+}

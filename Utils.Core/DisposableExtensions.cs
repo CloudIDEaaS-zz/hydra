@@ -14,12 +14,12 @@ namespace Utils
 
     public static class DisposableExtensions
     {
-        public static IDisposable AsDisposable<T>(this T obj, EventHandlerT<T> disposed)
+        public static IDisposable CreateDisposable<T>(this T obj, EventHandlerT<T> disposed)
         {
             return new DisposableHandler<T>(obj, disposed);
         }
 
-        public static IDisposable AsDisposable<T>(this T obj, Action disposed)
+        public static IDisposable CreateDisposable<T>(this T obj, Action disposed)
         {
             return new DisposableHandler<T>(obj, new EventHandlerT<T>((s, e) => disposed()));
         }

@@ -10,6 +10,8 @@ using System.Diagnostics;
 using System.IO;
 using System.ComponentModel;
 using Utils.GlyphDrawing;
+using System.Drawing.Imaging;
+using System.Threading;
 
 namespace Utils
 {
@@ -17,15 +19,99 @@ namespace Utils
     {
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsGUIThread([MarshalAs(UnmanagedType.Bool)] bool bConvert);
+        [DllImport("user32.dll")]
+        public static extern bool InvalidateRect(IntPtr hWnd, ref Rectangle lpRect, bool bErase);
+        [DllImport("user32.dll")]
+        public static extern bool InvalidateRect(IntPtr hWnd, IntPtr lpRect, bool bErase);
+        [DllImport("user32.dll")]
+        public static extern bool UpdateWindow(IntPtr hWnd);
+        [DllImport("user32.dll")]
+        public static extern IntPtr WindowFromDC(IntPtr hDC);
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsWindow(IntPtr hWnd);
+        [DllImport("user32.dll")]
+        public static extern void NotifyWinEvent([In] int _event, [In] IntPtr hwnd, [In] int idObject, [In] int idChild);
+        [DllImport("user32.dll")]
+        public static extern IntPtr BeginPaint(IntPtr hwnd, out PAINTSTRUCT lpPaint);
+        [DllImport("user32.dll")]
+        public static extern bool ValidateRect(IntPtr hWnd, IntPtr lpRect);
+        [DllImport("user32.dll")]
+        public static extern bool EndPaint(IntPtr hWnd, [In] ref PAINTSTRUCT lpPaint);[DllImport("user32.dll")]
+        public static extern bool ValidateRect(IntPtr hWnd, ref RECT lpRect);
+        [DllImport("Oleacc.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr LresultFromObject(ref Guid refiid, IntPtr wParam, IntPtr pAcc);
+        [DllImport("kernel32.dll")]
+        public static extern int GetTickCount();
+        [DllImport("kernel32.dll")]
+        public static extern int GetCurrentProcessId();
+        [DllImport("ole32.dll")]
+        public static extern int RevokeDragDrop(IntPtr hwnd);
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern int GetWindowTextLength(IntPtr hWnd);
+        [DllImport("gdi32.dll", EntryPoint = "BitBlt", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool BitBlt([In] IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, [In] IntPtr hdcSrc, int nXSrc, int nYSrc, TernaryRasterOperations dwRop);
+        [DllImport("gdi32.dll")]
+        public static extern bool Rectangle(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
+        [DllImport("gdi32.dll")]
+        public static extern bool RoundRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidth, int nHeight);
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreatePen(PenStyle fnPenStyle, int nWidth, uint crColor);
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateSolidBrush(uint crColor);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern int GetMessageTime();
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern int GetMessagePos();
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool UnhookWindowsHookEx(IntPtr hhk);
+        [DllImport("user32.dll")]
+        public static extern bool IsChild(IntPtr hWndParent, IntPtr hWnd);
+        [DllImport("user32.dll")]
+        public extern static void GetUpdateRgn(IntPtr hWnd, IntPtr hrgn, bool erase);
+
+        [DllImport("user32.dll")]
+        public extern static bool GetUpdateRect(IntPtr hWnd, ref Rectangle rect, bool bErase);
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetCursorPos(out Point lpPoint);
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetCursor();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetActiveWindow(IntPtr hWnd);
+
+        [DllImport("user32", ExactSpelling = true, SetLastError = true)]
+        public static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, [In, Out] ref Rectangle rect, [MarshalAs(UnmanagedType.U4)] int cPoints);
+
+        [DllImport("user32", ExactSpelling = true, SetLastError = true)]
+        public static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, [In, Out] ref System.Drawing.Point pt, [MarshalAs(UnmanagedType.U4)] int cPoints);
+        [DllImport("user32.dll")]
+        public static extern IntPtr DefWindowProc(IntPtr hWnd, WindowsMessage uMsg, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern uint RegisterWindowMessage(string lpString);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWindowVisible(IntPtr hWnd);
+        [DllImport("user32.dll")]
+        public static extern bool LockWindowUpdate(IntPtr hWndLock);
         [DllImport("user32.dll")]
         public static extern bool FlashWindow(IntPtr hwnd, bool bInvert);
         [DllImport("user32.dll")]
         static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
-        private static extern IntPtr SendMessage(IntPtr hWnd, WindowsMessage msg, IntPtr w, IntPtr l);
+        public static extern IntPtr SendMessage(IntPtr hWnd, WindowsMessage msg, IntPtr w, IntPtr l);
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindow(string lpClassName, int lpWindowName = 0);
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
         [DllImport("user32.dll")]
@@ -33,11 +119,11 @@ namespace Utils
         [DllImport("user32.dll")]
         private static extern IntPtr SendMessage(IntPtr hWnd, WindowsMessage msg, int wParam, int lParam);
         [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool PostMessage(IntPtr hWnd, WindowsMessage Msg, int wParam, int lParam);
+        public static extern bool PostMessage(IntPtr hWnd, WindowsMessage Msg, int wParam, int lParam);
         [DllImport("user32.dll", SetLastError = true)]
         private static extern bool PostMessage(IntPtr hWnd, WindowsMessage Msg, IntPtr wParam, IntPtr lParam);
         [DllImport("user32.dll")]
-        private static extern IntPtr SetFocus(IntPtr hWnd);
+        public static extern IntPtr SetFocus(IntPtr hWnd);
         [DllImport("user32.dll")]
         public static extern IntPtr GetFocus();
         [DllImport("user32")]
@@ -50,12 +136,8 @@ namespace Utils
         private static extern IntPtr SetWindowLong(IntPtr hWnd, WindowLongIndex nIndex, uint styles);
         [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
         private static extern int SetWindowTheme(IntPtr hwnd, string pszSubAppName, string pszSubIdList);
-
-        public static void FlashWindow(IntPtr hwndConsole, object p, int v1, int v2)
-        {
-            throw new NotImplementedException();
-        }
-
+        [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
+        private static extern int SetWindowTheme(IntPtr hwnd, uint pszSubAppName, uint pszSubIdList);
         [DllImport("user32.dll")]
         private static extern IntPtr DefWindowProc(IntPtr hWnd, int uMsg, int wParam, int lParam);
         [DllImport("user32")]
@@ -70,11 +152,14 @@ namespace Utils
         [DllImport("user32.dll")]
         public static extern bool PeekMessage(out NativeMessage lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
         [DllImport("user32.dll", SetLastError = true)]
-        static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+        [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll", SetLastError = true)]
-        static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+        public static extern bool PostThreadMessage(uint threadId, uint msg, IntPtr wParam, IntPtr lParam);
         [DllImport("user32.dll", SetLastError = true)]
-        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, SetWindowPosFlags uFlags);
+        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, SetWindowPosFlags uFlags);
         [DllImport("user32.dll")]
         public static extern IntPtr GetActiveWindow();
         [DllImport("user32.dll")]
@@ -86,6 +171,12 @@ namespace Utils
         public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
         [DllImport("user32.dll")]
         public static extern IntPtr WindowFromPoint(Point p);
+        [DllImport("user32.dll")]
+        public static extern bool RedrawWindow(IntPtr hWnd, [In] int lprcUpdate, IntPtr hrgnUpdate, RedrawWindowFlags flags);
+        [DllImport("user32.dll")]
+        public static extern bool RedrawWindow(IntPtr hWnd, [In] ref RECT lprcUpdate, IntPtr hrgnUpdate, RedrawWindowFlags flags);
+        [DllImport("user32.dll")]
+        public static extern bool RedrawWindow(IntPtr hWnd, [In] ref Rectangle lprcUpdate, IntPtr hrgnUpdate, RedrawWindowFlags flags);
         [DllImport("kernel32.dll")]
         public static extern IntPtr GetConsoleWindow();
         [DllImport("user32.dll")]
@@ -93,6 +184,9 @@ namespace Utils
         [DllImport("user32")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EnumChildWindows(IntPtr window, EnumWindowProc callback, IntPtr i);
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool EnumWindows(EnumWindowProc lpEnumFunc, IntPtr lParam);
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool EnableWindow(IntPtr hWnd, bool bEnable);
@@ -105,11 +199,9 @@ namespace Utils
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
         [DllImport("user32.dll")]
-        public static extern bool RedrawWindow(IntPtr hWnd, ref RECT lprcUpdate, IntPtr hrgnUpdate, RedrawWindowFlags flags);
-        [DllImport("user32.dll")]
         static extern int GetMessage(out NativeMessage lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax); private static int MOD_ALT = 0x1;
         [DllImport("user32.dll")]
-        static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         [DllImport("user32.dll")]
         static extern int CallWindowProc(int lpPrevWndFunc, IntPtr hWnd, uint Msg, int wParam, IntPtr lParam);
         [DllImport("user32.dll", SetLastError = true)]
@@ -118,14 +210,26 @@ namespace Utils
         static extern bool MoveWindow(IntPtr handle, int x, int y, int width, int height, bool redraw);
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool GetWindowRect(IntPtr hwnd, out Rectangle lpRect);
         [DllImport("user32.dll")]
         internal static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray), In] INPUT[] pInputs, int cbSize);
+        [System.Runtime.InteropServices.DllImport("Shell32.dll")]
+        public static extern int SHChangeNotify(int eventId, int flags, IntPtr item1, IntPtr item2);
         [DllImport("user32.dll")]
         internal static extern bool ShowWindowAsync(IntPtr hWnd, ShowWindowCommands nCmdShow);
         [DllImport("user32.dll", SetLastError = false)]
         public static extern IntPtr GetDesktopWindow();
         [DllImport("user32.dll")]
-        static extern bool ClientToScreen(IntPtr hWnd, ref Point lpPoint);
+        public static extern IntPtr GetDC(IntPtr hWnd);
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateDC(string lpszDriver, string lpszDevice, string lpszOutput, IntPtr lpInitData);
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateDC(string lpszDriver, IntPtr lpszDevice, IntPtr lpszOutput, IntPtr lpInitData);
+        [DllImport("user32.dll")]
+        public static extern bool ClientToScreen(IntPtr hWnd, ref Point lpPoint);
+        [DllImport("user32.dll")]
+        public static extern bool ScreenToClient(IntPtr hWnd, ref Point lpPoint);
         [DllImport("user32.dll")]
         public static extern int GetSystemMetrics(SystemMetric smIndex);
         [DllImport("user32.dll")]
@@ -136,10 +240,10 @@ namespace Utils
         public static extern bool HideCaret(IntPtr hWnd);
         [DllImport("user32.dll")]
         public static extern bool DestroyCaret();
-        [DllImport("user32.dll", SetLastError=true)]
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern bool SetCaretPos(int x, int y);
         [DllImport("gdi32.dll", CharSet = CharSet.Auto)]
-        static extern bool GetTextMetrics(IntPtr hdc, out TEXTMETRIC lptm);
+        public static extern bool GetTextMetrics(IntPtr hdc, out TEXTMETRIC lptm);
         [DllImport("gdi32.dll", EntryPoint = "SelectObject")]
         public static extern IntPtr SelectObject([In] IntPtr hdc, [In] IntPtr hgdiobj);
         [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
@@ -152,16 +256,446 @@ namespace Utils
         [DllImport("user32.dll")]
         public static extern IntPtr SetCapture(IntPtr hWnd);
         [DllImport("user32.dll")]
-        static extern bool ReleaseCapture();
+        public static extern bool ReleaseCapture();
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         static extern bool DestroyWindow(IntPtr hwnd);
         internal delegate int WndProcDelegate(IntPtr hWnd, uint msg, int wParam, IntPtr lParam);
+        [DllImport("user32.dll", EntryPoint = "SetClassLong")]
+        public static extern int SetClassLongPtr32(IntPtr hWnd, [MarshalAs(UnmanagedType.I4)] ClassLongFlags index, int dwNewLong);
+        [DllImport("user32.dll", EntryPoint = "GetClassLong")]
+        public static extern IntPtr GetClassLongPtr(IntPtr hWnd, [MarshalAs(UnmanagedType.I4)] ClassLongFlags index);
+        [DllImport("user32.dll", EntryPoint = "GetClassLong")]
+        public static extern IntPtr GetClassLongPtr(IntPtr hWnd, int index);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
+        private static extern int SetWindowLong32(IntPtr hWnd, [MarshalAs(UnmanagedType.I4)] WindowLongFlags nIndex, int dwNewLong);
+        [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
+        static extern IntPtr GetWindowLongPtr(IntPtr hWnd, [MarshalAs(UnmanagedType.I4)] WindowLongFlags nIndex);
+        [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
+        static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.U2)]
+        public static extern short RegisterClassEx([In] ref WNDCLASSEX lpwcx);
+        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = false, SetLastError = true)]
+        public static extern short RegisterClass([In] ref WNDCLASS wc);
+
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool TrackMouseEvent(ref TRACKMOUSEEVENT lpEventTrack);
+        [DllImport("Oleacc.dll")]
+        public static extern IntPtr GetProcessHandleFromHwnd(IntPtr hWnd);
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool EnumThreadWindows(uint dwThreadId, EnumThreadProc lpfn, IntPtr lParam);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr GetWindow(IntPtr hWnd, GetWindowType uCmd);
+
+        public const int WA_INACTIVE = 0;
+        public const int WA_ACTIVE = 1;
+        public const int WA_CLICKACTIVE = 2;
+
+        public delegate bool MsgProc(ref Message m);
+        public delegate void MsgPostProc(ref Message m);
+
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        public delegate int WindowProc(IntPtr hwnd, WindowsMessage message, IntPtr wParam, IntPtr lParam);
+
+        public const int NM_FIRST = 0;
+        public const int NM_CLICK = NM_FIRST - 2;
+
+        public enum NotificationCode : uint
+        {
+            FIRST = 0,
+            NM_CLICK = unchecked(FIRST - 2),
+            NM_CUSTOMDRAW = unchecked(FIRST - 12),
+            NM_DBLCLK = unchecked(FIRST - 3),
+            NM_KILLFOCUS = unchecked(FIRST - 8),
+            NM_RCLICK = unchecked(FIRST - 5),
+            NM_RDBLCLK = unchecked(FIRST - 6),
+            NM_RETURN = unchecked(FIRST - 4),
+            NM_SETCURSOR = unchecked(FIRST - 17),
+            NM_SETFOCUS = unchecked(FIRST - 7)
+        }
+
+        public enum TreeViewNotificationCodes
+        {
+            TVN_FIRST = (400),       // treeview
+            TVN_LAST = (499),
+            TVN_SELCHANGINGA = (TVN_FIRST - 1),
+            TVN_SELCHANGINGW = (TVN_FIRST - 50),
+            TVN_SELCHANGEDA = (TVN_FIRST - 2),
+            TVN_SELCHANGEDW = (TVN_FIRST - 51),
+            TVC_UNKNOWN = 0x0000,
+            TVC_BYMOUSE = 0x0001,
+            TVC_BYKEYBOARD = 0x0002,
+            TVN_GETDISPINFOA = (TVN_FIRST - 3),
+            TVN_GETDISPINFOW = (TVN_FIRST - 52),
+            TVN_SETDISPINFOA = (TVN_FIRST - 4),
+            TVN_SETDISPINFOW = (TVN_FIRST - 53),
+            TVIF_DI_SETITEM = 0x1000,
+            TVN_ITEMEXPANDINGA = (TVN_FIRST - 5),
+            TVN_ITEMEXPANDINGW = (TVN_FIRST - 54),
+            TVN_ITEMEXPANDEDA = (TVN_FIRST - 6),
+            TVN_ITEMEXPANDEDW = (TVN_FIRST - 55),
+            TVN_BEGINDRAGA = (TVN_FIRST - 7),
+            TVN_BEGINDRAGW = (TVN_FIRST - 56),
+            TVN_BEGINRDRAGA = (TVN_FIRST - 8),
+            TVN_BEGINRDRAGW = (TVN_FIRST - 57),
+            TVN_DELETEITEMA = (TVN_FIRST - 9),
+            TVN_DELETEITEMW = (TVN_FIRST - 58),
+            TVN_BEGINLABELEDITA = (TVN_FIRST - 10),
+            TVN_BEGINLABELEDITW = (TVN_FIRST - 59),
+            TVN_ENDLABELEDITA = (TVN_FIRST - 11),
+            TVN_ENDLABELEDITW = (TVN_FIRST - 60),
+            TVN_KEYDOWN = (TVN_FIRST - 12),
+            TVN_GETINFOTIPA = (TVN_FIRST - 13),
+            TVN_GETINFOTIPW = (TVN_FIRST - 14),
+            TVN_SINGLEEXPAND = (TVN_FIRST - 15),
+            TVNRET_DEFAULT = 0,
+            TVNRET_SKIPOLD = 1,
+            TVNRET_SKIPNEW = 2,
+            TVN_ITEMCHANGINGA = (TVN_FIRST - 16),
+            TVN_ITEMCHANGINGW = (TVN_FIRST - 17),
+            TVN_ITEMCHANGEDA = (TVN_FIRST - 18),
+            TVN_ITEMCHANGEDW = (TVN_FIRST - 19),
+            TVN_ASYNCDRAW = (TVN_FIRST - 20),
+            TVN_SELCHANGING = TVN_SELCHANGINGW,
+            TVN_SELCHANGED = TVN_SELCHANGEDW,
+            TVN_GETDISPINFO = TVN_GETDISPINFOW,
+            TVN_SETDISPINFO = TVN_SETDISPINFOW,
+            TVN_ITEMEXPANDING = TVN_ITEMEXPANDINGW,
+            TVN_ITEMEXPANDED = TVN_ITEMEXPANDEDW,
+            TVN_BEGINDRAG = TVN_BEGINDRAGW,
+            TVN_BEGINRDRAG = TVN_BEGINRDRAGW,
+            TVN_DELETEITEM = TVN_DELETEITEMW,
+            TVN_BEGINLABELEDIT = TVN_BEGINLABELEDITW,
+            TVN_ENDLABELEDIT = TVN_ENDLABELEDITW,
+        }
+
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct NMHDR
+        {
+            public IntPtr hwndFrom;
+            public IntPtr idFrom;
+            public int code;
+        }
+
+        public struct TVITEMCHANGE
+        {
+            public NMHDR hdr;
+            public uint uChanged;
+            public IntPtr hItem;
+            public uint uStateNew;
+            public uint uStateOld;
+            public IntPtr lParam;
+        }
+
+        public enum ScrollBarCommands
+        {
+            SB_LINEUP = 0,
+            SB_LINELEFT = 0,
+            SB_LINEDOWN = 1,
+            SB_LINERIGHT = 1,
+            SB_PAGEUP = 2,
+            SB_PAGELEFT = 2,
+            SB_PAGEDOWN = 3,
+            SB_PAGERIGHT = 3,
+            SB_THUMBPOSITION = 4,
+            SB_THUMBTRACK = 5,
+            SB_TOP = 6,
+            SB_LEFT = 6,
+            SB_BOTTOM = 7,
+            SB_RIGHT = 7,
+            SB_ENDSCROLL = 8
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct WINDOWPOS
+        {
+            public IntPtr hwnd;
+            public IntPtr hwndInsertAfter;
+            public int x;
+            public int y;
+            public int cx;
+            public int cy;
+            public uint flags;
+        }
+
+        public const int PDERR_SETUPFAILURE = 0x1001,
+               PDERR_PARSEFAILURE = 0x1002,
+               PDERR_RETDEFFAILURE = 0x1003,
+               PDERR_LOADDRVFAILURE = 0x1004,
+               PDERR_GETDEVMODEFAIL = 0x1005,
+               PDERR_INITFAILURE = 0x1006,
+               PDERR_NODEVICES = 0x1007,
+               PDERR_NODEFAULTPRN = 0x1008,
+               PDERR_DNDMMISMATCH = 0x1009,
+               PDERR_CREATEICFAILURE = 0x100A,
+               PDERR_PRINTERNOTFOUND = 0x100B,
+               PDERR_DEFAULTDIFFERENT = 0x100C,
+               PD_ALLPAGES = 0x00000000,
+               PD_SELECTION = 0x00000001,
+               PD_PAGENUMS = 0x00000002,
+               PD_NOSELECTION = 0x00000004,
+               PD_NOPAGENUMS = 0x00000008,
+               PD_COLLATE = 0x00000010,
+               PD_PRINTTOFILE = 0x00000020,
+               PD_PRINTSETUP = 0x00000040,
+               PD_NOWARNING = 0x00000080,
+               PD_RETURNDC = 0x00000100,
+               PD_RETURNIC = 0x00000200,
+               PD_RETURNDEFAULT = 0x00000400,
+               PD_SHOWHELP = 0x00000800,
+               PD_ENABLEPRINTHOOK = 0x00001000,
+               PD_ENABLESETUPHOOK = 0x00002000,
+               PD_ENABLEPRINTTEMPLATE = 0x00004000,
+               PD_ENABLESETUPTEMPLATE = 0x00008000,
+               PD_ENABLEPRINTTEMPLATEHANDLE = 0x00010000,
+               PD_ENABLESETUPTEMPLATEHANDLE = 0x00020000,
+               PD_USEDEVMODECOPIES = 0x00040000,
+               PD_USEDEVMODECOPIESANDCOLLATE = 0x00040000,
+               PD_DISABLEPRINTTOFILE = 0x00080000,
+               PD_HIDEPRINTTOFILE = 0x00100000,
+               PD_NONETWORKBUTTON = 0x00200000,
+               PD_CURRENTPAGE = 0x00400000,
+               PD_NOCURRENTPAGE = 0x00800000,
+               PD_EXCLUSIONFLAGS = 0x01000000,
+               PD_USELARGETEMPLATE = 0x10000000,
+               PSD_MINMARGINS = 0x00000001,
+               PSD_MARGINS = 0x00000002,
+               PSD_INHUNDREDTHSOFMILLIMETERS = 0x00000008,
+               PSD_DISABLEMARGINS = 0x00000010,
+               PSD_DISABLEPRINTER = 0x00000020,
+               PSD_DISABLEORIENTATION = 0x00000100,
+               PSD_DISABLEPAPER = 0x00000200,
+               PSD_SHOWHELP = 0x00000800,
+               PSD_ENABLEPAGESETUPHOOK = 0x00002000,
+               PSD_NONETWORKBUTTON = 0x00200000,
+               PS_SOLID = 0,
+               PS_DOT = 2,
+               PLANES = 14,
+               PRF_CHECKVISIBLE = 0x00000001,
+               PRF_NONCLIENT = 0x00000002,
+               PRF_CLIENT = 0x00000004,
+               PRF_ERASEBKGND = 0x00000008,
+               PRF_CHILDREN = 0x00000010,
+               PM_NOREMOVE = 0x0000,
+               PM_REMOVE = 0x0001,
+               PM_NOYIELD = 0x0002,
+               PBM_SETRANGE = (0x0400 + 1),
+               PBM_SETPOS = (0x0400 + 2),
+               PBM_SETSTEP = (0x0400 + 4),
+               PBM_SETRANGE32 = (0x0400 + 6),
+               PBM_SETBARCOLOR = (0x0400 + 9),
+               PBM_SETMARQUEE = (0x0400 + 10),
+               PBM_SETBKCOLOR = (0x2000 + 1),
+               PSM_SETTITLEA = (0x0400 + 111),
+               PSM_SETTITLEW = (0x0400 + 120),
+               PSM_SETFINISHTEXTA = (0x0400 + 115),
+               PSM_SETFINISHTEXTW = (0x0400 + 121),
+               PATCOPY = 0x00F00021,
+               PATINVERT = 0x005A0049;
+        public enum TernaryRasterOperations : uint
+        {
+            /// <summary>dest = source</summary>
+            SRCCOPY = 0x00CC0020,
+            /// <summary>dest = source OR dest</summary>
+            SRCPAINT = 0x00EE0086,
+            /// <summary>dest = source AND dest</summary>
+            SRCAND = 0x008800C6,
+            /// <summary>dest = source XOR dest</summary>
+            SRCINVERT = 0x00660046,
+            /// <summary>dest = source AND (NOT dest)</summary>
+            SRCERASE = 0x00440328,
+            /// <summary>dest = (NOT source)</summary>
+            NOTSRCCOPY = 0x00330008,
+            /// <summary>dest = (NOT src) AND (NOT dest)</summary>
+            NOTSRCERASE = 0x001100A6,
+            /// <summary>dest = (source AND pattern)</summary>
+            MERGECOPY = 0x00C000CA,
+            /// <summary>dest = (NOT source) OR dest</summary>
+            MERGEPAINT = 0x00BB0226,
+            /// <summary>dest = pattern</summary>
+            PATCOPY = 0x00F00021,
+            /// <summary>dest = DPSnoo</summary>
+            PATPAINT = 0x00FB0A09,
+            /// <summary>dest = pattern XOR dest</summary>
+            PATINVERT = 0x005A0049,
+            /// <summary>dest = (NOT dest)</summary>
+            DSTINVERT = 0x00550009,
+            /// <summary>dest = BLACK</summary>
+            BLACKNESS = 0x00000042,
+            /// <summary>dest = WHITE</summary>
+            WHITENESS = 0x00FF0062,
+            /// <summary>
+            /// Capture window as seen on screen.  This includes layered windows
+            /// such as WPF windows with AllowsTransparency="true"
+            /// </summary>
+            CAPTUREBLT = 0x40000000
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct PAINTSTRUCT
+        {
+            public IntPtr hdc;
+            public bool fErase;
+            public RECT rcPaint;
+            public bool fRestore;
+            public bool fIncUpdate;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)] public byte[] rgbReserved;
+        }
+
+        public enum PenStyle : int
+        {
+            PS_SOLID = 0, //The pen is solid.
+            PS_DASH = 1, //The pen is dashed.
+            PS_DOT = 2, //The pen is dotted.
+            PS_DASHDOT = 3, //The pen has alternating dashes and dots.
+            PS_DASHDOTDOT = 4, //The pen has alternating dashes and double dots.
+            PS_NULL = 5, //The pen is invisible.
+            PS_INSIDEFRAME = 6,// Normally when the edge is drawn, it’s centred on the outer edge meaning that half the width of the pen is drawn
+                               // outside the shape’s edge, half is inside the shape’s edge. When PS_INSIDEFRAME is specified the edge is drawn
+                               //completely inside the outer edge of the shape.
+            PS_USERSTYLE = 7,
+            PS_ALTERNATE = 8,
+            PS_STYLE_MASK = 0x0000000F,
+
+            PS_ENDCAP_ROUND = 0x00000000,
+            PS_ENDCAP_SQUARE = 0x00000100,
+            PS_ENDCAP_FLAT = 0x00000200,
+            PS_ENDCAP_MASK = 0x00000F00,
+
+            PS_JOIN_ROUND = 0x00000000,
+            PS_JOIN_BEVEL = 0x00001000,
+            PS_JOIN_MITER = 0x00002000,
+            PS_JOIN_MASK = 0x0000F000,
+
+            PS_COSMETIC = 0x00000000,
+            PS_GEOMETRIC = 0x00010000,
+            PS_TYPE_MASK = 0x000F0000
+        };
+
+        public enum GetWindowType : uint
+        {
+            GW_HWNDFIRST = 0,
+            GW_HWNDLAST = 1,
+            GW_HWNDNEXT = 2,
+            GW_HWNDPREV = 3,
+            GW_OWNER = 4,
+            GW_CHILD = 5,
+            GW_ENABLEDPOPUP = 6
+        }
+
         private static int MOD_CONTROL = 0x2;
         private static int MOD_SHIFT = 0x4;
         private static int MOD_WIN = 0x8;
         private static int WM_HOTKEY = 0x312;
+        public const int HT_CLIENT = 0x1;
+        public const int HT_CAPTION = 0x2;
+
+        public delegate bool EnumThreadProc(IntPtr hwnd, IntPtr lParam);
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct WNDCLASS
+        {
+            [MarshalAs(UnmanagedType.U4)]
+            public int style;
+            public Delegate lpfnWndProc; // not WndProc
+            public int cbClsExtra;
+            public int cbWndExtra;
+            public IntPtr hInstance;
+            public IntPtr hIcon;
+            public IntPtr hCursor;
+            public IntPtr hbrBackground;
+            public string lpszMenuName;
+            public string lpszClassName;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct WNDCLASSEX
+        {
+            [MarshalAs(UnmanagedType.U4)]
+            public int cbSize;
+            [MarshalAs(UnmanagedType.U4)]
+            public int style;
+            public Delegate lpfnWndProc; // not WndProc
+            public int cbClsExtra;
+            public int cbWndExtra;
+            public IntPtr hInstance;
+            public IntPtr hIcon;
+            public IntPtr hCursor;
+            public IntPtr hbrBackground;
+            public string lpszMenuName;
+            public string lpszClassName;
+            public IntPtr hIconSm;
+
+            //Use this function to make a new one with cbSize already filled in.
+            //For example:
+            //var WndClss = WNDCLASSEX.Build()
+            public static WNDCLASSEX Build()
+            {
+                var nw = new WNDCLASSEX();
+                nw.cbSize = Marshal.SizeOf(typeof(WNDCLASSEX));
+                return nw;
+            }
+        }
+
+        public enum HitTestValues
+        {
+            ERROR = -2,
+            TRANSPARENT = -1,
+            NOWHERE = 0,
+            CLIENT = 1,
+            CAPTION = 2,
+            SYSMENU = 3,
+            GROWBOX = 4,
+            MENU = 5,
+            HSCROLL = 6,
+            VSCROLL = 7,
+            MINBUTTON = 8,
+            MAXBUTTON = 9,
+            LEFT = 10,
+            RIGHT = 11,
+            TOP = 12,
+            TOPLEFT = 13,
+            TOPRIGHT = 14,
+            BOTTOM = 15,
+            BOTTOMLEFT = 16,
+            BOTTOMRIGHT = 17,
+            BORDER = 18,
+            OBJECT = 19,
+            CLOSE = 20,
+            HELP = 21
+        }
+
+        public enum WindowLongFlags : int
+        {
+            GWL_EXSTYLE = -20,
+            GWLP_HINSTANCE = -6,
+            GWLP_HWNDPARENT = -8,
+            GWL_ID = -12,
+            GWL_STYLE = -16,
+            GWL_USERDATA = -21,
+            GWL_WNDPROC = -4,
+            DWLP_USER = 0x8,
+            DWLP_MSGRESULT = 0x0,
+            DWLP_DLGPROC = 0x4
+        }
+
+        public enum ClassLongFlags : int
+        {
+            GCLP_MENUNAME = -8,
+            GCLP_HBRBACKGROUND = -10,
+            GCLP_HCURSOR = -12,
+            GCLP_HICON = -14,
+            GCLP_HMODULE = -16,
+            GCL_CBWNDEXTRA = -18,
+            GCL_CBCLSEXTRA = -20,
+            GCLP_WNDPROC = -24,
+            GCL_STYLE = -26,
+            GCLP_HICONSM = -34,
+            GCW_ATOM = -32
+        }
 
         [DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vlc);
@@ -170,13 +704,207 @@ namespace Utils
         public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         public delegate void TimerProc(IntPtr hWnd, uint uMsg, int nIDEvent, uint dwTime);
-        public delegate bool EnumWindowProc(IntPtr hWnd, IntPtr parameter); 
+        public delegate bool EnumWindowProc(IntPtr hWnd, IntPtr parameter);
         private const int GWL_WNDPROC = -4;
         private static bool enableClickOnActivateNoReenter;
         private static GlyphManager glyphManager;
 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MARGINS
+        {
+            public int Left;
+            public int Right;
+            public int Top;
+            public int Bottom;
+        }
+
+        [DllImport("dwmapi.dll")]
+        public static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMargins);
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int AnimateWindow(IntPtr hwnd, int dwTime, AnimateStyles dwFlags);
+
+        private const int GWL_STYLE = -16;
+        private const int WS_VSCROLL = 0x00200000;
+        [DllImport("user32.dll", ExactSpelling = false, CharSet = CharSet.Auto)]
+        public static extern IntPtr GetWindowLong(IntPtr hWnd, int nIndex);
+        [DllImport("User32.dll")]
+        public static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetWindowsHookEx(HookType hookType, HookProc lpfn, IntPtr hMod, uint dwThreadId);
+
+        public static bool IsMouseMessage(this WindowsMessage message)
+        {
+            uint msg = (uint)message;
+
+            if (msg >= 512 && msg <= 522)
+            {
+                return true;
+            }
+            if (msg - 160 > 9 && msg - 171 > 2 && msg - 672 > 3)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr GetModuleHandle(string lpModuleName);
+        [DllImport("user32.dll")]
+        public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+        [DllImport("kernel32.dll")]
+        public static extern uint GetCurrentThreadId();
+        public delegate IntPtr HookProc(int code, IntPtr wParam, IntPtr lParam);
+
+        public const int HC_ACTION = 0;
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MSG
+        {
+            public IntPtr hwnd;
+            public uint message;
+            public UIntPtr wParam;
+            public IntPtr lParam;
+            public int time;
+            public Point pt;
+            public int lPrivate;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct CWPRETSTRUCT
+        {
+            public IntPtr lResult;
+            public IntPtr lParam;
+            public IntPtr wParam;
+            public uint message;
+            public IntPtr hWnd;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct CWPSTRUCT
+        {
+            public IntPtr lParam;
+            public IntPtr wParam;
+            public uint message;
+            public IntPtr hWnd;
+        }
+
+        public enum HookType : int
+        {
+            WH_MSGFILTER = -1,
+            WH_JOURNALRECORD = 0,
+            WH_JOURNALPLAYBACK = 1,
+            WH_KEYBOARD = 2,
+            WH_GETMESSAGE = 3,
+            WH_CALLWNDPROC = 4,
+            WH_CBT = 5,
+            WH_SYSMSGFILTER = 6,
+            WH_MOUSE = 7,
+            WH_HARDWARE = 8,
+            WH_DEBUG = 9,
+            WH_SHELL = 10,
+            WH_FOREGROUNDIDLE = 11,
+            WH_CALLWNDPROCRET = 12,
+            WH_KEYBOARD_LL = 13,
+            WH_MOUSE_LL = 14
+        }
+        public enum CommonControls : uint
+        {
+            ICC_LISTVIEW_CLASSES = 0x00000001, // listview, header
+            ICC_TREEVIEW_CLASSES = 0x00000002, // treeview, tooltips
+            ICC_BAR_CLASSES = 0x00000004, // toolbar, statusbar, trackbar, tooltips
+            ICC_TAB_CLASSES = 0x00000008, // tab, tooltips
+            ICC_UPDOWN_CLASS = 0x00000010, // updown
+            ICC_PROGRESS_CLASS = 0x00000020, // progress
+            ICC_HOTKEY_CLASS = 0x00000040, // hotkey
+            ICC_ANIMATE_CLASS = 0x00000080, // animate
+            ICC_WIN95_CLASSES = 0x000000FF,
+            ICC_DATE_CLASSES = 0x00000100, // month picker, date picker, time picker, updown
+            ICC_USEREX_CLASSES = 0x00000200, // comboex
+            ICC_COOL_CLASSES = 0x00000400, // rebar (coolbar) control
+            ICC_INTERNET_CLASSES = 0x00000800,
+            ICC_PAGESCROLLER_CLASS = 0x00001000,  // page scroller
+            ICC_NATIVEFNTCTL_CLASS = 0x00002000,  // native font control
+            ICC_STANDARD_CLASSES = 0x00004000,
+            ICC_LINK_CLASS = 0x00008000
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct INITCOMMONCONTROLSEX
+        {
+            private int dwSize;
+            public uint dwICC;
+
+            public INITCOMMONCONTROLSEX(uint dwICC)
+            {
+                dwSize = Marshal.SizeOf(typeof(INITCOMMONCONTROLSEX));
+
+                this.dwICC = dwICC;
+            }
+
+            public INITCOMMONCONTROLSEX(CommonControls ICC) : this((uint)ICC)
+            {
+            }
+
+            public CommonControls ICC
+            {
+                get
+                {
+                    return (CommonControls)dwICC;
+                }
+
+                set
+                {
+                    dwICC = (uint)value;
+                }
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct CHARRANGE
+        {
+            public int cpMin;
+            public int cpMax;
+        }
+
+        [DllImport("comctl32.dll", EntryPoint = "InitCommonControlsEx", CallingConvention = CallingConvention.StdCall)]
+        public static extern bool InitCommonControlsEx(ref INITCOMMONCONTROLSEX iccex);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr CreateWindowEx(
+           WindowStylesEx dwExStyle,
+           [MarshalAs(UnmanagedType.LPWStr)] string lpClassName,
+           [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName,
+           WindowStyles dwStyle,
+           int x,
+           int y,
+           int nWidth,
+           int nHeight,
+           IntPtr hWndParent,
+           IntPtr hMenu,
+           IntPtr hInstance,
+           IntPtr lpParam);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr CreateWindowEx(
+           WindowStylesEx dwExStyle,
+           uint lpClassName,
+           int lpWindowName,
+           WindowStyles dwStyle,
+           int x,
+           int y,
+           int nWidth,
+           int nHeight,
+           IntPtr hWndParent,
+           IntPtr hMenu,
+           IntPtr hInstance,
+           IntPtr lpParam);
+
+        public struct LASTINPUTINFO
+        {
+            public uint cbSize;
+            public uint dwTime;
+        }
+
         public enum NotifyFlags
         {
             NIF_MESSAGE = 0x01,
@@ -188,12 +916,12 @@ namespace Utils
             NIF_SHOWTIP = 0x80
         }
 
-        public enum NotifyCommand 
+        public enum NotifyCommand
         {
-            NIM_ADD = 0x0, 
-            NIM_DELETE = 0x2, 
-            NIM_MODIFY = 0x1, 
-            NIM_SETVERSION = 0x4 
+            NIM_ADD = 0x0,
+            NIM_DELETE = 0x2,
+            NIM_MODIFY = 0x1,
+            NIM_SETVERSION = 0x4
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -220,6 +948,14 @@ namespace Utils
         }
 
         [StructLayout(LayoutKind.Sequential)]
+        public struct COPYDATASTRUCT
+        {
+            public IntPtr dwData;    // Any value the sender chooses.  Perhaps its main window handle?
+            public int cbData;       // The count of bytes in the message.
+            public IntPtr lpData;    // The address of the message.
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
         public struct NOTIFYICONIDENTIFIER
         {
             public Int32 cbSize;
@@ -233,6 +969,40 @@ namespace Utils
 
         [DllImport("shell32.dll", SetLastError = true)]
         public static extern int Shell_NotifyIconGetRect([In] ref NOTIFYICONIDENTIFIER identifier, [Out] out RECT iconLocation);
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+        (
+            int nLeftRect,     // x-coordinate of upper-left corner
+            int nTopRect,      // y-coordinate of upper-left corner
+            int nRightRect,    // x-coordinate of lower-right corner
+            int nBottomRect,   // y-coordinate of lower-right corner
+            int nWidthEllipse, // width of ellipse
+            int nHeightEllipse // height of ellipse
+        );
+
+        [DllImport("user32.dll")]
+        private static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
+
+        private const int TVIF_STATE = 0x8;
+        private const int TVIS_STATEIMAGEMASK = 0xF000;
+        private const int TV_FIRST = 0x1100;
+        private const int TVM_SETITEM = TV_FIRST + 63;
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8, CharSet = CharSet.Auto)]
+        private struct TVITEM
+        {
+            public int mask;
+            public IntPtr hItem;
+            public int state;
+            public int stateMask;
+            [MarshalAs(UnmanagedType.LPTStr)]
+            public string lpszText;
+            public int cchTextMax;
+            public int iImage;
+            public int iSelectedImage;
+            public int cChildren;
+            public IntPtr lParam;
+        }
 
         static ControlExtensions()
         {
@@ -261,9 +1031,197 @@ namespace Utils
             Asterisk = 0x40,
         }
 
+        public enum ComboBoxMessages : ushort
+        {
+            CBN_SELCHANGE = 1
+        }
+
+        public const int LWA_ALPHA = 0x2;
+        public const int LWA_COLORKEY = 0x1;
+
         [DllImport("User32.dll", ExactSpelling = true)]
         private static extern bool MessageBeep(uint type);
 
+        public static Thread GetUIThread(this Control control)
+        {
+            var thread = (Thread)(control.Invoke(new Func<Thread>(() => Thread.CurrentThread)));
+
+            return thread;
+        }
+
+        public static int SetClassLong(this Control control, ClassLongFlags index, int newLong)
+        {
+            return SetClassLongPtr32(control.Handle, index, newLong);
+        }
+
+        public static IntPtr GetClassLong(this Control control, ClassLongFlags index)
+        {
+            return GetClassLongPtr(control.Handle, index);
+        }
+
+        public static int SetClassLong(this Control control, int index, int newLong)
+        {
+            return SetClassLongPtr32(control.Handle, (ClassLongFlags)index, newLong);
+        }
+
+        public static int SetWindowLong(this Control control, WindowLongFlags index, int newLong)
+        {
+            return SetWindowLong32(control.Handle, index, newLong);
+        }
+
+        public static int SetWindowLong(this Control control, int index, int newLong)
+        {
+            return SetWindowLong32(control.Handle, (WindowLongFlags)index, newLong);
+        }
+
+        public static IntPtr GetWindowLong(this Control control, WindowLongFlags index)
+        {
+            return GetWindowLong(control.Handle, (int)index);
+        }
+
+        public static IntPtr GetWindowLong(this Control control, int index)
+        {
+            return GetWindowLong(control.Handle, index);
+        }
+
+        public static void MakeColorTransparent(this Control control, Color transparencyKey)
+        {
+            var exStyle = (int)control.GetWindowLong(ControlExtensions.WindowLongFlags.GWL_EXSTYLE);
+            var result = control.SetWindowLong(ControlExtensions.WindowLongFlags.GWL_EXSTYLE, exStyle | (int)WindowStylesEx.WS_EX_LAYERED);
+
+            control.SetLayeredAttributes(0, transparencyKey);
+        }
+
+        public static void SetLayeredAttributes(this Control control, byte alpha, Color? transparencyKey = null)
+        {
+            var handle = control.Handle;
+            var flags = LWA_ALPHA;
+            var colorKey = 0;
+            bool result;
+
+            if (transparencyKey != null)
+            {
+                flags = LWA_COLORKEY;
+                colorKey = transparencyKey.Value.ToCOLORREF();
+            }
+
+            result = SetLayeredWindowAttributes(handle, (uint)colorKey, alpha, (uint)flags);
+
+            if (!result)
+            {
+                var error = Marshal.GetLastWin32Error();
+            }
+        }
+
+        public static void ChangeImage(this PictureBox pictureBox, Image image)
+        {
+            var tempPath = Path.GetTempPath();
+            var imageFile = Path.Combine(tempPath, string.Format("TempImage{0}.png", Guid.NewGuid().ToString()));
+            var form = pictureBox.GetParentForm();
+
+            if (form == null)
+            {
+                form = Application.OpenForms.Cast<Form>().FirstOrDefault();
+            }
+
+            form.FormClosing += (sender, e) =>
+            {
+                try
+                {
+                    pictureBox.Image.Dispose();
+                }
+                catch
+                {
+                }
+
+                try
+                {
+                    File.Delete(imageFile);
+                }
+                catch
+                {
+                }
+            };
+
+            image.Save(imageFile, ImageFormat.Png);
+
+            pictureBox.Load(imageFile);
+        }
+
+        public static void ChangeImage(this PictureBox pictureBox, Image image, ImageFormat imageFormat)
+        {
+            var tempPath = Path.GetTempPath();
+            var extension = imageFormat.GetExtension();
+            var imageFile = Path.Combine(tempPath, string.Format("TempImage{0}{1}", Guid.NewGuid().ToString(), extension));
+            var form = pictureBox.GetParentForm();
+
+            if (form == null)
+            {
+                form = Application.OpenForms.Cast<Form>().FirstOrDefault();
+            }
+
+            form.FormClosing += (sender, e) =>
+            {
+                try
+                {
+                    pictureBox.Image.Dispose();
+                }
+                catch
+                {
+                }
+
+                try
+                {
+                    File.Delete(imageFile);
+                }
+                catch
+                {
+                }
+            };
+
+            image.Save(imageFile, imageFormat);
+
+            pictureBox.Load(imageFile);
+        }
+
+        public static bool VerticalScrollVisible(this Control control)
+        {
+            int style = (int)GetWindowLong(control.Handle, GWL_STYLE);
+
+            return ((style & WS_VSCROLL) != 0);
+        }
+
+        public static IntPtr CreateWindow(string className, string windowName, WindowStyles style, Rectangle rectangle, Control parent)
+        {
+            return CreateWindowEx(0, className, windowName, style, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, parent.Handle, IntPtr.Zero, Process.GetCurrentProcess().Handle, IntPtr.Zero);
+        }
+
+        public static IntPtr CreateWindow(uint atom, WindowStyles style, Rectangle rectangle, Control parent)
+        {
+            return CreateWindowEx(0, atom, 0, style, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, parent.Handle, IntPtr.Zero, Process.GetCurrentProcess().Handle, IntPtr.Zero);
+        }
+
+        public static TimeSpan GetIdleTime()
+        {
+            LASTINPUTINFO lastInPut = new LASTINPUTINFO();
+            lastInPut.cbSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(lastInPut);
+            GetLastInputInfo(ref lastInPut);
+
+            return TimeSpan.FromMilliseconds(((uint)Environment.TickCount - lastInPut.dwTime));
+        }
+
+        public static DateTime GetLastInputTime()
+        {
+            LASTINPUTINFO lastInPut = new LASTINPUTINFO();
+            lastInPut.cbSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(lastInPut);
+
+            if (!GetLastInputInfo(ref lastInPut))
+            {
+                return DateTime.MinValue;
+            }
+
+            return DateTime.Now - TimeSpan.FromMilliseconds(lastInPut.dwTime);
+        }
         public static void Beep(this Control control, BeepType type = BeepType.SimpleBeep)
         {
             MessageBeep((uint)type);
@@ -295,7 +1253,10 @@ namespace Utils
             {
                 IntPtr hFontPrevious = SelectObject(hDC, hFont);
                 bool result = GetTextMetrics(hDC, out textMetric);
+
                 SelectObject(hDC, hFontPrevious);
+
+                graphics.ReleaseHdc();
             }
             finally
             {
@@ -303,6 +1264,75 @@ namespace Utils
             }
 
             return textMetric;
+        }
+
+        public static void AppendLine(this RichTextBox richTextBox, string format, params object[] args)
+        {
+            var text = string.Format(format + "\r\n", args);
+
+            richTextBox.AppendText(text);
+        }
+
+        public static void Append(this RichTextBox richTextBox, string format, params object[] args)
+        {
+            var text = string.Format(format, args);
+
+            richTextBox.AppendText(text);
+        }
+
+        public static void AppendLine(this RichTextBox richTextBox, Color color, string format, params object[] args)
+        {
+            var text = string.Format(format + "\r\n", args);
+
+            richTextBox.SuspendLayout();
+            richTextBox.SelectionColor = color;
+            richTextBox.AppendText(text);
+
+            richTextBox.ScrollToCaret();
+            richTextBox.ResumeLayout();
+        }
+
+        public static void AppendText(this RichTextBox richTextBox, Color color, string text)
+        {
+            richTextBox.SuspendLayout();
+            richTextBox.SelectionColor = color;
+            richTextBox.AppendText(text);
+
+            richTextBox.ScrollToCaret();
+            richTextBox.ResumeLayout();
+        }
+
+        public static void AddRoundedCorners(this Control control, int radius)
+        {
+            control.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, control.Width, control.Height, radius, radius));
+        }
+
+        public static DataGridViewColumn GetColumn(this DataGridViewCell dataGridViewCell)
+        {
+            var gridView = dataGridViewCell.DataGridView;
+            var column = gridView.Columns[dataGridViewCell.ColumnIndex];
+
+            return column;
+        }
+
+        public static Rectangle GetDisplayRectangle(this DataGridViewCell dataGridViewCell, bool cutOverflow = true)
+        {
+            var gridView = dataGridViewCell.DataGridView;
+            var rectangle = gridView.GetCellDisplayRectangle(dataGridViewCell.ColumnIndex, dataGridViewCell.RowIndex, cutOverflow);
+
+            return rectangle;
+        }
+
+        public static void ShowFloatingMessageBox(this Form form, string message, string resourcePath, int milliseconds)
+        {
+            var type = form.GetType();
+            var floatingMessageBox = new frmFloatingMessageBox(form);
+            var image = type.ReadResource<Bitmap>(resourcePath);
+
+            floatingMessageBox.Message = message;
+            floatingMessageBox.Image = image;
+
+            floatingMessageBox.ShowTemporarily(milliseconds);
         }
 
         public static void Destroy(this Control control)
@@ -424,7 +1454,7 @@ namespace Utils
         {
             Rectangle rect;
 
-            GetWindowRect((int) control.Handle, out rect);
+            GetWindowRect((int)control.Handle, out rect);
 
             return rect;
         }
@@ -549,7 +1579,7 @@ namespace Utils
         {
             var glyph = new ControlGlyph();
             var index = tabPage.GetTabPageIndex();
-            var tabControl = (TabControl) tabPage.Parent;
+            var tabControl = (TabControl)tabPage.Parent;
             var tabRect = tabControl.GetTabRect(index);
             var spacer = " ".Repeat(4);
 
@@ -585,6 +1615,7 @@ namespace Utils
 
             if (tabControl.SelectedTab == tabPage)
             {
+                glyph.FocusedOrHovered = true;
                 glyph.FocusedOrHovered = true;
             }
             else
@@ -635,7 +1666,7 @@ namespace Utils
 
         private static ControlGlyph GetDeleteGlyph(this TabPage tabPage)
         {
-            var tabControl = (TabControl) tabPage.Parent;
+            var tabControl = (TabControl)tabPage.Parent;
             var name = string.Format("TabControlDeleteButton{0}", tabPage.Handle);
 
             if (glyphManager.Glyphs.ContainsKey(tabControl))
@@ -660,6 +1691,43 @@ namespace Utils
             {
                 return null;
             }
+        }
+
+        public static Control GetControlAtPoint(this Control container, Point pos)
+        {
+            Control child;
+
+            foreach (Control c in container.Controls)
+            {
+                if (c.Visible && c.Bounds.Contains(pos))
+                {
+                    child = GetControlAtPoint(c, new Point(pos.X - c.Left, pos.Y - c.Top));
+
+                    if (child == null)
+                    {
+                        return c;
+                    }
+                    else
+                    {
+                        return child;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public static Control GetControlAtCursor(this Control control)
+        {
+            Point pos = Cursor.Position;
+            var form = control.FindForm();
+
+            if (form.Bounds.Contains(pos))
+            {
+                return GetControlAtPoint(form, form.PointToClient(pos));
+            }
+
+            return null;
         }
 
         public static void AllowAddTab(this TabControl tabControl)
@@ -739,11 +1807,11 @@ namespace Utils
             }
         }
 
-        private static TextEdit GetTextEdit(this TabControl tabControl)
+        public static TextEdit GetTextEdit(this Control parentControl)
         {
             TextEdit textEdit = null;
 
-            EnumChildWindows(tabControl.Handle, (hWndChild, parameter) =>
+            EnumChildWindows(parentControl.Handle, (hWndChild, parameter) =>
             {
                 var control = Control.FromChildHandle(hWndChild);
 
@@ -777,7 +1845,7 @@ namespace Utils
 
             lastTabRect.X = -8;
             lastTabRect.Width = 0;
-            lastTabRect.Height = 0; 
+            lastTabRect.Height = 0;
 
             for (var x = 0; x < tabControl.TabCount; x++)
             {
@@ -1022,9 +2090,12 @@ namespace Utils
         {
             var properties = StatusStripProperties.RegisteredStatusStrips.AddToDictionaryIfNotExist(statusStrip, () => new StatusStripProperties(statusStrip));
 
+            properties.CheckColors();
+
             statusStrip.Invoke(() =>
             {
                 properties.StatusLabel.Text = string.Format(format, args);
+                statusStrip.Refresh();
 
                 Application.DoEvents();
             });
@@ -1039,6 +2110,7 @@ namespace Utils
                 properties.StatusLabel.Text = statusText;
                 properties.StatusLabel.ForeColor = foreColor;
                 properties.StatusLabel.BackColor = backColor;
+                statusStrip.Refresh();
 
                 Application.DoEvents();
             });
@@ -1048,18 +2120,38 @@ namespace Utils
         {
             var properties = StatusStripProperties.RegisteredStatusStrips.AddToDictionaryIfNotExist(statusStrip, () => new StatusStripProperties(statusStrip));
 
+            properties.CheckColors();
+
             statusStrip.Invoke(() =>
             {
                 properties.StatusLabel.Text = string.Format(format, args);
                 properties.ProgressBar.Value = Math.Min(progressPercent, 100);
 
+                statusStrip.Refresh();
                 Application.DoEvents();
             });
+        }
+
+        public static StatusStripProperties GetProperties(this StatusStrip statusStrip)
+        {
+            var properties = StatusStripProperties.RegisteredStatusStrips.AddToDictionaryIfNotExist(statusStrip, () => new StatusStripProperties(statusStrip));
+
+            return properties;
+        }
+
+        public static void ClearProperties(this StatusStrip statusStrip)
+        {
+            if (StatusStripProperties.RegisteredStatusStrips.ContainsKey(statusStrip))
+            {
+                StatusStripProperties.RegisteredStatusStrips.Remove(statusStrip);
+            }
         }
 
         public static void SetStatus(this StatusStrip statusStrip, string statusText, int progressPercent = 0)
         {
             var properties = StatusStripProperties.RegisteredStatusStrips.AddToDictionaryIfNotExist(statusStrip, () => new StatusStripProperties(statusStrip));
+
+            properties.CheckColors();
 
             if (properties.PendingTempStatus)
             {
@@ -1080,6 +2172,7 @@ namespace Utils
                     }
                 }
 
+                statusStrip.Refresh();
                 Application.DoEvents();
             });
         }
@@ -1089,6 +2182,7 @@ namespace Utils
             var properties = StatusStripProperties.RegisteredStatusStrips.AddToDictionaryIfNotExist(statusStrip, () => new StatusStripProperties(statusStrip));
 
             properties.PendingTempStatus = true;
+            properties.CheckColors();
 
             statusStrip.Invoke(() =>
             {
@@ -1097,6 +2191,7 @@ namespace Utils
                 properties.StatusLabel.Text = string.Format(format, args);
                 properties.ProgressBar.Value = Math.Min(progressPercent, 100);
 
+                statusStrip.Refresh();
                 Application.DoEvents();
 
                 oneTimeTimer.Start(() =>
@@ -1111,16 +2206,17 @@ namespace Utils
                         statusStrip.ResetStatus();
                         properties.PendingTempStatus = false;
                     }
-            });
-
+                });
             });
         }
+
 
         public static void SetTemporaryStatusFormat(this StatusStrip statusStrip, string format, int delay, params object[] args)
         {
             var properties = StatusStripProperties.RegisteredStatusStrips.AddToDictionaryIfNotExist(statusStrip, () => new StatusStripProperties(statusStrip));
 
             properties.PendingTempStatus = true;
+            properties.CheckColors();
 
             statusStrip.Invoke(() =>
             {
@@ -1128,6 +2224,7 @@ namespace Utils
 
                 properties.StatusLabel.Text = string.Format(format, args);
 
+                statusStrip.Refresh();
                 Application.DoEvents();
 
                 oneTimeTimer.Start(() =>
@@ -1152,16 +2249,21 @@ namespace Utils
             var properties = StatusStripProperties.RegisteredStatusStrips.AddToDictionaryIfNotExist(statusStrip, () => new StatusStripProperties(statusStrip));
 
             properties.PendingTempStatus = true;
+            properties.CheckColors();
 
             statusStrip.Invoke(() =>
             {
                 var oneTimeTimer = new OneTimeTimer(delay);
 
                 properties.StatusLabel.Text = statusText;
-                properties.ProgressBar.Value = progressPercent;
 
-                Application.DoEvents();
+                if (properties.ProgressBar != null)
+                {
+                    properties.ProgressBar.Value = progressPercent;
+                }
+
                 statusStrip.Refresh();
+                Application.DoEvents();
 
                 oneTimeTimer.Start(() =>
                 {
@@ -1206,9 +2308,10 @@ namespace Utils
 
                 properties.StatusLabel.Text = statusText;
 
-                statusStrip.ForeColor = foreColor;
-                statusStrip.BackColor = backColor;
+                properties.StatusLabel.ForeColor = foreColor;
+                properties.StatusLabel.BackColor = backColor;
 
+                statusStrip.Refresh();
                 Application.DoEvents();
             });
         }
@@ -1240,6 +2343,7 @@ namespace Utils
 
                 properties.StatusLabel.Text = statusText;
 
+                statusStrip.Refresh();
                 Application.DoEvents();
             });
         }
@@ -1297,6 +2401,7 @@ namespace Utils
                     DebugUtils.Break();
                 }
 
+                statusStrip.Refresh();
                 Application.DoEvents();
             });
         }
@@ -1310,14 +2415,21 @@ namespace Utils
         {
             var properties = StatusStripProperties.RegisteredStatusStrips.AddToDictionaryIfNotExist(statusStrip, () => new StatusStripProperties(statusStrip));
 
+            properties.CheckColors();
+
             statusStrip.Invoke(() =>
             {
                 properties.StatusLabel.Text = statusText;
                 statusStrip.ForeColor = properties.StatusStripDefaultForeColor;
                 statusStrip.BackColor = properties.StatusStripDefaultBackColor;
-                properties.ProgressBar.Value = 0;
-                properties.ProgressBar.Visible = false;
 
+                if (properties.ProgressBar != null)
+                {
+                    properties.ProgressBar.Value = 0;
+                    properties.ProgressBar.Visible = false;
+                }
+
+                statusStrip.Refresh();
                 Application.DoEvents();
             });
         }
@@ -1325,6 +2437,8 @@ namespace Utils
         public static void ClearStatus(this StatusStrip statusStrip)
         {
             var properties = StatusStripProperties.RegisteredStatusStrips.AddToDictionaryIfNotExist(statusStrip, () => new StatusStripProperties(statusStrip));
+
+            properties.CheckColors();
 
             statusStrip.Invoke(() =>
             {
@@ -1334,7 +2448,7 @@ namespace Utils
                 properties.ProgressBar.Value = 0;
                 properties.ProgressBar.Visible = false;
 
-                Application.DoEvents();
+                statusStrip.Refresh();
             });
         }
 
@@ -1363,7 +2477,7 @@ namespace Utils
             }
 
             Keys k = key & ~Keys.Control & ~Keys.Shift & ~Keys.Alt;
-            
+
             return RegisterHotKey(window, id, modifiers, (int)k);
         }
 
@@ -1398,6 +2512,35 @@ namespace Utils
             };
         }
 
+        public static NativeMessageWithResult GetMessage(IntPtr handle)
+        {
+            NativeMessage msg;
+            int ret;
+
+            ret = GetMessage(out msg, handle, 0, 0);
+
+            return new NativeMessageWithResult
+            {
+                handle = msg.handle,
+                message = msg.msg,
+                wParam = msg.wParam,
+                lParam = msg.lParam,
+                time = TimeSpan.FromTicks(msg.time),
+                point = msg.point,
+                returnValue = ret
+            };
+        }
+
+        public static bool LockWindowUpdate(this Control control)
+        {
+            return LockWindowUpdate(control.Handle);
+        }
+
+        public static void UnlockWindowUpdate(this Control control)
+        {
+            LockWindowUpdate(IntPtr.Zero);
+        }
+
         public static List<IntPtr> GetChildWindows(IntPtr parent)
         {
             List<IntPtr> result = new List<IntPtr>();
@@ -1411,9 +2554,85 @@ namespace Utils
             finally
             {
                 if (listHandle.IsAllocated)
+                {
                     listHandle.Free();
+                }
             }
-        
+
+            return result;
+        }
+
+        public static IntPtr GetChildWindowWithClassName(IntPtr parent, string classFind)
+        {
+            List<IntPtr> result = new List<IntPtr>();
+            GCHandle listHandle = GCHandle.Alloc(result);
+
+            try
+            {
+                EnumWindowProc childProc = new EnumWindowProc(EnumWindow);
+                EnumChildWindows(parent, childProc, GCHandle.ToIntPtr(listHandle));
+
+                foreach (var hwnd in result)
+                {
+                    var className = GetClassName(hwnd);
+
+                    if (className == classFind)
+                    {
+                        return hwnd;
+                    }
+                }
+            }
+            finally
+            {
+                if (listHandle.IsAllocated)
+                {
+                    listHandle.Free();
+                }
+            }
+
+            return IntPtr.Zero;
+        }
+
+        public static List<IntPtr> GetWindows()
+        {
+            List<IntPtr> result = new List<IntPtr>();
+            GCHandle listHandle = GCHandle.Alloc(result);
+
+            try
+            {
+                EnumWindowProc childProc = new EnumWindowProc(EnumWindow);
+                EnumWindows(childProc, GCHandle.ToIntPtr(listHandle));
+            }
+            finally
+            {
+                if (listHandle.IsAllocated)
+                {
+                    listHandle.Free();
+                }
+            }
+
+            return result;
+        }
+
+        public static List<IntPtr> GetThreadWindows(this ProcessThread thread)
+        {
+            List<IntPtr> result = new List<IntPtr>();
+            GCHandle listHandle = GCHandle.Alloc(result);
+            var id = (uint)thread.Id;
+
+            try
+            {
+                EnumThreadProc childProc = new EnumThreadProc(EnumWindow);
+                EnumThreadWindows(id, childProc, GCHandle.ToIntPtr(listHandle));
+            }
+            finally
+            {
+                if (listHandle.IsAllocated)
+                {
+                    listHandle.Free();
+                }
+            }
+
             return result;
         }
 
@@ -1442,28 +2661,42 @@ namespace Utils
             return internetExplorerServer;
         }
 
-        public static string GetClassName(IntPtr handle)
+        public static string GetClassName(IntPtr hwnd)
         {
-            var builder = new StringBuilder();
+            var builder = new StringBuilder(255);
             string className;
 
-            GetClassName(handle, builder, 255);
+            GetClassName(hwnd, builder, 255);
 
             className = builder.ToString();
 
             return className;
         }
 
+        public static string GetWindowText(IntPtr hwnd)
+        {
+            var builder = new StringBuilder(255);
+            string text;
+
+            GetWindowText(hwnd, builder, 255);
+
+            text = builder.ToString();
+
+            return text;
+        }
+
         private static bool EnumWindow(IntPtr handle, IntPtr pointer)
         {
-            GCHandle gch = GCHandle.FromIntPtr(pointer);
-            List<IntPtr> list = gch.Target as List<IntPtr>;
-        
+            var gch = GCHandle.FromIntPtr(pointer);
+            var list = gch.Target as List<IntPtr>;
+
             if (list == null)
             {
                 throw new InvalidCastException("GCHandle Target could not be cast as List<IntPtr>");
             }
+
             list.Add(handle);
+
             //  You can modify this to check to see if you want to cancel the operation, then return a null here
             return true;
         }
@@ -1609,24 +2842,66 @@ namespace Utils
             return hEdit;
         }
 
-        public static void SetTheme(this Control control, string name)
+        public static int SetTheme(this Control control, string name)
         {
-            SetWindowTheme(control.Handle, name, null);
+            return SetWindowTheme(control.Handle, name, null);
+        }
+
+        public static int SetTheme(this ToolStripProgressBar pBar, string name)
+        {
+            return SetWindowTheme(pBar.ProgressBar.Handle, name, null);
+        }
+
+        public static int DisableTheme(this Control control)
+        {
+            return SetWindowTheme(control.Handle, string.Empty, string.Empty);
+        }
+
+        public static int DisableTheme(this ToolStripProgressBar pBar)
+        {
+            return SetWindowTheme(pBar.ProgressBar.Handle, string.Empty, string.Empty);
         }
 
         public static NativeWindow GetEditControl(this TreeView treeView, Func<Message, bool> msgProc)
         {
-            var hEdit = treeView.SendMessage((WindowsMessage) 0x1100 + 15);
+            var hEdit = treeView.SendMessage((WindowsMessage)0x1100 + 15);
             var textBox = new NativeWindow(hEdit, msgProc);
 
             return textBox;
+        }
+
+        public static void HideCheckBox(this TreeView treeView, TreeNode node)
+        {
+            var tvi = new TVITEM();
+
+            tvi.hItem = node.Handle;
+            tvi.mask = TVIF_STATE;
+            tvi.stateMask = TVIS_STATEIMAGEMASK;
+            tvi.state = 0;
+
+            SendMessage<TVITEM>(treeView, (WindowsMessage)TVM_SETITEM, 0, tvi);
+        }
+        public static void CenterOver(this Control control, Control controlToCenterTo, Point offset)
+        {
+            var midPoint = new Point(controlToCenterTo.Width / 2, controlToCenterTo.Height / 2);
+
+            if (control is Form)
+            {
+                midPoint = controlToCenterTo.PointToScreen(midPoint);
+            }
+
+            control.Left = midPoint.X - (control.Width / 2) + offset.X; ;
+            control.Top = midPoint.Y - (control.Height / 2) + offset.Y;
         }
 
         public static void CenterOver(this Control control, Control controlToCenterTo)
         {
             var midPoint = new Point(controlToCenterTo.Width / 2, controlToCenterTo.Height / 2);
 
-            midPoint = controlToCenterTo.PointToScreen(midPoint);
+            if (control is Form)
+            {
+                midPoint = controlToCenterTo.PointToScreen(midPoint);
+            }
 
             control.Left = midPoint.X - (control.Width / 2);
             control.Top = midPoint.Y - (control.Height / 2);
@@ -1637,10 +2912,13 @@ namespace Utils
             Point midPoint;
             Rectangle rect;
 
-            GetWindowRect((int) controlToCenterTo, out rect);
+            GetWindowRect((int)controlToCenterTo, out rect);
             midPoint = new Point(rect.Width / 2, rect.Height / 2);
 
-            ClientToScreen(controlToCenterTo, ref midPoint);
+            if (control is Form)
+            {
+                ClientToScreen(controlToCenterTo, ref midPoint);
+            }
 
             control.Left = midPoint.X - (control.Width / 2);
             control.Top = midPoint.Y - (control.Height / 2);
@@ -1733,6 +3011,16 @@ namespace Utils
             return result;
         }
 
+        public static bool SetAsChildOf(this Control controlChild, IntPtr hwnd)
+        {
+            var result = false;
+            var handle = controlChild.Handle;
+
+            result = SetParent(handle, hwnd) != IntPtr.Zero;
+
+            return result;
+        }
+
         public static IntPtr SubclassWindow(IntPtr handle, WndProc wndProc)
         {
             return SetWindowLong(handle, WindowLongIndex.GWL_WNDPROC, wndProc);
@@ -1740,7 +3028,7 @@ namespace Utils
 
         public static bool InDesignMode(this Control control, bool skipDevEnvCheck = false)
         {
-            if (((Component) control).GetPrivatePropertyValue<bool>("DesignMode"))
+            if (((Component)control).GetPrivatePropertyValue<bool>("DesignMode"))
             {
                 return true;
             }
@@ -1793,7 +3081,23 @@ namespace Utils
             while (DateTime.Now - startTime < TimeSpan.FromMilliseconds(milliseconds))
             {
                 Application.DoEvents();
+            }
         }
+
+        public static Bitmap GetScreenshot()
+        {
+            var screen = Screen.PrimaryScreen;
+            var screenWidth = screen.Bounds.Width;
+            var screenHeight = screen.Bounds.Height;
+            var bitmap = new Bitmap(screenWidth, screenHeight);
+
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.CopyFromScreen(5, 5, 0, 0, new System.Drawing.Size(screenWidth - 5, screenHeight - 5));
+
+            }
+
+            return bitmap;
         }
 
         public static Screen GetSecondaryMonitor(this Form form)
@@ -1812,19 +3116,24 @@ namespace Utils
 
         public static void ShowInSecondaryMonitor(this Form form, FormWindowState state = FormWindowState.Maximized)
         {
-            var leftScreen = Screen.AllScreens.SingleOrDefault(s => s != Screen.PrimaryScreen);
+            var secondaryScreen = Screen.AllScreens.SingleOrDefault(s => s != Screen.PrimaryScreen);
 
-            if (leftScreen != null)
+            if (!form.IsHandleCreated)
+            {
+                form.Show();
+            }
+
+            if (secondaryScreen != null)
             {
                 form.WindowState = FormWindowState.Normal;
 
-                form.Location = new Point(leftScreen.Bounds.Left, 0);
+                form.Location = new Point(secondaryScreen.Bounds.Left, 0);
 
                 form.WindowState = state;
 
                 if (state == FormWindowState.Normal)
                 {
-                    form.CenterOver(leftScreen);
+                    form.CenterOver(secondaryScreen);
                 }
             }
         }
@@ -1905,7 +3214,7 @@ namespace Utils
 
         public static int GetVisibleRowCount(this ListView listView)
         {
-            return (int) listView.SendMessage(WindowsMessage.LVM_GETCOUNTPERPAGE, 0, 0);
+            return (int)listView.SendMessage(WindowsMessage.LVM_GETCOUNTPERPAGE, 0, 0);
         }
 
         public static void AddSubItem(this ListViewItem item, ColumnHeader header, string text)
@@ -1931,6 +3240,23 @@ namespace Utils
             subItem.Text = text;
         }
 
+        public static unsafe Utils.NativeWindow GetNotifications(this Control control, Func<IntPtr, bool> msgProc)
+        {
+            return control.GetMessages(m =>
+            {
+                var windowsMessage = (WindowsMessage)m.Msg;
+
+                if (m.HWnd == control.Handle && windowsMessage == WindowsMessage.NOTIFY)
+                {
+                    var nmhdr = (NMHDR*)m.LParam.ToPointer();
+
+                    return msgProc((IntPtr)nmhdr);
+                }
+
+                return true;
+            });
+        }
+
         public static Utils.NativeWindow GetMessages(this Control control, Func<Message, bool> msgProc)
         {
             var nativeWindow = new Utils.NativeWindow(msgProc);
@@ -1949,9 +3275,27 @@ namespace Utils
             return nativeWindow;
         }
 
+        public static Utils.NativeWindow GetMessages(this Control control, MsgProc msgProc, MsgPostProc msgPostProc)
+        {
+            var nativeWindow = new Utils.NativeWindow(msgProc, msgPostProc);
+
+            nativeWindow.AssignHandle(control.Handle);
+
+            return nativeWindow;
+        }
+
         public static Utils.NativeWindow GetMessages(IntPtr hwnd, Func<Message, bool> msgProc)
         {
             var nativeWindow = new Utils.NativeWindow(msgProc);
+
+            nativeWindow.AssignHandle(hwnd);
+
+            return nativeWindow;
+        }
+
+        public static Utils.NativeWindow GetMessages(IntPtr hwnd, Func<Message, bool> msgProc, Action<Message> msgPostProc)
+        {
+            var nativeWindow = new Utils.NativeWindow(msgProc, msgPostProc);
 
             nativeWindow.AssignHandle(hwnd);
 
@@ -1966,7 +3310,7 @@ namespace Utils
 
             hook.OnMessage += (hWnd, msg, wParam, lParam) =>
             {
-                if (msgProc(new Message{ HWnd = hWnd, Msg = (int) msg, WParam = (IntPtr) wParam, LParam = lParam }))
+                if (msgProc(new Message { HWnd = hWnd, Msg = (int)msg, WParam = (IntPtr)wParam, LParam = lParam }))
                 {
                     return CallWindowProc(prevWndFunc, hWnd, msg, wParam, lParam);
                 }
@@ -1977,15 +3321,24 @@ namespace Utils
             delegatePtr = hook.DelegatePtr;
             prevWndFunc = SetWindowLong(hwnd, (int)Utils.ControlExtensions.WindowLongIndex.GWL_WNDPROC, delegatePtr);
 
-            return prevWndFunc.AsDisposable(() =>
-            {
-                prevWndFunc = SetWindowLong(hwnd, (int)Utils.ControlExtensions.WindowLongIndex.GWL_WNDPROC, prevWndFunc);
-            });
+            hook.PrevWndFunc = prevWndFunc;
+            hook.Hwnd = hwnd;
+
+            return hook;
         }
 
         public static Utils.NativeWindow GetMessages(this Form form, Func<Message, bool> msgProc)
         {
             var nativeWindow = new Utils.NativeWindow(msgProc);
+
+            nativeWindow.AssignHandle(form.Handle);
+
+            return nativeWindow;
+        }
+
+        public static Utils.NativeWindow GetMessages(this Form form, Func<Message, bool> msgProc, bool callBaseMethodFirst)
+        {
+            var nativeWindow = new Utils.NativeWindow(msgProc, callBaseMethodFirst);
 
             nativeWindow.AssignHandle(form.Handle);
 
@@ -2146,7 +3499,7 @@ namespace Utils
                                 return true;
                             }
 
-                            if (m.WParam == (IntPtr) 1 && m.HWnd == parentForm.Handle)
+                            if (m.WParam == (IntPtr)1 && m.HWnd == parentForm.Handle)
                             {
                                 var mousePosition = toolStrip.PointToClient(Control.MousePosition);
 
@@ -2177,6 +3530,41 @@ namespace Utils
             };
 
             toolStrip.BeginInvoke(checkForParent);
+        }
+
+        public static IDisposable EnableClickOnActivate(this ToolStrip toolStrip, IntPtr hwndTopLevelParent)
+        {
+            var disposable = HookMessages(hwndTopLevelParent, (m) =>
+            {
+                var message = (WindowsMessage)m.Msg;
+
+                if (message == WindowsMessage.MOUSEACTIVATE || message == WindowsMessage.CHILDACTIVATE || message == WindowsMessage.NCACTIVATE)
+                {
+                    if (enableClickOnActivateNoReenter)
+                    {
+                        return true;
+                    }
+
+                    if (m.WParam == (IntPtr)1 && m.HWnd == hwndTopLevelParent)
+                    {
+                        var mousePosition = toolStrip.PointToClient(Control.MousePosition);
+
+                        foreach (var item in toolStrip.Items.Cast<ToolStripItem>())
+                        {
+                            if (item.Bounds.Contains(mousePosition))
+                            {
+                                enableClickOnActivateNoReenter = true;
+                                item.PerformClick();
+                                enableClickOnActivateNoReenter = false;
+                            }
+                        }
+                    }
+                }
+
+                return true;
+            });
+
+            return disposable;
         }
 
         public static void EnableClickOnActivate(this ToolStrip toolStrip, Control parent)
@@ -2253,7 +3641,7 @@ namespace Utils
 
             return frm;
         }
-            
+
         public static Rectangle GetRectangle(this NotifyIcon icon)
         {
             RECT rect = new RECT();
@@ -2445,6 +3833,18 @@ namespace Utils
             return list;
         }
 
+        public static IEnumerable<TreeNode> GetNodes(this TreeView treeView)
+        {
+            var list = new List<TreeNode>();
+
+            foreach (TreeNode node in treeView.Nodes)
+            {
+                list.Add(node);
+            }
+
+            return list;
+        }
+
         public static IEnumerable<Control> GetAllControls(this Control control)
         {
             var list = new List<Control>();
@@ -2523,6 +3923,18 @@ namespace Utils
 
                 parent = parent.Parent;
             }
+        }
+
+        public static IEnumerable<TreeNode> GetNodes(this TreeNode treeNode)
+        {
+            var list = new List<TreeNode>();
+
+            foreach (TreeNode node in treeNode.Nodes)
+            {
+                list.Add(node);
+            }
+
+            return list;
         }
 
         public static IEnumerable<TreeNode> GetAllNodes(this TreeNode treeNode)
@@ -2656,7 +4068,7 @@ namespace Utils
         {
             var imageTypes = new List<string>() { "bmp", "gif", "jpg", "jpeg", "png", "ico" };
             var key = imageList.Images.Keys[index];
-            
+
             return key;
         }
 
@@ -2683,7 +4095,7 @@ namespace Utils
 
         public static LowHiWord ToLowHiWord(this IntPtr ptr)
         {
-            return new LowHiWord { Number = (uint) ptr };
+            return new LowHiWord { Number = (uint)ptr };
         }
 
         public static LowHiWordSigned ToLowHiWordSigned(this IntPtr ptr)
@@ -2709,6 +4121,28 @@ namespace Utils
         public static IntPtr MakeLParam(uint low, uint high)
         {
             return (IntPtr)new LowHiWord { Low = (ushort)low, High = (ushort)high }.Number;
+        }
+
+        public static Color SetBarColor(this ProgressBar pBar, Color color)
+        {
+            uint previousColor;
+            Color returnColor;
+
+            previousColor = (uint)SendMessage(pBar.Handle, (WindowsMessage)PBM_SETBARCOLOR, 0, color.ToCOLORREF());
+            returnColor = DrawingExtensions.FromCOLORREF(previousColor);
+
+            return returnColor;
+        }
+
+        public static Color SetBarColor(this ToolStripProgressBar pBar, Color color)
+        {
+            uint previousColor;
+            Color returnColor;
+
+            previousColor = (uint)SendMessage(pBar.ProgressBar.Handle, (WindowsMessage)PBM_SETBARCOLOR, 0, color.ToCOLORREF());
+            returnColor = DrawingExtensions.FromCOLORREF(previousColor);
+
+            return returnColor;
         }
 
         public static void SetState(this ProgressBar pBar, ProgressBarState state)
@@ -3013,11 +4447,11 @@ namespace Utils
 
             if (formTitle == null)
             {
-                caption = string.Format("{0} v{1} {2}", attributes.Product, attributes.Version, attributes.Copyright);
+                caption = string.Format("{0} v{1}, {2} {3}", attributes.Product, attributes.Version, attributes.Company, attributes.Copyright);
             }
             else
             {
-                caption = string.Format("{0} v{1} {2}", formTitle, attributes.Version, attributes.Copyright);
+                caption = string.Format("{0} v{1}, {2} {3}", formTitle, attributes.Version, attributes.Company, attributes.Copyright);
             }
 
             return caption;
@@ -3046,7 +4480,32 @@ namespace Utils
             return caption;
         }
 
-        public static void Invoke(this Control control, Action action)
+        public static string GetCommonCaption()
+        {
+            var caption = string.Empty;
+            var callingAssembly = Assembly.GetCallingAssembly();
+            var attributes = callingAssembly.GetAttributes();
+
+            caption = string.Format("{0} v{1}, {2} {3}", attributes.Product, attributes.Version, attributes.Company, attributes.Copyright);
+
+            return caption;
+        }
+
+        public static void MakeMoveable(this Form form)
+        {
+            form.GetMessages(m =>
+            {
+                if (m.Msg == (int)WindowsMessage.NCHITTEST)
+                {
+                    m.Result = (IntPtr)(HT_CAPTION);
+                }
+
+                return true;
+
+            }, true);
+        }
+
+        public static void Invoke(this Control control, Action action, bool throwException = false)
         {
             try
             {
@@ -3055,8 +4514,12 @@ namespace Utils
                     control.Invoke(action);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                if (throwException)
+                {
+                    throw;
+                }
             }
         }
 
@@ -3068,9 +4531,15 @@ namespace Utils
 
                 timer.Start(() =>
                 {
-                    if (!control.IsDisposed)
+                    if (!control.IsDisposed && !control.Disposing)
                     {
-                        control.Invoke(action);
+                        try
+                        {
+                            control.Invoke(action);
+                        }
+                        catch
+                        {
+                        }
                     }
                 });
             }
@@ -3099,7 +4568,22 @@ namespace Utils
 
             Marshal.StructureToPtr(l, ptr, false);
 
-            result = SendMessage(control.Handle, msg, (IntPtr) w, ptr);
+            result = SendMessage(control.Handle, msg, (IntPtr)w, ptr);
+
+            Marshal.FreeCoTaskMem(ptr);
+
+            return result;
+        }
+
+        public static IntPtr SendMessage<TLPARAM>(IntPtr hwnd, WindowsMessage msg, int w, TLPARAM l) where TLPARAM : struct
+        {
+            var size = l.SizeOf();
+            var ptr = Marshal.AllocCoTaskMem(size);
+            IntPtr result;
+
+            Marshal.StructureToPtr(l, ptr, false);
+
+            result = SendMessage(hwnd, msg, (IntPtr)w, ptr);
 
             Marshal.FreeCoTaskMem(ptr);
 
@@ -3130,7 +4614,7 @@ namespace Utils
         {
             nativeMessage = new NativeMessage();
 
-            return PeekMessage(out nativeMessage, control.Handle, (uint)msgFilterMin, (uint)msgFilterMax, (uint) (removeMsg ? 1 : 0));
+            return PeekMessage(out nativeMessage, control.Handle, (uint)msgFilterMin, (uint)msgFilterMax, (uint)(removeMsg ? 1 : 0));
         }
 
         public static Control SetFocus(this Control control)
@@ -3142,7 +4626,7 @@ namespace Utils
 
         public static Control GetFocus(this Control control)
         {
-            var hPreviousFocus = GetFocus();    
+            var hPreviousFocus = GetFocus();
 
             return Control.FromHandle(hPreviousFocus);
         }
@@ -3226,6 +4710,51 @@ namespace Utils
             SCF_ISSECURE = 0x00000001,
             SC_ICON = SC_MINIMIZE,
             SC_ZOOM = SC_MAXIMIZE,
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct CREATESTRUCT
+        {
+            public IntPtr lpCreateParams;
+            public IntPtr hInstance;
+            public IntPtr hMenu;
+            public IntPtr hwndParent;
+            public int cy;
+            public int cx;
+            public int y;
+            public int x;
+            public int style;
+            public IntPtr lpszName;
+            public IntPtr lpszClass;
+            public int dwExStyle;
+        }
+
+        private static uint wmMouseEnterMessage = 0xffffff;
+        public const int MK_LBUTTON = 1;
+        public const int MK_RBUTTON = 2;
+        public const int OBJID_CLIENT = unchecked(unchecked((int)0xFFFFFFFC));
+        public const string uuid_IAccessible = "{618736E0-3C3D-11CF-810C-00AA00389B71}";
+
+        public enum MouseKeyFlags
+        {
+            MK_CONTROL = 0x8,
+            MK_LBUTTON = 0x1,
+            MK_MBUTTON = 0x10,
+            MK_RBUTTON = 0x2,
+            MK_SHIFT = 0x04
+        }
+
+        public static WindowsMessage MOUSEENTER
+        {
+            get
+            {
+                if (wmMouseEnterMessage == 0xffffff)
+                {
+                    wmMouseEnterMessage = ControlExtensions.RegisterWindowMessage("WinFormsMouseEnter");
+                }
+
+                return (WindowsMessage)wmMouseEnterMessage;
+            }
         }
 
         public enum WindowsMessage : uint
@@ -3366,8 +4895,8 @@ namespace Utils
             CTLCOLORDLG = 0x0136,
             CTLCOLORSCROLLBAR = 0x0137,
             CTLCOLORSTATIC = 0x0138,
-            MOUSEFIRST = 0x0200,
             MOUSEMOVE = 0x0200,
+            MOUSEFIRST = 0x0200,
             LBUTTONDOWN = 0x0201,
             LBUTTONUP = 0x0202,
             LBUTTONDBLCLK = 0x0203,
@@ -3602,7 +5131,22 @@ namespace Utils
             LVM_SORTITEMS = 0x1030,
             LVM_SORTITEMSEX = 0x1051,
             LVM_SUBITEMHITTEST = 0x1039,
-            LVM_UPDATE = 0x102a
+            LVM_UPDATE = 0x102a,
+            EM_GETOLEINTERFACE = USER + 60,
+            EM_GETSEL = 0x00B0,
+            EM_SETSEL = 0x00B1,
+            EXGETSEL = USER + 52,
+            EXSETSEL = USER + 55,
+            GETCHARFORMAT = USER + 58,
+            SETCHARFORMAT = USER + 68,
+            SETOPTIONS = USER + 77,
+            GETOPTIONS = USER + 78,
+            GETTEXTEX = USER + 94,
+            GETTEXTLENGTHEX = USER + 95,
+            SHOWSCROLLBAR = USER + 96,
+            SETTEXTEX = USER + 97,
+            GETSCROLLPOS = USER + 221,
+            SETSCROLLPOS = USER + 222,
         }
 
         [Flags]
@@ -4105,6 +5649,15 @@ namespace Utils
             ShowDefault = 10,
             ForceMinimize = 11
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MOUSEHOOKSTRUCT
+        {
+            public Point pt;
+            public IntPtr hwnd;
+            public uint wHitTestCode;
+            public IntPtr dwExtraInfo;
+        }
     }
 
     public enum ProgressBarState
@@ -4146,7 +5699,7 @@ namespace Utils
     }
 
     [Flags]
-    enum WindowStyles : uint
+    public enum WindowStyles : uint
     {
         WS_OVERLAPPED = 0x00000000,
         WS_POPUP = 0x80000000,
@@ -4224,8 +5777,12 @@ namespace Utils
         //#if(WIN32WINNT >= 0x0500)
 
         WS_EX_COMPOSITED = 0x02000000,
-        WS_EX_NOACTIVATE = 0x08000000
+        WS_EX_NOACTIVATE = 0x08000000,
         //#endif /* WIN32WINNT >= 0x0500 */
+        ACS_CENTER = 0x0001,
+        ACS_TRANSPARENT = 0x0002,
+        ACS_AUTOPLAY = 0x0004,
+        IDC_ANIMATE = 301
     }
 
     [Flags]

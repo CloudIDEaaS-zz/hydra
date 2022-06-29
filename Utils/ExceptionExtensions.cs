@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -24,6 +25,7 @@ namespace Utils
             return null;
         }
 
+        [DebuggerStepThrough()]
         public static object Throw<ExceptionType>(this string message)
         {
             var type = typeof(ExceptionType);

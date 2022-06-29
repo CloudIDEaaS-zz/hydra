@@ -1,0 +1,502 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EBE6B74C-5C12-47A0-A8DE-C51D3A88649D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SassParser</RootNamespace>
+    <AssemblyName>SassParser</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Conditions\AndCondition.cs" />
+    <Compile Include="Conditions\DeclarationCondition.cs" />
+    <Compile Include="Conditions\EmptyCondition.cs" />
+    <Compile Include="Conditions\GroupCondition.cs" />
+    <Compile Include="Conditions\NotCondition.cs" />
+    <Compile Include="Conditions\OrCondition.cs" />
+    <Compile Include="Enumerations\AnimationDirection.cs" />
+    <Compile Include="Enumerations\AnimationFillStyle.cs" />
+    <Compile Include="Enumerations\BackgroundAttachment.cs" />
+    <Compile Include="Enumerations\BackgroundRepeat.cs" />
+    <Compile Include="Enumerations\BlendMode.cs" />
+    <Compile Include="Enumerations\BorderRepeat.cs" />
+    <Compile Include="Enumerations\BoxModel.cs" />
+    <Compile Include="Enumerations\BreakMode.cs" />
+    <Compile Include="Enumerations\ClearMode.cs" />
+    <Compile Include="Enumerations\Colors.cs" />
+    <Compile Include="Enumerations\Combinators.cs" />
+    <Compile Include="Enumerations\DirectionMode.cs" />
+    <Compile Include="Enumerations\DisplayMode.cs" />
+    <Compile Include="Enumerations\FeatureNames.cs" />
+    <Compile Include="Enumerations\FillRule.cs" />
+    <Compile Include="Enumerations\Floating.cs" />
+    <Compile Include="Enumerations\FontSize.cs" />
+    <Compile Include="Enumerations\FontStretch.cs" />
+    <Compile Include="Enumerations\FontStyle.cs" />
+    <Compile Include="Enumerations\FontVariant.cs" />
+    <Compile Include="Enumerations\FontWeight.cs" />
+    <Compile Include="Enumerations\FunctionNames.cs" />
+    <Compile Include="Enumerations\HorizontalAlignment.cs" />
+    <Compile Include="Enumerations\HoverAbility.cs" />
+    <Compile Include="Enumerations\JustifyContent.cs" />
+    <Compile Include="Enumerations\Keywords.cs" />
+    <Compile Include="Enumerations\LineStyle.cs" />
+    <Compile Include="Enumerations\ListPosition.cs" />
+    <Compile Include="Enumerations\ListStyle.cs" />
+    <Compile Include="Enumerations\ObjectFitting.cs" />
+    <Compile Include="Enumerations\Overflow.cs" />
+    <Compile Include="Enumerations\OverflowWrap.cs" />
+    <Compile Include="Enumerations\ParseError.cs" />
+    <Compile Include="Enumerations\PlayState.cs" />
+    <Compile Include="Enumerations\PointerAccuracy.cs" />
+    <Compile Include="Enumerations\PositionMode.cs" />
+    <Compile Include="Enumerations\PropertyFlags.cs" />
+    <Compile Include="Enumerations\PropertyNames.cs" />
+    <Compile Include="Enumerations\PseudoClassNames.cs" />
+    <Compile Include="Enumerations\PseudoElementNames.cs" />
+    <Compile Include="Enumerations\QuirksMode.cs" />
+    <Compile Include="Enumerations\RuleNames.cs" />
+    <Compile Include="Enumerations\RuleType.cs" />
+    <Compile Include="Enumerations\Sandboxes.cs" />
+    <Compile Include="Enumerations\ScriptingState.cs" />
+    <Compile Include="Enumerations\StrokeLinecap.cs" />
+    <Compile Include="Enumerations\StrokeLinejoin.cs" />
+    <Compile Include="Enumerations\SystemCursor.cs" />
+    <Compile Include="Enumerations\SystemFont.cs" />
+    <Compile Include="Enumerations\TextAlignLast.cs" />
+    <Compile Include="Enumerations\TextAnchor.cs" />
+    <Compile Include="Enumerations\TextDecorationLine.cs" />
+    <Compile Include="Enumerations\TextDecorationStyle.cs" />
+    <Compile Include="Enumerations\TextJustify.cs" />
+    <Compile Include="Enumerations\TextTransform.cs" />
+    <Compile Include="Enumerations\TokenType.cs" />
+    <Compile Include="Enumerations\UnicodeMode.cs" />
+    <Compile Include="Enumerations\UnitNames.cs" />
+    <Compile Include="Enumerations\UpdateFrequency.cs" />
+    <Compile Include="Enumerations\VerticalAlignment.cs" />
+    <Compile Include="Enumerations\Visibility.cs" />
+    <Compile Include="Enumerations\Whitespace.cs" />
+    <Compile Include="Enumerations\WordBreak.cs" />
+    <Compile Include="Extensions\CharExtensions.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\FormatExtensions.cs" />
+    <Compile Include="Extensions\PortableExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\ValueConverterExtensions.cs" />
+    <Compile Include="Extensions\ValueExtensions.cs" />
+    <Compile Include="Factories\AttributeSelectorFactory.cs" />
+    <Compile Include="Factories\MediaFeatureFactory.cs" />
+    <Compile Include="Factories\PropertyFactory.cs" />
+    <Compile Include="Factories\PseudoClassSelectorFactory.cs" />
+    <Compile Include="Factories\PseudoElementSelectorFactory.cs" />
+    <Compile Include="Formatting\CompressedStyleFormatter.cs" />
+    <Compile Include="Formatting\ReadableStyleFormatter.cs" />
+    <Compile Include="Functions\DocumentFunction.cs" />
+    <Compile Include="Functions\DomainFunction.cs" />
+    <Compile Include="Functions\IConditionFunction.cs" />
+    <Compile Include="Functions\IDocumentFunction.cs" />
+    <Compile Include="Functions\RegexpFunction.cs" />
+    <Compile Include="Functions\UrlFunction.cs" />
+    <Compile Include="Functions\UrlPrefixFunction.cs" />
+    <Compile Include="MediaFeatures\AspectRatioMediaFeature.cs" />
+    <Compile Include="MediaFeatures\ColorIndexMediaFeature.cs" />
+    <Compile Include="MediaFeatures\ColorMediaFeature.cs" />
+    <Compile Include="MediaFeatures\DeviceAspectRatioMediaFeature.cs" />
+    <Compile Include="MediaFeatures\DeviceHeightMediaFeature.cs" />
+    <Compile Include="MediaFeatures\DevicePixelRatioFeature.cs" />
+    <Compile Include="MediaFeatures\DeviceWidthMediaFeature.cs" />
+    <Compile Include="MediaFeatures\GridMediaFeature.cs" />
+    <Compile Include="MediaFeatures\HeightMediaFeature.cs" />
+    <Compile Include="MediaFeatures\HoverMediaFeature.cs" />
+    <Compile Include="MediaFeatures\MediaFeature.cs" />
+    <Compile Include="MediaFeatures\MonochromeMediaFeature.cs" />
+    <Compile Include="MediaFeatures\OrientationMediaFeature.cs" />
+    <Compile Include="MediaFeatures\PointerMediaFeature.cs" />
+    <Compile Include="MediaFeatures\ResolutionMediaFeature.cs" />
+    <Compile Include="MediaFeatures\ScanMediaFeature.cs" />
+    <Compile Include="MediaFeatures\ScriptingMediaFeature.cs" />
+    <Compile Include="MediaFeatures\UnknownMediaFeature.cs" />
+    <Compile Include="MediaFeatures\UpdateFrequencyMediaFeature.cs" />
+    <Compile Include="MediaFeatures\WidthMediaFeature.cs" />
+    <Compile Include="Model\Combinator.cs" />
+    <Compile Include="Model\Comment.cs" />
+    <Compile Include="Model\Converters.cs" />
+    <Compile Include="Model\IMediaFeature.cs" />
+    <Compile Include="Model\ISelector.cs" />
+    <Compile Include="Model\IStyleFormattable.cs" />
+    <Compile Include="Model\IStyleFormatter.cs" />
+    <Compile Include="Model\IStylesheetNode.cs" />
+    <Compile Include="Model\IValueConverter.cs" />
+    <Compile Include="Model\Map.cs" />
+    <Compile Include="Model\MediaList.cs" />
+    <Compile Include="Model\MediaQueryList.cs" />
+    <Compile Include="Model\Medium.cs" />
+    <Compile Include="Model\ParseException.cs" />
+    <Compile Include="Model\ParserExtensions.cs" />
+    <Compile Include="Model\ParserOptions.cs" />
+    <Compile Include="Model\Pool.cs" />
+    <Compile Include="Model\Priority.cs" />
+    <Compile Include="Model\RenderDevice.cs" />
+    <Compile Include="Model\StyleDeclaration.cs" />
+    <Compile Include="Model\StyleOptions.cs" />
+    <Compile Include="Model\Stylesheet.cs" />
+    <Compile Include="Model\StylesheetNode.cs" />
+    <Compile Include="Model\StylesheetText.cs" />
+    <Compile Include="Model\Symbols.cs" />
+    <Compile Include="Model\TaskEx.cs" />
+    <Compile Include="Model\TextPosition.cs" />
+    <Compile Include="Model\TextRange.cs" />
+    <Compile Include="Model\TextSource.cs" />
+    <Compile Include="Model\TokenValue.cs" />
+    <Compile Include="Model\TransformMatrix.cs" />
+    <Compile Include="Model\Url.cs" />
+    <Compile Include="Model\ValueBuilder.cs" />
+    <Compile Include="Parser\Lexer.cs" />
+    <Compile Include="Parser\LexerBase.cs" />
+    <Compile Include="Parser\SelectorConstructor.cs" />
+    <Compile Include="Parser\StylesheetComposer.cs" />
+    <Compile Include="Parser\StylesheetParser.cs" />
+    <Compile Include="Parser\TokenizerError.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\CharsetRule.cs" />
+    <Compile Include="Rules\ConditionRule.cs" />
+    <Compile Include="Rules\DeclarationRule.cs" />
+    <Compile Include="Rules\DocumentRule.cs" />
+    <Compile Include="Rules\FontFaceRule.cs" />
+    <Compile Include="Rules\GroupingRule.cs" />
+    <Compile Include="Rules\IConditionRule.cs" />
+    <Compile Include="Rules\IFontFaceRule.cs" />
+    <Compile Include="Rules\IGroupingRule.cs" />
+    <Compile Include="Rules\IKeyframeRule.cs" />
+    <Compile Include="Rules\IKeyframesRule.cs" />
+    <Compile Include="Rules\IMarginRule.cs" />
+    <Compile Include="Rules\IMediaRule.cs" />
+    <Compile Include="Rules\ImportRule.cs" />
+    <Compile Include="Rules\INamespaceRule.cs" />
+    <Compile Include="Rules\IPageRule.cs" />
+    <Compile Include="Rules\IRule.cs" />
+    <Compile Include="Rules\IRuleCreator.cs" />
+    <Compile Include="Rules\IRuleList.cs" />
+    <Compile Include="Rules\IStyleRule.cs" />
+    <Compile Include="Rules\ISupportsRule.cs" />
+    <Compile Include="Rules\KeyframeRule.cs" />
+    <Compile Include="Rules\KeyframesRule.cs" />
+    <Compile Include="Rules\MediaRule.cs" />
+    <Compile Include="Rules\NamespaceRule.cs" />
+    <Compile Include="Rules\PageRule.cs" />
+    <Compile Include="Rules\Rule.cs" />
+    <Compile Include="Rules\RuleList.cs" />
+    <Compile Include="Rules\StyleRule.cs" />
+    <Compile Include="Rules\SupportsRule.cs" />
+    <Compile Include="Rules\UnknownRule.cs" />
+    <Compile Include="Rules\ViewportRule.cs" />
+    <Compile Include="Selectors\ChildSelector.cs" />
+    <Compile Include="Selectors\ComplexSelector.cs" />
+    <Compile Include="Selectors\CompoundSelector.cs" />
+    <Compile Include="Selectors\FirstChildSelector.cs" />
+    <Compile Include="Selectors\FirstColumnSelector.cs" />
+    <Compile Include="Selectors\FirstTypeSelector.cs" />
+    <Compile Include="Selectors\KeyframeSelector.cs" />
+    <Compile Include="Selectors\LastChildSelector.cs" />
+    <Compile Include="Selectors\LastColumnSelector.cs" />
+    <Compile Include="Selectors\LastTypeSelector.cs" />
+    <Compile Include="Selectors\ListSelector.cs" />
+    <Compile Include="Selectors\Selectors.cs" />
+    <Compile Include="Selectors\SimpleSelector.cs" />
+    <Compile Include="Selectors\UnknownSelector.cs" />
+    <Compile Include="Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StyleProperties\Animation\AnimationDelayProperty.cs" />
+    <Compile Include="StyleProperties\Animation\AnimationDirectionProperty.cs" />
+    <Compile Include="StyleProperties\Animation\AnimationDurationProperty.cs" />
+    <Compile Include="StyleProperties\Animation\AnimationFillModeProperty.cs" />
+    <Compile Include="StyleProperties\Animation\AnimationIterationCountProperty.cs" />
+    <Compile Include="StyleProperties\Animation\AnimationNameProperty.cs" />
+    <Compile Include="StyleProperties\Animation\AnimationPlayStateProperty.cs" />
+    <Compile Include="StyleProperties\Animation\AnimationProperty.cs" />
+    <Compile Include="StyleProperties\Animation\AnimationTimingFunctionProperty.cs" />
+    <Compile Include="StyleProperties\Background\BackgroundAttachmentProperty.cs" />
+    <Compile Include="StyleProperties\Background\BackgroundClipProperty.cs" />
+    <Compile Include="StyleProperties\Background\BackgroundColorProperty.cs" />
+    <Compile Include="StyleProperties\Background\BackgroundImageProperty.cs" />
+    <Compile Include="StyleProperties\Background\BackgroundOriginProperty.cs" />
+    <Compile Include="StyleProperties\Background\BackgroundPositionProperty.cs" />
+    <Compile Include="StyleProperties\Background\BackgroundProperty.cs" />
+    <Compile Include="StyleProperties\Background\BackgroundRepeatProperty.cs" />
+    <Compile Include="StyleProperties\Background\BackgroundSizeProperty.cs" />
+    <Compile Include="StyleProperties\BorderImage\BorderImageOutsetProperty.cs" />
+    <Compile Include="StyleProperties\BorderImage\BorderImageProperty.cs" />
+    <Compile Include="StyleProperties\BorderImage\BorderImageRepeatProperty.cs" />
+    <Compile Include="StyleProperties\BorderImage\BorderImageSliceProperty.cs" />
+    <Compile Include="StyleProperties\BorderImage\BorderImageSourceProperty.cs" />
+    <Compile Include="StyleProperties\BorderImage\BorderImageWidthProperty.cs" />
+    <Compile Include="StyleProperties\BorderRadius\BorderBottomLeftRadiusProperty.cs" />
+    <Compile Include="StyleProperties\BorderRadius\BorderBottomRightRadiusProperty.cs" />
+    <Compile Include="StyleProperties\BorderRadius\BorderRadiusProperty.cs" />
+    <Compile Include="StyleProperties\BorderRadius\BorderTopLeftRadiusProperty.cs" />
+    <Compile Include="StyleProperties\BorderRadius\BorderTopRightRadiusProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderBottomColorProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderBottomProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderBottomStyleProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderBottomWidthProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderCollapseProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderColorProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderLeftColorProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderLeftProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderLeftStyleProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderLeftWidthProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderRightColorProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderRightProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderRightStyleProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderRightWidthProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderSpacingProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderStyleProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderTopColorProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderTopProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderTopStyleProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderTopWidthProperty.cs" />
+    <Compile Include="StyleProperties\Border\BorderWidthProperty.cs" />
+    <Compile Include="StyleProperties\Box\BoxDecorationBreak.cs" />
+    <Compile Include="StyleProperties\Box\BoxShadowProperty.cs" />
+    <Compile Include="StyleProperties\Box\MarginBottomProperty.cs" />
+    <Compile Include="StyleProperties\Box\MarginLeftProperty.cs" />
+    <Compile Include="StyleProperties\Box\MarginProperty.cs" />
+    <Compile Include="StyleProperties\Box\MarginRightProperty.cs" />
+    <Compile Include="StyleProperties\Box\MarginTopProperty.cs" />
+    <Compile Include="StyleProperties\Box\PaddingBottomProperty.cs" />
+    <Compile Include="StyleProperties\Box\PaddingLeftProperty.cs" />
+    <Compile Include="StyleProperties\Box\PaddingProperty.cs" />
+    <Compile Include="StyleProperties\Box\PaddingRightProperty .cs" />
+    <Compile Include="StyleProperties\Box\PaddingTopProperty.cs" />
+    <Compile Include="StyleProperties\Break\BreakAfterProperty.cs" />
+    <Compile Include="StyleProperties\Break\BreakBeforeProperty.cs" />
+    <Compile Include="StyleProperties\Break\BreakInsideProperty.cs" />
+    <Compile Include="StyleProperties\Break\PageBreakAfterProperty.cs" />
+    <Compile Include="StyleProperties\Break\PageBreakBeforeProperty.cs" />
+    <Compile Include="StyleProperties\Break\PageBreakInsideProperty.cs" />
+    <Compile Include="StyleProperties\CaptionSideProperty.cs" />
+    <Compile Include="StyleProperties\Columns\ColumnCountProperty.cs" />
+    <Compile Include="StyleProperties\Columns\ColumnFillProperty.cs" />
+    <Compile Include="StyleProperties\Columns\ColumnGapProperty.cs" />
+    <Compile Include="StyleProperties\Columns\ColumnRuleColorProperty.cs" />
+    <Compile Include="StyleProperties\Columns\ColumnRuleProperty.cs" />
+    <Compile Include="StyleProperties\Columns\ColumnRuleStyleProperty.cs" />
+    <Compile Include="StyleProperties\Columns\ColumnRuleWidthProperty.cs" />
+    <Compile Include="StyleProperties\Columns\ColumnSpanProperty.cs" />
+    <Compile Include="StyleProperties\Columns\ColumnsProperty.cs" />
+    <Compile Include="StyleProperties\Columns\ColumnWidthProperty.cs" />
+    <Compile Include="StyleProperties\ContentProperty.cs" />
+    <Compile Include="StyleProperties\Coordinate\BottomProperty.cs" />
+    <Compile Include="StyleProperties\Coordinate\HeightProperty.cs" />
+    <Compile Include="StyleProperties\Coordinate\LeftProperty.cs" />
+    <Compile Include="StyleProperties\Coordinate\MaxHeightProperty.cs" />
+    <Compile Include="StyleProperties\Coordinate\MaxWidthProperty.cs" />
+    <Compile Include="StyleProperties\Coordinate\MinHeightProperty.cs" />
+    <Compile Include="StyleProperties\Coordinate\MinWidthProperty.cs" />
+    <Compile Include="StyleProperties\Coordinate\RightProperty .cs" />
+    <Compile Include="StyleProperties\Coordinate\TopProperty.cs" />
+    <Compile Include="StyleProperties\Coordinate\WidthProperty.cs" />
+    <Compile Include="StyleProperties\CursorProperty.cs" />
+    <Compile Include="StyleProperties\EmptyCellsProperty.cs" />
+    <Compile Include="StyleProperties\FeatureProperty.cs" />
+    <Compile Include="StyleProperties\Fill\FillOpacityProperty.cs" />
+    <Compile Include="StyleProperties\Fill\FillProperty.cs" />
+    <Compile Include="StyleProperties\Fill\FillRuleProperty.cs" />
+    <Compile Include="StyleProperties\Flow\ClearProperty.cs" />
+    <Compile Include="StyleProperties\Flow\DisplayProperty.cs" />
+    <Compile Include="StyleProperties\Flow\FloatProperty.cs" />
+    <Compile Include="StyleProperties\Flow\OverflowProperty.cs" />
+    <Compile Include="StyleProperties\Flow\PositionProperty.cs" />
+    <Compile Include="StyleProperties\Flow\ZIndexProperty.cs" />
+    <Compile Include="StyleProperties\Font\ColorProperty.cs" />
+    <Compile Include="StyleProperties\Font\FontFamilyProperty.cs" />
+    <Compile Include="StyleProperties\Font\FontProperty.cs" />
+    <Compile Include="StyleProperties\Font\FontSizeAdjustProperty.cs" />
+    <Compile Include="StyleProperties\Font\FontSizeProperty.cs" />
+    <Compile Include="StyleProperties\Font\FontStretchProperty.cs" />
+    <Compile Include="StyleProperties\Font\FontStyleProperty.cs" />
+    <Compile Include="StyleProperties\Font\FontVariantProperty.cs" />
+    <Compile Include="StyleProperties\Font\FontWeightProperty.cs" />
+    <Compile Include="StyleProperties\Font\LetterSpacingProperty.cs" />
+    <Compile Include="StyleProperties\Font\LineHeightProperty.cs" />
+    <Compile Include="StyleProperties\Font\SrcProperty.cs" />
+    <Compile Include="StyleProperties\Font\UnicodeRangeProperty.cs" />
+    <Compile Include="StyleProperties\Font\WordSpacingProperty.cs" />
+    <Compile Include="StyleProperties\IProperties .cs" />
+    <Compile Include="StyleProperties\IProperty.cs" />
+    <Compile Include="StyleProperties\IPropertyValue.cs" />
+    <Compile Include="StyleProperties\List\CounterIncrementProperty.cs" />
+    <Compile Include="StyleProperties\List\CounterResetProperty.cs" />
+    <Compile Include="StyleProperties\List\ListStyleImageProperty.cs" />
+    <Compile Include="StyleProperties\List\ListStylePositionProperty.cs" />
+    <Compile Include="StyleProperties\List\ListStyleProperty.cs" />
+    <Compile Include="StyleProperties\List\ListStyleTypeProperty.cs" />
+    <Compile Include="StyleProperties\OrphansProperty.cs" />
+    <Compile Include="StyleProperties\Outline\OutlineColorProperty.cs" />
+    <Compile Include="StyleProperties\Outline\OutlineProperty.cs" />
+    <Compile Include="StyleProperties\Outline\OutlineStyleProperty.cs" />
+    <Compile Include="StyleProperties\Outline\OutlineWidthProperty.cs" />
+    <Compile Include="StyleProperties\Simple.cs" />
+    <Compile Include="StyleProperties\PropertyValue.cs" />
+    <Compile Include="StyleProperties\PropertyName.cs" />
+    <Compile Include="StyleProperties\Property.cs" />
+    <Compile Include="StyleProperties\QuotesProperty.cs" />
+    <Compile Include="StyleProperties\ShorthandProperty.cs" />
+    <Compile Include="StyleProperties\Sizing\ObjectFitProperty.cs" />
+    <Compile Include="StyleProperties\Sizing\ObjectPositionProperty.cs" />
+    <Compile Include="StyleProperties\Stroke\StrokeDasharrayProperty.cs" />
+    <Compile Include="StyleProperties\Stroke\StrokeDashoffsetProperty.cs" />
+    <Compile Include="StyleProperties\Stroke\StrokeLinecapProperty.cs" />
+    <Compile Include="StyleProperties\Stroke\StrokeLinejoinProperty.cs" />
+    <Compile Include="StyleProperties\Stroke\StrokeMiterlimitProperty.cs" />
+    <Compile Include="StyleProperties\Stroke\StrokeOpacityProperty.cs" />
+    <Compile Include="StyleProperties\Stroke\StrokeProperty.cs" />
+    <Compile Include="StyleProperties\Stroke\StrokeWidthProperty.cs" />
+    <Compile Include="StyleProperties\TableLayoutProperty.cs" />
+    <Compile Include="StyleProperties\Text\DirectionProperty.cs" />
+    <Compile Include="StyleProperties\Text\JustifyContentProperty.cs" />
+    <Compile Include="StyleProperties\Text\OverflowWrapProperty.cs" />
+    <Compile Include="StyleProperties\Text\TextAlignLastProperty.cs" />
+    <Compile Include="StyleProperties\Text\TextAlignProperty.cs" />
+    <Compile Include="StyleProperties\Text\TextAnchorProperty.cs" />
+    <Compile Include="StyleProperties\Text\TextDecorationColorProperty.cs" />
+    <Compile Include="StyleProperties\Text\TextDecorationLineProperty.cs" />
+    <Compile Include="StyleProperties\Text\TextDecorationProperty.cs" />
+    <Compile Include="StyleProperties\Text\TextDecorationStyleProperty.cs" />
+    <Compile Include="StyleProperties\Text\TextIndentProperty.cs" />
+    <Compile Include="StyleProperties\Text\TextJustifyProperty.cs" />
+    <Compile Include="StyleProperties\Text\TextShadowProperty.cs" />
+    <Compile Include="StyleProperties\Text\TextTransformProperty.cs" />
+    <Compile Include="StyleProperties\Text\VerticalAlignProperty.cs" />
+    <Compile Include="StyleProperties\Text\WhiteSpaceProperty.cs" />
+    <Compile Include="StyleProperties\Text\WordBreakProperty.cs" />
+    <Compile Include="StyleProperties\Transform\PerspectiveOriginProperty.cs" />
+    <Compile Include="StyleProperties\Transform\PerspectiveProperty.cs" />
+    <Compile Include="StyleProperties\Transform\TransformOriginProperty.cs" />
+    <Compile Include="StyleProperties\Transform\TransformProperty.cs" />
+    <Compile Include="StyleProperties\Transform\TransformStyleProperty.cs" />
+    <Compile Include="StyleProperties\Transition\TransitionDelayProperty.cs" />
+    <Compile Include="StyleProperties\Transition\TransitionDurationProperty.cs" />
+    <Compile Include="StyleProperties\Transition\TransitionProperty.cs" />
+    <Compile Include="StyleProperties\Transition\TransitionPropertyProperty.cs" />
+    <Compile Include="StyleProperties\Transition\TransitionTimingFunctionProperty.cs" />
+    <Compile Include="StyleProperties\UnicodeBidirectionalProperty.cs" />
+    <Compile Include="StyleProperties\UnknownProperty.cs" />
+    <Compile Include="StyleProperties\Visibility\BackfaceVisibilityProperty.cs" />
+    <Compile Include="StyleProperties\Visibility\ClipProperty.cs" />
+    <Compile Include="StyleProperties\Visibility\OpacityProperty.cs" />
+    <Compile Include="StyleProperties\Visibility\VisibilityProperty.cs" />
+    <Compile Include="StyleProperties\WidowsProperty.cs" />
+    <Compile Include="TextEncoding.cs" />
+    <Compile Include="Tokens\ColorToken.cs" />
+    <Compile Include="Tokens\CommentToken.cs" />
+    <Compile Include="Tokens\FunctionToken.cs" />
+    <Compile Include="Tokens\KeywordToken.cs" />
+    <Compile Include="Tokens\NumberToken.cs" />
+    <Compile Include="Tokens\RangeToken.cs" />
+    <Compile Include="Tokens\StringToken.cs" />
+    <Compile Include="Tokens\Token.cs" />
+    <Compile Include="Tokens\UnitToken.cs" />
+    <Compile Include="Tokens\UrlToken.cs" />
+    <Compile Include="ValueConverters\AnyValueConverter.cs" />
+    <Compile Include="ValueConverters\ArgumentsValueConverter.cs" />
+    <Compile Include="ValueConverters\BorderRadiusConverter.cs" />
+    <Compile Include="ValueConverters\ConstraintValueConverter.cs" />
+    <Compile Include="ValueConverters\ContinuousValueConverter.cs" />
+    <Compile Include="ValueConverters\DictionaryValueConverter.cs" />
+    <Compile Include="ValueConverters\EndListValueConverter.cs" />
+    <Compile Include="ValueConverters\FunctionValueConverter.cs" />
+    <Compile Include="ValueConverters\GradientConverter.cs" />
+    <Compile Include="ValueConverters\IdentifierValueConverter.cs" />
+    <Compile Include="ValueConverters\ListValueConverter.cs" />
+    <Compile Include="ValueConverters\OneOrMoreValueConverter.cs" />
+    <Compile Include="ValueConverters\OptionValueConverter.cs" />
+    <Compile Include="ValueConverters\OrderedOptionsConverter.cs" />
+    <Compile Include="ValueConverters\OrValueConverter.cs" />
+    <Compile Include="ValueConverters\PeriodicValueConverter.cs" />
+    <Compile Include="ValueConverters\RequiredValueConverter.cs" />
+    <Compile Include="ValueConverters\StartsWithValueConverter.cs" />
+    <Compile Include="ValueConverters\StringsValueConverter.cs" />
+    <Compile Include="ValueConverters\StringValueConverter.cs" />
+    <Compile Include="ValueConverters\StructValueConverter.cs" />
+    <Compile Include="ValueConverters\UnorderedOptionsConverter.cs" />
+    <Compile Include="ValueConverters\UrlValueConverter.cs" />
+    <Compile Include="Values\Angle.cs" />
+    <Compile Include="Values\Color.cs" />
+    <Compile Include="Values\Counter.cs" />
+    <Compile Include="Values\CubicBezierTimingFunction.cs" />
+    <Compile Include="Values\Frequency.cs" />
+    <Compile Include="Values\GradientStop.cs" />
+    <Compile Include="Values\IGradient.cs" />
+    <Compile Include="Values\IImageSource.cs" />
+    <Compile Include="Values\ITimingFunction.cs" />
+    <Compile Include="Values\ITransform.cs" />
+    <Compile Include="Values\Length.cs" />
+    <Compile Include="Values\LinearGradient.cs" />
+    <Compile Include="Values\MatrixTransform.cs" />
+    <Compile Include="Values\Number.cs" />
+    <Compile Include="Values\Percent.cs" />
+    <Compile Include="Values\PerspectiveTransform.cs" />
+    <Compile Include="Values\Point.cs" />
+    <Compile Include="Values\PortNumbers.cs" />
+    <Compile Include="Values\ProtocolNames.cs" />
+    <Compile Include="Values\RadialGradient.cs" />
+    <Compile Include="Values\Resolution.cs" />
+    <Compile Include="Values\RotateTransform.cs" />
+    <Compile Include="Values\ScaleTransform.cs" />
+    <Compile Include="Values\Shadow.cs" />
+    <Compile Include="Values\Shape.cs" />
+    <Compile Include="Values\SkewTransform.cs" />
+    <Compile Include="Values\StepsTimingFunction.cs" />
+    <Compile Include="Values\Time.cs" />
+    <Compile Include="Values\TranslateTransform.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Strings.xlsx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

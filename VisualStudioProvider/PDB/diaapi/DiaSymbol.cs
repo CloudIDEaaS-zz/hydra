@@ -22,6 +22,24 @@ namespace VisualStudioProvider.PDB.diaapi
             this.symbol = symbol;
         }
 
+        public uint IndexId
+        {
+            get
+            {
+                int hr;
+                uint id = 0;
+
+                hr = symbol.get_symIndexId(ref id);
+
+                if (hr != VSConstants.S_OK)
+                {
+                    Marshal.ThrowExceptionForHR(hr);
+                }
+
+                return id;
+            }
+        }
+
         public string Name
         {
             get
@@ -50,7 +68,7 @@ namespace VisualStudioProvider.PDB.diaapi
                 }
                 else
                 {
-                    return string.Format("{0}, RVA={1:X8}]", this.UndecoratedName, (ulong) this.RVA);
+                    return string.Format("{0}, RVA=[{1:X8}]", this.UndecoratedName.AsDisplayText(), (ulong) this.RVA);
                 }
             }
         }
@@ -303,7 +321,12 @@ namespace VisualStudioProvider.PDB.diaapi
 
                 if (hr != VSConstants.S_OK)
                 {
-                    Marshal.ThrowExceptionForHR(hr);
+                    return string.Empty;
+                }
+
+                if (undecoratedSymbol == null)
+                {
+                    return null;
                 }
 
                 if (this.Name == undecoratedSymbol)

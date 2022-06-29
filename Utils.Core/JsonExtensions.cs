@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
+using System.Net.Http.Headers;
 
 namespace Utils
 {
@@ -21,7 +22,15 @@ namespace Utils
 
         public static string ToJsonText(this object obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DateFormatHandling = DateFormatHandling.IsoDateFormat
+            };
+
+            settings.Converters.Add(new KeyValuePairConverter());
+
+            return JsonConvert.SerializeObject(obj, settings);
         }
 
         public static void WriteJson(this TextWriter writer, dynamic obj)
@@ -29,8 +38,9 @@ namespace Utils
             var serializer = new JsonSerializer();
             var builder = new StringBuilder();
 
-            serializer.Converters.Add(new JavaScriptDateTimeConverter());
+            serializer.Converters.Add(new KeyValuePairConverter());
             serializer.NullValueHandling = NullValueHandling.Ignore;
+            serializer.DateFormatHandling = DateFormatHandling.IsoDateFormat;
 
             using (var stringWriter = new StringWriter(builder))
             {
@@ -53,7 +63,49 @@ namespace Utils
 
         public static T ReadJson<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DateFormatHandling = DateFormatHandling.IsoDateFormat
+            };
+
+            settings.Converters.Add(new KeyValuePairConverter());
+
+            return JsonConvert.DeserializeObject<T>(json, settings);
+        }
+
+        public static void WriteJsonCommand(this TextWriter writer, CommandPacket commandPacket)
+        {
+            writer.WriteJsonCommand(commandPacket, Environment.NewLine);
+        }
+
+        public static void WriteJsonCommand(this TextWriter writer, CommandPacket commandPacket, string lineTerminator)
+        {
+            var json = commandPacket.ToJsonText();
+
+            writer.WriteJson(json);
+
+            if (!lineTerminator.IsNullOrEmpty())
+            {
+                writer.WriteLine(lineTerminator);
+                writer.Flush();
+            }
+        }
+
+        public static CommandPacket ReadJsonCommand(this TextReader reader)
+        {
+            var json = string.Empty;
+            var text = reader.ReadUntil(Environment.NewLine.Repeat(2), true);
+
+            return ReadJson<CommandPacket>(text);
+        }
+
+        public static CommandPacket<T> ReadJsonCommand<T>(this TextReader reader)
+        {
+            var json = string.Empty;
+            var text = reader.ReadUntil(Environment.NewLine.Repeat(2), true);
+
+            return ReadJson<CommandPacket<T>>(text);
         }
 
         public static bool IsValidJson(string json)

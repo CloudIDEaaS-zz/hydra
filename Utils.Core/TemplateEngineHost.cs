@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Utils;
-using Microsoft.VisualStudio.TextTemplating;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.IO;
@@ -36,7 +35,7 @@ namespace Utils
             try
             {
                 var generator = Activator.CreateInstance(generatorType);
-                var session = new TextTemplatingSession();
+                var session = (dynamic) new object();
                 string output;
 
                 session["DebugCallback"] = new EventHandler(DebugCallback);

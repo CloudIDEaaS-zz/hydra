@@ -1,0 +1,165 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="CreateTest.NetCoreReflectionShim.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ output extension=".cs" #>
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Utils;
+using CoreShim.Reflection.JsonTypes;
+using System.Reflection;
+using System.IO;
+using System.Globalization;
+using System.Runtime.Serialization;
+using System.Runtime.InteropServices;
+using CustomAttributeData = Utils.CustomAttributeData;
+<#
+    var type = this.Type;
+    var fieldName = type.Name.ToCamelCase();
+    var isAbstract = false;
+
+    if (type.Attributes.HasFlag(System.Reflection.TypeAttributes.Abstract))
+    {
+        isAbstract = true;
+    }
+#>
+
+namespace CoreShim.Reflection
+{
+<# 
+    if (isAbstract)
+    {
+#>
+    public abstract class <#= type.Name #>Shim : <#= type.Name #>
+    {
+<#
+    }
+    else
+    {
+#>
+    public class <#= type.Name #>Shim : <#= type.Name #>
+    {
+<#
+    }
+#>
+
+        private <#= type.Name #>Json <#= fieldName #>;
+
+        public <#= type.Name #>Shim(<#= type.Name #>Json <#= fieldName #>)
+        {
+            this.<#= fieldName #> = <#= fieldName #>;
+        } 
+<#
+    foreach (var property in type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly))
+    {
+        var isVirtual = false;
+        var method = property.GetMethod;
+
+        if (method.Attributes.HasFlag(System.Reflection.MethodAttributes.Virtual) && !method.Attributes.HasFlag(System.Reflection.MethodAttributes.Final))
+        {
+            isVirtual = true;
+        }
+
+        if (property.PropertyType.IsEnum)
+        {
+#>
+
+        public <#= isVirtual ? "override" : "new" #> <#= property.PropertyType #> <#= property.Name #>
+        { 
+            get
+            {
+                return EnumUtils.GetValue<<#= property.PropertyType.FullName #>>(<#= fieldName #>.<#= property.Name #>Enum);
+            }
+        }
+<#
+        }
+        else if (property.PropertyType == typeof(object))
+        {
+#>
+
+        public <#= isVirtual ? "override" : "new" #> object <#= property.Name #>
+        { 
+            get
+            {
+                return Convert.ChangeType(<#= fieldName #>.<#= property.Name #>Object, Type.GetType(<#= fieldName #>.<#= property.Name #>ObjectType));
+            }
+        }
+<#
+        }
+        else if (property.PropertyType.IsScalar())
+        {
+#>
+
+        public <#= isVirtual ? "override" : "new" #> <#= property.PropertyType.GetShortName() #> <#= property.Name #> 
+        { 
+            get
+            {
+                return <#= fieldName #>.<#= property.Name #>;
+            }
+        }
+<#
+        }
+        else if (property.PropertyType.IsGenericCollection())
+        {
+            var itemType = property.PropertyType.GetGenericArguments()[0];
+
+            if (itemType.IsScalar())
+            {
+#>
+
+        public <#= isVirtual ? "override" : "new" #> <#= property.PropertyType #><<#= itemType.Name #>> <#= property.Name #> 
+        { 
+            get
+            {
+                return null;
+            }
+        }
+<#
+            }
+        }
+        else
+        {
+#>
+        public <#= isVirtual ? "override" : "new" #> <#= property.PropertyType.Name #> <#= property.Name #> 
+        { 
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+<#
+            // ReflectMember(property);
+        }
+    }
+
+    foreach (var method in type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly))
+    {
+        var methodName = method.Name;
+
+        if (!method.IsAccessor())
+        {
+            var isVirtual = false;
+
+            if (method.Attributes.HasFlag(System.Reflection.MethodAttributes.Virtual) && !method.Attributes.HasFlag(System.Reflection.MethodAttributes.Final))
+            {
+                isVirtual = true;
+            }
+#>
+
+        public <#= isVirtual ? "override" : "new" #> <#= method.GetSignature() #>
+        {
+            throw new NotImplementedException();
+        }
+<#
+        }
+    }
+#>
+    }
+}

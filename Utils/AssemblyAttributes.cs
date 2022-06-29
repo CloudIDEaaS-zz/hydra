@@ -24,6 +24,26 @@ namespace Utils
             this.assembly = assembly;
         }
 
+        public string Title
+        {
+            get
+            {
+                var attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+
+                return attributes.Length == 0 ? "" : ((AssemblyTitleAttribute)attributes[0]).Title;
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                var attributes = assembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+
+                return attributes.Length == 0 ? "" : ((AssemblyDescriptionAttribute)attributes[0]).Description;
+            }
+        }
+
         public string Product
         {
             get
@@ -52,6 +72,13 @@ namespace Utils
 
                 return attributes.Length == 0 ? "" : ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
             }
+        }
+
+        public string GetCustom<T>(string name) where T : Attribute
+        {
+            var attributes = assembly.GetCustomAttributes(typeof(T), false);
+
+            return attributes.Length == 0 ? "" : ((T)attributes[0]).GetPropertyValue<string>(name);
         }
 
         public Version VersionRaw 

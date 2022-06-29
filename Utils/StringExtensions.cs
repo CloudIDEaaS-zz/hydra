@@ -19,6 +19,9 @@ using System.Security;
 using System.Linq.Dynamic;
 using System.Linq.Expressions;
 using Microsoft.VisualStudio.TextTemplating;
+using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 #endif
 
 #if INCLUDE_FARE
@@ -36,9 +39,10 @@ namespace Utils
 
     public static class StringExtensions
     {
-        public const string REGEX_IDENTIFIER = @"^(?:((?!\d)\w+(?:\.(?!\d)\w+)*)\.)?((?!\d)\w+)$";
-        public const string REGEX_IDENTIFIER_MIDSTRING = @"(?:((?!\d)\w+(?:\.(?!\d)\w+)*)\.)?((?!\d)\w+)";
+        public const string REGEX_IDENTIFIER = @"^(?:(~?(?!\d)\w+(?:\.(?!\d)\w+)*)\.)?((?!\d)\w+)$";
+        public const string REGEX_IDENTIFIER_MIDSTRING = @"(?:(?(?!\d)\w+(?:\.(?!\d)\w+)*)\.)?((?!\d)\w+)";
         public const string REGEX_IDENTIFIER_CHARS = @"[\w\d]";
+        public const string REGEX_INTEGER_OR_DECIMAL_MIDSTRING = @"((\d+)((\.\d{1,2})?))";
 
 #if !SILVERLIGHT
         private static PluralizationService pluralizationService;
@@ -46,6 +50,15 @@ namespace Utils
         private static List<string> insignificantWordList;
         internal static Dictionary<StringBuilder, Stack<TagHandler>> tagHandlerStack;
         private static List<string> insignificantWordListLevel1;
+
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        public static extern bool InitAtomTable(uint nSize);
+        [DllImport("kernel32.dll")]
+        public static extern ushort AddAtom(string lpString);
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern uint GetAtomName(ushort nAtom, [Out] StringBuilder lpBuffer, int nSize);
+        [DllImport("kernel32.dll")]
+        public static extern ushort DeleteAtom(ushort nAtom);
 
         static StringExtensions()
         {
@@ -58,9 +71,209 @@ namespace Utils
             BytOrderMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
         }
 #endif
+
+        public static T ToObject<T>(this Match match)
+        {
+            var obj = Activator.CreateInstance<T>();
+
+            foreach (var group in match.Groups.Cast<Group>())
+            {
+                if (group.Name == "0")
+                {
+                    continue;
+                }
+                else
+                {
+                    var property = group.Name;
+                    var value = group.Value;
+                    var propertyInfo = typeof(T).GetProperties().Single(p => p.Name.AsCaseless() == property || (p.HasCustomAttribute<JsonPropertyAttribute>() && p.GetCustomAttribute<JsonPropertyAttribute>().PropertyName.AsCaseless() == property));
+
+                    propertyInfo.SetValue(obj, value);
+                }
+            }
+
+            return obj;
+        }
+
+        public static string Flatten(this string str)
+        {
+            return str.Replace("\r\n", string.Empty).Replace("\n", string.Empty);
+        }
+
+        public static string EncryptStringToString(string key, string plainText)
+        {
+            byte[] iv = new byte[16];
+            byte[] array;
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
+                        {
+                            streamWriter.Write(plainText);
+                        }
+
+                        array = memoryStream.ToArray();
+                    }
+                }
+            }
+
+            return Convert.ToBase64String(array);
+        }
+
+        public static byte[] EncryptString(string key, string plainText)
+        {
+            byte[] iv = new byte[16];
+            byte[] array;
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
+                        {
+                            streamWriter.Write(plainText);
+                        }
+
+                        array = memoryStream.ToArray();
+                    }
+                }
+            }
+
+            return array;
+        }
+
+        public static string DecryptString(string key, string cipherText)
+        {
+            byte[] iv = new byte[16];
+            byte[] buffer = Convert.FromBase64String(cipherText);
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+                        {
+                            return streamReader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+        }
+
+        public static string DecryptString(string key, byte[] buffer)
+        {
+            byte[] iv = new byte[16];
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+                        {
+                            return streamReader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+        }
+
         public static string[] Split(this string str, char ch, StringSplitOptions options)
         {
             return str.Split(new char[] { ch }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        public static bool Contains(this StringBuilder builder, string text)
+        {
+            return builder.IndexOf(text) != -1;
+        }
+
+        public static int IndexOf(this StringBuilder builder, string text)
+        {
+            if (builder == null || text == null)
+                throw new ArgumentNullException();
+            if (text.Length == 0)
+                return 0;//empty strings are everywhere!
+            if (text.Length == 1)//can't beat just spinning through for it
+            {
+                char c = text[0];
+                for (int idx = 0; idx != builder.Length; ++idx)
+                    if (builder[idx] == c)
+                        return idx;
+                return -1;
+            }
+            int m = 0;
+            int i = 0;
+            int[] T = KMPTable(text);
+            while (m + i < builder.Length)
+            {
+                if (text[i] == builder[m + i])
+                {
+                    if (i == text.Length - 1)
+                        return m == text.Length ? -1 : m;//match -1 = failure to find conventional in .NET
+                    ++i;
+                }
+                else
+                {
+                    m = m + i - T[i];
+                    i = T[i] > -1 ? T[i] : 0;
+                }
+            }
+            return -1;
+        }
+
+        private static int[] KMPTable(string sought)
+        {
+            int[] table = new int[sought.Length];
+            int pos = 2;
+            int cnd = 0;
+            table[0] = -1;
+            table[1] = 0;
+            while (pos < table.Length)
+                if (sought[pos - 1] == sought[cnd])
+                    table[pos++] = ++cnd;
+                else if (cnd > 0)
+                    cnd = table[cnd];
+                else
+                    table[pos++] = 0;
+            return table;
+        }
+
+        public static bool IsValidEmailAddress(this string source)
+        {
+            return new EmailAddressAttribute().IsValid(source);
+        }
+
+        public static bool IsValidUrl(this string source)
+        {
+            return !source.IsNullWhiteSpaceOrEmpty() && Uri.IsWellFormedUriString(source, UriKind.Absolute);
         }
 
         public static bool IsNumeric(this string input)
@@ -70,9 +283,19 @@ namespace Utils
             return int.TryParse(input, out number);
         }
 
-        public static string Replace(this string value, Dictionary<string, string> replacments)
+        public static string DoTextReplacements(this Dictionary<string, string> textReplacements, string str)
         {
-            foreach (var replacement in replacments)
+            foreach (var pair in textReplacements)
+            {
+                str = str.Replace(pair.Key, pair.Value);
+            }
+
+            return str;
+        }
+
+        public static string ReplaceTokens(this string value, Dictionary<string, string> replacements)
+        {
+            foreach (var replacement in replacements)
             {
                 value = value.RegexReplace(@"{\s*?" + replacement.Key + @"\s*?}", replacement.Value);
             }
@@ -132,6 +355,21 @@ namespace Utils
             }
 
             return secureString;
+        }
+
+        public static string Unsecure(this SecureString value)
+        {
+            IntPtr valuePtr = IntPtr.Zero;
+
+            try
+            {
+                valuePtr = Marshal.SecureStringToGlobalAllocUnicode(value);
+                return Marshal.PtrToStringUni(valuePtr);
+            }
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
+            }
         }
 
         public static bool Match(this Regex regex, string input, Action<Match> a)
@@ -217,6 +455,11 @@ namespace Utils
         public static bool IsCrLfString(this string str)
         {
             return str == "\r" || str == "\n" || str == "\r\n";
+        }
+
+        public static bool IsAbsoluteUri(this string str)
+        {
+            return str.RegexIsMatch(@"/^https?:\/\//i");
         }
 
         public static string SpaceBlock(this string str, int spaceCount)
@@ -567,6 +810,27 @@ namespace Utils
             }
         }
 
+        public static int GetSubStringCount(this string str, string findText)
+        {
+            if (str.IsNullOrEmpty())
+            {
+                return 0;
+            }
+            else
+            {
+                var index = str.IndexOf(findText);
+                var count = 0;
+
+                while (index != -1)
+                {
+                    count++;
+                    index = str.IndexOf(findText, index + 1);
+                }
+
+                return count;
+            }
+        }
+
         public static int GetLeadingCharCount(this string str, char ch)
         {
             if (str.IsNullOrEmpty())
@@ -594,6 +858,51 @@ namespace Utils
             return string.IsNullOrWhiteSpace(str);
         }
 
+        public static bool ContainsAny(this string str, params string[] substring)
+        {
+            foreach (var sub in substring)
+            {
+                if (str.Contains(sub))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static int GetContainsCount(this string str, params string[] substring)
+        {
+            var count = 0;
+
+            foreach (var sub in substring)
+            {
+                if (str.Contains(sub))
+                {
+                    count = str.GetSubStringCount(sub);
+                }
+            }
+
+            return count;
+        }
+
+        public static IEnumerable<string> GetWhatsContained(this string str, params string[] substring)
+        {
+            var dictionary = new Dictionary<string, int>();
+
+            foreach (var sub in substring)
+            {
+                if (str.Contains(sub))
+                {
+                    var index = str.IndexOf(sub);
+
+                    dictionary.Add(sub, index);
+                }
+            }
+
+            return dictionary.OrderBy(p => p.Value).Select(p => p.Key);
+        }
+
         public static string AddCrlfIfNone(this string str)
         {
             if (str.RegexIsMatch(@"\n$"))
@@ -609,6 +918,11 @@ namespace Utils
         public static string IndentLines(this string str, int tabCount = 1)
         {
             return string.Join("\r\n", str.GetLines().Select(l => "\t".Repeat(tabCount) + l));
+        }
+
+        public static string IndentLinesSpaces(this string str, int spaceCount = 1)
+        {
+            return string.Join("\r\n", str.GetLines().Select(l => " ".Repeat(spaceCount) + l));
         }
 
         public static bool IsNullWhiteSpaceOrEmpty(this string str)
@@ -799,7 +1113,7 @@ namespace Utils
         {
             if (leadingIdentifier)
             {
-                return long.Parse(text, System.Globalization.NumberStyles.HexNumber | NumberStyles.AllowHexSpecifier);
+                return Convert.ToInt64(text, 16);
             }
             else
             {
@@ -1132,13 +1446,37 @@ namespace Utils
             return ch != ' ' && !ch.IsBetween('a', 'z') && !ch.IsBetween('A', 'Z');
         }
 
-        public static string RemoveNonWordCharacters(this string text)
+        public static bool IsWhitespace(this char ch)
         {
-            if (text.Length > 1)
+            return ch <= ' ';
+        }
+
+
+        public static string RemoveNonWordCharacters(this string text, bool includeRemoveSpaces = false)
+        {
+            if (text.Length > 0)
             {
-                text = text.Replace("-", " ");
+                if (includeRemoveSpaces)
+                {
+                    text = text.Replace(" ", "");
+                    text = text.Replace("-", "");
+                }
+                else
+                {
+                    text = text.Replace("-", " ");
+                }
 
                 return string.Join(string.Empty, text.Where(c => c == ' ' || c.IsBetween('a', 'z') || c.IsBetween('A', 'Z')));
+            }
+
+            return text;
+        }
+
+        public static string RemoveSpecialCharacters(this string text)
+        {
+            if (text.Length > 0)
+            {
+                return string.Join(string.Empty, text.Where(c => c.IsBetween(' ', '~')));
             }
 
             return text;
@@ -1147,6 +1485,23 @@ namespace Utils
         public static bool IsUpperCase(this char ch)
         {
             return ch.IsBetween('A', 'Z');
+        }
+
+        public static string[] RemoveInsignificantWords(this string[] words, IEnumerable<string> exclusions = null)
+        {
+            if (words.Length > 1)
+            {
+                if (exclusions != null)
+                {
+                    return words.Where(w => !w.IsInsignificantWord(exclusions)).ToArray();
+                }
+                else
+                {
+                    return words.Where(w => !w.IsInsignificantWord()).ToArray();
+                }
+            }
+
+            return new string[0];
         }
 
         public static string RemoveInsignificantWords(this string text, IEnumerable<string> exclusions = null)
@@ -1192,6 +1547,12 @@ namespace Utils
 
             return text;
         }
+
+        public static string RemoveSpaces(this string text)
+        {
+            return text.RemoveText(" ");
+        }
+
 
         public static string LowerCase(this string text)
         {
@@ -1529,11 +1890,109 @@ namespace Utils
             return string.Join(" ", Regex.Split(str, @"[\s\n\-]").Where(f => f.Trim().Length > 0).Select(s => s.ToTitleCase()));
         }
 
-        public static string[] SplitToWords(this string str)
+        public static string[] SplitToWords(this string str, bool removeNonWordCharacters = true)
         {
-            str = str.Replace("-", " ");
+            if (removeNonWordCharacters)
+            {
+                str = str.Replace("-", " ");
+                str = str.RemoveNonWordCharacters();
+            }
 
             return Regex.Split(str, @"[\s\n\-]").Where(f => f.Trim().Length > 0).ToArray();
+        }
+
+        public static string[] SplitUriPartToWords(this string uriPart)
+        {
+            return uriPart.Split(".").SelectMany(s => s.Split("/")).SelectMany(s => s.Split("-")).Select(s => HttpUtility.UrlDecode(s)).SelectMany(s => s.SplitTitleCaseIdentifierToWords()).ToArray();
+        }
+
+        public static string[] SplitToWords(this Uri uri)
+        {
+            var words = new List<string>();
+            var nameValues = HttpUtility.ParseQueryString(uri.Query);
+            var segments = uri.Segments.Select(s => s.RemoveEndIfMatches("/")).Where(s => !s.IsNullOrEmpty());
+
+            words.Add(uri.Host);
+            words.AddRange(uri.Host.SplitUriPartToWords());
+            words.AddRange(segments);
+            words.AddRange(segments.SelectMany(s => s.SplitUriPartToWords()));
+            words.AddRange(nameValues.Keys.Cast<string>().SelectMany(s => s.SplitUriPartToWords()));
+
+            return words.Distinct().ToArray();
+        }
+
+        public static string RemoveLastWord(this string str)
+        {
+            var words = str.SplitToWords(false).ToList();
+
+            words.RemoveAt(words.Count - 1);
+
+            if (words.Count > 0)
+            {
+                var lastWord = words.Last();
+                var lastChar = lastWord.Last();
+
+                while (lastChar.IsNonWordCharacter() || lastChar == ' ')
+                {
+                    lastWord = lastWord.RemoveEnd(1);
+
+                    words[words.Count - 1] = lastWord;
+
+                    if (lastWord.Length > 0)
+                    {
+                        lastChar = lastWord.Last();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return string.Join(" ", words);
+        }
+
+        public static string RemoveFirstWord(this string str)
+        {
+            var words = str.SplitToWords(false).ToList();
+
+            words.RemoveAt(0);
+
+            if (words.Count > 0)
+            {
+                var firstWord = words.First();
+                var firstChar = firstWord.First();
+
+                while (firstChar.IsNonWordCharacter() || firstChar == ' ')
+                {
+                    firstWord = firstWord.RemoveStart(1);
+                    words[0] = firstWord;
+
+                    if (firstWord.Length > 0)
+                    {
+                        firstChar = firstWord.First();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return string.Join(" ", words);
+        }
+        public static string GetLastWord(this string str)
+        {
+            var words = str.SplitToWords(false).ToList();
+
+            return words.Last();
+        }
+
+        public static string GetFirstWord(this string str)
+        {
+            var words = str.SplitToWords(false).ToList();
+
+            return words.First();
         }
 
         public static string[] SplitTitleCaseIdentifierToWords(this string str)
@@ -1548,6 +2007,16 @@ namespace Utils
             return str.String.EndsWith(value, StringComparison.InvariantCultureIgnoreCase);
         }
 
+        public static bool Contains(this string source, string toCheck, StringComparison comp)
+        {
+            return source?.IndexOf(toCheck, comp) >= 0;
+        }
+
+        public static bool Contains(this CaselessString str, string value)
+        {
+            return str.String.Contains(value, StringComparison.InvariantCultureIgnoreCase); 
+        }
+
         public static CaselessString Replace(this CaselessString str, string oldValue, string newValue)
         {
             return str.String.Replace(oldValue, newValue);
@@ -1556,6 +2025,16 @@ namespace Utils
         public static bool StartsWith(this CaselessString str, string value)
         {
             return str.String.StartsWith(value, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public static string UriEncode(this string str)
+        {
+            return Uri.EscapeUriString(str);
+        }
+
+        public static string UriDecode(this string str)
+        {
+            return Uri.UnescapeDataString(str);
         }
 
         public static string UrlEncode(this string str)
@@ -1573,6 +2052,23 @@ namespace Utils
             return HttpUtility.HtmlEncode(str);
         }
 
+        public static string HtmlEncodeWithBreaks(this string str)
+        {
+            str = HttpUtility.HtmlEncode(str);
+            str = str.RegexReplace(@"\n", "<br>");
+
+            return str;
+        }
+
+        public static string HtmlEncodeWithWhitespace(this string str, int spaceCountPerTab = 2)
+        {
+            str = HttpUtility.HtmlEncode(str);
+            str = str.RegexReplace(@"\t", "&nbsp;".Repeat(spaceCountPerTab));
+            str = str.RegexReplace(@" ", "&nbsp;".Repeat(spaceCountPerTab));
+
+            return str;
+        }
+
         public static string HtmlDecode(this string str)
         {
             return HttpUtility.HtmlDecode(str);
@@ -1583,9 +2079,47 @@ namespace Utils
             return XDocument.Parse(str);
         }
 
+        public static IEnumerable<string> GetAllWordGroups(this string text)
+        {
+            var words = text.SplitToWords(false).ToList();
+            var maxGroups = words.Count;
+
+            if (text.Contains("-"))
+            {
+                yield return text;
+            }
+
+            for (var groupCount = 1; groupCount <= maxGroups; groupCount++)
+            {
+                for (var index = 0; index < words.Count - groupCount + 1; index++)
+                {
+                    var group = words.Skip(index).Take(groupCount);
+
+                    yield return string.Join(" ", group);
+                }
+            }
+        }
+
+        public static IEnumerable<string> GetAllWordGroups(this Uri uri)
+        {
+            var words = uri.SplitToWords();
+
+            return words;
+        }
+
         public static object ParseAsJson(this string str)
         {
             return JsonExtensions.ReadJson<object>(str);
+        }
+
+        public static string RegexEscape(this string str)
+        {
+            return Regex.Escape(str);
+        }
+
+        public static string FormatEscape(this string str)
+        {
+            return str.RegexReplace(@"(?<!\{)\{(?!\{)", "{{").RegexReplace(@"(?<!\})\}(?!\})", "}}");
         }
 
         public static string RegexGet(this string str, string pattern, string groupName)
@@ -1603,6 +2137,18 @@ namespace Utils
             return null;
         }
 
+        public static Match RegexGetMatch(this string str, string pattern)
+        {
+            var regex = new Regex(pattern);
+
+            if (regex.IsMatch(str))
+            {
+                return regex.Match(str);
+            }
+
+            return null;
+        }
+
         public static IEnumerable<Match> RegexGetMatches(this string str, string pattern)
         {
             var regex = new Regex(pattern);
@@ -1614,7 +2160,7 @@ namespace Utils
                 return matches.Cast<Match>();
             }
 
-            return null;
+            return new Match[0];
         }
 
         public static string[] RegexSplit(this string str, string pattern)
@@ -1735,6 +2281,12 @@ namespace Utils
                 .Append(post);
         }
 
+        public static string SurroundWithTag(this string str, string tagName)
+        {
+            return str.SurroundWith($"<{ tagName }>", $"</{ tagName }>");
+        }
+
+
         public static string SurroundWithIfNotNullOrEmpty(this string str, string pre, string post)
         {
             if (string.IsNullOrEmpty(str))
@@ -1750,6 +2302,16 @@ namespace Utils
         }
 
         public static string SurroundWithQuotes(this string str)
+        {
+            return str.SurroundWith("\"");
+        }
+
+        public static string SurroundWithSingleQuotes(this string str)
+        {
+            return str.SurroundWith("'");
+        }
+
+        public static string SurroundWithSlashedQuotes(this string str)
         {
             return str.SurroundWith("\"");
         }
@@ -2015,6 +2577,82 @@ namespace Utils
             return text;
         }
 
+        public static string ToKebabCase(this string name)
+        {
+            var builder = new StringBuilder();
+            var identifier = string.Empty;
+
+            foreach (var ch in name)
+            {
+                if (ch.IsUpperCase())
+                {
+                    builder.Append("-");
+                }
+
+                builder.Append(ch.ToString().ToLower());
+            }
+
+            identifier = builder.ToString();
+
+            return identifier;
+        }
+
+        public static IEnumerable<string> SplitTitleCaseWords(this string name)
+        {
+            var builder = new StringBuilder();
+
+            foreach (var ch in name)
+            {
+                if (ch.IsUpperCase())
+                {
+                    if (builder.Length > 0)
+                    {
+                        yield return builder.ToString();
+                        builder.Clear();
+                    }
+                }
+
+                builder.Append(ch.ToString().ToLower());
+            }
+
+            if (builder.Length > 0)
+            {
+                yield return builder.ToString();
+            }
+        }
+
+        public static string ToIdentifier(this string name)
+        {
+            var builder = new StringBuilder();
+            var identifier = string.Empty;
+            var goUpper = false;
+
+            foreach (var ch in name)
+            {
+                var ch2 = ch.ToString();
+
+                if (ch2 == "-")
+                {
+                    goUpper = true;
+                    continue;
+                }
+                else
+                {
+                    if (goUpper)
+                    {
+                        ch2 = ch2.ToUpper();
+                        goUpper = false;
+                    }
+                }
+
+                builder.Append(ch2.ToString());
+            }
+
+            identifier = builder.ToString();
+
+            return identifier;
+        }
+
         public static string ToCamelCase(this string text)
         {
             return text.First().ToString().ToLower() + string.Join("", text.Skip(1));
@@ -2022,7 +2660,22 @@ namespace Utils
 
         public static string ToTitleCase(this string text)
         {
+            if (text.IsNullOrEmpty())
+            {
+                return text;
+            }
+
             return text.First().ToString().ToUpper() + string.Join("", text.Skip(1));
+        }
+
+        public static string ToNonTitleCase(this string text)
+        {
+            if (text.IsNullOrEmpty())
+            {
+                return text;
+            }
+
+            return text.First().ToString().ToLower() + string.Join("", text.Skip(1));
         }
 
         public static string RemoveEnd(this string text, int count)
@@ -2043,6 +2696,42 @@ namespace Utils
         public static bool HasBOM(this string text)
         {
             return text.StartsWith(BytOrderMarkUtf8);
+        }
+
+        public static string RemoveStartAtLastChar(this string text, char lastChar)
+        {
+            if (text.IndexOf(lastChar) != -1)
+            {
+                return text.RightAt(text.LastIndexOf(lastChar));
+            }
+            else
+            {
+                return text;
+            }
+        }
+
+        public static string RemoveStartAfterLastChar(this string text, char lastChar)
+        {
+            if (text.IndexOf(lastChar) != -1)
+            {
+                return text.RightAfter(text.LastIndexOf(lastChar));
+            }
+            else
+            {
+                return text;
+            }
+        }
+
+        public static string RemoveEndAfterLastChar(this string text, char lastChar)
+        {
+            if (text.IndexOf(lastChar) != -1)
+            {
+                return text.Crop(text.LastIndexOf(lastChar) + 1);
+            }
+            else
+            {
+                return text;
+            }
         }
 
         public static string RemoveEndAtLastChar(this string text, char lastChar)
@@ -2177,6 +2866,21 @@ namespace Utils
             {
                 return text;
             }
+        }
+
+        public static string RightAt(this string text, int index)
+        {
+            return text.Right(text.Length - index);
+        }
+
+        public static string RightAfter(this string text, int index)
+        {
+            if (text.Length <= index)
+            {
+                return string.Empty;
+            }
+
+            return text.Right(text.Length - index - 1);
         }
 
         public static string RightAt(this string text, bool reverse, Func<int, char, bool> charProcessor)

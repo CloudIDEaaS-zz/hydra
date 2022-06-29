@@ -9,6 +9,11 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Microsoft.Diagnostics.Runtime;
+using System.Threading;
+using System.Runtime.InteropServices;
+using System.IO;
+using Utils.ProcessHelpers;
 #if SILVERLIGHT
 using Utils.DebugListenerServiceReference;
 using System.Windows.Controls;
@@ -18,6 +23,29 @@ namespace Utils
 {
     public static class DebugUtils
     {
+        [DllImport("Dbghelp.dll")]
+        static extern bool MiniDumpWriteDump(IntPtr hProcess, uint ProcessId, IntPtr hFile, int DumpType, IntPtr ExceptionParam, IntPtr UserStreamParam, IntPtr CallbackParam);
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetCurrentProcess();
+
+        [DllImport("kernel32.dll")]
+        public static extern uint GetCurrentThreadId();
+
+        [DllImport("kernel32.dll")]
+        static extern uint GetCurrentProcessId();
+
+        [StructLayout(LayoutKind.Sequential, Pack = 4)]
+        public struct MINIDUMP_EXCEPTION_INFORMATION
+        {
+
+            public uint ThreadId;
+            public IntPtr ExceptionPointers;
+            public int ClientPointers;
+        }
+
+        private static readonly int MiniDumpWithFullMemory = 2;
+
 #if SILVERLIGHT
         public static SetBreakOnThrownExceptionsOperation SetBreakOnThrownExceptions(bool on)
         {
@@ -158,6 +186,50 @@ namespace Utils
             }
         }
 #endif
+
+        [Flags]
+        public enum UnDecorateFlags
+        {
+            UNDNAME_COMPLETE = (0x0000),  // Enable full undecoration
+            UNDNAME_NO_LEADING_UNDERSCORES = (0x0001),  // Remove leading underscores from MS extended keywords
+            UNDNAME_NO_MS_KEYWORDS = (0x0002),  // Disable expansion of MS extended keywords
+            UNDNAME_NO_FUNCTION_RETURNS = (0x0004),  // Disable expansion of return type for primary declaration
+            UNDNAME_NO_ALLOCATION_MODEL = (0x0008),  // Disable expansion of the declaration model
+            UNDNAME_NO_ALLOCATION_LANGUAGE = (0x0010),  // Disable expansion of the declaration language specifier
+            UNDNAME_NO_MS_THISTYPE = (0x0020),  // NYI Disable expansion of MS keywords on the 'this' type for primary declaration
+            UNDNAME_NO_CV_THISTYPE = (0x0040),  // NYI Disable expansion of CV modifiers on the 'this' type for primary declaration
+            UNDNAME_NO_THISTYPE = (0x0060),  // Disable all modifiers on the 'this' type
+            UNDNAME_NO_ACCESS_SPECIFIERS = (0x0080),  // Disable expansion of access specifiers for members
+            UNDNAME_NO_THROW_SIGNATURES = (0x0100),  // Disable expansion of 'throw-signatures' for functions and pointers to functions
+            UNDNAME_NO_MEMBER_TYPE = (0x0200),  // Disable expansion of 'static' or 'virtual'ness of members
+            UNDNAME_NO_RETURN_UDT_MODEL = (0x0400),  // Disable expansion of MS model for UDT returns
+            UNDNAME_32_BIT_DECODE = (0x0800),  // Undecorate 32-bit decorated names
+            UNDNAME_NAME_ONLY = (0x1000),  // Crack only the name for primary declaration;
+                                           // return just [scope::]name.  Does expand template params
+            UNDNAME_NO_ARGUMENTS = (0x2000),  // Don't undecorate arguments to function
+            UNDNAME_NO_SPECIAL_SYMS = (0x4000),  // Don't undecorate special names (v-table, vcall, vector xxx, metatype, etc)
+        }
+
+        [DllImport("dbghelp.dll", SetLastError = true, PreserveSig = true)]
+        public static extern int UnDecorateSymbolName(
+            [In][MarshalAs(UnmanagedType.LPStr)] string DecoratedName,
+            [Out] StringBuilder UnDecoratedName,
+            [In][MarshalAs(UnmanagedType.U4)] int UndecoratedLength,
+            [In][MarshalAs(UnmanagedType.U4)] UnDecorateFlags Flags);
+
+        public static string UndecorateSymbolName(string decoratedName)
+        {
+            var builder = new StringBuilder(255);
+            UnDecorateSymbolName(decoratedName, builder, builder.Capacity, UnDecorateFlags.UNDNAME_COMPLETE);
+
+            return builder.ToString();
+        }
+
+
+        [DllImport("kernel32.dll")]
+        public static extern FilterDelegate SetUnhandledExceptionFilter(FilterDelegate lpTopLevelExceptionFilter);
+        public delegate bool FilterDelegate(Exception ex);
+
         [Conditional("DEBUG")]
         [Obsolete("Please remove me before checkin.")]
         public static void NoOp()
@@ -184,12 +256,135 @@ namespace Utils
 #endif
         }
 
+        public static void CreateDump(this Process process, string dumpFile, int threadId)
+        {
+            using (var file = new FileStream(dumpFile, FileMode.Create))
+            {
+                bool result;
+                var processHandle = NativeMethods.OpenProcess(ProcessAccessRights.PROCESS_DUP_HANDLE | ProcessAccessRights.PROCESS_QUERY_INFORMATION | ProcessAccessRights.PROCESS_VM_READ, true, process.Id);
+
+                result = MiniDumpWriteDump(process.Handle, (uint) process.Id, file.SafeFileHandle.DangerousGetHandle(), MiniDumpWithFullMemory, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+
+                processHandle.Close();
+            }
+        }
+
         public static IEnumerable<StackFrame> GetStack(this object obj, int count)
         {
             var stackTrace = new StackTrace(true);
             var frames = stackTrace.GetFrames().Take(count + 1);
 
             return frames;
+        }
+
+        public static DebugState GetDebugState(this Process process, int threadId)
+        {
+            var dataTarget = DataTarget.AttachToProcess(process.Id, true);
+            var version = dataTarget.ClrVersions[0];
+            var debugState = new DebugState();
+
+            debugState.ProcessName = process.ProcessName;
+            debugState.ExceptionMessage = "Unknown";
+            debugState.ExceptionText = "Unknown";
+
+            try
+            {
+                using (var runtime = version.CreateRuntime())
+                {
+                    var thread = runtime.Threads.Single(t => t.ManagedThreadId == threadId);
+                    var currentException = thread.CurrentException;
+                    var heap = runtime.Heap;
+                    var stackBase = thread.StackBase;
+                    var stackTrace = currentException.StackTrace;
+
+                    debugState.ProcessName = process.ProcessName;
+                    debugState.ExceptionMessage = currentException.Message;
+                    debugState.ExceptionText = currentException.ToString();
+
+                    foreach (var frame in stackTrace)
+                    {
+                        try
+                        {
+                            var index = stackTrace.IndexOf(frame);
+                            var stackPointer = frame.StackPointer;
+                            var clrMethod = frame.Method;
+                            var clrType = clrMethod.Type;
+                            var location = clrType.Module.AssemblyName;
+                            Assembly assembly = null;
+                            Type type = null;
+                            MethodBase method = null;
+                            ClrStackFrame nextFrame;
+                            ulong nextPointer;
+
+                            try
+                            {
+                                assembly = Assembly.ReflectionOnlyLoadFrom(location);
+                                type = assembly.ManifestModule.ResolveType(clrType.MetadataToken);
+                                method = assembly.ManifestModule.ResolveMethod(clrMethod.MetadataToken);
+                            }
+                            catch
+                            {
+                            }
+
+                            if (index >= stackTrace.Length - 1)
+                            {
+                                nextPointer = stackBase;
+                            }
+                            else
+                            {
+                                nextFrame = stackTrace[index + 1];
+                                nextPointer = nextFrame.StackPointer;
+                            }
+
+                            try
+                            {
+                                debugState.WriteLine("{0}!{1}.{2}", assembly.FullName, type.FullName, method.Name);
+                            }
+                            catch
+                            {
+                                debugState.WriteLine("Unknown");
+                            }
+
+                            debugState.WriteLine("    Stack objects:");
+
+                            for (var ptr = stackPointer; ptr < nextPointer; ptr += (uint)IntPtr.Size)
+                            {
+                                if (!dataTarget.DataReader.ReadPointer(ptr, out ulong ptrToObject))
+                                {
+                                    break;
+                                }
+
+                                try
+                                {
+                                    clrType = heap.GetObjectType(ptrToObject);
+                                }
+                                catch
+                                {
+                                }
+
+                                if (clrType == null)
+                                {
+                                    continue;
+                                }
+
+                                if (!clrType.IsFree)
+                                {
+                                    debugState.WriteLine("    {0,16:X} {1,16:X} {2}", ptr, ptrToObject, clrType.Name);
+                                }
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            return debugState;
         }
 
         public static bool InPotentiallyPartialIterator(this object obj)
@@ -383,27 +578,51 @@ namespace Utils
 
         public static string GetStackText(this object obj, int count, bool includeTime)
         {
+            string callStack = string.Empty;
             var stackTrace = new StackTrace(true);
             var frames = stackTrace.GetFrames().Take(count + 1);
-            var callStack = frames.Reverse().Take(count - 1).Select(f => string.Format("{0}:{1}", f.GetMethod().Name, f.GetFileLineNumber())).ToDelimitedList(" -> ");
+
+            try
+            {
+                callStack = frames.Reverse().Take(count - 1).Select(f => string.Format("{0}:{1}", f.GetMethod().Name, f.GetFileLineNumber())).ToDelimitedList(" -> ");
+            }
+            catch
+            {
+            }
 
             return (includeTime ? GetDebugTime() + " " : string.Empty) + callStack;
         }
 
         public static string GetStackText(this object obj, int count)
         {
+            string callStack = string.Empty;
             var stackTrace = new StackTrace(true);
             var frames = stackTrace.GetFrames().Take(count + 1);
-            var callStack = frames.Reverse().Take(count - 1).Select(f => string.Format("{0}:{1}", f.GetMethod().Name, f.GetFileLineNumber())).ToDelimitedList(" -> ");
+
+            try
+            { 
+                callStack = frames.Reverse().Take(count - 1).Select(f => string.Format("{0}:{1}", f.GetMethod().Name, f.GetFileLineNumber())).ToDelimitedList(" -> ");
+            }
+            catch
+            {
+            }
 
             return callStack;
         }
 
         public static string GetStackText(this object obj, int count, int skip)
         {
+            string callStack = string.Empty;
             var stackTrace = new StackTrace(true);
             var frames = stackTrace.GetFrames().Take(count + 1);
-            var callStack = frames.Reverse().Take(count - skip - 1).Select(f => string.Format("{0}:{1}", f.GetMethod().Name, f.GetFileLineNumber())).ToDelimitedList(" -> ");
+            
+            try
+            { 
+                callStack = frames.Reverse().Take(count - skip - 1).Select(f => string.Format("{0}:{1}", f.GetMethod().Name, f.GetFileLineNumber())).ToDelimitedList(" -> ");
+            }
+            catch
+            {
+            }
 
             return callStack;
         }
@@ -416,6 +635,24 @@ namespace Utils
                 action();
             }
         }
+
+
+        public static void AssertThrow(bool b, string genericMessage)
+        {
+            if (!b)
+            {
+                throw new Exception(genericMessage);
+            }
+        }
+
+        public static void AssertThrow(bool b, Func<string> getGenericMessage)
+        {
+            if (!b)
+            {
+                throw new Exception(getGenericMessage());
+            }
+        }
+
 
         [DebuggerStepThrough()]
         public static void DoIfNot(bool b, Action action)

@@ -1,0 +1,13 @@
+using AbstraX.ImportHandlers.Packages;
+
+namespace AbstraX.ImportHandlers
+{
+    [ImportHandler(ModuleImports.IONICPAGEBUILTIN_HANDLER_ID)]
+    public class IonicPageBuiltInImportHandler : BaseImportHandler<IonicPageBuiltInPackage>
+    {
+        public override void AddImport(ulong moduleId)
+        {
+            base.AddImport((IonicPageBuiltInModules)moduleId);
+        }
+    }
+}

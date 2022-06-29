@@ -10,20 +10,24 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Utils</RootNamespace>
     <AssemblyName>Utils</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <TargetFrameworkProfile />
+    <GenerateResourceMSBuildArchitecture>CurrentArchitecture</GenerateResourceMSBuildArchitecture>
+    <GenerateResourceMSBuildRuntime>CurrentRuntime</GenerateResourceMSBuildRuntime>
+    <RuntimeIdentifier>win</RuntimeIdentifier>
+    <AssemblyVersion>1.0.</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;INCLUDE_PROCESSDIAGNOSTICSLIBRARY INCLUDE_FARE INCLUDE_RTFLIBRARY</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;INCLUDE_PROCESSDIAGNOSTICSLIBRARY INCLUDE_FARE INCLUDE_RTFLIBRARY INCLUDE_SHARPSERIALIZER USE_SYSTEM_DATA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -36,7 +40,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;INCLUDE_FARE INCLUDE_RTFLIBRARY</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -91,33 +95,103 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Diagnostics.Runtime">
+      <Version>2.0.221201</Version>
+    </PackageReference>
+    <PackageReference Include="Accord.Statistics">
+      <Version>3.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="ConsoleControl">
+      <Version>1.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="FreeSpire.Doc">
+      <Version>7.11.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation">
+      <Version>5.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
+      <Version>3.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting">
+      <Version>3.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <Version>2.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform.BinFix">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Diagnostics.Runtime">
+      <Version>2.0.221201</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore">
+      <Version>3.1.4</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.WindowsAPICodePack-Core">
+      <Version>1.1.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.WindowsAPICodePack-Shell">
+      <Version>1.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Moq">
+      <Version>4.16.1</Version>
+    </PackageReference>
+    <PackageReference Include="sautinsoft.htmltortf">
+      <Version>8.1.6.7</Version>
+    </PackageReference>
+    <PackageReference Include="System.Management">
+      <Version>5.0.0</Version>
+    </PackageReference>
     <Reference Include="Accessibility">
       <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="alglib318gpl_net2">
+      <HintPath>..\Binaries\Packages\alglib.csharp\alglib318gpl_net2.dll</HintPath>
     </Reference>
     <Reference Include="CsTransformationParserLibrary">
       <HintPath>..\Binaries\CsTransformationParserLibrary.dll</HintPath>
     </Reference>
     <Reference Include="CustomMarshalers" />
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Fare, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Binaries\Fare.1.0.3\lib\net35\Fare.dll</HintPath>
     </Reference>
+    <Reference Include="GemBox.Document">
+      <HintPath>..\Binaries\GemBox\GemBox.Document.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualStudio.TextTemplating.12.0">
       <HintPath>..\Binaries\Packages\Microsoft.VisualStudio.TextTemplating.12.0\Microsoft.VisualStudio.TextTemplating.12.0.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\Packages\Microsoft.VisualStudio.TextTemplating.12.0\Microsoft.VisualStudio.TextTemplating.Interfaces.10.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.12.0">
+      <HintPath>..\Binaries\Packages\Microsoft.VisualStudio.TextTemplating.12.0\Microsoft.VisualStudio.TextTemplating.Interfaces.12.0.dll</HintPath>
+    </Reference>
+    <PackageReference Include="DocumentFormat.OpenXml">
+      <Version>2.12.0</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression">
       <HintPath>..\..\..\..\windows\Microsoft.NET\Framework64\v4.0.30319\System.IO.Compression.dll</HintPath>
     </Reference>
     <PackageReference Include="System.Linq.Dynamic" Version="1.0.7" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Security" />
@@ -148,18 +222,114 @@
     <Reference Include="Microsoft.TeamFoundation.VersionControl.Client, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\Binaries\Microsoft.TeamFoundation.VersionControl.Client.dll</HintPath>
     </Reference>
+    <Reference Include="ZetaLongPaths">
+      <HintPath>..\Binaries\Packages\zetalongpaths.1.0.16\lib\net452-full\ZetaLongPaths.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\MailSlot\MailSlot.cs">
+      <Link>Mailslot\MailSlot.cs</Link>
+    </Compile>
+    <Compile Include="..\MailSlot\MailSlotClient.cs">
+      <Link>Mailslot\MailSlotClient.cs</Link>
+    </Compile>
+    <Compile Include="..\MailSlot\MailSlotServer.cs">
+      <Link>Mailslot\MailSlotServer.cs</Link>
+    </Compile>
+    <Compile Include="..\MailSlot\RawMailSlot.cs">
+      <Link>Mailslot\RawMailSlot.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils.Core\FrameworkVersion.cs">
+      <Link>FrameworkVersion.cs</Link>
+    </Compile>
     <Compile Include="ActionQueueService.cs" />
+    <Compile Include="ActionStatus.cs" />
     <Compile Include="ActiveControls\ToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ADOExtensions.cs" />
     <Compile Include="AdvanceableEnumerable.cs" />
+    <Compile Include="AlertingExtensions.cs" />
+    <Compile Include="AspExtensions.cs" />
+    <Compile Include="AtomTable.cs" />
+    <Compile Include="BaseWindowsCommandHandler.cs" />
     <Compile Include="BoolExtensions.cs" />
+    <Compile Include="BTreeIndex\FullText\FullTextIndex.cs" />
+    <Compile Include="BTreeIndex\FullText\TextRank.cs" />
     <Compile Include="BufferBuilder.cs" />
+    <Compile Include="BufferedPaint\BufferedPainter.cs" />
+    <Compile Include="BufferedPaint\Interop.cs" />
+    <Compile Include="ColorMapEntry.cs" />
+    <Compile Include="ColorPicker\ColorBox2D\ColorChangedEventArgs.cs" />
+    <Compile Include="ColorPicker\ColorBox2D\ColorModes.cs" />
+    <Compile Include="ColorPicker\ColorBox2D\Controls\ColorBox2D.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ColorPicker\ColorBox2D\Controls\ColorBox2D.Designer.cs">
+      <DependentUpon>ColorBox2D.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorPicker\ColorBox2D\Controls\ColorHexagon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ColorPicker\ColorBox2D\Controls\ColorHexagon.Designer.cs">
+      <DependentUpon>ColorHexagon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorPicker\ColorBox2D\Controls\ColorSliderVertical.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ColorPicker\ColorBox2D\Controls\ColorSliderVertical.Designer.cs">
+      <DependentUpon>ColorSliderVertical.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorPicker\ColorBox2D\Controls\ColorWheel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ColorPicker\ColorBox2D\HslColor.cs" />
+    <Compile Include="ColorPicker\ColorBox2D\MathExtensions.cs" />
+    <Compile Include="ColorPicker\ColorPickerDialog\ColorPickerDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorPicker\ColorPickerDialog\ColorPickerDialog.Designer.cs">
+      <DependentUpon>ColorPickerDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorPicker\ColorPickerDialog\OverlayScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorPicker\ColorPickerDialog\OverlayScreen.Designer.cs">
+      <DependentUpon>OverlayScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorChangeFilter.cs" />
+    <Compile Include="ColorProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ColorProgressBarDesigner.cs" />
+    <Compile Include="ColorWheel\ColorEx.cs" />
+    <Compile Include="ColorWheel\Extensions.cs" />
+    <Compile Include="ComboTreeBox\ComboTreeBox.cs" />
+    <Compile Include="ComboTreeBox\ComboTreeDropDown.cs" />
+    <Compile Include="ComboTreeBox\ComboTreeNode.cs" />
+    <Compile Include="ComboTreeBox\ComboTreeNodeCollection.cs" />
+    <Compile Include="ComExtensions.cs" />
     <Compile Include="CommandPacketT.cs" />
     <Compile Include="CommandPacket.cs" />
+    <Compile Include="ctrlEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctrlEditor.designer.cs">
+      <DependentUpon>ctrlEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ctrlSplitCheckbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ctrlValueBoundCheckedListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CursorExtensions.cs" />
+    <Compile Include="DebugState.cs" />
+    <Compile Include="CaselessEqualityComparer.cs" />
+    <Compile Include="DocumentExtensions.cs" />
+    <Compile Include="DropDownControlBase\DropDownControlBase.cs" />
+    <Compile Include="DropDownSearchBox\DropDownSearchBox.cs" />
+    <Compile Include="DropDownSearchBox\TextServices.cs" />
     <Compile Include="DynamicAutocomplete.cs" />
     <Compile Include="DynamicJsonConverter.cs" />
     <Compile Include="DynamicObject.cs" />
@@ -217,19 +387,103 @@
     <Compile Include="DataGridViewTemplateCell.cs" />
     <Compile Include="DataGridViewTemplateColumn.cs" />
     <Compile Include="DataGridViewTemplateColumnCreateControlHandler.cs" />
+    <Compile Include="EmailExtensions.cs" />
+    <Compile Include="ctrlImageOverlay.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ctrlImageOverlay.Designer.cs">
+      <DependentUpon>ctrlImageOverlay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityTypeConfigRelationshipManager.cs" />
+    <Compile Include="EnvironmentExtensions.cs" />
+    <Compile Include="FolderSelect.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FolderSelect.Designer.cs">
+      <DependentUpon>FolderSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileSelect.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FileSelect.Designer.cs">
+      <DependentUpon>FileSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFloatingProgressBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFloatingProgressBar.Designer.cs">
+      <DependentUpon>frmFloatingProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFloatingMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFloatingMessageBox.Designer.cs">
+      <DependentUpon>frmFloatingMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRunningProcesses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRunningProcesses.Designer.cs">
+      <DependentUpon>frmRunningProcesses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLockingProcesses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLockingProcesses.Designer.cs">
+      <DependentUpon>frmLockingProcesses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GroupPolicy.cs" />
+    <Compile Include="HighGraphics\RenderControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HighGraphics\RenderControl.Designer.cs">
+      <DependentUpon>RenderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HighGraphics\RenderEventHandler.cs" />
+    <Compile Include="IBaseWindowsCommandHandler.cs" />
+    <Compile Include="IDispatch.cs" />
+    <Compile Include="ILockable.cs" />
+    <Compile Include="IManagedSemaphoreObject.cs" />
+    <Compile Include="InProcessTransactions\IEnlistment.cs" />
+    <Compile Include="InProcessTransactions\Implementation\StateManager.cs" />
+    <Compile Include="InProcessTransactions\Implementation\Transaction.cs" />
+    <Compile Include="InProcessTransactions\Implementation\TransactionWrapper.cs" />
+    <Compile Include="InProcessTransactions\IStateManager.cs" />
+    <Compile Include="InProcessTransactions\ITransaction.cs" />
+    <Compile Include="InProcessTransactions\CountdownEnlistment.cs" />
+    <Compile Include="InProcessTransactions\SimpleEnlistment.cs" />
+    <Compile Include="InProcessTransactions\TransactionAbortedException.cs" />
+    <Compile Include="InProcessTransactions\TransactionExtensions.cs" />
+    <Compile Include="IShellLink.cs" />
+    <Compile Include="IterationStateEnumerable.cs" />
     <Compile Include="FileCompare.cs" />
+    <Compile Include="FileDetailExtensions.cs" />
     <Compile Include="FileSystemInfoStatus.cs" />
     <Compile Include="FormatBuilder.cs" />
+    <Compile Include="frmConsole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsole.Designer.cs">
+      <DependentUpon>frmConsole.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlyphDrawing\ControlGlyph.cs" />
     <Compile Include="GlyphDrawing\GlyphDictionary.cs" />
     <Compile Include="GlyphDrawing\GlyphManager.cs" />
+    <Compile Include="GroupedComboBox\GroupedComboBox.cs" />
+    <Compile Include="GroupedComboBox\PriorityGroup.cs" />
     <Compile Include="ICloneable.cs" />
     <Compile Include="ILogWriter.cs" />
+    <Compile Include="InterprocessVariables.cs" />
+    <Compile Include="IRuntimeProxy.cs" />
+    <Compile Include="ITemplateEngineHostManager.cs" />
+    <Compile Include="ItemTrackingBindingList.cs" />
     <Compile Include="JsonExtensions.cs" />
     <Compile Include="JsonFormatter.cs" />
     <Compile Include="KeyValuePairConverter.cs" />
     <Compile Include="LockTools.cs" />
     <Compile Include="LogWriter.cs" />
+    <Compile Include="ManagedSemaphore.cs" />
+    <Compile Include="MedianExtensions.cs" />
     <Compile Include="MemoryStatus.cs" />
     <Compile Include="MemoryView\DragDropOperation.cs" />
     <Compile Include="MemoryView\DrawRect.cs" />
@@ -238,6 +492,10 @@
     <Compile Include="MemoryView\RangePainterHitTestHandler.cs" />
     <Compile Include="MemoryView\RangePainterTransaction.cs" />
     <Compile Include="MemoryView\RangePainterType.cs" />
+    <Compile Include="NamedPipes\Delegates.cs" />
+    <Compile Include="NamedPipes\NamedPipeClient.cs" />
+    <Compile Include="NamedPipes\NamedPipeServer.cs" />
+    <Compile Include="NamedPipes\PipeServerConnection.cs" />
     <Compile Include="NetworkExtensions.cs" />
     <Compile Include="NumberTimeConverter.cs" />
     <Compile Include="CtrlTabEventArgs.cs" />
@@ -263,12 +521,167 @@
     <Compile Include="MemoryView\RangePainterList.cs" />
     <Compile Include="MemoryView\StatusEventArgs.cs" />
     <Compile Include="MemoryView\TextExtensions.cs" />
+    <Compile Include="OAuthToken.cs" />
+    <Compile Include="ObjectTree.cs" />
+    <Compile Include="ObjectTreeItem.cs" />
+    <Compile Include="OleExtensions.cs" />
+    <Compile Include="OptionsDialog\frmOptionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionsDialog\frmOptionsDialog.Designer.cs">
+      <DependentUpon>frmOptionsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OverlayScreenBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Parsing\SpecialFunction.cs" />
+    <Compile Include="Parsing\TypeInformation.cs" />
+    <Compile Include="Parsing\TypeSignatureParser.cs" />
     <Compile Include="Phonetics\Phonetics.cs" />
+    <Compile Include="PlatformProcess.cs" />
+    <Compile Include="PortableExecutable\ArchitectureEntry.cs" />
+    <Compile Include="PortableExecutable\BaseRelocation.cs" />
+    <Compile Include="PortableExecutable\BoundForwarderReference.cs" />
+    <Compile Include="PortableExecutable\BoundImportDescriptor.cs" />
+    <Compile Include="PortableExecutable\CodeSource.cs" />
+    <Compile Include="PortableExecutable\CodeType.cs" />
+    <Compile Include="PortableExecutable\CodeViewHeader.cs" />
+    <Compile Include="PortableExecutable\CodeViewPDBHeader.cs" />
+    <Compile Include="PortableExecutable\COFFHeader.cs" />
+    <Compile Include="PortableExecutable\COFFSection.cs" />
+    <Compile Include="PortableExecutable\COFFSectionHeader.cs" />
+    <Compile Include="PortableExecutable\COFFSectionHeaders.cs" />
+    <Compile Include="PortableExecutable\ConfigurationDirectory.cs" />
+    <Compile Include="PortableExecutable\DataDirectories.cs" />
+    <Compile Include="PortableExecutable\DataDirectoryEntry.cs" />
+    <Compile Include="PortableExecutable\DataDirectoryHeader.cs" />
+    <Compile Include="PortableExecutable\DebugDirectory.cs" />
+    <Compile Include="PortableExecutable\DelayImportEntry.cs" />
+    <Compile Include="PortableExecutable\DescriptorEntry.cs" />
+    <Compile Include="PortableExecutable\Enums\CertificateType.cs" />
+    <Compile Include="PortableExecutable\Enums\DataSectionFlags.cs" />
+    <Compile Include="PortableExecutable\Enums\DebugType.cs" />
+    <Compile Include="PortableExecutable\Enums\DirectoryId.cs" />
+    <Compile Include="PortableExecutable\Enums\DllCharacteristics.cs" />
+    <Compile Include="PortableExecutable\Enums\ImageCharacteristics.cs" />
+    <Compile Include="PortableExecutable\Enums\LayoutFlags.cs" />
+    <Compile Include="PortableExecutable\Enums\Machine.cs" />
+    <Compile Include="PortableExecutable\Enums\MemoryEnums.cs" />
+    <Compile Include="PortableExecutable\Enums\OptionalMagic.cs" />
+    <Compile Include="PortableExecutable\Enums\RelocationType.cs" />
+    <Compile Include="PortableExecutable\Enums\ResourceId.cs" />
+    <Compile Include="PortableExecutable\Enums\Subsystem.cs" />
+    <Compile Include="PortableExecutable\ExceptionEntry.cs" />
+    <Compile Include="PortableExecutable\ExportData.cs" />
+    <Compile Include="PortableExecutable\ExportDirectory.cs" />
+    <Compile Include="PortableExecutable\Extensions.cs" />
+    <Compile Include="PortableExecutable\GlobalPointerEntry.cs" />
+    <Compile Include="PortableExecutable\IDataDirectory.cs" />
+    <Compile Include="PortableExecutable\IImageLayoutCodeProviderItem.cs" />
+    <Compile Include="PortableExecutable\IImageLayoutItem.cs" />
+    <Compile Include="PortableExecutable\IImageReader.cs" />
+    <Compile Include="PortableExecutable\ImageLayoutEvents.cs" />
+    <Compile Include="PortableExecutable\ImportAddressDirectory.cs" />
+    <Compile Include="PortableExecutable\ImportAddressEntry.cs" />
+    <Compile Include="PortableExecutable\ImportByName.cs" />
+    <Compile Include="PortableExecutable\ImportDescriptor.cs" />
+    <Compile Include="PortableExecutable\IPEImage.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ChildrenEnumerator.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ChildrenEnumeratorFilter.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\DescendantEnumerator.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\IImageLayoutGenericReference.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\IImageLayoutItemContainer.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\IImageLayoutItemGenericContainer.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\IImageLayoutItemTupleContainer.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\IImageLayoutReference.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\IImageLayoutRelationship.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\IImageLayoutTree.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ImageLayoutItem.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ImageLayoutItemFind.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ImageLayoutItemT.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ImageLayoutItemTuple.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ImageLayoutReference.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ImageLayoutReferenceT.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ImageLayoutRelationship.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ImageLayoutRelationshipT.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ItemEnumerator.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\LayoutExtensions.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ReferencedItem.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ReferenceEnumerator.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\ReferenceEnumeratorFilter.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\RootEnumerator.cs" />
+    <Compile Include="PortableExecutable\LayoutItems\RootEnumeratorFilter.cs" />
+    <Compile Include="PortableExecutable\OffsetSizeCalculator.cs" />
+    <Compile Include="PortableExecutable\PEExtensions.cs" />
+    <Compile Include="PortableExecutable\RealModeStub.cs" />
+    <Compile Include="PortableExecutable\RelocationEntry.cs" />
+    <Compile Include="PortableExecutable\ResourceDataEntry.cs" />
+    <Compile Include="PortableExecutable\ResourceDirectory.cs" />
+    <Compile Include="PortableExecutable\ResourceDirectoryEntry.cs" />
+    <Compile Include="PortableExecutable\ResourceEntry.cs" />
+    <Compile Include="PortableExecutable\SectionHeader.cs" />
+    <Compile Include="PortableExecutable\SectionHeaders.cs" />
+    <Compile Include="PortableExecutable\ThunkData.cs" />
+    <Compile Include="PortableExecutable\TLSEntry.cs" />
+    <Compile Include="PortableExecutable\TreeBackupImageAttribute.cs" />
+    <Compile Include="PortableExecutable\TreeImageAttribute.cs" />
+    <Compile Include="PortableExecutable\TreeImageExtensions.cs" />
+    <Compile Include="PortableExecutable\WinCertificate.cs" />
+    <Compile Include="ProcessAdvancedInfoEx.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyEditorBase.cs" />
+    <Compile Include="RegistryHive.cs" />
     <Compile Include="RegistryKeyEnumerableAttribute.cs" />
     <Compile Include="RegistryKeyInterfaces.cs" />
     <Compile Include="RegistryNonStringValueAttribute.cs" />
+    <Compile Include="RichEdit\IRichEditOle.cs" />
+    <Compile Include="RuntimeProxyExtensions.cs" />
+    <Compile Include="ScreenCapture\ControlPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScreenCapture\ControlPanel.Designer.cs">
+      <DependentUpon>ControlPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScreenCapture\ImageEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScreenCapture\ImageEditor.Designer.cs">
+      <DependentUpon>ImageEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScreenCapture\OverlayScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScreenCapture\OverlayScreen.Designer.cs">
+      <DependentUpon>OverlayScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScreenCapture\ScreenShot.cs" />
+    <Compile Include="ScreenCapture\Settings.cs" />
+    <Compile Include="ScreenCapture\TipWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScreenCapture\TipWindow.Designer.cs">
+      <DependentUpon>TipWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManagedSemaphoreObject.cs" />
+    <Compile Include="SevenSegment\SevenSegment.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SevenSegment\SevenSegmentClock.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SevenSegment\SevenSegmentArray.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="SortedList.cs" />
     <Compile Include="BaseStandardStreamService.cs" />
+    <Compile Include="ctrlSplitButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SplineExtensions.cs" />
     <Compile Include="SwapListBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -278,6 +691,7 @@
     <Compile Include="SwapListT.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="ITemplateEngineHost.cs" />
     <Compile Include="TextEdit.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -364,7 +778,27 @@
     <Compile Include="DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <None Include="DTEExtensions.cs" />
+    <Compile Include="TimerQueue.cs" />
+    <Compile Include="TimerQueueCallback.cs" />
+    <Compile Include="ToolWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ToolWindow.Designer.cs">
+      <DependentUpon>ToolWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TransparentControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TsvEntityParserHost.cs" />
+    <Compile Include="TsvParser.cs" />
+    <Compile Include="TsvParserHost.cs" />
+    <Compile Include="TsvParserRecursionAttribute.cs" />
+    <Compile Include="TypeCache.cs" />
+    <Compile Include="UriExtensions.cs" />
+    <Compile Include="XCopy\XCopy.cs" />
+    <Compile Include="XPathExtensions.cs" />
+    <None Include="ComboTreeBox\ComboTreeBox.cd" />
+    <Compile Include="DTEExtensions.cs" />
     <Compile Include="EnhancedScrollBar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -465,12 +899,6 @@
     <Compile Include="TipWindow.Designer.cs">
       <DependentUpon>TipWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="ToolWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ToolWindow.Designer.cs">
-      <DependentUpon>ToolWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="TupleExtensions.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="AssemblyCloning\VersionClone.cs" />
@@ -521,6 +949,14 @@
       <Project>{a86313db-d1e8-486b-9fac-47e3fb176da7}</Project>
       <Name>ColorMine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\d2dlib-master\src\D2DLibExport\D2DLibExport.csproj">
+      <Project>{81dd53d8-fcf0-4384-a931-9370fa8e8e67}</Project>
+      <Name>D2DLibExport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\d2dlib-master\src\D2DWinForm\D2DWinForm.csproj">
+      <Project>{2ec7844f-29bf-4961-a80c-386ae84f6384}</Project>
+      <Name>D2DWinForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProcessDiagnosticsLibrary\ProcessDiagnosticsLibrary.csproj">
       <Project>{BBB16FB1-0D5F-4E71-801C-E58A48305179}</Project>
       <Name>ProcessDiagnosticsLibrary</Name>
@@ -543,6 +979,42 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ColorPicker\ColorBox2D\Controls\ColorSliderVertical.resx">
+      <DependentUpon>ColorSliderVertical.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorPicker\ColorPickerDialog\ColorPickerDialog.resx">
+      <DependentUpon>ColorPickerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorPicker\ColorPickerDialog\OverlayScreen.resx">
+      <DependentUpon>OverlayScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProgressBar.resx">
+      <DependentUpon>ColorProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ctrlEditor.resx">
+      <DependentUpon>ctrlEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FolderSelect.resx">
+      <DependentUpon>FolderSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileSelect.resx">
+      <DependentUpon>FileSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConsole.resx">
+      <DependentUpon>frmConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFloatingProgressBar.resx">
+      <DependentUpon>frmFloatingProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFloatingMessageBox.resx">
+      <DependentUpon>frmFloatingMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRunningProcesses.resx">
+      <DependentUpon>frmRunningProcesses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLockingProcesses.resx">
+      <DependentUpon>frmLockingProcesses.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Images\Add.bmp" />
   </ItemGroup>
   <ItemGroup>
@@ -551,6 +1023,28 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MemoryView\MemoryView.resx">
       <DependentUpon>MemoryView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionsDialog\frmOptionsDialog.resx">
+      <DependentUpon>frmOptionsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScreenCapture\ControlPanel.resx">
+      <DependentUpon>ControlPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScreenCapture\ImageEditor.resx">
+      <DependentUpon>ImageEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScreenCapture\OverlayScreen.resx">
+      <DependentUpon>OverlayScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScreenCapture\TipWindow.resx">
+      <DependentUpon>TipWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SevenSegment\SevenSegmentClock.resx">
+      <DependentUpon>SevenSegmentClock.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SwapListBase.resx">
       <DependentUpon>SwapListBase.cs</DependentUpon>
@@ -561,9 +1055,20 @@
     <EmbeddedResource Include="TipWindow.resx">
       <DependentUpon>TipWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ToolWindow.resx">
-      <DependentUpon>ToolWindow.cs</DependentUpon>
-    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="htmltortf_sautinsoft.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ColorSelector.cur" />
+    <EmbeddedResource Include="Images\WarningIcon.png" />
+    <EmbeddedResource Include="Images\ProcessIcon.ico" />
+    <EmbeddedResource Include="Images\ProcessIcon16.png" />
+    <EmbeddedResource Include="Images\ProcessIcon32.png" />
+    <None Include="Resources\btnOpen.Image.png" />
+    <None Include="Resources\btnPaste.Image.png" />
+    <None Include="Images\ColorSelector.ico" />
+    <Content Include="Images\ColorSelector.png" />
   </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('INCLUDE_PROCESSDIAGNOSTICSLIBRARY'))" />

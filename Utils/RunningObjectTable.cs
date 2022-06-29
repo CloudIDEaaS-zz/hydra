@@ -208,6 +208,7 @@ namespace Utils
                 IBindCtx bindCtx;
                 string displayName;
                 object obj;
+                var type = typeof(T);
                 T returnObject;
 
                 CreateBindCtx(0, out bindCtx);
@@ -225,16 +226,20 @@ namespace Utils
                     }
 
                     var ptr = Marshal.GetIUnknownForObject(obj);
-                    var guidAttribute = typeof(T).GetCustomAttribute<GuidAttribute>();
-                    var guid = Guid.Parse(guidAttribute.Value);
 
-                    hr = Marshal.QueryInterface(ptr, ref guid, out ptr);
-
-                    if (hr != 0)
+                    if (type.HasCustomAttribute<GuidAttribute>())
                     {
-                        var exception = Marshal.GetExceptionForHR(hr);
+                        var guidAttribute = type.GetCustomAttribute<GuidAttribute>();
+                        var guid = Guid.Parse(guidAttribute.Value);
 
-                        throw new InvalidCastException(string.Format("Error converting object to type ='{0}', name='{1}'", guid.ToString(), name), exception);
+                        hr = Marshal.QueryInterface(ptr, ref guid, out ptr);
+
+                        if (hr != 0)
+                        {
+                            var exception = Marshal.GetExceptionForHR(hr);
+
+                            throw new InvalidCastException(string.Format("Error converting object to type ='{0}', name='{1}'", guid.ToString(), name), exception);
+                        }
                     }
 
                     returnObject = (T) Marshal.GetObjectForIUnknown(ptr);

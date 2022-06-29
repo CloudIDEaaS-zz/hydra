@@ -8,10 +8,12 @@ namespace Utils
 {
     public delegate int WndProcHandler(IntPtr hWnd, uint msg, int wParam, IntPtr lParam);
 
-    public class WindowsHook 
+    public class WindowsHook : IDisposable
     {
         public event WndProcHandler OnMessage;
         private ControlExtensions.WndProcDelegate wndProc;
+        public int PrevWndFunc { get; internal set; }
+        public IntPtr Hwnd { get; internal set; }
 
         public int DelegatePtr
         {
@@ -23,11 +25,17 @@ namespace Utils
             }
         }
 
+
         public int WndProc(IntPtr hWnd, uint msg, int wParam, IntPtr lParam)
         {
             var result = OnMessage(hWnd, msg, wParam, lParam);
 
             return result;
+        }
+
+        public void Dispose()
+        {
+            ControlExtensions.SetWindowLong(this.Hwnd, (int)Utils.ControlExtensions.WindowLongIndex.GWL_WNDPROC, this.PrevWndFunc);
         }
     }
 }

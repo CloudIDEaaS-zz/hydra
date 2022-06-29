@@ -264,6 +264,8 @@
 
         internal static string MakeRelative(string basePath, string path)
         {
+            string relativePath;
+
             if (basePath.Length == 0)
             {
                 return path;
@@ -279,7 +281,9 @@
 
             var uri3 = baseUri.MakeRelativeUri(relativeUri);
 
-            return Uri.UnescapeDataString(uri3.IsAbsoluteUri ? uri3.LocalPath : uri3.ToString()).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+            relativePath = Uri.UnescapeDataString(uri3.IsAbsoluteUri ? uri3.LocalPath : uri3.ToString()).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+
+            return relativePath;
         }
 
     //    internal static string NormalizePath(string path)

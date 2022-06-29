@@ -81,6 +81,118 @@ namespace VisualStudioProvider
         public string Hash { get; private set; }
         public Guid InstanceId { get; private set; }
 
+        public string GetOutputFile(string configuration)
+        {
+            string outputFile = null;
+            var platform = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "Platform");
+            string platformValue = null;
+
+            if (platform == null)
+            {
+                platformValue = rootElement.Properties.First(p2 => p2.Name == "PlatformTarget").Value;
+            }
+            else
+            {
+                platformValue = platform.Value;
+            }
+
+            var outputPathElement = rootElement.Properties.SingleOrDefault(p =>
+            {
+                if (p.Name == "OutputPath")
+                {
+                    var condition = Regex.Replace(p.Parent.Condition, @"\s", "");
+
+                    if (condition == string.Format("'$(Configuration)|$(Platform)'=='{0}|{1}'", configuration, platformValue))
+                    {
+                        return true;
+                    }
+                    else if (platformValue == "AnyCPU")
+                    {
+                        var pattern = string.Format(@"'\$\(Configuration\)\|\$\(Platform\)'=='{0}\|\w+?'", configuration);
+
+                        return Regex.IsMatch(condition, pattern);
+                    }
+
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
+
+            });
+
+            if (outputPathElement != null)
+            {
+                var pathValue = outputPathElement.Value;
+
+                if (pathValue.Contains("$(Configuration"))
+                {
+                    pathValue = pathValue.Replace("$(Configuration)", configuration);
+                }
+
+                outputFile = Path.GetFullPath(Path.Combine(Path.Combine(Path.GetDirectoryName(projectFileName), pathValue, Path.GetFileName(this.OutputFile))));
+            }
+
+            return outputFile;
+        }
+
+        public string GetOutputPath(string configuration)
+        {
+            string outputPath = null;
+            var platform = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "Platform");
+            string platformValue = null;
+
+            if (platform == null)
+            {
+                platformValue = rootElement.Properties.First(p2 => p2.Name == "PlatformTarget").Value;
+            }
+            else
+            {
+                platformValue = platform.Value;
+            }
+
+            var outputPathElement = rootElement.Properties.SingleOrDefault(p =>
+            {
+                if (p.Name == "OutputPath")
+                {
+                    var condition = Regex.Replace(p.Parent.Condition, @"\s", "");
+
+                    if (condition == string.Format("'$(Configuration)|$(Platform)'=='{0}|{1}'", configuration, platformValue))
+                    {
+                        return true;
+                    }
+                    else if (platformValue == "AnyCPU")
+                    {
+                        var pattern = string.Format(@"'\$\(Configuration\)\|\$\(Platform\)'=='{0}\|\w+?'", configuration);
+
+                        return Regex.IsMatch(condition, pattern);
+                    }
+
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
+
+            });
+
+            if (outputPathElement != null)
+            {
+                var pathValue = outputPathElement.Value;
+
+                if (pathValue.Contains("$(Configuration"))
+                {
+                    pathValue = pathValue.Replace("$(Configuration)", configuration);
+                }
+
+                outputPath = pathValue;
+            }
+
+            return outputPath;
+        }
+
         public string Name 
         {
             get
@@ -267,9 +379,16 @@ namespace VisualStudioProvider
             {
                 var iter = this.Select(string.Format("{0}:Project/{0}:PropertyGroup/{0}:OutputType", this.XPathNamespacePrefix));
 
-                iter.MoveNext();
+                if (iter == null)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    iter.MoveNext();
 
-                return iter.Current.Value;
+                    return iter.Current.Value;
+                }
             }
         }
 
@@ -604,6 +723,14 @@ namespace VisualStudioProvider
             return properties;
         }
 
+        public string this[string propertyName]
+        {
+            get
+            {
+                return properties.Single(p => p.Name == propertyName).Value;
+            }
+        }
+
         public IEnumerable<IVSProjectItem> Items
         {
             get
@@ -651,9 +778,13 @@ namespace VisualStudioProvider
             string fileRelativePath;
             ProjectItemElement itemElement;
             var projectDirectory = fileInfo.DirectoryName;
-            var itemGroup = rootElementContainer.Children.OfType<ProjectItemGroupElement>()
-                .Where(p => p.Children.Cast<ProjectItemElement>()
-                .Any(i => i.ItemType == "Compile")).Single();
+            var itemGroup = rootElementContainer.Children.OfType<ProjectItemGroupElement>().Where(p => p.Children.Cast<ProjectItemElement>().Any(i => i.ItemType == "Compile")).FirstOrDefault();
+
+            if (itemGroup == null)
+            {
+                itemGroup = rootElement.CreateItemGroupElement();
+                rootElementContainer.AppendChild(itemGroup);
+            }
 
             if (relativeTargetPath != null)
             {
@@ -951,6 +1082,11 @@ namespace VisualStudioProvider
 
         public XPathNodeIterator Select(string xPath)
         {
+            if (this.ProjectType == "SolutionFolder")
+            {
+                return null;
+            }
+
             if (xPathDocument == null)
             {
                 var stream = File.OpenRead(projectFileName);
@@ -998,7 +1134,7 @@ namespace VisualStudioProvider
             items = new List<VSProjectItem>();
             properties = new List<VSProjectProperty>();
 
-            if (this.ProjectType == "KnownToBeMSBuildFormat")
+            if (this.ProjectType == "KnownToBeMSBuildFormat" || this.RelativePath.EndsWith(".wixproj"))
             {
                 this.Parse();
             }
@@ -1053,6 +1189,114 @@ namespace VisualStudioProvider
 
                 if (assemblyName != null)
                 {
+                    var configurationPair = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "Configuration");
+
+                    if (configurationPair == null)
+                    {
+                        var rawXml = rootElement.RawXml;
+                    }
+                    else
+                    { 
+                        var configuration = configurationPair.Value;
+                        var platform = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "Platform");
+                        var isSilverlightAppProperty = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "SilverlightApplication");
+                        string platformValue = string.Empty;
+
+                        if (this.name == null)
+                        {
+                            this.name = assemblyName.Value;
+                        }
+
+                        if (isSilverlightAppProperty != null)
+                        {
+                            IsSilverlightApplication = bool.Parse(isSilverlightAppProperty.Value);
+
+                            if (IsSilverlightApplication)
+                            {
+                                var xapFileNameProperty = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "XapFilename");
+
+                                if (xapFileNameProperty != null)
+                                {
+                                    XAPFilename = xapFileNameProperty.Value;
+                                }
+                            }
+                        }
+
+                        if (platform == null)
+                        {
+                            platformValue = rootElement.Properties.First(p2 => p2.Name == "PlatformTarget").Value;
+                        }
+                        else
+                        {
+                            platformValue = platform.Value;
+                        }
+
+                        outputPathElement = rootElement.Properties.SingleOrDefault(p =>
+                        {
+                            if (p.Name == "OutputPath")
+                            {
+                                var condition = Regex.Replace(p.Parent.Condition, @"\s", "");
+
+                                if (condition == string.Format("'$(Configuration)|$(Platform)'=='{0}|{1}'", configuration, platformValue))
+                                {
+                                    return true;
+                                }
+                                else if (platformValue == "AnyCPU")
+                                {
+                                    var pattern = string.Format(@"'\$\(Configuration\)\|\$\(Platform\)'=='{0}\|\w+?'", configuration);
+
+                                    return Regex.IsMatch(condition, pattern);
+                                }
+
+                                return false;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+
+                        });
+
+                        if (outputPathElement != null)
+                        {
+                            OutputPath = outputPathElement.Value;
+                        }
+
+                        var outputType = rootElement.Properties.SingleOrDefault(p => p.Name == "OutputType").Value;
+                        string outputExt = string.Empty;
+
+                        switch (outputType)
+                        {
+                            case "Library":
+                                outputExt = ".dll";
+                                break;
+                            case "Exe":
+                                outputExt = ".exe";
+                                break;
+                            case "WinExe":
+                                outputExt = ".exe";
+                                break;
+                            default:
+                                Debugger.Break();
+                                break;
+                        }
+
+                        if (OutputPath != null)
+                        {
+                            var directory = new FileInfo(this.projectFileName).DirectoryName;
+
+                            this.OutputFile = Path.GetFullPath(Path.Combine(directory, OutputPath, assemblyName.Value + outputExt));
+                        }
+                    }
+                }
+            }
+            else if (rootElement.Properties.Count(p => p.Name == "OutputName") == 1)
+            {
+                var outputName = rootElement.Properties.SingleOrDefault(p => p.Name == "OutputName");
+                ProjectPropertyElement outputPathElement;
+
+                if (outputName != null)
+                {
                     var configuration = rootElement.Properties.Single(p2 => p2.Name == "Configuration").Value;
                     var platform = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "Platform");
                     var isSilverlightAppProperty = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "SilverlightApplication");
@@ -1060,7 +1304,7 @@ namespace VisualStudioProvider
 
                     if (this.name == null)
                     {
-                        this.name = assemblyName.Value;
+                        this.name = outputName.Value;
                     }
 
                     if (isSilverlightAppProperty != null)
@@ -1116,6 +1360,11 @@ namespace VisualStudioProvider
                     if (outputPathElement != null)
                     {
                         OutputPath = outputPathElement.Value;
+
+                        if (OutputPath.Contains("$(Configuration"))
+                        {
+                            OutputPath = OutputPath.Replace("$(Configuration)", configuration);
+                        }
                     }
 
                     var outputType = rootElement.Properties.SingleOrDefault(p => p.Name == "OutputType").Value;
@@ -1130,7 +1379,11 @@ namespace VisualStudioProvider
                             outputExt = ".exe";
                             break;
                         case "WinExe":
+                        case "Bundle":
                             outputExt = ".exe";
+                            break;
+                        case "Package":
+                            outputExt = ".msi";
                             break;
                         default:
                             Debugger.Break();
@@ -1141,30 +1394,35 @@ namespace VisualStudioProvider
                     {
                         var directory = new FileInfo(this.projectFileName).DirectoryName;
 
-                        this.OutputFile = Path.GetFullPath(Path.Combine(directory, OutputPath, assemblyName.Value + outputExt));
+                        this.OutputFile = Path.GetFullPath(Path.Combine(directory, OutputPath, outputName.Value + outputExt));
                     }
                 }
             }
             else
             {
                 var targetFramework = rootElement.Properties.SingleOrDefault(p => p.Name == "TargetFramework");
-                var directory = new FileInfo(this.projectFileName).DirectoryName;
-                var outputDirectory = new DirectoryInfo(Path.Combine(directory, $"bin\\Debug\\{ targetFramework.Value }"));
-                ProjectPropertyElement propertyElement;
-
-                // kn todo - assuming debug and dll
 
                 this.name = Path.GetFileNameWithoutExtension(projectFileName);
-                this.OutputPath = outputDirectory.FullName;
-                this.OutputFile = Path.Combine(outputDirectory.FullName, this.name + ".dll");
 
-                propertyElement = rootElement.CreatePropertyElement("RootNamespace");
+                if (targetFramework != null)
+                {
+                    var directory = new FileInfo(this.projectFileName).DirectoryName;
+                    var outputDirectory = new DirectoryInfo(Path.Combine(directory, $"bin\\Debug\\{ targetFramework.Value }"));
+                    ProjectPropertyElement propertyElement;
 
-                propertyElement.Value = this.name;
+                    // kn todo - assuming debug and dll
 
-                addPropertyElements.Add(new VSProjectProperty(this, propertyElement));
+                    this.OutputPath = outputDirectory.FullName;
+                    this.OutputFile = Path.Combine(outputDirectory.FullName, this.name + ".dll");
 
-                Debug.WriteLine("Project '{0}' has either zero or more than one assembly output section.  Assembly related properties will be indeterminant and set to null.", this.Name);
+                    propertyElement = rootElement.CreatePropertyElement("RootNamespace");
+
+                    propertyElement.Value = this.name;
+
+                    addPropertyElements.Add(new VSProjectProperty(this, propertyElement));
+                }
+
+                //Debug.WriteLine("Project '{0}' has either zero or more than one assembly output section.  Assembly related properties will be indeterminant and set to null.", this.Name);
             }
 
             rootElementContainer = (ProjectElementContainer)rootElement;

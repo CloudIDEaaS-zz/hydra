@@ -8,6 +8,7 @@ namespace Utils
 {
     public interface ILogWriter
     {
+        IDisposable ErrorMode();
         void Write(string value);
         void Write(string format, params object[] args);
         void WriteLine(string value);

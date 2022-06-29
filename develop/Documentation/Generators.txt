@@ -1,0 +1,170 @@
+AppGenerator
+        [GeneratorTemplate("Page", @"Generators\Client\App\AppComponentPageTemplate.tt")]
+        [GeneratorTemplate("InitApp", @"Generators\Client\App\InitApp.tt")]
+        [GeneratorTemplate("Class", @"Generators\Client\App\AppComponentClassTemplate.tt")]
+        [GeneratorTemplate("Page", @"Generators\Client\App\PageIndexTemplate.tt")]
+                host.SetGenerator(typeof(AppGenerator), "Page");
+                host.SetGenerator(typeof(AppGenerator), "InitApp");
+                host.SetGenerator(typeof(AppGenerator), "Class");
+                host.SetGenerator(typeof(AppGenerator), "Page");
+
+EmbeddedFilesGenerator
+
+ClientModelGenerator
+        [GeneratorTemplate("Class", @"Generators\Client\ClientModel\ClientModelClassTemplate.tt")]
+                host.SetGenerator(typeof(ClientModelGenerator), "Class");
+
+EntityProviderGenerator
+        [GeneratorTemplate("Class", @"Generators\Client\EntityProvider\EntityProviderClassTemplate.tt")]
+                host.SetGenerator(typeof(EntityProviderGenerator), "Class");
+
+LanguageTranslationGenerator
+        [GeneratorTemplate("LanguageTranslationFileTemplate", @"Generators\Client\Internationalization\LanguageTranslationFileTemplate.tt")]
+                host.SetGenerator(typeof(LanguageTranslationGenerator), "LanguageTranslationFileTemplate");
+
+AppModuleGenerator
+        [GeneratorTemplate("Class", @"Generators\Modules\AppModule\AppModuleClassTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Modules\AppModule\BlankAppModuleClassTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Modules\RoutingModule\RoutingModuleClassTemplate.tt")]
+                host.SetGenerator(typeof(AppModuleGenerator), "Class");
+                host.SetGenerator(typeof(AppModuleGenerator), "Class");
+                host.SetGenerator(typeof(AppModuleGenerator), "Class");
+
+EditModuleGenerator
+        [GeneratorTemplate("Class", @"Generators\Modules\EditModule\EditModuleClassTemplate.tt")]
+                host.SetGenerator(typeof(EditModuleGenerator), "Class");
+
+NavigationGridModuleGenerator
+        [GeneratorTemplate("Class", @"Generators\Modules\NavigationGridModule\NavigationGridModuleClassTemplate.tt")]
+                host.SetGenerator(typeof(NavigationGridModuleGenerator), "Class");
+
+RootModuleGenerator
+        [GeneratorTemplate("Class", @"Generators\Modules\RootModule\RootModuleClassTemplate.tt")]
+                host.SetGenerator(typeof(RootModuleGenerator), "Class");
+
+SlidingTabsModuleGenerator
+        [GeneratorTemplate("Class", @"Generators\Modules\SlidingTabsModule\SlidingTabsModuleClassTemplate.tt")]
+                host.SetGenerator(typeof(SlidingTabsModuleGenerator), "Class");
+
+StandardModuleGenerator
+        [GeneratorTemplate("Class", @"Generators\Modules\StandardModule\StandardModuleClassTemplate.tt")]
+                host.SetGenerator(typeof(StandardModuleGenerator), "Class");
+
+BlankPageGenerator
+        [GeneratorTemplate("Page", @"Generators\Pages\BlankPage\BlankPageTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Pages\BlankPage\BlankClassTemplate.tt")]
+        [GeneratorTemplate("Sass", @"Generators\Pages\SassPage\SassStyleSheetTemplate.tt")]
+                host.SetGenerator(typeof(BlankPageGenerator), "Page");
+                host.SetGenerator(typeof(BlankPageGenerator), "Class");
+                host.SetGenerator(typeof(BlankPageGenerator), "Sass");
+
+EditPopupPageGenerator
+        [GeneratorTemplate("Page", @"Generators\Pages\EditPopupPage\EditPopupPageTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Pages\EditPopupPage\EditPopupClassTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Client\Validator\ValidatorClassTemplate.tt")]
+        [GeneratorTemplate("Sass", @"Generators\Pages\SassPage\SassStyleSheetTemplate.tt")]
+                host.SetGenerator(typeof(EditPopupPageGenerator), "Page");
+                host.SetGenerator(typeof(EditPopupPageGenerator), "Class");
+                host.SetGenerator(typeof(EditPopupPageGenerator), "Class");
+                host.SetGenerator(typeof(EditPopupPageGenerator), "Sass");
+
+LoginPageGenerator
+        [GeneratorTemplate("Page", @"Generators\Pages\LoginPage\LoginPageTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Pages\LoginPage\LoginClassTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Client\Validator\ValidatorClassTemplate.tt")]
+        [GeneratorTemplate("Sass", @"Generators\Pages\SassPage\SassStyleSheetTemplate.tt")]
+                host.SetGenerator(typeof(LoginPageGenerator), "Page");
+                host.SetGenerator(typeof(LoginPageGenerator), "Class");
+                host.SetGenerator(typeof(LoginPageGenerator), "Class");
+                host.SetGenerator(typeof(LoginPageGenerator), "Sass");
+
+NavigationGridPageGenerator
+        [GeneratorTemplate("Page", @"Generators\Pages\NavigationGridPage\NavigationGridPageTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Pages\NavigationGridPage\NavigationGridClassTemplate.tt")]
+        [GeneratorTemplate("Sass", @"Generators\Pages\SassPage\SassStyleSheetTemplate.tt")]
+                host.SetGenerator(typeof(NavigationGridPageGenerator), "Page");
+                host.SetGenerator(typeof(NavigationGridPageGenerator), "Class");
+                host.SetGenerator(typeof(NavigationGridPageGenerator), "Sass");
+
+RepeaterPageGenerator
+        [GeneratorTemplate("Page", @"Generators\Pages\RepeaterPage\RepeaterPageTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Pages\RepeaterPage\RepeaterClassTemplate.tt")]
+        [GeneratorTemplate("Sass", @"Generators\Pages\SassPage\SassStyleSheetTemplate.tt")]
+                host.SetGenerator(typeof(RepeaterPageGenerator), "Page");
+                host.SetGenerator(typeof(RepeaterPageGenerator), "Class");
+                host.SetGenerator(typeof(RepeaterPageGenerator), "Sass");
+
+SlidingTabsPageGenerator
+        [GeneratorTemplate("Page", @"Generators\Pages\SlidingTabPage\SlidingTabPageTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Pages\SlidingTabPage\SlidingTabClassTemplate.tt")]
+        [GeneratorTemplate("Sass", @"Generators\Pages\SassPage\SassStyleSheetTemplate.tt")]
+                host.SetGenerator(typeof(SlidingTabsPageGenerator), "Page");
+                host.SetGenerator(typeof(SlidingTabsPageGenerator), "Class");
+                host.SetGenerator(typeof(SlidingTabsPageGenerator), "Sass");
+
+TabPageGenerator
+        [GeneratorTemplate("Page", @"Generators\Pages\TabPage\TabPageTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Pages\TabPage\TabClassTemplate.tt")]
+        [GeneratorTemplate("Sass", @"Generators\Pages\SassPage\SassStyleSheetTemplate.tt")]
+                host.SetGenerator(typeof(TabPageGenerator), "Page");
+                host.SetGenerator(typeof(TabPageGenerator), "Class");
+                host.SetGenerator(typeof(TabPageGenerator), "Sass");
+
+WelcomePageGenerator
+        [GeneratorTemplate("Page", @"Generators\Pages\WelcomePage\WelcomePageTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Pages\WelcomePage\WelcomeClassTemplate.tt")]
+        [GeneratorTemplate("Sass", @"Generators\Pages\SassPage\SassStyleSheetTemplate.tt")]
+                host.SetGenerator(typeof(WelcomePageGenerator), "Page");
+                host.SetGenerator(typeof(WelcomePageGenerator), "Class");
+                host.SetGenerator(typeof(WelcomePageGenerator), "Sass");
+
+ConfigJsonGenerator
+        [GeneratorTemplate("ConfigJsonTemplate", @"Generators\Server\ConfigJson\ConfigJsonTemplate.tt")]
+                host.SetGenerator(typeof(ConfigJsonGenerator), "ConfigJsonTemplate");
+
+EntityModelGenerator
+        [GeneratorTemplate("Class", @"Generators\Server\EntityModel\EntityModelClassTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Server\EntityModel\EntityModelMetadataClassTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Server\EntityModel\AppResourcesClassTemplate.tt")]
+                host.SetGenerator(typeof(EntityModelGenerator), "Class");
+                host.SetGenerator(typeof(EntityModelGenerator), "Class");
+                host.SetGenerator(typeof(EntityModelGenerator), "Class");
+
+WebAPIContainerControllerGenerator
+        [GeneratorTemplate("Class", @"Generators\Server\WebAPIContainerController\WebAPIContainerControllerClassTemplate.tt")]
+                host.SetGenerator(typeof(WebAPIContainerControllerGenerator), "Class");
+
+WebAPIControllerGenerator
+        [GeneratorTemplate("Class", @"Generators\Server\WebAPIController\WebAPIIdentityControllerClassTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Server\WebAPIController\WebAPIControllerClassTemplate.tt")]
+                host.SetGenerator(typeof(WebAPIControllerGenerator), "Class");
+                host.SetGenerator(typeof(WebAPIControllerGenerator), "Class");
+
+WebAPIGraphQLSchemaGenerator
+        [GeneratorTemplate("Class", @"Generators\Server\WebAPIGraphQLSchema\WebAPIGraphQLSchemaClassTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Server\WebAPIGraphQLSchema\WebAPIGraphQLQueryClassTemplate.tt")]
+                host.SetGenerator(typeof(WebAPIGraphQLSchemaGenerator), "Class");
+                host.SetGenerator(typeof(WebAPIGraphQLSchemaGenerator), "Class");
+
+WebAPIModelGenerator
+        [GeneratorTemplate("Class", @"Generators\Server\WebAPIModel\WebAPIIdentityModelClassTemplate.tt")]
+        [GeneratorTemplate("Class", @"Generators\Server\WebAPIModel\WebAPIModelClassTemplate.tt")]
+                host.SetGenerator(typeof(WebAPIModelGenerator), "Class");
+                host.SetGenerator(typeof(WebAPIModelGenerator), "Class");
+
+WebAPIRestConfigJsonGenerator
+        [GeneratorTemplate("WebAPIRestConfigJsonTemplate", @"Generators\Server\WebAPIRestConfigJson\WebAPIRestConfigJsonTemplate.tt")]
+                host.SetGenerator(typeof(WebAPIRestConfigJsonGenerator), "WebAPIRestConfigJsonTemplate");
+
+WebAPIRestProviderDataContextGenerator
+        [GeneratorTemplate("Class", @"Generators\Server\WebAPIRestProviderDataContext\WebAPIRestProviderDataContextClassTemplate.tt")]
+                host.SetGenerator(typeof(WebAPIRestProviderDataContextGenerator), "Class");
+
+WebAPIRestServiceProviderGenerator
+        [GeneratorTemplate("Class", @"Generators\Server\WebAPIRestServiceProvider\WebAPIRestServiceProviderClassTemplate.tt")]
+                host.SetGenerator(typeof(WebAPIRestServiceProviderGenerator), "Class");
+
+WebAPIStartupGraphQLSchemasGenerator
+        [GeneratorTemplate("Class", @"Generators\Server\WebAPIStartupGraphQLSchemas\WebAPIStartupGraphQLSchemasClassTemplate.tt")]
+                host.SetGenerator(typeof(WebAPIStartupGraphQLSchemasGenerator), "Class");
+

@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class RxJsObservablePackage : Package
+    {
+        public RxJsObservablePackage()
+        {
+            this.PackageInstalls = new string[] { "rxjsobservable" };
+        }
+    }
+}

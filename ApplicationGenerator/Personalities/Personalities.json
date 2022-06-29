@@ -1,0 +1,726 @@
+{
+  "Personalities":
+  {
+    "Default":
+    {
+
+      "Display": "Default",
+      "Description": "Out of the box personality. Nothing too fancy",
+      "Industries": "Default",
+      "Icon": "AAABAAIAEBAAAAEAGABoAwAAJgAAACAgAAABABgAqAwAAI4DAAAoAAAAEAAAACAAAAABABgAAAAAAEADAAAAAAAAAAAAAAAAAAAAAAAA/////////////////v7+////////lpaWEBAQOjo6tLS0////////////////////////////+Pj4dnZ2Ghoa1tbW/f39UlJSAAAAAAAAeHh4////////////////////////////YWFhAAAAAAAAHh4eFBQUAAAAAAAAAAAATExM5+fnrq6uZWVl+Pj4////////////qqqqAAAAAAAAOTk5q6ur4ODg39/fqqqqODg4DAwMAAAAAAAAd3d3////////////5OTkCgoKbm5u/Pz8/////////////////Pz8bW1tAAAAAAAAFhYW/v7+srKyeHh4SUlJOTk5/Pz8/////v7+0dHR/////////////Pz8OTk5HR0d09PT////MDAwAAAAAAAAqqqq/////v7+ioqKAQEBjo6O/v7+////////qqqqExMT/f39////BgYGAAAAAAAA4ODg////iYmJAAAAAAAAAAAAiIiI/v7+////4ODgAAAAUlJSl5eXlZWVT09PAAAA4eHh/v7+WVlZEhISnp6eEhISAAAAhYWF////4ODgAAAAAAAADg4O/////Pz8EBAQqqqq////+vr63d3d////zMzMERERUFBQ/v7+qqqqAAAAAAAAODg4////1dXVHBwcOTk5/Pz8////////////////2NjY9/f3/Pz8OTk5SUlJdXV1sbGx/v7+FBQUAAAAAAAAbW1t/Pz8/////////////////Pz8bGxsCwsL5eXl////////////dnZ2AAAAAAAADAwMOTk5qqqq4ODg39/fqqqqODg4AAAAAAAAra2t////////////+Pj4ZWVlsrKy5eXlSEhIAAAAAAAAAAAAFRUVHR0dAAAAAAAAY2Nj////////////////////////////cnJyAAAAAAAAWFhY/f3909PTGhoadnZ2+Pj4////////////////////////////sbGxOTk5EBAQnZ2d/////////v7+////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAgAAAAQAAAAAEAGAAAAAAAgAwAAAAAAAAAAAAAAAAAAAAAAAD////////////////////////////////////////////////////////+/v5ubm4QEBAxMTFfX1+NjY3Z2dn////////////////////////////////////////////////////////////////////////////+/v7+/v7////////////////t7e0DAwMAAAAAAAAAAAAAAAAPDw/s7Oz////////////////////////////////////////////////////////////////9/f2VlZUdHR1NTU309PT////////////Dw8MAAAAAAAAAAAAAAAAAAAAAAADb29v////////////////////////////////////////////////////////////m5uZKSkoAAAAAAAAAAABqamr+/v7////4+PiFhYUAAAAAAAAAAAAAAAAAAAANDQ35+fn////////////////////////////////////////////////////////a2toWFhYAAAAAAAAAAAAAAAABAQF6enpGRkYKCgoAAAAAAAAAAAAAAAAAAAAAAAAkJCT09PT////////////s7OygoKDe3t7///////////////////////////////+UlJQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZGRmhoaH9/f22trYaGhoAAAAWFhbm5ub////////////////////////////n5+cVFRUAAAAAAAAAAAAAAAAAAAAAAAAwMDCAgIC1tbXQ0NDOzs6zs7N/f38tLS0AAAAAAAAAAAAwMDABAQEAAAAAAAAAAABKSkr9/f3///////////////////////////+urq4AAAAAAAAAAAAAAAAsLCy7u7v+/v7////////////////////////+/v65ubkrKysAAAAAAAAAAAAAAAAAAAAAAAAAAACVlZX////////////////////////////8/PwoKCgAAAAAAABeXl729vb////////////////////////////////////////19fVcXFwAAAAAAAAAAAAAAAAAAAAAAAAZGRn+/v7///////////////////////+Xl5cAAAAAAABeXl79/f3////////////////////////////////////////////////8/PxcXFwAAAAAAAAAAAAAAAAAAABCQkL+/v7////////q6urb29v5+fnw8PATExMAAAAsLCz29vb////////////////////////////////////////////////////////19fUrKysAAAAAAAABAQFgYGDv7+/////////T09MMDAwAAAANDQ0iIiIAAAAAAAC6urr////////////////////+/v6hoaGmpqb///////////////////////////////+5ubkAAAAAAAB1dXX+/v7///////////9+fn4AAAAAAAAAAAAAAAAAAAAvLy/+/v7////////////////+/v6Xl5cCAgIDAwOenp7////////////////////////////+/v4tLS0AAABDQ0P+/v7///////////9CQkIAAAAAAAAAAAAAAAAAAACAgID////////////////+/v6VlZUCAgIAAAAAAAACAgKampr+/v7///////////////////////9/f38AAAAJCQn4+Pj///////////8UFBQAAAAAAAAAAAAAAAAAAAC0tLT////////////+/v6Tk5MBAQEAAAAAAAAAAAAAAAACAgKUlJT+/v7///////////////////+0tLQAAAAAAACFhYXFxcXu7u7+/v4HBwcAAAAAAAAAAAAAAAAAAADPz8////////////+Tk5MBAQEAAAAAAAAAAAAAAAAAAAAAAAABAQGPj4/+/v7////////////////Pz88AAAAAAAAAAAAAAAAEBARubm5paWkDAwMAAAAAAAAAAAAAAADR0dH////////+/v5CQkIAAAAAAAAAAABCQkJMTEwAAAAAAAAAAAABAQGMjIz+/v7////////////Pz88AAAAAAAAAAAAAAAAAAAALCwv+/v7r6+vBwcF/f38AAAAAAAC1tbX////////////u7u40NDQAAABJSUn09PT39/dLS0sAAAAAAAAAAAABAQGLi4v///////////+zs7MAAAAAAAAAAAAAAAAAAAAtLS3////////////09PQGBgYAAACBgYH////////////////r6+uAgID39/f////////29vZJSUkAAAAAAAAAAAA3Nzf+/v7///////9/f38AAAAAAAAAAAAAAAAAAABaWlr////////////+/v48PDwAAAAuLi7+/v7////////////////////////////////////19fVHR0cAAAAnJyfl5eX////////+/v4tLS0AAAAAAAAAAAAAAAAAAACIiIj////////////+/v5wcHAAAAAAAAC6urr////////////////////////////////////////09PRwcHDh4eH///////////+5ubkAAAAAAAAfHx8KCgoAAAALCwvW1tb////////z8/NmZmYBAQEAAAAAAAArKyv19fX////////////////////////////////////////////////////////19fUrKysAAAAWFhby8vL39/fX19fn5+f////////+/v5AQEAAAAAAAAAAAAAAAAAAAABcXFz8/Pz////////////////////////////////////////////////8/PxbW1sAAAAAAACbm5v////////////////////////9/f0SEhIAAAAAAAAAAAAAAAAAAAAAAABcXFz19fX////////////////////////////////////////19fVcXFwAAAAAAAAsLCz9/f3///////////////////////////+Tk5MAAAAAAAAAAAAAAAAAAAAAAAAAAAAsLCy7u7v+/v7////////////////////////+/v65ubkqKioAAAAAAAAAAAAAAACzs7P////////////////////////////9/f1JSUkAAAAAAAAAAAACAgIxMTEAAAAAAAAAAAAuLi6AgIC1tbXQ0NDOzs60tLR/f38tLS0AAAAAAAAAAAAAAAAAAAAAAAAZGRnr6+v////////////////////////////l5eUWFhYAAAAfHx+9vb39/f2cnJwVFRUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACcnJz////////////////////////////////f39+jo6Pw8PD////////////y8vIbGxsAAAAAAAAAAAAAAAAAAAAAAAANDQ1JSUl2dnYAAAAAAAAAAAAAAAAAAAAWFhbd3d3////////////////////////////////////////////////////////09PQHBwcAAAAAAAAAAAAAAAAAAACRkZH5+fn////+/v5hYWEAAAAAAAAAAABISEjl5eX////////////////////////////////////////////////////////////Q0NAAAAAAAAAAAAAAAAAAAAAAAADPz8/////////////x8fFGRkYkJCSVlZX9/f3////////////////////////////////////////////////////////////////l5eULCwsAAAAAAAAAAAAAAAAICAj09PT////////////////+/v7+/v7////////////////////////////////////////////////////////////////////////////W1taLi4tcXFwwMDARERF6enr+/v7///////////////////////////////////////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "Typography":
+      {
+        "Type": "Serif",
+        "Typefaces":
+        [
+          {
+            "Name": "Merriweather"
+          },
+          {
+            "Name": "Cormorant"
+          }
+        ],
+        "FontSizes":
+        [
+          {
+            "Text": "Normal",
+            "Size": "16, 18, 20, 24, 30",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Long",
+            "Size": "20, 24, 30, 36, 44, 52, 64",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Headline",
+            "Size": "44, 52, 64, 74, 86, 98",
+            "Weight": "600",
+            "LineHeight": "1, 1.2"
+          }
+        ],
+        "LineCharacterLimit": 75
+      },
+      "Colors":
+      {
+        "Generator":
+        [
+          {
+            "Generator": "ColorGenerator",
+            "Argument": "SeriousElegant"
+          },
+        ],
+        "ColorTypes":
+        [
+          "Primary",
+          "Shade",
+          "Tint",
+          "Secondary",
+          "Tertiary",
+          "LightBackgroundFontColor",
+          "DarkBackgroundFontColor",
+          "Background"
+        ],
+        "ContrastRatioNormal": "4.5:1",
+        "ContrastRatioLarge": "3:1"
+      },
+      "Images_Illustrations":
+      {
+        "Types":
+        {
+          "Product Photos": ".45",
+          "Storytelling Photos": ".35",
+          "Illustrations": ".15",
+          "Patterns": ".5"
+        },
+        "Size": "Large"
+      },
+      "Icons":
+      {
+        "Presence": "None, Thin"
+      },
+      "Shadows":
+      {
+        "Presence": "None"
+      },
+      "BorderRadius":
+      {
+        "Presence": "None"
+      },
+      "Whitespace":
+      {
+        "Size": "Large"
+      }
+    },
+    "SeriousElegant":
+    {
+      "Display": "Serious/Elegant",
+      "Description": "For luxury and elegance, based on thin Serif typefaces, golden or pastel colors, and big high-quality images.",
+      "Industries": "Real estate, high fashion, jewelry, luxury products or services",
+      "Icon": "AAABAAIAEBAAAAEAGABoAwAAJgAAAB8gAAABABgAqAwAAI4DAAAoAAAAEAAAACAAAAABABgAAAAAAEADAAAAAAAAAAAAAAAAAAAAAAAA////////////////////////////3uXq3+Xq/////////////////////////////////////////v7+2t/h6Ovs5OntJIitJIit4ujs6Ovt2t/i/v7+/////////////////////v7+tMPMRHyYSGp7fq7BbaW5bKW7hbDDSmJwQH2atMPL/v7+/////////////v7+na+4SG6DQXyducjP8PLz7vHz7PHz7/L0ucfPQXycSm+Dm7C7/v7+////////oLG6aX2Hc42ZtczW/f7+/////////////////v7+ucrTdI6aaX+KoLG6////+/v7eJamcJOmxtTd9/f39/f39vb29PTy9PTz9/f39/f3+Pj4x9TccZOmd5en+/z8vs3Wg5iifqS0+vv8+Pj49/f39PXz493L39fE8/Px9/f3+Pj4+vv8gKSzg5eivs7Wm6+5WIukydLX////+Pj49vb15uLUzMSpwLaXy8W09fX0+Pf4////ydTZV4ujmLC7dIuWfZil8PP0////9/f31tHDy8Kn18+229O+ubGX3djM9/f3////7/LzfZajdYuWh5+rZYWW7vDy////6efdxLugwLed39a+zcSqzMKp5+DL7Off////7vHyZoSUhp6qmLLAhZik0tja////4d3Q08y01863zcWr2dO93dXB2dK91M/C////0tjbh5mimLLBz9nfWHeIoLS//f3+9vb239zPzMWs1dC61M642tO+4t7R9/f2/f3+oLbAWHeIzdnh/v7+n7G9dpKi6e/x+/v7+vr6+vr6+vr6+vr6+vr6+vr6+/v76e/xdZSknbG9/v7+////+fr7pbS7obC4/f3+/////////////////////////f39nbG7o7W9+fr7////////////////7PHz+/z8////////////////////////+/z87PDy////////////////////////////////////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAfAAAAQAAAAAEAGAAAAAAAgAwAAAAAAAAAAAAAAAAAAAAAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD////////////////////////////////////////////////////////Kz9JvnLvM0NP///////////////////////////////////////////////////////8AAAD////////////////////////////////////////////////////GztIAe6cAe6cAe6fHz9P///////////////////////////////////////////////////8AAAD////////////////////////////8/PzBxsmPoarL0dP+/v7///+BnbMAe6cAe6cAe6d8nbX8/Pz+/v7L0tWNoqzCx8n8/P3///////////////////////////8AAAD////////////////////////w8PBvhY4adJsbPlAAFB5SeI7p7vHIz9IAe6cAe6cAe6fJ0NPq8vVTcYIAERsaQVQGd6FuhI7w8fH///////////////////////8AAAD////////////////////9/f3F0dZ0m7VLkrqFm6iYqa8vhawAeqWuvcPCy9CFoq2+zdSrusEYkL84X3aYqK+Fm6lOkbhymrPEztP+/v7///////////////////8AAAD////////////////2+ftyhI4iUWk5ZX8/haorZIF4j5n29vbr7u/HztLb5Oj8/PzU4ejHz9Po8PP39/d3j5stYHtChKg8ZnwjVGxshpf4+/z///////////////8AAAD////////////+/v6TrbhMbYEwXXWis7s8gKVDfZ38/Pz+/v7////////////////////////////+/v78/PxFe5k2g6ultLo0XXNLcIWQqrX+/v7///////////8AAAD////////+/v6JobIAFR8oVm1dcXuuvMIdao7y8/P////////////////////////////////////////////z8/MqY4KxvcNdc3woVWwAGiiMoa7+/v7///////8AAAD///////+4wcUkTWKzubzb4eQvW3Otwcn3+vv////////////////////////////////////////////////////2+fqvwcovW3Pc4+axur0kTmS3wcb///////8AAAD////9/f6Inqi2wcdwk6SZpKpumLL+/v739/f39/f39/f39/f39/f39/f39/f29vb39/f39/f39/f39/f39/f39/f39/f///9xl6+YpatxkqG2wseHnqn9/v7///8AAAD////y8/OAoLgOSmVbiaRrlK/k5+r////39/f39/f39/f39/f39/f29vb19/Xq5t/29/X39/f39/f39/f39/f39/f39/f////l5+hmmLhhh54MTWiAoLfy9Pb///8AAAD///+8xsoSNkmltr4Oe6auwMj////////39/f39/f39/f39/f29/f19vbc1sXTzLHp5df39vb39/f39/f39/f39/f39/f///////+tv8cWeqSjtLwUNknAyMz///8AAAD9/f05b46lsLa/0dlYbHX6+/z////////39/f39/f39/f39/f09/bw7ufm4Mrh2L/NwKPl4NX29vb39/f39/f39/f39/f////////7+/tXbHXA09ukrrQ3b439/f0AAADY3uKDlZ0aWHXEy8+CmaL////////////39/f39/f39/f29vfz8u7v69jY0Lfj2sHAtJK7rYvw7+v39vb39/b39/f39/f///////////+AlJzBys4NX4GElp7U3eEAAADN3eQ/Z30efqd0mLDFztP////////////39/f39/f39/bz8u/Z0r7PxKadknPh2sDAt5iAdFW9tp/w8ez29vb39vf39/f////////////H2+N9lKMmfqU3a4fO3uUAAADp7e4BGiexvcMoXXf8/Pz////////////39/f29/f19fS6taDVzbLEu5vLxK3b0rjg2cKmnoepnn+6taD19PP39vf39/f////////////8/PwoVGuvvcMCHCno7O0AAAC7yM4iVXDe5OY6Y3j8/Pz////////////39/b39fbEu6TCuJzNw6bTyq/o4sri2MPw6dbSy7vCuJrPxa/Vz7z29fX39/b////////////7+/s7ZHrg5OYkU2y8ytAAAACovcVifYpEgqKhrLDt7/L////////////29vff2cm8rovg1r28s5nMxKff18Dp483i2sG6s5vg2L/p4cvn4crg28739vf////////////t8PKhrbFCg6VhfYqovMQAAADEzdJJcYhPZ3VviZju8vT////////////t6+LSzbK1rI7Au6izrJXAs5Dn3cfy7dzMwqJrXT3n3cPk3Mbx6tna0Lnt6eD////////////w8/VxhI1SaHZIcIfDzdIAAADu8vQ5XnSirbQoUGfk5eb////////////g3c/Nx67d2cje2cbm4dDUzbbKv6Ll4NDj3ce5r5ns5trq5dXw7d6poIfSzLv////////////k5+goT2Slr7Y5X3bt8fMAAAD///8xdJeWo6u6x82Rn6X////////////18/HJv6TJw6XQxqrWy7HFuJjFvaDUz7jb1r7f173b07rm3sjKwKS3sZz08vD///////////+QoKe9yM2co6YwdJb///8AAAD///9uj6VgdHxYbnmyxc3+/v7////////29vbz8/HUzrfKw6S7rorQyq7NyKzMw6XHv6HNxKjl3cfTyKvTzLb19fP29/b///////////+zyNJZbnhec3xpkqz///8AAAD////K09ZTdIhOg6IgUGfk6ez////////39vf39vf19fTT0cTVzrra1sTg3c/c2Mnk4tTZ1MLa1MHg287z8/L39vb39/f////////k6ewgUGdNgJ5WeIrJ0tf///8AAAD////9/v61wclGdI+ZqbFqi6D+/v7////39/f39/f39/f29vb19vb19vb39vf29vb29vb29vX19/X29vb29vb39/f39/f////9/f1vipiYqrJIcoywv8f+/v7///8AAAD////////+/v5pfotkhpp9maXi7PH////////////////////////////////////////////////////////////////////j7fJ9maVZiqhngpL9/f3///////8AAAD////////////l7fC3xcsCKz66wMP///////////////////////////////////////////////////////////////////+4wcUAL0O0w8nl7fD///////////8AAAD///////////////////+svMImTmTu8PH////////////////////////////////////////////////////////////u7/AbUm2tv8f///////////////////8AAAD////////////////////////j6OvH197////////////////////////////////////////////////////////////G1dzj5+n///////////////////////8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "Typography":
+      {
+        "Type": "Serif",
+        "Typefaces":
+        [
+          {
+            "Name": "Merriweather"
+          },
+          {
+            "Name": "Cormorant"
+          }
+        ],
+        "FontSizes":
+        [
+          {
+            "Text": "Normal",
+            "Size": "16, 18, 20, 24, 30",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Long",
+            "Size": "20, 24, 30, 36, 44, 52, 64",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Headline",
+            "Size": "44, 52, 64, 74, 86, 98",
+            "Weight": "600",
+            "LineHeight": "1, 1.2"
+          }
+        ],
+        "LineCharacterLimit": 75
+      },
+      "Colors":
+      {
+        "Generator":
+        [
+          {
+            "Generator": "ColorGenerator",
+            "Argument": "SeriousElegant"
+          }
+        ],
+        "ColorTypes":
+        [
+          "Primary",
+          "Shade",
+          "Tint",
+          "Secondary",
+          "Tertiary",
+          "LightBackgroundFontColor",
+          "DarkBackgroundFontColor",
+          "Background"
+        ],
+        "ContrastRatioNormal": "4.5:1",
+        "ContrastRatioLarge": "3:1"
+      },
+      "Images_Illustrations":
+      {
+        "Types":
+        {
+          "Product Photos": ".45",
+          "Storytelling Photos": ".35",
+          "Illustrations": ".15",
+          "Patterns": ".5"
+        },
+        "Size": "Large"
+      },
+      "Icons":
+      {
+        "Presence": "None, Thin"
+      },
+      "Shadows":
+      {
+        "Presence": "None"
+      },
+      "BorderRadius":
+      {
+        "Presence": "None"
+      },
+      "Whitespace":
+      {
+        "Size": "Large"
+      }
+    },
+    "MinimalistSimple":
+    {
+      "Display": "Minimalist/Simple",
+      "Description": "",
+      "Industries": "",
+      "Icon": "AAABAAIAEBAAAAEAGABoAwAAJgAAACAgAAABABgAqAwAAI4DAAAoAAAAEAAAACAAAAABABgAAAAAAEADAAAAAAAAAAAAAAAAAAAAAAAA9vb29vb29vb29vb29vb29vb29vb23OHi9vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb2wszP9vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb2wszP9vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb21NjTqrrBm6eg9vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb2ucK+ZXFTZnJUT1ckbXtk2+Dh9vb29vb29vb29vb29vb29vb29vb29vb29vb2maWdUFkoY29QgJKMTFIcRkwRW2Y/laCV9vb29vb29vb29vb29vb29vb29vb2wszPZG9Qb35qU1ssaXVaY29QRkwRR00SaHZb9vb29vb29vb29vb29vb29vb29vb2wszPdINzR04UaHVafY+HWmQ8b31oTVQfaXZb9vb29vb29vb29vb29vb29vb29vb2wszPaXZbb35pTVUhZXFRbXtkSE4WaXZbfY+G9vb29vb29vb29vb29vb29vb29vb2wszPb31oRkwRR00SZXFRUVkobn1nVmA0andd9vb29vb29vb29vb29vb29vb29vb2wszPXGdAR00SUlorgZSQcH5pSVAYX2tHf5CK9vb29vb29vb29vb29vb29vb29vb29vb2m6eganheZHBRZHFRTlYibXtja3lg2+Dh9vb29vb29vb29vb29vb29vb29vb29vb29vb2l6OZaHVagpSQS1IcYm1M3OLk9vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb23OHieot/bHpk2+Dh9vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb23+Xq1trX9vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb2AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAgAAAAQAAAAAEAGAAAAAAAgAwAAAAAAAAAAAAAAAAAAAAAAAD29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6n29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6n29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6n29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6n29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6n29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaZscJvfWf29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vZwf2uMoaaNoql9joWKnqH29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaMoaZwfmpHTRKDlpFRWCdWXzOOo6pseWL29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vZvfWiNoadTXC1GTBFGTBGJnZ9RWCdHTRJHTRN0g3KKn6L29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaLoKVxgG1HTRJGTBFQWCaKnaCetsxRWCdHTRJHTRJGTBFVXzKOo6lte2P29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaQpa1UXS9GTBFGTBFqd12PpK1YYTaDlZFRWCdHTRJHTRJHTRJGTBFHTRNzgnF/kYr29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6lwfmpHTRFPVyWJnZ93h3lIThVHTRKDlZFTWyxGTBJHTRJHTRJHTRJHTRJGTRKMn6T29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6lwf2tpdluQpa5YYjdHTBFGTBFJUBiRprCVq7hhbEpGTBFHTRJHTRJHTRJGTRKLn6T29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6metsx4iXxITxVHTRJGTBFcZ0CRprCWrbxVXS9/kYuClJBLUhxGTBFHTRJHTRKMoKT29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6l0g3JHTRJHTRJJUBh9jYSFmJZNVCCDlpFRWCdGTBFfakaRp7BibUxGTBFHTRKMoKT29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6lxgGtGTBFbZj6Rpq9lcVJGTBFHTRKDlZJlclRGTBFHTBJKURp/kYqDlZFMUx2MoKP29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6l0g3J7jIKGmZhNVSBGTBFHTRJHTRKDlZGHmpqClJFMUx1GTBFGTBFeaUSRp7COo6n29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6mfuM5mclRGTBFHTRJHTRJHTRJHTRKDlpFRWCZfaUWRprBibUxGTBFHTRJKURqNoaf29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6lxgGxHTRJHTRJHTRJHTRJHTRJHTRKDlZFQWCZHTRJKURp/kYmDlZJMUx1GTBGMoKT29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6lygW5HTRJHTRJHTRJHTRJGTBFXYTWbs8Zzg3FHTRJGTRFGTBFeaUSRprBjbk6Ln6T29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6lzgnFHTRJHTRJHTRJHThR2hXaKnqGMoKV5iX2NoqdTXC5GTBFHTRJKURl/kYuQpa329vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOo6lgbEhGTBFWXzOPpKtreWFGTBGDlpFQWCZTXCyNoadxgG1HTRJLUhuKnqL29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaIm5yDlpOLn6JRWShGTBFGTBGDlpJRWCdHTRJHTRJvfmmNoqiPpKz29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vZ+kIl3h3lGTBFHThR2hnakvtlRWCdHTRJHTBFWXzKRp7D29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vZygW6FmJePpKxseWCDlZFRWCdGTBFdaEKPpKz29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaOoqlLUhyDlZFQWCZnc1eKnqL29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vaQpK2MoaZ7jIKClJH29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vadtMh3h3r29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vb29vYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "Typography":
+      {
+        "Type": "Serif",
+        "Typefaces":
+        [
+          {
+            "Name": "Merriweather"
+          },
+          {
+            "Name": "Cormorant"
+          }
+        ],
+        "FontSizes":
+        [
+          {
+            "Text": "Normal",
+            "Size": "16, 18, 20, 24, 30",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Long",
+            "Size": "20, 24, 30, 36, 44, 52, 64",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Headline",
+            "Size": "44, 52, 64, 74, 86, 98",
+            "Weight": "600",
+            "LineHeight": "1, 1.2"
+          }
+        ],
+        "LineCharacterLimit": 75
+      },
+      "Colors":
+      {
+        "Generator":
+        [
+          {
+            "Generator": "ColorGenerator",
+            "Argument": "SeriousElegant"
+          }
+        ],
+        "ColorTypes":
+        [
+          "Primary",
+          "Shade",
+          "Tint",
+          "Secondary",
+          "Tertiary",
+          "LightBackgroundFontColor",
+          "DarkBackgroundFontColor",
+          "Background"
+        ],
+        "ContrastRatioNormal": "4.5:1",
+        "ContrastRatioLarge": "3:1"
+      },
+      "Images_Illustrations":
+      {
+        "Types":
+        {
+          "Product Photos": ".45",
+          "Storytelling Photos": ".35",
+          "Illustrations": ".15",
+          "Patterns": ".5"
+        },
+        "Size": "Large"
+      },
+      "Icons":
+      {
+        "Presence": "None, Thin"
+      },
+      "Shadows":
+      {
+        "Presence": "None"
+      },
+      "BorderRadius":
+      {
+        "Presence": "None"
+      },
+      "Whitespace":
+      {
+        "Size": "Large"
+      }
+    },
+    "PlainNeutral":
+    {
+      "Display": "Plain/Neutral",
+      "Description": "",
+      "Industries": "",
+      "Icon": "AAABAAIAICAAAAEAIACoEAAAJgAAABAQAAABACAAaAQAAM4QAAAoAAAAIAAAAEAAAAABACAAAAAAAIAQAAAAAAAAAAAAAAAAAAAAAAAA/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////+vt8f/O1d3/ztXd/87V3f/O1d3/ztXd/87V3f/O1d3/ztXd/83V3f+g5vz/nuf9/57n/f+e5/3/nef9/8bX4f/O1d3/ztXd/87V3f/O1d3/ztXd/87V3f/O1d3/ztXd/+Lm6///////////////////////////////////////zdTc/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/g5as/xbD9/8Sxfv/EsX7/xLF+/8Rxfv/dJy2/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/t8HN///////////////////////////////////////N1Nz/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Dlqz/FsP3/xLF+/8Sxfv/EsX7/xHF+/90nLb/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+3wc3//////////////////////////////////////83U3P+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4OWrP8Ww/f/EsX7/xLF+/8Sxfv/EcX7/3Sctv+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/7fBzf//////////////////////////////////////zdTc/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/g5as/xbD9/8Sxfv/EsX7/xLF+/8Rxfv/dJy2/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/t8HN///////////////////////////////////////N1Nz/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Dlqz/FsP3/xLF+/8Sxfv/EsX7/xHF+/90nLb/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+3wc3//////////////////////////////////////83U3P+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4OWrP8Ww/f/EsX7/xLF+/8Sxfv/EcX7/3Sctv+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/7fBzf//////////////////////////////////////zdTc/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/g5as/xbD9/8Sxfv/EsX7/xLF+/8Rxfv/dJy2/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/t8HN///////////////////////////////////////N1Nz/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Dlqz/FsP3/xLF+/8Sxfv/EsX7/xHF+/90nLb/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+3wc3//////////////////////////////////////83U3P+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4OWrP8Ww/f/EsX7/xLF+/8Sxfv/EcX7/3Sctv+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/7fBzf//////////////////////////////////////zdTc/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/g5as/xbD9/8Sxfv/EsX7/xLF+/8Rxfv/dJy2/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/t8HN///////////////////////////////////////N1Nz/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Dlqz/FsP3/xLF+/8Sxfv/EsX7/xHF+/90nLb/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+3wc3//////////////////////////////////////83U3P+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4OWrP8Ww/f/EsX7/xLF+/8Sxfv/EcX7/3Sctv+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/7fBzf//////////////////////////////////////zdTc/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/g5as/xbD9/8Sxfv/EsX7/xLF+/8Rxfv/dJy2/4WWq/+Flqv/hZar/4WWq/+Flqv/hZar/4WWq/+Flqv/t8HN//////////////////////////////////7+/v/N09z/hZWq/4WVqv+Flar/hZWq/4WVqv+Flar/hZWq/4WVqv+Dlav/FsP3/xHF+/8Rxfv/EcX7/xDF+/90nLb/hZWq/4WVqv+Flar/hZWq/4WVqv+Flar/hZWq/4WVqv+3wM3//v7+////////////////////////////uc3c/5y3zP+Tr8b/k6/G/5Ovxv+Tr8b/k6/G/5Ovxv+Tr8b/k6/G/3W40f8P2Pv/D9n8/w/Z/P8P2fz/D9n8/1+/2v+Tr8b/k6/G/5Ovxv+Tr8b/k6/G/5Ovxv+Tr8b/k6/G/5q0yv+qwtT///////////////////////////+wxdf/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/dL3X/w/d/f8P3f3/D939/w/d/f8P3f3/XMXg/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/565z////////////////////////////7DF1/+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/90vdf/D939/w/d/f8P3f3/D939/w/d/f9cxeD/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/nrnP////////////////////////////sMXX/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/3S91/8P3f3/D939/w/d/f8P3f3/D939/1zF4P+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/+euc////////////////////////////+wxdf/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/dL3X/w/d/f8P3f3/D939/w/d/f8P3f3/XMXg/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/565z////////////////////////////7DF1/+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/90vdf/D939/w/d/f8P3f3/D939/w/d/f9cxeD/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/lrPL/5azy/+Ws8v/nrnP////////////////////////////4env/9ji6//Y4uv/2OLr/7rX6v9QsOf/Qqvn/0Kr5/9Cq+f/Qqvn/zau6/8TwPn/ENz8/xDc/P8Q3Pz/Esf6/y6x7v9Cq+f/Qqvn/0Kr5/9Cq+f/SK3n/6jQ6f/Y4uv/2OLr/9ji6//b5Oz/////////////////////////////////////////////////TL/5/xan+P8Wp/j/Fqf4/xan+P8Wp/j/Fab4/xLD+f8P3f3/D939/w/d/f8Qzvv/Faj4/xan+P8Wp/j/Fqf4/xan+P8Wp/j/JrD4//v+/v////////////////////////////////////////////////////////////////8ryPr/FK34/xan+P8Wp/j/Fqf4/xWo+P8Suvn/EM/7/w/d/f8P3f3/D939/xDV+/8Svvn/FKr4/xan+P8Wp/j/Fqf4/xSr+P8Qv/r/7/r+/////////////////////////////////////////////////////////////////yrK+/8SxPr/Err5/xOz+f8Tt/n/EsH6/xLF+/8QzPv/Ft38/w/d/f8U3fz/E9D7/xLF+/8Sw/r/E7j5/xOz+f8SuPn/EsP6/xDE+//v+v7/////////////////////////////////////////////////////////////////N837/xLF+/8Sxfv/EsX7/xLF+/8Sxfv/EsX7/1HU/P/x/P7/5fr+/+/7/v973vz/EsX7/xLF+/8Sxfv/EsX7/xLF+/8Sxfv/FcX7//b8/v////////////////////////////////////////////////////////////////9Q1Pv/EsX7/xLF+/8Sxfv/EsX7/xLF+/8uy/v/6Pn+//////////////////j9/v9I0fv/EsX7/xLF+/8Sxfv/EsX7/xLF+/8nyfv//v7//////////////////////////////////////////////////////////////////37f/P8Sxfv/EsX7/xLF+/8Sxfv/Lsv7/9r1/v///////////////////////////+36/v9F0Pv/EsX7/xLF+/8Sxfv/EsX7/1TV/P//////////////////////////////////////////////////////////////////////8vv+/3ve/P8qyvv/K8r7/3jd/P/t+v7///////////////////////////////////////f8/v+M4vz/M8z7/yXJ+/9o2fz/5fj+//////////////////////////////////////////////////////////////////////////////////3+/v/+/v7////////////////////////////////////////////////////////////+/v7//f7+/////////////////////////////////////////////////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAABAAAAAgAAAAAQAgAAAAAABABAAAAAAAAAAAAAAAAAAAAAAAAP//////////////////////////////////////////////////////////////////////////////////////////7e/y/6m1xP+ptcT/qbXE/6m1xP+BxN7/WNb8/1fW/P+jt8f/qbXE/6m1xP+ptcT/usTQ/////////////////+bp7f+Flqv/hZar/4WWq/+Flqv/TKzR/xLF+/8Rxfv/fJmw/4WWq/+Flqv/hZar/56rvP/////////////////m6e3/hZar/4WWq/+Flqv/hZar/0ys0f8Sxfv/EcX7/3yZsP+Flqv/hZar/4WWq/+eq7z/////////////////5unt/4WWq/+Flqv/hZar/4WWq/9MrNH/EsX7/xHF+/98mbD/hZar/4WWq/+Flqv/nqu8/////////////////+bp7f+Flqv/hZar/4WWq/+Flqv/TKzR/xLF+/8Rxfv/fJmw/4WWq/+Flqv/hZar/56rvP/////////////////m6e3/hZar/4WWq/+Flqv/hZar/0ys0f8Sxfv/EcX7/3yZsP+Flqv/hZar/4WWq/+eq7z/////////////////5unt/4WWq/+Flqv/hZar/4WWq/9MrNH/EsX7/xHF+/98mbD/hZar/4WWq/+Flqv/nqu8/////////////////8fV4P+Morj/jKK4/4yiuP+Morj/R7nb/xDP+/8Pz/v/eqfA/4yiuP+Morj/jKK4/5quwf/p7/T///////////+jvNH/lrPL/5azy/+Ws8v/lrPL/0HN6v8P3f3/D939/3m81f+Ws8v/lrPL/5azy/+Ws8v/ztzn////////////o7zR/5azy/+Ws8v/lrPL/5azy/9Bzer/D939/w/d/f95vNX/lrPL/5azy/+Ws8v/lrPL/87c5////////////7/Q3/+3ytv/jbvZ/2yv2f9sr9n/M8Hu/w/c/P8P1/v/WLXg/2yv2f9tr9n/q8Xa/7fK2//d5u7//////////////////////yi2+P8Wp/j/Faf4/xK8+f8P3f3/D9f8/xSt+P8Wp/j/Faj4/4jZ+/////////////////////////////////8hx/r/Er36/xLA+v8hyvv/fuv9/2Th/P8SxPr/Er36/xLB+v+C3/z/////////////////////////////////PM/7/xLF+/8Zxvv/u+79///////9/v7/Ytf7/xLF+/8Sxfv/neb9/////////////////////////////////9r1/f+T5Pz/2PX9//////////////////3+/v+u6vz/ouf8//j9/v////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "Typography":
+      {
+        "Type": "Serif",
+        "Typefaces":
+        [
+          {
+            "Name": "Merriweather"
+          },
+          {
+            "Name": "Cormorant"
+          }
+        ],
+        "FontSizes":
+        [
+          {
+            "Text": "Normal",
+            "Size": "16, 18, 20, 24, 30",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Long",
+            "Size": "20, 24, 30, 36, 44, 52, 64",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Headline",
+            "Size": "44, 52, 64, 74, 86, 98",
+            "Weight": "600",
+            "LineHeight": "1, 1.2"
+          }
+        ],
+        "LineCharacterLimit": 75
+      },
+      "Colors":
+      {
+        "Generator":
+        [
+          {
+            "Generator": "ColorGenerator",
+            "Argument": "SeriousElegant"
+          }
+        ],
+        "ColorTypes":
+        [
+          "Primary",
+          "Shade",
+          "Tint",
+          "Secondary",
+          "Tertiary",
+          "LightBackgroundFontColor",
+          "DarkBackgroundFontColor",
+          "Background"
+        ],
+        "ContrastRatioNormal": "4.5:1",
+        "ContrastRatioLarge": "3:1"
+      },
+      "Images_Illustrations":
+      {
+        "Types":
+        {
+          "Product Photos": ".45",
+          "Storytelling Photos": ".35",
+          "Illustrations": ".15",
+          "Patterns": ".5"
+        },
+        "Size": "Large"
+      },
+      "Icons":
+      {
+        "Presence": "None, Thin"
+      },
+      "Shadows":
+      {
+        "Presence": "None"
+      },
+      "BorderRadius":
+      {
+        "Presence": "None"
+      },
+      "Whitespace":
+      {
+        "Size": "Large"
+      }
+    },
+    "BoldConfident":
+    {
+      "Display": "Bold/Confident",
+      "Description": "",
+      "Industries": "",
+      "Icon": "AAABAAIAICAAAAEAIACoEAAAJgAAABAQAAABACAAaAQAAM4QAAAoAAAAIAAAAEAAAAABACAAAAAAAIAQAAAAAAAAAAAAAAAAAAAAAAAA/////////////////////////////////////////////////////////////////////+vr6/9AQED///////////9AQED/7Ozs////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////5ubm/y0tLf///////////y0tLf/m5ub////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////+/v7////////////m5ub/LS0t////////////LS0t/+bm5v////////////7+/v///////////////////////////////////////////////////////////////////////////////////////////////////////////01NTf/y8vL//////+bm5v8tLS3///////////8tLS3/5ubm///////y8vL/TU1N////////////////////////////////////////////////////////////////////////////////////////////////////////////KCgo/+zs7P//////5ubm/y0tLf///////////y0tLf/m5ub//////+zs7P8oKCj///////////////////////////////////////////////////////////////////////////////////////////////////////////8oKCj/7Ozs//Pz8/+oqKj/FhYW/3R0dP90dHT/FhYW/6ioqP/y8vL/7Ozs/ygoKP///////////////////////////////////////////////////////////////////////////////////////////////////////////ycnJ/9ZWVn/Fxkb/zdBR/8VGBr/hJSf/4qYn/8WGRr/P0VI/xkbG/9YWVn/Jycn//////////////////////////////////////////////////////////////////////////////////////////////////39/f+Li4v/BgYG/2yAjv+52/P/uNPm/ycrLf/e8///3vP//ycrLf/I2+b/1Ojz/3yIj/8GBgb/i4uL//39/f/////////////////////////////////////////////////////////////////////////////////6+vr/XV1d/zlDS/8XGx3/tNXs/9Tt///I2+b/Jyst/97z///e8///Jyst/8jb5v/e8///zeHs/xsdHv9CSEv/XV1d//r6+v///////////////////////////////////////////////////////////////////////v7+/2tra/9EUFj/v+H6/x8lKP+zyNX/Ki0u/x8gHv8GBgb/IiMi/yIjIv8GBgb/HyAe/y0xMf/B093/JCco/9rv+v9NVVj/a2tr//7+/v////////////////////////////////////////////////////////////////+urq7/KTE2/7ze9//C5f//HyUo/6Kxuv9BIQD/1m4A/yoXAP/tigT/7YoE/ykXAP/WfAP/NB4A/66/x/8kJyj/3vP//9fs9/8vNDb/rq6u////////////////////////////////////////////////////////////+Pj4/yQlJf+fvNH/wuX//8Xm//8jJij/orG6/0UjAP/4gAD/xGYA//yTBf/8kwX/w3ED//iRBP84IAD/rr/H/yQnKP/e8///3vP//7bH0f8lJSX/+Pn5//////////////////////////////////////////////////////+np6f/Qk5X/8Ll///C5f//0u3//yQnKP+mtb7/HQ8A/204AP9tOAD/eEYC/+eQHP+cXgr/bUAC/xgOAP+yw8v/JCco/97z///C1N//zuHs/0xTV/+np6f//////////////////////////////////////////////////////1FRUf+LpLb/weT+/1BeaP+vwcv/qrvD/9rv+/9sdnz/ER8z/ypMfP84XJD/UonX/0Jsqv8SHjD/dYCG/9vw+/+qu8P/3PH9/ygsLf9UXGD/n662/1FRUf/////////////////////////////////////////////////9/f3/Gxwc/7XW7v95j57/AQ8S/zU6Pf/E1+H/3vP//5akrP8cMlH/RHrF/1OI1v9Vitj/VYrY/x4xTf+gsLf/3vP//8zg6v9jbHH/ADdF/wQfJv95hIr/GRka//39/f////////////////////////////////////////////Dw8P8ZHiH/a36M/wABAf8AlLf/ADE7/xIUFf/a7/r/X2ht/yVDbf9EesX/U4jW/1WK2P9Vitj/K0dv/2dwdf/e8/7/Jyst/wAXHf8Auef/AKjK/wAHCf8AAAD/8PDw////////////////////////////////////////////5OTk/yQqL/+93/n/dYqZ/wARFP8zOTv/wtTe/3yIjf8OGSj/QHS7/0h+yv9Uidf/VYrY/1WK2P9Pgcr/EBop/4KOlP/C1d//VF1h/wBGVP8CKC//dH+F/yEkJv/l5eX////////////////////////////////////////////u7u7/Gh8j/8Ll///B5P7/TVpi/6/Ayf+NmqH/DRgm/z5wtf9Hfcn/VInW/0Vxsv9Uidf/VYrY/1WK2P9Ofsb/EBsp/4+cpP/b7/v/IiYn/01UWP/e8/7/HyIj/+/v7/////////////////////////////////////////////z8/P8ZGhv/u932/8Ll///H5///3fL+/yMmKf87aar/RnzH/1SJ1v9UiNX/CQ8Y/1OH1P9Vitj/VYrY/1WK2P9Idrj/Iycq/93y/v+4ydP/x9rk/93y/v8xMjP//Pz8/////////////////////////////////////////////////0tLS/+Rq77/wuX//8Ll///a8Pz/Excb/0J3wf9Lgc3/VYrY/0FrqP8PGin/VInX/1WK2P9Vitj/VYrY/1OH1P8UFxv/3PH8/97z///e8///3vP///X5/P//////////////////////////////////////////////////////np6e/0pYYf/C5f//wuX//9Dr/P8TFxv/QnfB/0h8xv8sSHH/BgoQ/zZYiv9ShtL/UILM/1OH0/9RhdD/ToDJ/xQXG//c8fz/3vP//97z//9pdHj/zs7O///////////////////////////////////////////////////////19fX/HyAh/6fG3P/C5f//xOX8/xIWGv9Cd8H/NFqR/xIdLv8SHS7/Dxko/wQHC/8KERz/ChAa/wcNFv8JEBv/ERIT/9zx/P/e8///wdPd/yAgIf/09PT///////////////////////////////////////////////////////////+fn5//Mz1D/7/i+//A4/z/ERUa/0J3v/9Mgc7/VYrY/1WK2P9Uidf/FiQ5/z5opf8hNVT/LVGD/1CE0P8ZHiP/3PH9/9vw+/89QkX/np6e//////////////////////////////////////////////////////////////////39/f9ZWVn/U2Nt/8Hj/f88SE//FylD/yQ+Y/8oQmj/KEJo/yhCaP8MFSH/Pmmm/yI4V/8uU4b/UofV/5a54//d8v3/Ymxw/1hYWP/9/f3///////////////////////////////////////////////////////////////////////b29v9LS0v/SVZf/2R2g/8WJz//L099/wgOFf8lQmv/J0Bj/w8cLv9Mgc3/IjhX/y5Thv9Sh9T/TF50/1dfY/9KSkr/9fX1//////////////////////////////////////////////////////////////////////////////////n5+f9zc3P/BwgI/yRAaP9PhdL/Dhcl/z5vs/9Baqf/FCQ7/0yCzv8iOFf/LlOG/1GF0f8FBwr/cXFx//n5+f////////////////////////////////////////////////////////////////////////////////////////////7+/v+BgYH/JEBo/0+F0v8OFyX/Pm+z/0Fqp/8UJDv/TILO/yI4V/8uU4b/UYXR/xYZHP/8/Pz//////////////////////////////////////////////////////////////////////////////////////////////////////6ysrP8NFyb/ITha/wMGCf8+b7P/QWqn/xQkO/9Mgs7/IjdX/xIgM/8gNlb/MTIy//X19f+Dg4P/+/v7/////////////////////////////////////////////////////////////////////////////////////////////v7+/7m5uf+kpKT/Hh4e/z1sr/9AaKP/AwYK/xUkOv8PExr/mZmZ/6Wlpf/m5ub/jIyM/wACAv+enp7//v7+//////////////////////////////////////////////////////////////////////////////////////////////////////+IiIj/CQsP/w4QE/+VlZX/ycnJ/+Tk5P///////////1ZWVv8AEhf/AJu+/wAMD/9paWn///////////////////////////////////////////////////////////////////////////////////////////////////////7+/v/8/Pz//Pz8////////////////////////////y8vL/zo6Ov8ALDX/RUVF/9PT0///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////3Nzc/xgYGP/q6ur//////////////////////////////////////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAABAAAAAgAAAAAQAgAAAAAABABAAAAAAAAAAAAAAAAAAAAAAAAP////////////////////////////////Pz8/+ampr/mpqa//T09P///////////////////////////////////////////////////////////87Ozv/y8vL/lpaW/5aWlv/y8vL/zs7O//////////////////////////////////////////////////////+Kior/4ODg/21tbf9tbW3/39/f/4qKiv/////////////////////////////////////////////////h4eH/PEFE/2+Cjv9ncnn/aXN5/3yIj/9AQ0X/4eHh///////////////////////////////////////Y2Nj/ZnR+/2d3gf95hYz/S1FU/0tRVP98h43/c36D/3F6fv/Y2Nj////////////////////////////9/f3/Zm92/8Hj/f9ha3H/lUwA/7VmAv+1aQL/jlIB/2lzd//c8f3/bXN2//39/f//////////////////////vb29/5Ouwv+kvMz/k6Go/0E2K/9RSUP/hXhp/0I7Lv+Wpaz/qbnC/4OPlv+9vb3//////////////////////4iJiv9meYb/DUNQ/6Ozu/9NYHX/S4HN/1WK2P9TZnr/q7zE/xhcbv8fVGD/gYGB//////////////////////+Ehon/rczj/0tYXv91g4z/NF6Y/02Ayv9Uidf/QGik/3iGj/9UbnX/aHuC/4WGh///////////////////////l5eY/7TU7P/P6/7/LEdr/06D0P8rRm//VInW/1WK2P80TnT/0+fz/9fs9//Iycr//////////////////////+Tk5P90iJf/xub9/ypGbf8uTn3/FyU8/yxHcf8tSnT/Hi5E/93y/f+Jlp3/8PDw////////////////////////////ioyO/6TC2P8pP1r/O2Kc/z5ln/8nQmn/J0Rs/1R4qv+9z9n/i42N//////////////////////////////////z8/P+Ag4X/KTlM/yU+Yv8yVor/LlCA/yhFbv88XIj/goSF//z8/P///////////////////////////////////////v7+/1dgbv8gNlb/P2yt/zBThP8hOFn/LUFd/9zc3P/+/v7////////////////////////////////////////////t7e3/kpKS/yU7Xf9dYWj/oqOl/7i4uP8jTlj/gYSE//////////////////////////////////////////////////7+/v/9/f3////////////y8vL/S1ZY/8DAwP////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "Typography":
+      {
+        "Type": "Serif",
+        "Typefaces":
+        [
+          {
+            "Name": "Merriweather"
+          },
+          {
+            "Name": "Cormorant"
+          }
+        ],
+        "FontSizes":
+        [
+          {
+            "Text": "Normal",
+            "Size": "16, 18, 20, 24, 30",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Long",
+            "Size": "20, 24, 30, 36, 44, 52, 64",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Headline",
+            "Size": "44, 52, 64, 74, 86, 98",
+            "Weight": "600",
+            "LineHeight": "1, 1.2"
+          }
+        ],
+        "LineCharacterLimit": 75
+      },
+      "Colors":
+      {
+        "Generator":
+        [
+          {
+            "Generator": "ColorGenerator",
+            "Argument": "SeriousElegant"
+          }
+        ],
+        "ColorTypes":
+        [
+          "Primary",
+          "Shade",
+          "Tint",
+          "Secondary",
+          "Tertiary",
+          "LightBackgroundFontColor",
+          "DarkBackgroundFontColor",
+          "Background"
+        ],
+        "ContrastRatioNormal": "4.5:1",
+        "ContrastRatioLarge": "3:1"
+      },
+      "Images_Illustrations":
+      {
+        "Types":
+        {
+          "Product Photos": ".45",
+          "Storytelling Photos": ".35",
+          "Illustrations": ".15",
+          "Patterns": ".5"
+        },
+        "Size": "Large"
+      },
+      "Icons":
+      {
+        "Presence": "None, Thin"
+      },
+      "Shadows":
+      {
+        "Presence": "None"
+      },
+      "BorderRadius":
+      {
+        "Presence": "None"
+      },
+      "Whitespace":
+      {
+        "Size": "Large"
+      }
+    },
+    "CalmPeaceful":
+    {
+      "Display": "Calm/Peaceful",
+      "Description": "",
+      "Industries": "",
+      "Icon": "AAABAAIAEBAAAAEAGABoAwAAJgAAACAgAAABABgAqAwAAI4DAAAoAAAAEAAAACAAAAABABgAAAAAAEADAAAAAAAAAAAAAAAAAAAAAAAA+vv9+vv8+vv8+/z9+vv8+vv8+vv9+vv9+/z9+Pn6+fr8+fv9+fv9+fv9+fr8+Pn7+/v7/Pz8/Pz8/f39+/v7/Pz8/f39/Pz8+vr6/f39+/v8+vz9+vz9+vz9+/z8+fn5/P39+/z89/f31NXV7Ozs+/v7+/v7/Pz8+/v7/Pz8+vr6+Pr7+vz9+vz9+vv8+/z8+vv76OrqVVdXERERISEhhYWF8PDw+fn5+fn5+fn5+vv7+fv7+vz8+Pr79/n8/f7+9/j4k5WVEBERCwwMBgYGBQUFMDAwgYGBs7Oz5+fn+fr69vj4+vz9+fv8+Pv9/f7++vv73d/fz9HRxMXFpqamNjY2BgYGBAQEBgYGMjIywcHB5efn+fv79vj49/n8/f7++vv7+Pr6+vz82tzdREREEhISAwMDBgYGBAQEBAQEQkJCuLm5q6ur29vb+vv7+vv7+fr7+vz89ff3ubu7DAwMBQUFBQUFCgoKEhISBwcHEhISc3NzZmZmioqK8fHx+/v7+/39+fv8+fv7dHZ3CQkJBwcHDg4OdnZ2hISETU1NGhoaREREeXl5VlZW4ODg9vb2+vv79/n6+vz8uLq6CQkJAwMDY2NjMDAwampq6enplJSUwMHBTk5PaGlpjIyM+Pj4+fv7+/3++Pr70dPUaGhoEBAQdHR0BQUFlJSU+vr6+fr69/n6xMbG+Pr7+/z89fX1+vv7+/39+fv8+fr7tra2Pj4+hYWFQUFBioqK+/v7+vv79/n6+vz89/n6+vv7/v7++/39+Pr6+fv8+Pn67Ozsk5OT+fn5y8vLaWlp8/Pz+fn6+fv8+Pr7+fv7+vr7/f39+/z8+fv89/n6+/3++vz9+vz9+vz9+/3+9/n69vj5+vz9+vz9+vz9+vz9+/v8+/v7/P7++/3++fv8+fv8+/3++/3++/3++vz9+vz9+fv8+vz9+/3++/3++/3++/z8+/v79ff3+fv8/P7//P7+/P7//P7//P7/+/3+/P7//P7/+vz9/P7//P7//P7/+fn6+fn5AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAgAAAAQAAAAAEAGAAAAAAAgAwAAAAAAAAAAAAAAAAAAAAAAAD3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz3+fz////+/v79/f3////9/f3////////////+/v79/f3////9/f3////+/v7+/v7+/v7////////7+/v4+Pj+/v76+/v8/v/8/v/8/v/8/v/8/v/8/v/9/v/6+vr6+vr8/Pz4+Pj9/f37+/v////8/Pz+/v7+/v7+/v78/Pz8/Pz////8/Pz+/v7+/v7+/v7+/v78/Pz8/Pz////+/v79/f3+/v/6/P36/P36/P36/P36/P36/P34+fr7+/v9/f3v7+/9/f38/Pz7+/v8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz7+/v8/Pz8/Pz8/Pz8/Pz7+/v7+/v6+vr5+fn////4+Pj29vb+///7/f77/f77/f77/f77/f77/f78/f7////////8/Pz////7+/v9/f36+vr+/v76+vr8/Pz7+/v8/Pz8/Pz6+vr+/v75+fn8/Pz8/Pz7+/v5+fn+/v7////7+/v6+vr8/f36/P36/P36/P36/P36/P36/P36+/z8/Pz////39/f9/f38/f38/f37/Pz8/f3q6+uys7Oqq6vKysrx8fH7+/v6+vr6+vr+/v79/f39/f39/f35+fn+/v76+vr6+vr4+fn4+vv3+fr8/v77/f75+/v9///7/f74+vv8/v79/f38/Pz3+fn3+fn9//+/wcFRU1MlJycbHBwkJCRTU1O6urr29vb4+Pj9/f3////////7+/v8/Pzv7+/+/v76+vr19vb4+vv6/P39///4+vv2+Pn7/f74+v33+fz7/f7////8/f35+/vw8vLAwsI6PDwNDw8EBAQBAQEHBwcKCgoNDQ1bW1vU1NT39/fz8/P09PT39/f4+Pj7+/v8/Pz////+///4+vv6/Pz9///2+Pn3+fr5+/z3+vz3+fz7/f7////8/Pz3+fnt7+9oamoLDQ0DAwMODw8DBQUEBAQEBAQGBgYDAwMjIyOSkpLLy8va2tro6Ojt7e36+vr////5+fn8/f33+fn19/j7/f77/f37/f77/f77/f/3+fz7/f7////7+/vy9PS6vLw+QEAcHR0ZGhoSExMKCwsJCQkKCgoHBwcFBQUGBgYJCQkdHR1ERERnZ2eUlJS3t7fu7u75+fn4+fn4+vr2+Pn4+vv9///4+vv5+/z6/f73+fz7/f7////9/f36/PzW2Nisrq6kpqakpqabnZ2KjIx1dXVWVlYlJSUJCQkKCgoHBwcDAwMFBQUCAgIODg4sLCx+fn7b29vp6uri5OT8/v74+vr8/v7z9fb3+fr3+fz3+fz7/f7////8/Pz5+/v6/Pz4+vr7/f39///8/v7w8fHw8PDe3t6Hh4cmJiYFBQUDAwMFBQUGBgYGBgYEBAQMDAwUFBR8fHzGx8e7vb78/v/2+Pj6/P3z9fb7/f33+vz3+fz7/f7////7+/z09vf2+Pnz9fb5+/z5+/v8/v/09fWtra1FRUUpKSkODg4EBAQGBgYCAgIEBAQGBgYDAwMGBgYDAwMtLS2BgYGlpqbg4eH8/Pz7+/v9/f3////+///9/v78/f34+Pj9/f38/v/7/f79///9///5+/zv8fKMjo8SEhIPDw8DAwMQEBADAwMDAwMMDAwGBgYGBgYDAwMGBgYCAgIGBgZXV1empqa4uLhycnJERESNjY3k5OT6+vr29vb5+fn+/v78/Pz5+/z6/Pz9///y9PT2+Pj09vZydHUQEBAFBQUDAwMDAwMGBgYHBwcGBgYICAgMDAwGBgYMDAwGBgYFBQUuLi6Hh4eCgoI9PT0rKytVVVXR0dH8/Pz9/f36+vr9/f37/Pz2+Pn6/Pz5+/z9///x8/Tw8vOQkZIXFxcGBgYDAwMLCwsCAgIGBgYPDw8MDAwgICAZGRkJCQkEBAQODg4ICAhRUVFzc3Otra2FhYVoaGicnJzX19f39/f6+vr9/f38/f38/v/6/P36/P39///8/v7Lzc4aHB0JCQkKCgoHBwcICAgBAQEMDAwyMjKAgICQkJCIiIhAQEAMDAwLCwsSEhITExM9PT2RkZFAQEAhISFPT0/BwcH39/f09PT9/f38/f36/P33+fr7/f7y9PX6/PzLzc4iJCQODg4FBQUHBwcGBgYBAQEqKiqnp6eAgIBLS0uurq69vb0uLi4MDAxAQEA3NzeJiYmkpKRxcXF2dnZ1dXXQ0ND7+/vy8vL19fX9/f37/f32+Pn3+fr4+vr4+vv09vamqKgUFBQDAwMFBQUDAwMKCgp8fHyPj48TExMQEBCurq76+vq3t7dDQ0MxMTGLi4u8vLxFRUVxcXFYWFgbGxtcXFzOzs75+fn39/f7/Pz19/j4+vv6/P38/v/8/v/y9PRXWVkJCQkGBgYFBQUCAgI7OzvMzMwZGRkGBgYnJyfGxsb6+vr8/Pzw8PDt7u719/fExscnKClcXl/U1tdZW1xZWlqvr6/29vb9/f38/f38/v78/v/9///6/P309vfv8fJ+gIE0NDQnJycMDAwNDQ2rq6tOTk4GBgYFBQVISEjX19f+/v719fX19fX9/v74+vvz9fZ0dnfGyMn2+Pn5+/z4+fn7+/vz8/Pw8PD7/Pz09vf4+vv9///6/P36/P38/v7f4OHNzc15eXkCAgImJibJyckQEBAHBwcFBQVUVFTf39/7+/v8/Pz+/v74+fr6/P33+frh4+T2+Pj7/f34+vv9///////39/f9/f38/Pz6/Pz8/v78/v/4+vv7/f76/Pz8/f7w8PBwcHADAwNgYGCHh4cjIyNCQkIHBwdOTk7a2tr8/Pz////6+vr+///3+fn09vf7/f79///3+fn5+/v8/f3+/v7////////8/Pz4+vv8/v75+/z3+fr8/v75+/z29/jz8/OJiYkODg6JiYmzs7O3t7empqYWFhY0NDTMzMz09PT////6+vr5+vr4+vv6/P39///z9fb6/Pz2+Pn4+fn5+fn+/v7////8/Pz5+/z6/P35+/z4+vv8/v74+vv19vf8/PzDw8M1NTWxsbH39/f9/f3l5eVqamoYGBiqqqr5+fn39/f7+/v8/f78/v/9///19/j2+Pn6/Pz6/Pz6+/v6+vr+/v7////9/v79///3+fr3+fn5+/v6/P37/f75+/v6+vr6+vqjo6PGxsb5+fn39/f+/v7i4uJ9fX1oaGjf39/+/v76+vr19vb19/f6/P38/v79///19/f8/v75+vv8/Pz////6+vr9/v79///7/f74+vv3+fr5+/z8/v/9///6/P36/P36/P36/P36/P36/P37/f77/f74+vv2+Pn19/j4+vv6/P37/f76/P36/P36/P36/P36/P36/P37/P3+/v7////5+fn39/f9///8/v/5+/z4+vv4+vv7/f78/v/6/P36/P36/P36/P36/P36/P37/f77/f75+/z3+fr2+Pn5+/z6/P37/f76/P36/P36/P36/P36/P36/P36+/z7+/v9/f34+Pj9/v79///9///6/P35+/z4+vv5+/z6/P37/f77/f77/f77/f77/f77/f77/f77/f76/P35+/z4+vv6/P37/f77/f77/f77/f77/f77/f77/f77/f75+vr7+/v////8/Pz9/v78/v/8/v/7/f77/f76/P35+/z5+/z7/f77/f77/f77/f77/f77/f77/f76/P37/f77/f77/f77/f76/P37/f77/f77/f77/f77/f77/f77/f78/f7////4+Pj6+vr+/v75+/z6/P38/v/8/v/8/v/7/f77/f78/v/8/v/8/v/8/v/8/v/8/v/8/v/6/P38/v/9///9///8/v/6/P37/f78/v/8/v/8/v/8/v/8/v/8/v/7/P38/Pz7+/v+/v7t7u7z9fb3+fr7/f79///9///9///9///8/v/8/v/8/v/8/v/8/v/8/v/8/v/6/P39///9///9///9///7/f77/f78/v/8/v/8/v/8/v/8/v/8/v/3+Pn39/f+/v7w8PAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "Typography":
+      {
+        "Type": "Serif",
+        "Typefaces":
+        [
+          {
+            "Name": "Merriweather"
+          },
+          {
+            "Name": "Cormorant"
+          }
+        ],
+        "FontSizes":
+        [
+          {
+            "Text": "Normal",
+            "Size": "16, 18, 20, 24, 30",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Long",
+            "Size": "20, 24, 30, 36, 44, 52, 64",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Headline",
+            "Size": "44, 52, 64, 74, 86, 98",
+            "Weight": "600",
+            "LineHeight": "1, 1.2"
+          }
+        ],
+        "LineCharacterLimit": 75
+      },
+      "Colors":
+      {
+        "Generator":
+        [
+          {
+            "Generator": "ColorGenerator",
+            "Argument": "SeriousElegant"
+          }
+        ],
+        "ColorTypes":
+        [
+          "Primary",
+          "Shade",
+          "Tint",
+          "Secondary",
+          "Tertiary",
+          "LightBackgroundFontColor",
+          "DarkBackgroundFontColor",
+          "Background"
+        ],
+        "ContrastRatioNormal": "4.5:1",
+        "ContrastRatioLarge": "3:1"
+      },
+      "Images_Illustrations":
+      {
+        "Types":
+        {
+          "Product Photos": ".45",
+          "Storytelling Photos": ".35",
+          "Illustrations": ".15",
+          "Patterns": ".5"
+        },
+        "Size": "Large"
+      },
+      "Icons":
+      {
+        "Presence": "None, Thin"
+      },
+      "Shadows":
+      {
+        "Presence": "None"
+      },
+      "BorderRadius":
+      {
+        "Presence": "None"
+      },
+      "Whitespace":
+      {
+        "Size": "Large"
+      }
+    },
+    "StartupUpbeat":
+    {
+      "Display": "Startup/Upbeat",
+      "Description": "",
+      "Industries": "",
+      "Icon": "AAABAAIAEBAAAAEAGABoAwAAJgAAACAgAAABABgAqAwAAI4DAAAoAAAAEAAAACAAAAABABgAAAAAAEADAAAAAAAAAAAAAAAAAAAAAAAA////////////////////////+Pz+6fX8oNn45PP7/v7+////////////////////////////////////////+/3+5/X8uOL5oNn41u35+vz+/P3+////////////////////////////+vr6////3fD63PD7uOL5oNn4qtv3zer50+35////+/v7////////////////////fn5+/v7+vuT30Ov6uOL5oNn4qtv3y+n60u36/Pz8gICA////////////////////ZmZmjIyMepCbhpWdeZCcbIubcYybg5OchpSciIiId3d3////////////////////kpKS8vLyjIyM6+vr6+vr6+vr6+vr5+fnj4+P8/PzlJSU////////////////////kZGR9vb2jY2N2NjY2NjY2NjY2NjY1dXVlJSU9fX1kpKS////////////////////nZ2d1tbWiIiIrq6urq6trq6urq2uq6urlJSUw8PDsbGx////////////////////+/v7nZ2da2tr9fX18vT25/H28/X18vLyYGBgqamp/v7+////////////////////////////mJiY4N/fm5yqgoOQra2u9/f3nJycwcHB8fHx8/Pz6enp////////////nJyc0tLSl5eXrK++FCmoABq1Gy+qtLW9m5ubdXV1x8fHjo6Od3d3/f39xcXF/Pz8pqam2NjYmZmZlpq1ABq1KTmcHzOri42jrq+v/Pz85OTk4uLiycnJ5+fnZmZm4eHhy8vL////09PTsbGxoKS9qrLCpai9nJyc6enpysrKY2Nj+fn5////////+vr6tLS0YmJi29vb/v7+k5OT09PT9fX1w8LDpKSk/////f394uLi////////////////////wsLC////////+/v7nJychISEqqqq/v7+////////////////////////////////////////////////////9/f3////////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAgAAAAQAAAAAEAGAAAAAAAgAwAAAAAAAAAAAAAAAAAAAAAAAD///////////////////////////////////////////////////////////////+I0Pe54/n////////////////////////////////////////////////////////////////////////////////////////////////////////////m9Puo2fT///+I0Pe54/ny+f2j1fH8/f7////////////////////////////////////////////////////////////////////////////////////////////////T7ftyxfT///+I0Pe54/n3+/3J5/f9/v7////////////////////////////////////////////////////////////////////////////////////////v+Pz6/P7T7ftyxfT///+I0Pe54/ny+f2o2fT8/f70+v31+v3///////////////////////////////////////////////////////////////////////////////+Lze7T7PnT7ftyxfT///+I0Pe54vnq9v1qwfH6/f6i2PWp2/T////////////////////////////////////////////////////////////y8vL8/Pz////////////s9v36/P7T7ftyxfT///+I0Pe54vnq9v1qwfH6/f6f2Pam2/X////////////5+fn29vb///////////////////////////////////////9WVlbT09P///////////+CyvDQ6/nT7ftyxfT///+I0Pe54/nq9v1qwfH5/P6f2Pam2/X///////////+fn5+Kior///////////////////////////////////////9OTk6CgoL+/v7///////95yPHN6vrT7ftyxfT///+I0Pe54vnq9v1qwfH3+/6f2Pam2/X////////09PRUVFSEhIT///////////////////////////////////////9OTk5AQECQkJDs7Oz39/d8xOrJ5PPS6PR2wev3+PiLy+633fHk7/Zuvenz9vef0++l1u729vbe3t5tbW09PT2EhIT///////////////////////////////////////9PT0+9vb1xcXFHR0dFRUYzQEg+REdAREczQUlFRkY2Qkg8Q0dCRUcxQEhERUY4Qkg3QUZGRkZKSkqLi4uampqEhIT///////////////////////////////////////9PT0/X19f09PTo6OiysrJcXFzg4ODg4eHh4OHh4OHh4eHh4OHh4eHh4eHg4ODa2to5OTnc3Nzs7Oz19fWkpKSEhIT///////////////////////////////////////9OTk7X19f29vb29vbBwcFiYmL29vb29vb29vb29vb29vb29vb29vb29vb29vbv7+86Ojrw8PD29vb29vakpKSEhIT///////////////////////////////////////9VVVXR0dH29vb29vbBwcFiYmL29vb29vb29vb29vb29vb29vb29vb29vb29vbv7+85OTnw8PD29vb29vadnZ2Li4v///////////////////////////////////////9zc3OsrKz29vb29vbBwcFTU1O7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u2trY5OTnw8PD29vb19fV4eHipqan///////////////////////////////////////+6urpbW1vw8PD29vbBwcE+Pj5nZ2dnZ2dnZ2ZnZ2ZnZ2dnZ2dnZ2dnZmdnZ2dlZWU4ODjw8PD29vba2tpHR0fn5+f////////////////////////////////////////6+vpnZ2eCgoLw8PDBwcFhYWH19fX19fX19fX19fX19fX19fX19fX19fX19fXu7u45OTnw8PDj4+NcXFyZmZn////////////////////////////////////////////////v7+9paWlZWVmDg4NiYmL19vX19vb19fX29vb29vX29fX19fb29vb29vbv7+83NzeTk5NHR0eQkJD8/Pz////////////////////////////////////////////////////7+/u6urpnZ2diYmL19vX19fb19fbr8/jX7Pja7vjv9ff19vX29vbv7+81NTWBgYHS0tL////////////////////////////////////////////////////////////////////Pz89iYmL29fX///////+VlZVscIp5e42Wlpb////////v7+86Ojr////9/f3i4uL7+/v////////////////////////////////////////////////////////////Pz89iYmL29vWWlpaCg5BXXIWQkZSTlJWLjJCWlpb////v7+86Ojr+/v7f399ISEjS0tL8/Pz////S0tKnp6f///////////////////////////////+YmJjp6en////Pz89hYWH09fZ/gY9SWIIAGrUAGrUAGrUAGrVucYmVlZXv7+86Ojr5+flRUVE0NDRISEjq6urx8fGurq5wcHDv7+////////////////////////+bm5tAQEB8fHzo6OjQ0NBdXV3y9PZNU34AGrUAGrUAGrUAGrUAGrUAGrVjZ4Xq6us8PDz////4+PhZWVns7Oz///9cXFw+Pj44ODhFRUX////////4+Pj29vb///////+tra1DQ0OMjIzs7Ozf399LS0vz9PVKUIMAGrUAGrUAGrUAGrUAGrUAGrVYXYXY2NhKS0v////////5+fn////////5+fm0tLRzc3P4+Pj////4+Pifn5+Kior29vb///////+rq6vs7Oz////8/PxCQkLd3d5ASIAAGrUAGrVPVYRWXIUAGrV8fo5QVoStra1zc3P////////7+/uioqLz8/P////c3Ny7u7v///////+pqak+Pj47OzuUlJT////19fX+/v7///////////97e3uampr///9SWIVLUYRwc4xucoxSWIVcYYf///9nZ2eysrL////7+/ufn58+Pj6Pj4/09PT////////////////39/ecnJyGhob19fX///9cXFzh4eH////////////T09NJSUnl5eX19fXw9ffl8fjn8vjy9fb19fXDw8NKSkr29vb////6+vqWlpY9PT2Ghobz8/P////////////////////39/f19fXc3NysrKxDQ0OXl5fGxsb////////+/v6EhIR0dHTx8fH19fX19fX19fX19fXj4uNQUE+4uLj////////////6+vqZmZny8vL////////////////////////////////Ly8uAgIA8PDx0dHSqqqr////////////09PRjY2N9fX3s7Oz19fX19fXc3NxZWVmPj4/9/f3///////////////////////////////////////////////////////////////9PT0/e3t7////////////////////w8PBycnJaWlrKysqvr69JSUmZmZn8/Pz////////////////////////////////////////////////////////////////////i4uL7+/v////////////////////////7+/usrKxERERWVlbMzMz+/v7////////////////////////////////////////////////////////////////////////////////////////////////////////////////r6+v29vb///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "Typography":
+      {
+        "Type": "Serif",
+        "Typefaces":
+        [
+          {
+            "Name": "Merriweather"
+          },
+          {
+            "Name": "Cormorant"
+          }
+        ],
+        "FontSizes":
+        [
+          {
+            "Text": "Normal",
+            "Size": "16, 18, 20, 24, 30",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Long",
+            "Size": "20, 24, 30, 36, 44, 52, 64",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Headline",
+            "Size": "44, 52, 64, 74, 86, 98",
+            "Weight": "600",
+            "LineHeight": "1, 1.2"
+          }
+        ],
+        "LineCharacterLimit": 75
+      },
+      "Colors":
+      {
+        "Generator":
+        [
+          {
+            "Generator": "ColorGenerator",
+            "Argument": "SeriousElegant"
+          }
+        ],
+        "ColorTypes":
+        [
+          "Primary",
+          "Shade",
+          "Tint",
+          "Secondary",
+          "Tertiary",
+          "LightBackgroundFontColor",
+          "DarkBackgroundFontColor",
+          "Background"
+        ],
+        "ContrastRatioNormal": "4.5:1",
+        "ContrastRatioLarge": "3:1"
+      },
+      "Images_Illustrations":
+      {
+        "Types":
+        {
+          "Product Photos": ".45",
+          "Storytelling Photos": ".35",
+          "Illustrations": ".15",
+          "Patterns": ".5"
+        },
+        "Size": "Large"
+      },
+      "Icons":
+      {
+        "Presence": "None, Thin"
+      },
+      "Shadows":
+      {
+        "Presence": "None"
+      },
+      "BorderRadius":
+      {
+        "Presence": "None"
+      },
+      "Whitespace":
+      {
+        "Size": "Large"
+      }
+    },
+    "PlayfulFun":
+    {
+      "Display": "Playful/Fun",
+      "Description": "",
+      "Industries": "",
+      "Icon": "AAABAAIAEBAAAAEAGABoAwAAJgAAACAgAAABABgAqAwAAI4DAAAoAAAAEAAAACAAAAABABgAAAAAAEADAAAAAAAAAAAAAAAAAAAAAAAA/f39/f39/f39/f39/f39/f39+vr6hYOYsLC+/f39/f39/f39/f39/f39/f39/f39/v7+/v7+/v7+/v7+/v7+/v7++fr7PDtZjZCj/f3+/v7+/v7+/v7+/v7+/v7+/f39/v7+/v7+/v7+/v7+/v7+/v7++fr7OztajpCj/f7+/v7+/v7+/v7+/v7+/v7+/f39/v7+/v7++/z8yczT+/z89fj77/H4PDtbjo+j/Pz9/f39/Pz9+/v7/Pz7/v7+/f39/v7++vv7mZuplJaps7jT09z80dr6PDlcP0xpi5Gj8vLz+/z8cnWMjpCg/fz8/f39/v7++/z75ur3goms1N381d7+0tv7OztbO293N11tc3CB9/f3jo+iqKq4/Pz8/f39/v7+8vX61N3809z8ucLigYqreoGjLTBUOm55PnF5tpuLq6/A/fz929zh6uvs/f39/f393+f60938lZ++YmeEjpWqlpuylJmwPHB7PnF63LmegIWi+/38/v7+/v7+/v7++vz819/9y9T0LzZpOUSWOEaYOEaYN0WVO217P3F42rqefIKh9Pf7/v7+/v7+/f39+vv71d39qrTSMTp9OUaaN0SaNkObNkWXLUplMEtkem93W2GD5eft/fz8/v7+/f39/Pz82OD80tz80Nr60dr6TWmeKnDISZ/MQGGPZnu4Z3u4XnGtTVZ/19jf/f39/f39/v7+5un61N391d7/1d3/TWqiJnDMSKHPPlGDaTuFaTuGaDuFYDqBW119+/z7/v7+/v7++Pn619770tz81d3/V26gKHDMSKHPPVGDajyEazyDbT2EazyERTVl+fv6/f39/v7+/f388vP5rbXS1N39jpi6J1ykR53MWXag09r56ez4+vr6+vv7+fv6/P38/v7+/v7+/v7+/f78+Pn65er72N/6cHyeL1B7Vm+S8fX5/f38/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/Pz8+vz75efp09bc/f39/v7+/v7+/v7+/v7+/v7+/f39AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAgAAAAQAAAAAEAGAAAAAAAgAwAAAAAAAAAAAAAAAAAAAAAAAD9/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f36+vmipbT39vaoprX6/Pn9/f39/f39/f39/f3+/v79/f39/f39/f39/f39/f39/f39/f39/f39/f3+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v709fgmK1FVSWgqKVP09vf+/f3+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v709vgkLUxVS2cmLE/09vf9/f7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v79/f3+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v719vglLE1US2gnK1D29/f8/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v79/f3+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v719vgkLE1US2gnK1D19vf8/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v729vgjLU1VTGgnK1D19vb8/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v79/f3+/v7+/v7+/v7+/v79/v79/f36+/z8/f39/f79/f39/v39/v39/v329vgkLU5US2gnK1D19fb8/f79/f79/v3+/v79/v39/f3+/f7+/f39/f39/f7+/v7+/v7+/v79/f3+/v7+/v7+/v7+/v78/vz39/k+Qlzz9/r8/fz5+/zx9/rq7/np7Prh5/UnK05VSmkrKVL09ff9+/z9/P39/f7+/v79/f78/P38/Pz39/j5+/f9/fz+/v7+/v7+/v79/f3+/v7+/v7+/v77+/v09/fy8vVBQlru7/fl6vTe4vjV3PrT3f3U3vzQ2fcnKFNVS2glJ0+QmarJ0dn3+vv8/Pv+/v7+/f77/fyanq4wMVNQUGnm5uv8/Pz+/v7+/v79/f3+/v7+/v79/P3z+Pc+Q15BQ1vn6fY6QV83PWTT2vzU3f7U3f7V3f/P1/kkKVFSTGYgKUsqSmEfJEhQV3TW1Nn7+/r8/vz5+vwpMFHW1+FwdYeVlqb8+/z+/f3+/v7+/v7+/v7+/v79/P35/fj2+ffn6PU4PWLO1vfR2vrV3v7V3v/V3v/V3v/P2PkkK1BTTGgdLExZs6M0aXYrL1EyMlXFxs36+/n7/PtNTWxvcoo7Pl+4t8b8/fv+/f7+/v7+/v7+/v7+/v78/f37/Prt7/3R2/YzPGHQ2fnV3vzV3v/V3v/V3v7V3v7P2PkkK1BTTGYgKk1Zs6RWqaMoM0ugj4c4O1vr6u79/fvn5+uWmai1u8T5+fn8/Pr8/P7+/v79/f3+/v7+/v78/P3y+PnZ3/nU3f3R2vrU3f3T3P3U3f3U3f3Q2fnP2PnK0/MjKlBNSmgeKk1YtKZZs6kkMEnct59nYGqGi6L7+/3+/P3+/f7+/v69u8fZ2d39/fv+/v79/f3+/v7+/v79/Pzf5fnS3f3T3P7T3P3U3f3G0PB4gaI8RWUnL1EnLVIpLlIiKU8lJ00cKUxZs6ZZsqklMEneup64nIlBRmju8/r9/Pv+/f7+/v62u8TW2d39/fz+/v7+/v7+/v7+/v729/vT3fzT3v3U3f7T3PynscwwOFlMU3J7hpqSma6Xm7SXm7SXm7OTmLEeLVBbs6ZZs6klMEvfu53Zt54oLlHh4/b8/vz9/v3+/v7+/v7+/v7+/v7+/v7+/v7+/f39/v3m7fjP2/3T3fzU3f20vd0qM1V4eJaXm7GXm7CWm7GWnLGWnLGVm7CSmK4eLVBbs6ZZs6kkMEvfu53buqEnLU7S2vX2+/v9/v3+/v7+/v7+/v7+/v7+/v7+/v79/f34/frc5PzU3f7U3f3U3f1HT3YmKVYlKlUhKVMhKlQhKlQhKlQhKlQhKVMhKVQaJ1Fbs6RbsqgkMEnbup7au58rLUzO2Pfu8/v9/f3+/v7+/v7+/v7+/v7+/v7+/v79/f34+/3Z4PzV3v/U3v2xutobIks3QY9RXdVPYtxPY9xPY9xPY9xPY9xOYttPYtQdKlZbtKRcsqkkMUnbu5/avJ8sLUzP2fjq7/n9/f3+/v7+/v7+/v7+/v7+/v79/f38/Pz4+vzX3vzT3P7S2/yGkKwuNHBUZNlSZNpTY9xTY91SY91YYtxTYt1QYt5SYtYbKlZerqVfragmL03Ntp7QtqEtLUrN1/fp7vn9/P39/P3+/vz+/v7+/v7+/v79/f38/Pz5+/vX3v3U3f7T3PyAi6ciKFQiK1ghKlgiKVsfJlgbJVgWJV8ZJFgeJVcaLFUfJ04cLE4gKVIeJ0wkKFIpKE4fJUxVXIK2ucn5+vj9/fz+/f7+/v7+/v7+/v7+/v78/Pz7/PzY4f3U3v7U3fzR2vrO1/fO2fbO2PbP2Pd0fJ0pV5owie4rVpw7dJ5cxvVAc51CToJke7dkerlme7dnerhhdLFKW5MmMVp3dIz19Pj9/f3+/v7+/v7+/v79/f3+/v78/Pzi6PvT3PvT3v3U3f7T3P7V3v/V3v/V3f93faQjV6EpivklWZ86d6JXzP0+dKBAUH5pe7lofLpofLpofLpne7pofLhrea8wPWtzdo35+vv9/f3+/v7+/v7+/v7+/v7+/v7w8fnW2/3S3vvV3v/V3v/V3v/V3v/V3f93faQjV6EoivklWJ86d6JXzP09dKEfJE4mJFMnJFQnJFQnJFQnJFMmJFMlI1MnK1sZJUu9wcr7+/v9/f3+/v7+/v7+/v7+/v75+vza4vrW3f3V3v/V3v/V3v/V3v/V3f93faQjWKAlivkoV6A6d6JXzP07dKFiOn6sU7erU7irU7irU7irU7irUripUreLSaE3J15faIL6/Pr8/v3+/v7+/v7+/v7+/v77/vzu8PjV3vvV3v/V3v/V3v/V3v/V3f98g6knU5wqivonV6A6d6JXzP08dKFbPH+uVLewVLewVLewVLewVLewVLevU7atU7iJSpgyM1j5+vz8/vz+/v7+/v7+/v7+/v79/vv8+v3h5PjS2/3R3PzQ2fnV3v/V3f+ZocIiQXwqivYmV6A6d6JXzP09c6IjJU4nJVInJlMnJlAoJVAqJ1ErJ1MqJ1MqJlMqJ1IwM1X0+Pb+/vv+/v79/f3+/v7+/v7+/vz9/f34+Pve4PrByu1DS23V3v/V3v/J0vIjMFgrft4oWZs5dqFXzP0+dKJ0eZ/R1/nS2fnT2fjo7fb49/j4+Pn4+Pn4+Pn4+Pn2+fj7/fn9/f3+/v7+/v7+/v7+/v7+/v3+/vz9/ff4+Pvh5PjS2/jW3f3S3vvU3ft8hKYfPnkrW583a5dYy/w7dZ94eqHU3PvZ3/jw7/z7/fn8/vz9/v39/v39/v39/v39/f3+/f79/f7+/v7+/v7+/v7+/v7+/v7+/v7+/vz9/v38+v3u8PfZ4vrW2/3T3PzR2vlWYoIZMFwgL11WueM8dqF1e6Pd5vjy9/n7/fr+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v3+/vz9/vv8/fz5+vzv8fni6Pvb4fvU3PV/hacmLlQjLlsrQWqAjJ78/Pr8/Pz9/f3+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v79/f36/Pr5/Pr5/Pnt7u6ytr6Nk6TLzdT8/Pv+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v79/f3+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v78/P37/P38/P39/f36/f38/f37/f39/f7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v79/f0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "Typography":
+      {
+        "Type": "Serif",
+        "Typefaces":
+        [
+          {
+            "Name": "Merriweather"
+          },
+          {
+            "Name": "Cormorant"
+          }
+        ],
+        "FontSizes":
+        [
+          {
+            "Text": "Normal",
+            "Size": "16, 18, 20, 24, 30",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Long",
+            "Size": "20, 24, 30, 36, 44, 52, 64",
+            "LineHeight": "1.5, 2"
+          },
+          {
+            "Text": "Headline",
+            "Size": "44, 52, 64, 74, 86, 98",
+            "Weight": "600",
+            "LineHeight": "1, 1.2"
+          }
+        ],
+        "LineCharacterLimit": 75
+      },
+      "Colors":
+      {
+        "Generator":
+        [
+          {
+            "Generator": "ColorGenerator",
+            "Argument": "SeriousElegant"
+          }
+        ],
+        "ColorTypes":
+        [
+          "Primary",
+          "Shade",
+          "Tint",
+          "Secondary",
+          "Tertiary",
+          "LightBackgroundFontColor",
+          "DarkBackgroundFontColor",
+          "Background"
+        ],
+        "ContrastRatioNormal": "4.5:1",
+        "ContrastRatioLarge": "3:1"
+      },
+      "Images_Illustrations":
+      {
+        "Types":
+        {
+          "Product Photos": ".45",
+          "Storytelling Photos": ".35",
+          "Illustrations": ".15",
+          "Patterns": ".5"
+        },
+        "Size": "Large"
+      },
+      "Icons":
+      {
+        "Presence": "None, Thin"
+      },
+      "Shadows":
+      {
+        "Presence": "None"
+      },
+      "BorderRadius":
+      {
+        "Presence": "None"
+      },
+      "Whitespace":
+      {
+        "Size": "Large"
+      }
+    }
+  }
+}

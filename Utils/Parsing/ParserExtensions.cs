@@ -10,7 +10,7 @@ namespace Utils.Parsing
     {
         public static IDisposable PushNode(this Stack<INode> nodeStack, INode node)
         {
-            var disposable = nodeStack.AsDisposable((sender, e) => nodeStack.Pop());
+            var disposable = nodeStack.CreateDisposable((sender, e) => nodeStack.Pop());
 
             node.CurrentNodeStack = nodeStack;
             nodeStack.Push(node);
@@ -34,7 +34,7 @@ namespace Utils.Parsing
 
         public static IDisposable PushAddNode(this Stack<INode> nodeStack, INode node)
         {
-            var disposable = nodeStack.AsDisposable((sender, e) => nodeStack.Pop());
+            var disposable = nodeStack.CreateDisposable((sender, e) => nodeStack.Pop());
 
             nodeStack.AddNode(node);
             nodeStack.PushNode(node);

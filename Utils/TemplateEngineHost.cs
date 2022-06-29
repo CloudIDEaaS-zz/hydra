@@ -11,7 +11,7 @@ using System.IO;
 
 namespace Utils
 {
-    public class TemplateEngineHost
+    public class TemplateEngineHost : ITemplateEngineHost
     {
         private static bool bSkipErrors;
         public event EventHandler OnDebugCallback;
@@ -36,8 +36,9 @@ namespace Utils
         {
             try
             {
-                var generator = Activator.CreateInstance(generatorType);
+                var generator = (IDisposable) Activator.CreateInstance(generatorType);
                 var session = new TextTemplatingSession();
+                string output;
 
                 session["DebugCallback"] = new EventHandler(DebugCallback);
 
@@ -49,13 +50,19 @@ namespace Utils
                 generatorType.GetProperty("Session").SetValue(generator, session, null);
                 generatorType.GetMethod("Initialize").Invoke(generator, null);
 
-                var output = (string)generatorType.GetMethod("TransformText").Invoke(generator, null);
+                output = (string)generatorType.GetMethod("TransformText").Invoke(generator, null);
+
+                generator.Dispose();
 
                 return output;
             }
             catch (Exception ex)
             {
-                if (throwException)
+                if (bSkipErrors)
+                {
+                    return null;
+                }
+                else if (throwException)
                 {
                     throw ex;
                 }
@@ -71,6 +78,11 @@ namespace Utils
             }
 
             return null;
+        }
+
+        public PostProcessResult PostProcess()
+        {
+            return PostProcessResult.Continue;
         }
     }
 }

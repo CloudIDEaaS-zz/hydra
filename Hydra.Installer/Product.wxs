@@ -27,9 +27,12 @@
 	</Bundle>
 	<Fragment>
 		<PackageGroup Id="HydraSuite">
-			<MsiPackage Id="HydraPackage" DisplayInternalUI="yes" Visible="yes"
-				SourceFile="Installers\Hydra.InstallerStandalone.msi">
+            <MsiPackage Id="NodeJs" DisplayInternalUI="yes" Visible="yes"
+				SourceFile="Installers\$(var.Configuration)\node-v16.15.1-x64.msi">
+            </MsiPackage>
+            <MsiPackage Id="HydraPackage" DisplayInternalUI="yes" Visible="yes" After="NodeJs"
+				SourceFile="Installers\$(var.Configuration)\Hydra.InstallerStandalone.msi">
 			</MsiPackage>
-		</PackageGroup>
+        </PackageGroup>
 	</Fragment>
 </Wix>

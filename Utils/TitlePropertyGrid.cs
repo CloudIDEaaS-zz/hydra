@@ -11,6 +11,19 @@ namespace Utils
 {
     public partial class TitlePropertyGrid : UserControl
     {
+        public event PropertyValueChangedEventHandler PropertyValueChanged
+        {
+            add
+            {
+                propertyGrid.PropertyValueChanged += value;
+            }
+
+            remove
+            {
+                propertyGrid.PropertyValueChanged -= value;
+            }
+        }
+
         public TitlePropertyGrid()
         {
             InitializeComponent();
@@ -26,6 +39,19 @@ namespace Utils
             set
             {
                 propertyGrid.SelectedObject = value;
+            }
+        }
+        
+        public object[] SelectedObjects 
+        {
+            get
+            {
+                return propertyGrid.SelectedObjects;
+            }
+
+            set
+            {
+                propertyGrid.SelectedObjects = value;
             }
         }
 
@@ -55,7 +81,7 @@ namespace Utils
             }
         }
 
-        public string Caption
+        public string Title
         {
             get
             {
@@ -75,5 +101,6 @@ namespace Utils
                 return propertyGrid;
             }
         }
+
     }
 }

@@ -202,6 +202,18 @@ namespace Utils
                 {
                     return true;
                 }
+                else if (value is string && valueTest is CaselessString && ((CaselessString)valueTest) == ((string)value))
+                {
+                    return true;
+                }
+                else if (value is CaselessString && valueTest is string && ((string)valueTest) == ((CaselessString)value))
+                {
+                    return true;
+                }
+                else if (value is CaselessString && valueTest is CaselessString && ((CaselessString)valueTest) == ((CaselessString)value))
+                {
+                    return true;
+                }
                 else if (value is DateTime && valueTest is DateTime && ((DateTime)valueTest) == ((DateTime)value))
                 {
                     return true;

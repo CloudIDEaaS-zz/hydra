@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyVersion>1.0.0.202</AssemblyVersion>
+    <FileVersion>1.0.0.202</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;NET_CORE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;NET_CORE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\ApplicationGenerator.Interfaces\EntityMetadataSourceAssemblyAttribute.cs" Link="EntityMetadataSourceAssemblyAttribute.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\Extensions.cs" Link="Agent\Extensions.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\GetTypeEventHandler.cs" Link="GetTypeEventHandler.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\INetCoreReflectionAgent.cs" Link="Agent\INetCoreReflectionAgent.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\ITypeShimActivator.cs" Link="Agent\ITypeShimActivator.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\NetCoreReflectionAgent.ClientAPI.cs" Link="Agent\NetCoreReflectionAgent.ClientAPI.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\NetCoreReflectionAgent.cs" Link="Agent\NetCoreReflectionAgent.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\ShimTypes\Assembly.cs" Link="Agent\ShimTypes\Assembly.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\ShimTypes\MemberInfo.cs" Link="Agent\ShimTypes\MemberInfo.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\ShimTypes\MethodBase.cs" Link="Agent\ShimTypes\MethodBase.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\ShimTypes\MethodInfo.cs" Link="Agent\ShimTypes\MethodInfo.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\ShimTypes\ModuleShim.cs" Link="Agent\ShimTypes\ModuleShim.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\ShimTypes\ParameterInfo.cs" Link="Agent\ShimTypes\ParameterInfo.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\ShimTypes\PropertyInfo.cs" Link="Agent\ShimTypes\PropertyInfo.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\ShimTypes\Type.cs" Link="Agent\ShimTypes\Type.cs" />
+    <Compile Include="..\NetCoreReflectionShim.Agent\StartServiceEventHandler.cs" Link="Agent\StartServiceEventHandler.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\BTree.BTreeAlgorithm.cs" Link="Utils\BTreeIndex\Collections\BTree\BTree.BTreeAlgorithm.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\BTree.cs" Link="Utils\BTreeIndex\Collections\BTree\BTree.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\BTree.TreeNode.cs" Link="Utils\BTreeIndex\Collections\BTree\BTree.TreeNode.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\Collection.cs" Link="Utils\BTreeIndex\Collections\BTree\Collection.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\Common\BTreeEnums.cs" Link="Utils\BTreeIndex\Collections\BTree\Common\BTreeEnums.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\Common\IBTree.cs" Link="Utils\BTreeIndex\Collections\BTree\Common\IBTree.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\Common\SingleThreadAccess.cs" Link="Utils\BTreeIndex\Collections\BTree\Common\SingleThreadAccess.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\Common\Synchronizer.cs" Link="Utils\BTreeIndex\Collections\BTree\Common\Synchronizer.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\ThreadSafeBTree.cs" Link="Utils\BTreeIndex\Collections\BTree\ThreadSafeBTree.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\BTree.BTreeAlgorithm.cs" Link="Utils\BTreeIndex\Collections\Generics\BTree.BTreeAlgorithm.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\BTree.BTreeKeys.cs" Link="Utils\BTreeIndex\Collections\Generics\BTree.BTreeKeys.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\BTree.BTreeValues.cs" Link="Utils\BTreeIndex\Collections\Generics\BTree.BTreeValues.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\BTree.TreeNode.cs" Link="Utils\BTreeIndex\Collections\Generics\BTree.TreeNode.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\BTreeDictionary.cs" Link="Utils\BTreeIndex\Collections\Generics\BTreeDictionary.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\IBTreeDictionary.cs" Link="Utils\BTreeIndex\Collections\Generics\IBTreeDictionary.cs" />
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\PartialComparer.cs" Link="Utils\BTreeIndex\Collections\Generics\PartialComparer.cs" />
+    <Compile Include="..\Utils\IRuntimeProxy.cs" Link="Utils\IRuntimeProxy.cs" />
+    <Compile Include="..\Utils\RuntimeProxyExtensions.cs" Link="Utils\RuntimeProxyExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\Utils\BTreeIndex\Collections\BTree\BTreeResources.resx" Link="Utils\BTreeIndex\Collections\BTree\BTreeResources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hydra.Interfaces\Hydra.Interfaces.csproj" />
+    <ProjectReference Include="..\NetCoreReflectionShim.Service\NetCoreReflectionShim.Service.csproj" />
+    <ProjectReference Include="..\Utils.Core\Utils.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Agent\ShimTypes\" />
+    <Folder Include="Utils\BTreeIndex\Collections\BTree\Common\" />
+    <Folder Include="Utils\BTreeIndex\Collections\Generics\" />
+  </ItemGroup>
+
+</Project>

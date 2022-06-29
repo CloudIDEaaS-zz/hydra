@@ -1,0 +1,78 @@
+parameters:
+- name: environment
+  type: string
+- name: buildConfiguration
+  type: string
+- name: solution
+  type: string
+- name: HYDRASOLUTIONPATH
+  type: string
+
+jobs:
+  - job: ProductBuild
+    displayName: ProductBuild
+    steps:
+    - checkout: none
+    - task: CmdLine@2
+      displayName: Performing sparse checkout
+      inputs:
+        script: |
+          git init
+          git sparse-checkout init --cone
+          git sparse-checkout set ApplicationGenerator.sln AzureDevopsPipelines ApplicationGenerator Documentation ApplicationGenerator.Interfaces Utils CodeInterfaces VisualStudioProvider ApplicationGenerator.Overrides Hydra.Installer Hydra.Extension Hydra.InstallerStandalone UtilsProjects ColorMine CppParser ProcessDiagnosticsLibrary SDKInterfaceLibrary.Entities SharpSerializer.Library Rtf2Html ConverterHtml2010 Interpreter2010 Parser2010 Rtf2Html2010 Sys2010 ApplicationGenerator.Data Utils.Core Binaries XPathParser TypeScriptAST ModuleImportsHelper PackageCacheStatus ApplicationGeneratorBuildTasks TestApplicationGeneratorBuildTasks Hydra.Interfaces NetCoreReflectionShim.Service NetCoreReflectionShim.Agent XPathParser.Core NetCoreReflectionShim.CodeGen NetCoreReflectionShim.Test NetCoreReflectionShim.TestProxy ApplicationGenerator.IonicAngular SassParser SassParser _Documentation DynamicTemplateEngine FindGenerators CreateSharedReferences NamedPipeWrapper RunCommandElevated HydraCrashAnalyzer CLIBuilderProcessor Hydra.Scanner DllExport.Metadata Hydra.Apps.Administration.ServicesClient.Test DllExport.MSBuild DllExport OutputSparseFolderList SharpSerializer Mailslot HydraDebugAssistant VU_MeterLibrary Wizard HydraResourceTracer AppStoreInterfaces SqlLocalDb HydraAppStore ApplicationGenerator.Tests Hydra.ReleaseManagement ReleaseAgent Hydra.ProdReleaseBuildTarget
+          git remote add origin https://udu2eug4ja5ymzz6xqozwyietiudz7n6io3o4vlrkwgpnl2l52ea@dev.azure.com/cloudideaas/Hydra/_git/Hydra
+          git pull --progress --verbose --depth=1 origin $(Build.SourceBranch)
+    - task: MSBuild@1
+      condition: and(true, succeeded())
+      displayName: Restoring dependencies
+      inputs:
+        solution: '$(solution)'
+        msbuildArguments: '/t:restore -property:Configuration=$(buildConfiguration) -property:HYDRASOLUTIONPATH=$(HYDRASOLUTIONPATH)'
+    - task: MSBuild@1
+      condition: and(true, succeeded())
+      displayName: Building solution
+      inputs:
+          solution: '$(solution)'
+          msbuildArguments: -property:Configuration=$(buildConfiguration) -property:HYDRASOLUTIONPATH=$(HYDRASOLUTIONPATH)
+    - task: VSTest@2 
+      condition: and(false, succeeded())
+      displayName: Running tests
+      inputs:
+          testSelector: 'testAssemblies'
+          testAssemblyVer2: |
+            **\*Tests.dll
+            !**\*TestAdapter.dll
+            !**\obj\**
+          searchFolder: '$(System.DefaultWorkingDirectory)'
+
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          $json = '{ "environment": "${{ parameters.environment }}", "buildConfiguration": "$(buildConfiguration)", "releaseType": "$(Build.RequestedFor)-$(Build.SourceBranch)", "commitId": "$(Build.SourceVersion)", "repositoryUri": "$(Build.Repository.Uri)" }'
+          Write-Host $json
+          $json | Set-Content variables.json
+    - publish: variables.json
+      condition: and(true, succeeded())
+      artifact: variables
+    - publish: $(System.DefaultWorkingDirectory)\ApplicationGenerator\bin\$(buildConfiguration)
+      condition: and(true, succeeded())
+      artifact: PrimaryProject
+    - publish: $(System.DefaultWorkingDirectory)\ApplicationGenerator\ReleaseInfo.json
+      condition: and(true, succeeded())
+      artifact: ReleaseInfo
+    - publish: $(System.DefaultWorkingDirectory)\ReleaseAgent\bin\$(buildConfiguration)
+      condition: and(true, succeeded())
+      artifact: ReleaseAgent
+    - publish: $(System.DefaultWorkingDirectory)\Hydra.Installer\bin\$(buildConfiguration)\Hydra.Installer.exe
+      condition: and(true, succeeded())
+      artifact: InstallerBundle
+    - publish: $(System.DefaultWorkingDirectory)\Hydra.Installer\Installers\$(buildConfiguration)\Hydra.InstallerStandalone.msi
+      condition: and(true, succeeded())
+      artifact: Installer
+    - publish: $(System.DefaultWorkingDirectory)\Hydra.Installer\Product.wxs
+      condition: and(true, succeeded())
+      artifact: InstallerBundleWix
+    - publish: $(System.DefaultWorkingDirectory)\Hydra.InstallerStandalone\Product.wxs
+      condition: and(true, succeeded())
+      artifact: InstallerWix

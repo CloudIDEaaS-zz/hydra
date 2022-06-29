@@ -18,6 +18,34 @@ namespace Utils
         public static int ZB = PB * 1024;
         public static int EB = ZB * 1024;
 
+        public static string ToChangeText(this float f)
+        {
+            if (f == 0)
+            {
+                return f.ToString();
+            }
+            if (f.IsNegative())
+            {
+                return f.ToString();
+            }
+            else
+            {
+                return "+" + f.ToString();
+            }
+        }
+
+        public static float ToWholePercentage(this float f)
+        {
+            f = (float) Math.Round(f * 100, 0);
+
+            return f;
+        }
+
+        public static bool IsNegative(this float f)
+        {
+            return Math.Abs(f) != f;
+        }
+
         public static int Half(this int n)
         {
             return (int)(n.As<float>() / 2f);
@@ -30,6 +58,16 @@ namespace Utils
             var precision = (Decimal.GetBits(number)[3] >> 16) & 0x000000FF;
 
             return precision;
+        }
+
+        public static int ToKb(this long n)
+        {
+            return (int)Math.Round(n.As<float>() / NumberExtensions.KB.As<float>(), 0);
+        }
+
+        public static int ToMB(this long n)
+        {
+            return (int)Math.Round(n.As<float>() / NumberExtensions.MB.As<float>(), 0);
         }
 
         public static int MaxAt(this int n, int max)
@@ -138,19 +176,50 @@ namespace Utils
             return intVal;
         }
 
+        public static T MinMax<T>(this T value, T min, T max) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
+        {
+            if (typeof(T) == typeof(int))
+            {
+                return (T)(object) Math.Min(Math.Max((int)(object) value, (int)(object) min), (int)(object) max);
+            }
+            else if (typeof(T) == typeof(float))
+            {
+                return (T)(object)Math.Min(Math.Max((float)(object)value, (float)(object)min), (float)(object)max);
+            }
+
+            throw new NotSupportedException(typeof(T).Name + " is not supported by MinMax<T> function");
+        }
+
         public static T ScopeRange<T>(this T value, T max) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
         {
             if (typeof(T) == typeof(int))
             {
                 return value.ScopeRange((T)(object)1, max);
             }
+            else if (typeof(T) == typeof(float))
+            {
+                return value.ScopeRange((T)(object)1, max);
+            }
 
-            throw new NotSupportedException(typeof(T).Name + " is not supported by WithinRange<T> function");
+            throw new NotSupportedException(typeof(T).Name + " is not supported by ScopeRange<T> function");
         }
 
         public static T ScopeRange<T>(this T value, T min, T max) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
         {
-            if (typeof(T) == typeof(int))
+            if (typeof(T) == typeof(float))
+            {
+                float returnValue;
+                var floatMin = (float)(object)min;
+                var floatMax = (float)(object)max;
+                var floatValue = (float)(object)value;
+
+                Debug.Assert(floatMin < floatMax);
+
+                returnValue = ((floatValue - floatMin) % floatMax) + floatMin;
+
+                return (T)(object) returnValue;
+            }
+            else if (typeof(T) == typeof(int))
             {
                 int returnValue;
                 var intMin = (int)(object)min;
@@ -161,10 +230,10 @@ namespace Utils
 
                 returnValue = ((intValue - intMin) % intMax) + intMin;
 
-                return (T)(object) returnValue;
+                return (T)(object)returnValue;
             }
 
-            throw new NotSupportedException(typeof(T).Name + " is not supported by WithinRange<T> function");
+            throw new NotSupportedException(typeof(T).Name + " is not supported by ScopeRange<T> function");
         }
 
         public static int GetRandomIntWithinRange(int min, int max)

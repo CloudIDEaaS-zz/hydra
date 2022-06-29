@@ -1,0 +1,12 @@
+﻿https://nvie.com/posts/a-successful-git-branching-model/
+
+apy = Azure pipeline yaml 
+
+ReleaseTypes:
+
+	Release types are seen as a variables in apy's.  They describe how an installer should show up in the Hydra Download Center
+	Release types are read via Regex.  General pattern [Actor]-[SourceBranch]-[Environment]
+
+		Dev:				[Developer]-[Feature]-dev
+		Int:				Developer-[develop]-dev
+		QA:					Tester-[develop]-qa 

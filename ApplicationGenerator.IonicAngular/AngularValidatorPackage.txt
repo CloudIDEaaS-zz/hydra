@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class AngularValidatorPackage : Package
+    {
+        public AngularValidatorPackage()
+        {
+            this.PackageInstalls = new string[] { "angularvalidator" };
+        }
+    }
+}

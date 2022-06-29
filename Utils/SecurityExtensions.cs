@@ -5,6 +5,8 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Net;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 
 namespace Utils
 {
@@ -27,6 +29,53 @@ namespace Utils
         private static extern bool CredUnPackAuthenticationBuffer(int dwFlags, IntPtr pAuthBuffer, uint cbAuthBuffer, StringBuilder pszUserName, ref int pcchMaxUserName, StringBuilder pszDomainName, ref int pcchMaxDomainame, StringBuilder pszPassword, ref int pcchMaxPassword);
         [DllImport("credui.dll", CharSet = CharSet.Auto)]
         private static extern int CredUIPromptForWindowsCredentials(ref CREDUI_INFO notUsedHere, int authError, ref uint authPackage, IntPtr InAuthBuffer,uint InAuthBufferSize, out IntPtr refOutAuthBuffer, out uint refOutAuthBufferSize, ref bool fSave, int flags);
+
+        public static bool IsUserAdministrator()
+        {
+            //bool value to hold our return value
+            bool isAdmin;
+            WindowsIdentity user = null;
+            try
+            {
+                //get the currently logged in user
+                user = WindowsIdentity.GetCurrent();
+                WindowsPrincipal principal = new WindowsPrincipal(user);
+                isAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                isAdmin = false;
+            }
+            catch (Exception ex)
+            {
+                isAdmin = false;
+            }
+            finally
+            {
+                if (user != null)
+                    user.Dispose();
+            }
+
+            return isAdmin;
+        }
+
+        public static byte[] Pfx2Snk(byte[] pfxData, string pfxPassword)
+        {
+            // load .pfx
+            var cert = new X509Certificate2(pfxData, pfxPassword, X509KeyStorageFlags.Exportable);
+
+            // create .snk
+            var privateKey = (RSACryptoServiceProvider)cert.PrivateKey;
+
+            return privateKey.ExportCspBlob(true);
+        }
+
+        public static byte[] ToSnk(this X509Certificate2 cert)
+        {
+            var privateKey = (RSACryptoServiceProvider)cert.PrivateKey;
+
+            return privateKey.ExportCspBlob(true);
+        }
 
         public static string Protect(this string str, string additionalEntropy)
         {

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Agent.Worker": {
+      "commandName": "Executable",
+      "executablePath": "d:\\Users\\Ken\\Downloads\\azure-pipelines-agent-master\\azure-pipelines-agent\\_layout\\win-x64\\bin\\Agent.Worker.exe"
+    }
+  }
+}

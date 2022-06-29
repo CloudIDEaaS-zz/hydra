@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Fragment Id="SplashDlg">
+	<Fragment Id="SplashDlg"> 
 		<Property Id="SplashForm_NextArgs" Value="WelcomeForm" />
 		<UI Id="SplashDlg">
 			<Dialog Id="SplashForm" X="50" Y="50" Width="373" Height="287" Title="[ProductName]">
-				<Control Id="SplashBmp" Type="Bitmap" X="2" Y="0" Width="370" Height="251" TabSkip="yes" Sunken="no" Disabled="yes" Text="_6A93AA0B_CBDD_4E61_ABF3_F3297E316448" />
-				<Control Id="Copyright" Type="Text" X="300" Y="85" Width="75" Transparent="yes" Height="50" Text="{\White8}Copyright 2020 CloudIDEaaS" />
-				<Control Id="Version" Type="Text" X="5" Y="230" Width="200" Transparent="yes" Height="75" Text="{\White12}Hydra Version [ProductVersion]" />
+				<Control Id="SplashBmp" Type="Bitmap" X="2" Y="0" Width="370" Height="246" TabSkip="yes" Sunken="no" Disabled="yes" Text="_6A93AA0B_CBDD_4E61_ABF3_F3297E316448" />
+				<Control Id="CloudIDEaaS" Type="Text" X="305" Y="78" Width="75" Transparent="yes" Height="50" Text="{\Dark8}CloudIDEaaS" />
+				<Control Id="Copyright" Type="Text" X="302" Y="90" Width="75" Transparent="yes" Height="50" Text="{\Dark8}Copyright 2020" />
+				<Control Id="Version" Type="Text" X="7" Y="230" Width="200" Transparent="yes" Height="75" Text="{\White12}Hydra Version [ProductVersion]" />
 				<Control Id="NextButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Next &gt;" TabSkip="no" Default="yes">
 					<Publish Event="EndDialog" Value="Return"><![CDATA[SplashForm_NextArgs=""]]></Publish>
 					<Publish Event="NewDialog" Value="[SplashForm_NextArgs]"><![CDATA[SplashForm_NextArgs<>""]]></Publish>
@@ -38,12 +39,49 @@
 					<Condition Action="enable"><![CDATA[WelcomeForm_PrevArgs<>""]]></Condition>
 					<Publish Event="NewDialog" Value="[WelcomeForm_PrevArgs]"><![CDATA[WelcomeForm_PrevArgs<>""]]></Publish>
 				</Control>
-				<Control Id="BannerBmp" Type="Bitmap" X="0" Y="0" Width="375" Height="52" Text="_57365B7E_7DB9_402C_AD28_6B0B78B65220" TabSkip="no" Disabled="yes" />
+				<Control Id="BannerBmp" Type="Bitmap" X="220" Y="5" Width="150" Height="106" Text="_57365B7E_7DB9_402C_AD28_6B0B78B65220" TabSkip="no" Disabled="yes" />
 				<Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-				<Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+				<Control Id="Line1" Type="Line" X="9" Y="52" Width="196" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+				<Control Id="BannerText" Type="Text" X="9" Y="20" Width="306" Height="33" Text="{\VSI_MS_Sans_Serif16.0_1_0}Welcome to the [ProductName] Setup Wizard" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+				<Control Id="WelcomeText" Type="Text" X="9" Y="75" Width="200" Height="80" Text="{\VSI_MS_Sans_Serif13.0_0_0}The installer will guide you through the steps required to install [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Next&quot; to continue." TabSkip="yes" NoPrefix="yes" />
 				<Control Id="CopyrightWarningText" Type="Text" X="9" Y="186" Width="354" Height="66" Text="{\VSI_MS_Sans_Serif13.0_0_0}WARNING: This computer program is protected by copyright law and international treaties. Unauthorized duplication or distribution of this program, or any portion of it, may result in severe civil or criminal penalties, and will be prosecuted to the maximum extent possible under the law." TabSkip="yes" NoPrefix="yes" />
-				<Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\VSI_MS_Sans_Serif16.0_1_0}Welcome to the [ProductName] Setup Wizard" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
-				<Control Id="WelcomeText" Type="Text" X="9" Y="63" Width="354" Height="114" Text="{\VSI_MS_Sans_Serif13.0_0_0}The installer will guide you through the steps required to install [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Next&quot; to continue." TabSkip="yes" NoPrefix="yes" />
+			</Dialog>
+		</UI>
+	</Fragment>
+	<Fragment Id="LicenseDlg">
+		<Property Id="EulaForm_NextArgs" Value="FolderForm" />
+		<Property Id="EulaForm_PrevArgs" Value="WelcomeForm" />
+		<UI Id="LicenseDlg">
+			<Property Id="EulaForm_Property" Value="No" />
+			<RadioButtonGroup Property="EulaForm_Property">
+				<RadioButton Height="15" Text="{\VSI_MS_Sans_Serif13.0_0_0}I &amp;Do Not Agree" Value="No" Width="138" X="0" Y="0" />
+				<RadioButton Height="15" Text="{\VSI_MS_Sans_Serif13.0_0_0}I &amp;Agree" Value="Yes" Width="138" X="138" Y="0" />
+			</RadioButtonGroup>
+			<Dialog Id="EulaForm" X="50" Y="50" Width="373" Height="287" Title="[ProductName]">
+				<Control Id="LicenseText" Type="ScrollableText" X="9" Y="95" Width="357" Height="136" Sunken="yes" TabSkip="no">
+					<Text SourceFile="Hydra - EULA.rtf" />
+				</Control>
+				<Control Id="AgreeRadioGroup" Type="RadioButtonGroup" X="18" Y="233" Width="348" Height="15" Property="EulaForm_Property" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiRadioButtonGroup" TabSkip="no" />
+				<Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}Cancel" TabSkip="no" Cancel="yes">
+					<Publish Event="SpawnDialog" Value="Cancel" />
+				</Control>
+				<Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&lt; &amp;Back" TabSkip="no">
+					<Condition Action="disable"><![CDATA[EulaForm_PrevArgs=""]]></Condition>
+					<Condition Action="enable"><![CDATA[EulaForm_PrevArgs<>""]]></Condition>
+					<Publish Event="NewDialog" Value="[EulaForm_PrevArgs]"><![CDATA[EulaForm_PrevArgs<>""]]></Publish>
+				</Control>
+				<Control Id="NextButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Next &gt;" TabSkip="no" Default="yes">
+					<Condition Action="disable"><![CDATA[EulaForm_Property<>"Yes"]]></Condition>
+					<Condition Action="enable"><![CDATA[EulaForm_Property="Yes"]]></Condition>
+					<Publish Event="EndDialog" Value="Return"><![CDATA[EulaForm_NextArgs=""]]></Publish>
+					<Publish Event="NewDialog" Value="[EulaForm_NextArgs]"><![CDATA[EulaForm_NextArgs<>""]]></Publish>
+					<Subscribe Event="EulaEvent" Attribute="Enabled" />
+				</Control>
+				<Control Id="BannerBmp" Type="Bitmap" X="220" Y="5" Width="150" Height="47" Text="_BA57D52A_F873_46B9_A8B1_0F40B396C9B6" TabSkip="no" Disabled="yes" />
+				<Control Id="BannerText" Type="Text" X="9" Y="20" Width="306" Height="33" Text="{\VSI_MS_Sans_Serif16.0_1_0}License Agreement" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+				<Control Id="Line1" Type="Line" X="9" Y="52" Width="360" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+				<Control Id="BodyText" Type="Text" X="9" Y="60" Width="360" Height="32" Text="{\VSI_MS_Sans_Serif13.0_0_0}Please take a moment to read the license agreement now. If you accept the terms below, click &quot;I Agree&quot;, then &quot;Next&quot;. Otherwise click &quot;Cancel&quot;." TabSkip="yes" NoPrefix="yes" />
+				<Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
 			</Dialog>
 		</UI>
 	</Fragment>
@@ -67,17 +105,17 @@
 					<Publish Property="ALLUSERS"><![CDATA[FolderForm_AllUsers="ME" AND VersionNT>=400 AND Privileged=1 AND FolderForm_AllUsersVisible=1]]></Publish>
 					<Publish Event="DoAction" Value="FindRelatedProducts">1</Publish>
 				</Control>
-				<Control Id="FolderLabel" Type="Text" X="18" Y="114" Width="348" Height="12" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Folder:" TabSkip="no" />
-				<Control Id="FolderEdit" Type="PathEdit" X="18" Y="126" Width="252" Height="18" Property="TARGETDIR" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiPathEdit" TabSkip="no" Sunken="yes" Disabled="yes" />
-				<Control Id="BrowseButton" Type="PushButton" X="276" Y="126" Width="90" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}B&amp;rowse..." TabSkip="no" Disabled="yes">
+				<Control Id="FolderLabel" Type="Text" X="18" Y="120" Width="348" Height="12" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Folder:" TabSkip="no" />
+				<Control Id="FolderEdit" Type="PathEdit" X="18" Y="136" Width="252" Height="18" Property="TARGETDIR" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiPathEdit" TabSkip="no" Sunken="yes" Disabled="yes" />
+				<Control Id="BrowseButton" Type="PushButton" X="276" Y="136" Width="90" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}B&amp;rowse..." TabSkip="no" Disabled="no">
 					<Publish Property="SelectFolderDialog_Property" Value="TARGETDIR"><![CDATA[1]]></Publish>
 					<Publish Event="SpawnDialog" Value="SelectFolderDialog"><![CDATA[1]]></Publish>
 				</Control>
-				<Control Id="DiskCostButton" Type="PushButton" X="276" Y="150" Width="90" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Disk Cost..." TabSkip="no">
+				<Control Id="DiskCostButton" Type="PushButton" X="276" Y="160" Width="90" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Disk Cost..." TabSkip="no">
 					<Publish Event="SetTargetPath" Value="TARGETDIR"><![CDATA[1]]></Publish>
 					<Publish Event="SpawnDialog" Value="DiskCost"><![CDATA[1]]></Publish>
 				</Control>
-				<Control Id="AllUsersRadioGroup" Type="RadioButtonGroup" X="24" Y="210" Width="342" Height="42" Property="FolderForm_AllUsers" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiRadioButtonGroup" TabSkip="no">
+				<Control Id="AllUsersRadioGroup" Type="RadioButtonGroup" X="24" Y="200" Width="342" Height="42" Property="FolderForm_AllUsers" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiRadioButtonGroup" TabSkip="no">
 					<Condition Action="show"><![CDATA[VersionNT>=400 AND Privileged=1 AND FolderForm_AllUsersVisible=1]]></Condition>
 					<Condition Action="hide"><![CDATA[NOT (VersionNT>=400 AND Privileged=1 AND FolderForm_AllUsersVisible=1)]]></Condition>
 				</Control>
@@ -89,52 +127,15 @@
 					<Condition Action="enable"><![CDATA[FolderForm_PrevArgs<>""]]></Condition>
 					<Publish Event="NewDialog" Value="[FolderForm_PrevArgs]"><![CDATA[FolderForm_PrevArgs<>""]]></Publish>
 				</Control>
-				<Control Id="BannerBmp" Type="Bitmap" X="0" Y="0" Width="375" Height="52" Text="DefBannerBitmap" TabSkip="no" Disabled="yes" />
-				<Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+				<Control Id="BannerBmp" Type="Bitmap" X="220" Y="5" Width="150" Height="106" Text="_57365B7E_7DB9_402C_AD28_6B0B78B65220" TabSkip="no" Disabled="yes" />
+				<Control Id="Line1" Type="Line" X="9" Y="52" Width="196" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
 				<Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-				<Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\VSI_MS_Sans_Serif16.0_1_0}Select Installation Folder" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
-				<Control Id="Body" Type="Text" X="9" Y="63" Width="354" Height="48" Text="{\VSI_MS_Sans_Serif13.0_0_0}The installer will install [ProductName] to the following folder.&#xD;&#xA;&#xD;&#xA;To install in this folder, click &quot;Next&quot;. To install to a different folder, enter it below or click &quot;Browse&quot;." TabSkip="yes" NoPrefix="yes" />
-				<Control Id="AllUsersText" Type="Text" X="18" Y="186" Width="348" Height="24" Text="{\VSI_MS_Shell_Dlg13.0_0_0}Install [ProductName] for yourself, or for anyone who uses this computer:" TabSkip="yes" NoPrefix="yes">
+				<Control Id="BannerText" Type="Text" X="9" Y="20" Width="306" Height="30" Text="{\VSI_MS_Sans_Serif16.0_1_0}Select Installation Folder" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+				<Control Id="Body" Type="Text" X="9" Y="63" Width="200" Height="50" Text="{\VSI_MS_Sans_Serif13.0_0_0}The installer will install [ProductName] to the following folder.&#xD;&#xA;&#xD;&#xA;To install in this folder, click &quot;Next&quot;. To install to a different folder, enter it below or click &quot;Browse&quot;." TabSkip="yes" NoPrefix="yes" />
+				<Control Id="AllUsersText" Type="Text" X="18" Y="185" Width="348" Height="24" Text="{\VSI_MS_Shell_Dlg13.0_0_0}Install [ProductName] for yourself, or for anyone who uses this computer:" TabSkip="yes" NoPrefix="yes">
 					<Condition Action="show"><![CDATA[VersionNT>=400 AND Privileged=1 AND FolderForm_AllUsersVisible=1]]></Condition>
 					<Condition Action="hide"><![CDATA[NOT (VersionNT>=400 AND Privileged=1 AND FolderForm_AllUsersVisible=1)]]></Condition>
 				</Control>
-			</Dialog>
-		</UI>
-	</Fragment>
-	<Fragment Id="LicenseDlg">
-		<Property Id="EulaForm_NextArgs" Value="FolderForm" />
-		<Property Id="EulaForm_PrevArgs" Value="WelcomeForm" />
-		<UI Id="LicenseDlg">
-			<Property Id="EulaForm_Property" Value="No" />
-			<RadioButtonGroup Property="EulaForm_Property">
-				<RadioButton Height="15" Text="{\VSI_MS_Sans_Serif13.0_0_0}I &amp;Do Not Agree" Value="No" Width="138" X="0" Y="0" />
-				<RadioButton Height="15" Text="{\VSI_MS_Sans_Serif13.0_0_0}I &amp;Agree" Value="Yes" Width="138" X="138" Y="0" />
-			</RadioButtonGroup>
-			<Dialog Id="EulaForm" X="50" Y="50" Width="373" Height="287" Title="[ProductName]">
-				<Control Id="LicenseText" Type="ScrollableText" X="18" Y="105" Width="348" Height="120" Sunken="yes" TabSkip="no">
-					<Text SourceFile="Hydra - EULA.rtf" />
-				</Control>
-				<Control Id="AgreeRadioGroup" Type="RadioButtonGroup" X="18" Y="231" Width="348" Height="15" Property="EulaForm_Property" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiRadioButtonGroup" TabSkip="no" />
-				<Control Id="CancelButton" Type="PushButton" X="156" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}Cancel" TabSkip="no" Cancel="yes">
-					<Publish Event="SpawnDialog" Value="Cancel" />
-				</Control>
-				<Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&lt; &amp;Back" TabSkip="no">
-					<Condition Action="disable"><![CDATA[EulaForm_PrevArgs=""]]></Condition>
-					<Condition Action="enable"><![CDATA[EulaForm_PrevArgs<>""]]></Condition>
-					<Publish Event="NewDialog" Value="[EulaForm_PrevArgs]"><![CDATA[EulaForm_PrevArgs<>""]]></Publish>
-				</Control>
-				<Control Id="NextButton" Type="PushButton" X="300" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&amp;Next &gt;" TabSkip="no" Default="yes">
-					<Condition Action="disable"><![CDATA[EulaForm_Property<>"Yes"]]></Condition>
-					<Condition Action="enable"><![CDATA[EulaForm_Property="Yes"]]></Condition>
-					<Publish Event="EndDialog" Value="Return"><![CDATA[EulaForm_NextArgs=""]]></Publish>
-					<Publish Event="NewDialog" Value="[EulaForm_NextArgs]"><![CDATA[EulaForm_NextArgs<>""]]></Publish>
-					<Subscribe Event="EulaEvent" Attribute="Enabled" />
-				</Control>
-				<Control Id="BannerBmp" Type="Bitmap" X="0" Y="0" Width="375" Height="52" Text="_57365B7E_7DB9_402C_AD28_6B0B78B65220" TabSkip="no" Disabled="yes" />
-				<Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\VSI_MS_Sans_Serif16.0_1_0}License Agreement" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
-				<Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-				<Control Id="BodyText" Type="Text" X="9" Y="63" Width="360" Height="40" Text="{\VSI_MS_Sans_Serif13.0_0_0}Please take a moment to read the license agreement now. If you accept the terms below, click &quot;I Agree&quot;, then &quot;Next&quot;. Otherwise click &quot;Cancel&quot;." TabSkip="yes" NoPrefix="yes" />
-				<Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
 			</Dialog>
 		</UI>
 	</Fragment>
@@ -154,11 +155,11 @@
 					<Condition Action="enable"><![CDATA[ConfirmInstallForm_PrevArgs<>""]]></Condition>
 					<Publish Event="NewDialog" Value="[ConfirmInstallForm_PrevArgs]"><![CDATA[ConfirmInstallForm_PrevArgs<>""]]></Publish>
 				</Control>
-				<Control Id="BannerBmp" Type="Bitmap" X="0" Y="0" Width="375" Height="52" Text="DefBannerBitmap" TabSkip="no" Disabled="yes" />
-				<Control Id="BannerText" Type="Text" X="9" Y="9" Width="306" Height="33" Text="{\VSI_MS_Sans_Serif16.0_1_0}Confirm Installation" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
-				<Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+				<Control Id="BannerBmp" Type="Bitmap" X="220" Y="5" Width="150" Height="106" Text="_57365B7E_7DB9_402C_AD28_6B0B78B65220" TabSkip="no" Disabled="yes" />
+				<Control Id="BannerText" Type="Text" X="9" Y="20" Width="306" Height="33" Text="{\VSI_MS_Sans_Serif16.0_1_0}Confirm Installation" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+				<Control Id="Line1" Type="Line" X="9" Y="52" Width="196" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
 				<Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-				<Control Id="BodyText1" Type="Text" X="9" Y="63" Width="354" Height="180" Text="{\VSI_MS_Sans_Serif13.0_0_0}The installer is ready to install [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Next&quot; to start the installation." TabSkip="yes" NoPrefix="yes" />
+				<Control Id="BodyText1" Type="Text" X="9" Y="120" Width="354" Height="180" Text="{\VSI_MS_Sans_Serif13.0_0_0}The installer is ready to install [ProductName] on your computer.&#xD;&#xA;&#xD;&#xA;Click &quot;Next&quot; to start the installation." TabSkip="yes" NoPrefix="yes" />
 			</Dialog>
 		</UI>
 	</Fragment>
@@ -170,8 +171,8 @@
 					<Publish Event="SpawnDialog" Value="Cancel" />
 				</Control>
 				<Control Id="PreviousButton" Type="PushButton" X="228" Y="261" Width="66" Height="18" Text="{\VSI_MS_Sans_Serif13.0_0_0}&lt; &amp;Back" TabSkip="no" Disabled="yes" />
-				<Control Id="BannerBmp" Type="Bitmap" X="0" Y="0" Width="375" Height="52" Text="_57365B7E_7DB9_402C_AD28_6B0B78B65220" TabSkip="no" Disabled="yes" />
-				<Control Id="Line1" Type="Line" X="0" Y="52" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
+				<Control Id="BannerBmp" Type="Bitmap" X="220" Y="5" Width="150" Height="106" Text="_57365B7E_7DB9_402C_AD28_6B0B78B65220" TabSkip="no" Disabled="yes" />
+				<Control Id="Line1" Type="Line" X="9" Y="52" Width="196" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
 				<Control Id="ProgressBar" Type="ProgressBar" X="18" Y="108" Width="336" Height="15" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiProgressBar" TabSkip="yes" Disabled="yes">
 					<Subscribe Event="InstallFiles" Attribute="Progress" />
 					<Subscribe Event="WriteRegistryValues" Attribute="Progress" />
@@ -187,7 +188,7 @@
 					<Subscribe Event="SetProgress" Attribute="Progress" />
 				</Control>
 				<Control Id="Line2" Type="Line" X="0" Y="252" Width="375" Height="6" Text="{\VSI_MS_Sans_Serif13.0_0_0}MsiHorizontalLine" TabSkip="yes" Disabled="yes" />
-				<Control Id="ProgressLabel" Type="Text" X="18" Y="96" Width="336" Height="12" Text="{\VSI_MS_Sans_Serif13.0_0_0}Please wait..." TabSkip="yes" />
+				<Control Id="ProgressLabel" Type="Text" X="18" Y="96" Width="300" Height="12" Text="{\VSI_MS_Sans_Serif13.0_0_0}Please wait..." TabSkip="yes" />
 				<Control Id="InstalledBody" Type="Text" X="9" Y="63" Width="354" Height="12" Text="{\VSI_MS_Sans_Serif13.0_0_0}[ProductName] is being installed." TabSkip="yes" NoPrefix="yes">
 					<Condition Action="show"><![CDATA[REMOVE=""]]></Condition>
 					<Condition Action="hide"><![CDATA[REMOVE<>""]]></Condition>

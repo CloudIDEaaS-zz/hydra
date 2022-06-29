@@ -1,0 +1,117 @@
+﻿<#@ template language="C#" inherits="NetCoreReflectionShim.CodeGen.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="NetCoreReflectionShim.CodeGen.ReflectMemberEventHandler" name="ReflectMemberCallback" #>
+<#@ parameter type="NetCoreReflectionShim.CodeGen.ApiMember" name="ApiMember" #>
+<#
+    var type = this.ApiMember.ParentType;
+    var typeName = type.Name;
+    var fieldName = type.Name.ToCamelCase();
+
+    if (!this.ApiMember.CacheResult)
+    {
+        if (this.ApiMember.IsCollectionReturn || this.ApiMember.IsArrayReturn)
+        {
+#>
+            CommandPacket<List<<#= this.ApiMember.ReturnElementTypeText #>Json>> commandPacketReturn;
+<#
+        }
+        else
+        {
+#>
+            CommandPacket<<#= this.ApiMember.ReturnElementTypeText #>> commandPacketReturn;
+<#
+        }
+#>
+            var arguments = new string[] { <#= this.ApiMember.ArgumentsList #> };
+
+            var commandPacket = new CommandPacket
+            {
+                Command = ServerCommands.<#= this.ApiMember.CommandMember #>,
+                Arguments = new Dictionary<string, object>
+                {
+                    { "Identifier", identifier },
+                    { "Arguments", arguments }
+                }
+                .Select(a => new KeyValuePair<string, object>(a.Key, a.Value)).ToArray()
+            };
+
+            if (shimServiceProcess == null)
+            {
+                StartService();
+            }
+
+            writer.WriteJsonCommand(commandPacket);
+<#
+        if (this.ApiMember.IsCollectionReturn || this.ApiMember.IsArrayReturn)
+        {
+#>
+            commandPacketReturn = reader.ReadJsonCommand<List<<#= this.ApiMember.ReturnElementTypeText #>Json>>();
+
+<#
+        }
+        else
+        {
+#>
+            CommandPacket<<#= this.ApiMember.ReturnElementTypeText #>> commandPacketReturn;
+
+<#
+        }
+
+        if (this.ApiMember.IsCollectionReturn)
+        {
+#>
+            return commandPacketReturn.Response.Select(<#= this.ApiMember.ReturnLambdaVariable #> => new <#= this.ApiMember.ReturnElementTypeText #>Shim(<#= this.ApiMember.ReturnLambdaVariable #>, identifier, this));
+<#
+        }
+        else if (this.ApiMember.IsArrayReturn)
+        {
+            if (this.ApiMember.NoShim)
+            {
+                switch (this.ApiMember.MemberInfo.Name)
+                {
+                    case "GetCustomAttributes":
+#>
+            return commandPacketReturn.Response.Select(<#= this.ApiMember.ReturnLambdaVariable #> => <#= this.ApiMember.ReturnLambdaVariable #>.ToAttribute(this)).ToArray();
+<#
+                        break;
+                    case "GetReferencedAssemblies":
+#>
+            return commandPacketReturn.Response.Select(<#= this.ApiMember.ReturnLambdaVariable #> => new System.Reflection.AssemblyName(<#= this.ApiMember.ReturnLambdaVariable #>.FullName)).ToArray();
+<#
+                        break;
+                    default:
+                        DebugUtils.Break();
+                        break;
+                }
+            }
+            else
+            {
+                if (this.ApiMember.ReturnElementType == typeof(Type))
+                {
+#>
+            return commandPacketReturn.Response.Select(<#= this.ApiMember.ReturnLambdaVariable #> => new <#= this.ApiMember.ReturnElementTypeText #>Shim(<#= this.ApiMember.ReturnLambdaVariable #>, identifier, this)).CacheTypes(this);
+<#              
+                }
+                else
+                {
+#>
+            return commandPacketReturn.Response.Select(<#= this.ApiMember.ReturnLambdaVariable #> => new <#= this.ApiMember.ReturnElementTypeText #>Shim(<#= this.ApiMember.ReturnLambdaVariable #>, identifier, this)).ToArray();
+<#              
+                }
+            }
+        }
+        else
+        {
+#>
+            return new <#= this.ApiMember.ReturnElementTypeText #>Shim(commandPacketReturn.Response, identifier, this);
+<#
+        }
+    }
+#>

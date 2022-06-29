@@ -1,0 +1,71 @@
+﻿MSDN to enum:
+
+	{:i}\n{(0x)*:d*}\n{.*}
+	\t\t\1 = \2,\t// \3
+
+To read:
+
+	public {:i}\?* {:i} \{ get; set; \}
+	\t\t\2 = reader.Read\1(),
+
+Read to write:
+
+	{:i} = reader\.Read{:i}\(\),*
+	writer.Write((\2) this.\1);
+
+To DebugInfo:
+
+    [DebuggerDisplay(" { DebugInfo } ")]
+
+    public string DebugInfo
+    {
+        get
+        {
+			return string.Format( 
+			);
+        }
+    }
+
+	(private|public|protected)( virtual)? [a-zA-Z\<\>]*?\?? \b(_\w+|[\w-[0-9_]]\w*)\b \{ ((private|public|protected) )*get; (((private|public|protected) )*set; )?\}
+	(private|public|protected)( virtual)? [a-zA-Z\<\>]*?\?? \b(_\w+|[\w-[0-9_]]\w*)\b( = .*)*;
+
+	\t\t\t+ "$3: {X}, "
+	\t\t\t+ "$3: 0x{X:x8}, "
+
+	\t\t\tthis.$3,
+
+Struct to member vars:
+
+        {:i} {:i};
+        \1 \2 { get; set; }
+
+Property to backing:
+
+	{(private|public|protected)} {[a-zA-Z\<\>]*?*} {:i} \{ ({(private|public|protected)} )*get; ({(private|public|protected)} )*set; \}
+	private \2 _\3;\n\t\t\1 \2 \3\n\t\t{\n\t\t\tget\n\t\t\t{\n\t\t\t\treturn _\3;\n\t\t\t}\n\n\t\t\tset\n\t\t\t{\n\t\t\t\t_\3 = value;\n\t\t\t}\n\t\t}\n
+
+Implement IUnknown:
+
+	using System.ComponentModel;
+
+
+		public ISite Site { get; set; }
+		public event EventHandler Disposed;
+
+
+			public void Dispose()
+			{
+				this.Raise(Disposed);
+			}
+
+
+		using {.*}\;\n\n
+		using \1;\nusing System.ComponentModel;\n\n
+
+
+		{(private|public|protected) [a-zA-Z\<\>]*?* :i \{ ((private|public|protected) )*get; ((private|public|protected) )*set; \}:Wh\n}\n
+		\1\t\tpublic ISite Site { get; set; }\n\t\tpublic event EventHandler Disposed;\n\n
+
+
+			\}\n\}
+		\n\t\tpublic void Dispose()\n\t\t{\n\t\t\tthis.Raise(Disposed);\n\t\t}\n    \}\n\}

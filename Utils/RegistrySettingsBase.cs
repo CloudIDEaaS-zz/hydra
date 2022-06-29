@@ -301,7 +301,7 @@ namespace Utils
 
                             case "Boolean":
                                 {
-                                    obj.SetPropertyValue(keyName, (int)value == 0 ? true : false);
+                                    obj.SetPropertyValue(keyName, (int)value == 0 ? false : true);
                                     break;
                                 }
 

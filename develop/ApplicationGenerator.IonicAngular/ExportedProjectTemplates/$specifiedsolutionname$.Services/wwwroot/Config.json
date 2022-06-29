@@ -1,0 +1,20 @@
+{
+  "ClientKey": {
+    "Id": "CloudIDEaaS",
+    "Secret": "9A7a7699-fF88-41f7-bAB6-40D3878B0957"
+  },
+  "Roles": [
+    {
+      "Role": "Anonymous",
+      "Id": "{00000000-0000-0000-0000-000000000000}"
+    },
+    {
+      "Role": "Administrators",
+      "Id": "{656a85b7-a9f1-4611-8d61-776e3b930f58}"
+    },
+    {
+      "Role": "Users",
+      "Id": "{57D0f462-cCD5-43C4-b13D-0A1F6b174370}"
+    }
+  ]
+}

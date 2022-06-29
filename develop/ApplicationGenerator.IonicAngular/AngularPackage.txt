@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class AngularPackage : Package
+    {
+        public AngularPackage()
+        {
+            this.PackageInstalls = new string[] { "angular" };
+        }
+    }
+}

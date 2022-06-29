@@ -359,16 +359,10 @@ namespace Utils
 
             managedLock.Disposed += (sender, e) =>
             {
-                lock (internalLockObject)
-                {
-                    this.RemoveLock(e.Value);
-                }
+                this.RemoveLock(e.Value);
             };
 
-            lock (internalLockObject)
-            {
-                this.AddLock(managedLock);
-            }
+            this.AddLock(managedLock);
 
             managedLock.Lock();
 

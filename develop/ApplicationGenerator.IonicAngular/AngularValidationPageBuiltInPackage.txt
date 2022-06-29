@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class AngularValidationPageBuiltInPackage : Package
+    {
+        public AngularValidationPageBuiltInPackage()
+        {
+            this.PackageInstalls = new string[] { "angularvalidationpagebuiltin" };
+        }
+    }
+}

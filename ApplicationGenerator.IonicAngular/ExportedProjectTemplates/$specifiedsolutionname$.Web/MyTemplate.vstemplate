@@ -1,0 +1,101 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>$specifiedsolutionname$.Web</Name>
+    <Description>&lt;No description available&gt;</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>$specifiedsolutionname$.Web</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+	<CustomParameters>
+		<CustomParameter Name="port1$" Value=""/>
+	</CustomParameters>
+    <Project TargetFileName="$specifiedsolutionname$.Web.csproj" File="$specifiedsolutionname$.Web.csproj" ReplaceParameters="true">
+      <Folder Name="Properties" TargetFolderName="Properties">
+		  <Folder Name="PublishProfiles" TargetFolderName="PublishProfiles">
+			  <ProjectItem ReplaceParameters="true" TargetFileName="FolderProfile.pubxml">FolderProfile.pubxml</ProjectItem>
+		  </Folder>
+		  <ProjectItem ReplaceParameters="true" TargetFileName="launchSettings.json">launchSettings.json</ProjectItem>
+      </Folder>
+      <Folder Name="wwwroot" TargetFolderName="wwwroot">
+        <ProjectItem ReplaceParameters="false" TargetFileName="favicon.ico">favicon.ico</ProjectItem>
+      </Folder>
+      <Folder Name="ClientApp" TargetFolderName="ClientApp">
+        <Folder Name="e2e" TargetFolderName="e2e">
+          <Folder Name="src" TargetFolderName="src">
+            <ProjectItem ReplaceParameters="true" TargetFileName="app.e2e-spec.ts">app.e2e-spec.ts</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="app.po.ts">app.po.ts</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="protractor.conf.js">protractor.conf.js</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="tsconfig.e2e.json">tsconfig.e2e.json</ProjectItem>
+        </Folder>
+        <Folder Name="src" TargetFolderName="src">
+          <Folder Name="app" TargetFolderName="app">
+            <Folder Name="counter" TargetFolderName="counter">
+              <ProjectItem ReplaceParameters="true" TargetFileName="counter.component.html">counter.component.html</ProjectItem>
+              <ProjectItem ReplaceParameters="true" TargetFileName="counter.component.spec.ts">counter.component.spec.ts</ProjectItem>
+              <ProjectItem ReplaceParameters="true" TargetFileName="counter.component.ts">counter.component.ts</ProjectItem>
+            </Folder>
+            <Folder Name="fetch-data" TargetFolderName="fetch-data">
+              <ProjectItem ReplaceParameters="true" TargetFileName="fetch-data.component.html">fetch-data.component.html</ProjectItem>
+              <ProjectItem ReplaceParameters="true" TargetFileName="fetch-data.component.ts">fetch-data.component.ts</ProjectItem>
+            </Folder>
+            <Folder Name="home" TargetFolderName="home">
+              <ProjectItem ReplaceParameters="true" TargetFileName="home.component.html">home.component.html</ProjectItem>
+              <ProjectItem ReplaceParameters="true" TargetFileName="home.component.ts">home.component.ts</ProjectItem>
+            </Folder>
+            <Folder Name="nav-menu" TargetFolderName="nav-menu">
+              <ProjectItem ReplaceParameters="true" TargetFileName="nav-menu.component.css">nav-menu.component.css</ProjectItem>
+              <ProjectItem ReplaceParameters="true" TargetFileName="nav-menu.component.html">nav-menu.component.html</ProjectItem>
+              <ProjectItem ReplaceParameters="true" TargetFileName="nav-menu.component.ts">nav-menu.component.ts</ProjectItem>
+            </Folder>
+            <ProjectItem ReplaceParameters="true" TargetFileName="app.component.html">app.component.html</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="app.component.ts">app.component.ts</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="app.module.ts">app.module.ts</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="app.server.module.ts">app.server.module.ts</ProjectItem>
+          </Folder>
+          <Folder Name="assets" TargetFolderName="assets">
+            <ProjectItem ReplaceParameters="false" TargetFileName=".gitkeep">.gitkeep</ProjectItem>
+          </Folder>
+          <Folder Name="environments" TargetFolderName="environments">
+            <ProjectItem ReplaceParameters="true" TargetFileName="environment.prod.ts">environment.prod.ts</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="environment.ts">environment.ts</ProjectItem>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="index.html">index.html</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="karma.conf.js">karma.conf.js</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="main.ts">main.ts</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="polyfills.ts">polyfills.ts</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="styles.css">styles.css</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="test.ts">test.ts</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="tsconfig.app.json">tsconfig.app.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="tsconfig.server.json">tsconfig.server.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="tsconfig.spec.json">tsconfig.spec.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="tslint.json">tslint.json</ProjectItem>
+        </Folder>
+        <ProjectItem ReplaceParameters="false" TargetFileName=".editorconfig">.editorconfig</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName=".gitignore">.gitignore</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="angular.json">angular.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="browserslist">browserslist</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="package.json">package.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="package-lock.json">package-lock.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="README.md">README.md</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="tsconfig.json">tsconfig.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="tslint.json">tslint.json</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true" TargetFileName=".gitignore">.gitignore</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.Development.json">appsettings.Development.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="hydra.json">hydra.json</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

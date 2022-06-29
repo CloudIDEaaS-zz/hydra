@@ -1,0 +1,13 @@
+using AbstraX.ImportHandlers.Packages;
+
+namespace AbstraX.ImportHandlers
+{
+    [ImportHandler(ModuleImports.ANGULAR_HANDLER_ID)]
+    public class AngularImportHandler : BaseImportHandler<AngularPackage>
+    {
+        public override void AddImport(ulong moduleId)
+        {
+            base.AddImport((AngularModules)moduleId);
+        }
+    }
+}

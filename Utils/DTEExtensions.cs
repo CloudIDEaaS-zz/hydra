@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EnvDTE;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using System.Collections;
+using EnvDTE;
 
 namespace Utils
 {

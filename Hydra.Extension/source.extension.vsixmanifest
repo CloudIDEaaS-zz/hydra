@@ -4,6 +4,7 @@
         <Identity Id="Hydra.Extension.544d4448-7cc9-47b5-950c-2a7274d24cc3" Version="1.1" Language="en-US" Publisher="CloudIDEaaS Inc" />
         <DisplayName>Hydra.Extension</DisplayName>
         <Description xml:space="preserve">Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes.</Description>
+        <MoreInfo>https://github.com/CloudIDEaaS/hydra</MoreInfo>
         <Icon>Hydra.ico</Icon>
         <PreviewImage>Hydra.png</PreviewImage>
         <Tags>App Generation, Code Generation, Code Scaffolding, .NET., .NET Core, SQL Server, Mobile App, Docker, Helm, Azure Devops, Kubernetes</Tags>

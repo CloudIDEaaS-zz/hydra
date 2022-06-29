@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.IO;
+using Shell32;
+using System.Threading;
 
 namespace Utils
 {
@@ -194,6 +196,61 @@ namespace Utils
             {
                 return false;
             }
+        }
+
+        public static string GetShortcutTarget(string shortcutFilename)
+        {
+            string pathOnly = System.IO.Path.GetDirectoryName(shortcutFilename);
+            string filenameOnly = System.IO.Path.GetFileName(shortcutFilename);
+
+            Shell shell = new Shell();
+            Folder folder = shell.NameSpace(pathOnly);
+            FolderItem folderItem = folder.ParseName(filenameOnly);
+
+            if (folderItem != null)
+            {
+                Shell32.ShellLinkObject link = (Shell32.ShellLinkObject)folderItem.GetLink;
+                return link.Path;
+            }
+
+            return string.Empty;
+        }
+
+        public static FileInfo GetShortcutTarget(this FileInfo shortcutFile)
+        {
+            string shortcutFilename = shortcutFile.FullName;
+            string pathOnly = System.IO.Path.GetDirectoryName(shortcutFilename);
+            string filenameOnly = System.IO.Path.GetFileName(shortcutFilename);
+            ThreadStart getTarget = null;
+            FileInfo targetFile = null;
+
+            getTarget = () =>
+            {
+                Shell shell = new Shell();
+                Folder folder = shell.NameSpace(pathOnly);
+                FolderItem folderItem = folder.ParseName(filenameOnly);
+
+                if (folderItem != null)
+                {
+                    Shell32.ShellLinkObject link = (Shell32.ShellLinkObject)folderItem.GetLink;
+
+                    targetFile = new FileInfo(link.Path);
+                }
+            };
+
+            if (Thread.CurrentThread.GetApartmentState() == ApartmentState.STA)
+            {
+                getTarget();
+            }
+            else
+            {
+                Thread staThread = new Thread(getTarget);
+                staThread.SetApartmentState(ApartmentState.STA);
+                staThread.Start();
+                staThread.Join();
+            }
+
+            return targetFile;
         }
 
         public static bool CopyItems(List<string> items, string destination)

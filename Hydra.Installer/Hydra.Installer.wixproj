@@ -18,17 +18,12 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'PreRelease|x86' ">
-    <DefineConstants>Debug</DefineConstants>
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Any CPU' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'PreRelease|AnyCPU' ">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'PreRelease|Any CPU' ">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Any CPU' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
@@ -46,10 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Installers\" />
+    <Folder Include="Installers\Debug\" />
+    <Folder Include="Installers\Release\" />
     <Folder Include="res" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Installers\Hydra.InstallerStandalone.msi" />
+    <Content Include="Installers\Debug\Hydra.InstallerStandalone.msi" />
+    <Content Include="Installers\Debug\Hydra.InstallerStandalone.wixpdb" />
+    <Content Include="Installers\Debug\node-v16.15.1-x64.msi" />
+    <Content Include="Installers\Release\Hydra.InstallerStandalone.msi" />
+    <Content Include="Installers\Release\Hydra.InstallerStandalone.wixpdb" />
+    <Content Include="Installers\Release\node-v16.15.1-x64.msi" />
     <Content Include="res\Hydra.ico" />
     <Content Include="res\HydraEULA.rtf" />
     <Content Include="res\HydraSplashSide.png" />

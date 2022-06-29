@@ -9,7 +9,7 @@ using Utils;
 
 namespace Utils.TextObjectModel
 {
-    public class TextSelection : TextRange, ITextSelection, IDataObject
+    public class TextSelection : TextRange, ITextSelection, System.Windows.Forms.IDataObject
     {
         public const string DATA_FORMAT = "TextSelection";
 

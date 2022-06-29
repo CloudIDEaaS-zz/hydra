@@ -1,30 +1,30 @@
-﻿#if INCLUDE_PROCESSDIAGNOSTICSLIBRARY
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Utils;
 
-namespace System.IO
+namespace Utils.IO
 {
     using System;
-    using System.Runtime;
-    using System.Runtime.InteropServices;
-    using System.Security;
-    using System.Text;
     using System.Diagnostics;
     using System.ComponentModel;
+#if INCLUDE_PROCESSDIAGNOSTICSLIBRARY
     using ProcessDiagnosticsLibrary;
+#endif
+    using System.IO;
 
     public class ProcessBinaryReader : BinaryReader
     {
-        private Diagnostics.Process process;
+        private Process process;
         private ulong baseAddress;
         private uint hProcess;
         private ProcessStream baseStream;
         private static ProcessExtensions.SYSTEM_INFO systemInfo;
         private Dictionary<ulong, ProcessBinaryReader> regions;
-       private IProcessDiagnostics processDiagnostics;
+#if INCLUDE_PROCESSDIAGNOSTICSLIBRARY
+        private IProcessDiagnostics processDiagnostics;
+#endif
 
         static ProcessBinaryReader()
         {
@@ -35,9 +35,11 @@ namespace System.IO
         {
             this.baseStream = (ProcessStream)this.BaseStream;
             this.baseAddress = (ulong)unchecked(baseAddress.ToInt64());
+#if INCLUDE_PROCESSDIAGNOSTICSLIBRARY
             this.processDiagnostics = new ProcessDiagnosticsWrapper();
 
             this.baseStream.ProcessDiagnostics = processDiagnostics;
+#endif
 
             this.regions = new Dictionary<ulong, ProcessBinaryReader>();
         }
@@ -48,14 +50,17 @@ namespace System.IO
             this.hProcess = hProcess;
         }
 
+#if INCLUDE_PROCESSDIAGNOSTICSLIBRARY
         public unsafe ProcessBinaryReader(uint hProcess, IntPtr baseAddress, ulong size, IProcessDiagnostics processDiagnostics) : this(hProcess, baseAddress, size)
         {
             this.processDiagnostics = new ProcessDiagnosticsWrapper(processDiagnostics);
             this.baseStream.ProcessDiagnostics = processDiagnostics;
         }
+#endif
 
-        public unsafe ProcessBinaryReader(Diagnostics.Process process, IntPtr baseAddress, ulong size) : this(baseAddress, InitializeStream((uint) process.Handle, baseAddress, size))
+        public unsafe ProcessBinaryReader(Process process, IntPtr baseAddress, ulong size) : this(baseAddress, InitializeStream((uint) process.Handle, baseAddress, size))
         {
+            baseStream.OnSeekOverun += new SeekOverunHandler(OnSeekOverun);
             this.process = process;
             this.hProcess = (uint) process.Handle;
         }
@@ -92,7 +97,7 @@ namespace System.IO
 
             memBasicInfo = ProcessExtensions.GetMemoryInfo(hProcess, address);
 
-            if (memBasicInfo.Protect == ProcessExtensions.AllocationProtectEnum.Readonly | memBasicInfo.Protect == ProcessExtensions.AllocationProtectEnum.ReadWrite | memBasicInfo.Protect == ProcessExtensions.AllocationProtectEnum.ExecuteRead | memBasicInfo.Protect == ProcessExtensions.AllocationProtectEnum.ExecuteReadWrite)
+            if (memBasicInfo.Protect == 0 | memBasicInfo.Protect == ProcessExtensions.AllocationProtectEnum.Readonly | memBasicInfo.Protect == ProcessExtensions.AllocationProtectEnum.ReadWrite | memBasicInfo.Protect == ProcessExtensions.AllocationProtectEnum.ExecuteRead | memBasicInfo.Protect == ProcessExtensions.AllocationProtectEnum.ExecuteReadWrite)
             {
                 var offsetFromBase = (long)(address - baseAddress);
                 
@@ -106,7 +111,9 @@ namespace System.IO
                     if (!regions.ContainsKey((ulong) memBasicInfo.AllocationBase))
                     {
                         regions.Add((ulong) memBasicInfo.AllocationBase, new ProcessBinaryReader(hProcess, (IntPtr)memBasicInfo.AllocationBase, (ulong) memBasicInfo.RegionSize));
+#if INCLUDE_PROCESSDIAGNOSTICSLIBRARY
                         processDiagnostics.RegisterRegion((ulong)memBasicInfo.BaseAddress, (ulong)memBasicInfo.AllocationBase, (int)memBasicInfo.AllocationProtect, (ulong)memBasicInfo.RegionSize, (int)memBasicInfo.State, (int)memBasicInfo.Protect, (int)memBasicInfo.Type);
+#endif
                     }
 
                     e.OutOfRegionPosition = true;
@@ -328,4 +335,4 @@ namespace System.IO
         }
     }
 }
-#endif
+

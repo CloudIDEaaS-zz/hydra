@@ -1,0 +1,26 @@
+{
+  "entities": [
+    {
+      "parentDataItem":  3,
+      "name": "User",
+      "columns": [
+        [
+          "FirstName",
+          "string"
+        ],
+        [
+          "LastName",
+          "string"
+        ],
+        [
+          "UserName",
+          "string"
+        ],
+        [
+          "EmailAddress",
+          "string"
+        ]
+      ] 
+    }
+  ]
+}

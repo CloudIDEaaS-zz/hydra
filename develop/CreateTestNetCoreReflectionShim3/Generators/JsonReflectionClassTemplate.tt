@@ -1,0 +1,83 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="CreateTest.NetCoreReflectionShim.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ output extension=".cs" #>
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Utils;
+using CustomAttributeData = Utils.CustomAttributeData;
+<#
+    var type = this.Type;
+#>
+
+namespace CoreShim.Reflection.JsonTypes
+{
+<#
+    if (type.BaseType == typeof(object))
+    {
+#>
+    public class <#= type.Name #>Json
+    {
+<#
+    }
+    else
+    {
+#>
+    public class <#= type.Name #>Json : <#= type.BaseType.Name #>Json
+    {
+<#
+    }
+
+    foreach (var property in type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly))
+    {
+        if (property.PropertyType.IsEnum)
+        {
+#>
+        public string <#= property.Name #>Enum { get; set; }
+<#
+        }
+        else if (property.PropertyType == typeof(object))
+        {
+#>
+        public string <#= property.Name #>Object { get; set; }
+        public string <#= property.Name #>ObjectType { get; set; }
+<#
+        }
+        else if (property.PropertyType.IsScalar())
+        {
+#>
+        public <#= property.PropertyType.GetShortName() #> <#= property.Name #> { get; set; }
+<#
+        }
+        else if (property.PropertyType.IsGenericCollection())
+        {
+            var itemType = property.PropertyType.GetGenericArguments()[0];
+
+            if (itemType.IsScalar())
+            {
+#>
+        public List<<#= itemType.Name #>> <#= property.Name #> { get; set; }
+<#
+            }
+        }
+        else
+        {
+            ReflectMember(property);
+        }
+    }
+
+    foreach (var method in type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly))
+    {
+        ReflectMember(method);
+    }
+#>
+    }
+}

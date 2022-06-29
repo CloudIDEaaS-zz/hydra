@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{CF61C5C6-A3B3-4D6F-8AD7-B67B7E9F96A9}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="ApplicationGeneratorIncludedPaths.txt" />
+    <Content Include="BranchingStrategy\BranchingStrategy.txt" />
+    <Content Include="BranchingStrategy\Example.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="azure-pipelines-ApplicationGeneratorBuildProd.yml" />
+    <None Include="azure-pipelines-ApplicationGeneratorDeployProd.yml" />
+    <None Include="azure-pipelines-ApplicationGeneratorDeployQA.yml" />
+    <None Include="azure-pipelines-ApplicationGeneratorDeployDev.yml" />
+    <None Include="azure-pipelines-ApplicationGeneratorBuildDev.yml" />
+    <None Include="azure-pipelines-ApplicationGeneratorDeployInt.yml" />
+    <None Include="azure-pipelines-ApplicationGeneratorBuildIntQA.yml" />
+    <None Include="azure-pipelines-ApplicationGeneratorEnvironmentTemplate.yml" />
+    <None Include="BranchingStrategy\Deploys.docx" />
+    <None Include="ReleaseManagement\Plan for Release Management.docx" />
+    <None Include="ReleaseManagement\Products.xlsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Test\" />
+  </ItemGroup>
+  <Target Name="Build" />
+  <Target Name="Rebuild" />
+</Project>

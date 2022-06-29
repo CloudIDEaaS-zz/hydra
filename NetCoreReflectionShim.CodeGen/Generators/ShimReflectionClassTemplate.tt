@@ -1,0 +1,238 @@
+﻿<#@ template language="C#" inherits="NetCoreReflectionShim.CodeGen.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="NetCoreReflectionShim.CodeGen.ReflectMemberEventHandler" name="ReflectMemberCallback" #>
+<#@ parameter type="System.Type" name="Type" #>
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Utils;
+using CoreShim.Reflection.JsonTypes;
+using System.Reflection;
+using System.IO;
+using System.Globalization;
+using System.Runtime.Serialization;
+using System.Runtime.InteropServices;
+using CustomAttributeData = System.Reflection.CustomAttributeData;
+using System.Security.Policy;
+using System.Security;
+using NetCoreReflectionShim.Agent;
+<#
+    var type = this.Type;
+    var typeName = type.Name;
+    var fieldName = type.Name.ToCamelCase();
+    var isAbstract = false;
+
+    if (type.Name.IsOneOf("MemberInfo", "MethodBase"))
+    {
+        isAbstract = true;
+    }
+#>
+
+namespace CoreShim.Reflection
+{
+<# 
+    if (isAbstract)
+    {
+#>
+    public abstract class <#= type.Name #>Shim : <#= type.Name #>
+    {
+<#
+    }
+    else
+    {
+#>
+    public class <#= type.Name #>Shim : <#= type.Name #>
+    {
+<#
+    }
+#>
+        private <#= type.Name #>Json <#= fieldName #>;
+        private INetCoreReflectionAgent agent;
+        private string parentIdentifier;
+
+        public <#= type.Name #>Shim(<#= type.Name #>Json <#= fieldName #>, string parentIdentifier, INetCoreReflectionAgent agent)
+        {
+            this.<#= fieldName #> = <#= fieldName #>;
+            this.agent = agent;
+            this.parentIdentifier = parentIdentifier;
+        } 
+<#
+    foreach (var property in type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+    {
+        var isVirtual = false;
+        var method = property.GetMethod;
+        var propertyName = property.Name;
+
+        if (!propertyName.IsOneOf("Evidence", "PermissionSet"))
+        {
+
+            if (method.Attributes.HasFlag(System.Reflection.MethodAttributes.Virtual) && !method.Attributes.HasFlag(System.Reflection.MethodAttributes.Final))
+            {
+                isVirtual = true;
+            }
+
+            if (property.PropertyType.IsEnum)
+            {
+#>
+
+        public <#= isVirtual ? "override" : "new" #> <#= property.PropertyType #> <#= property.Name #>
+        { 
+            get
+            {
+                return EnumUtils.GetValue<<#= property.PropertyType.FullName #>>(<#= fieldName #>.<#= property.Name #>Enum);
+            }
+        }
+<#
+            }
+            else if (property.PropertyType == typeof(object))
+            {
+#>
+
+        public <#= isVirtual ? "override" : "new" #> object <#= property.Name #>
+        { 
+            get
+            {
+                return Convert.ChangeType(<#= fieldName #>.<#= property.Name #>Object, Type.GetType(<#= fieldName #>.<#= property.Name #>ObjectType));
+            }
+        }
+<#
+            }
+            else if (property.PropertyType.IsScalar())
+            {
+#>
+
+        public <#= isVirtual ? "override" : "new" #> <#= property.PropertyType.GetShortName() #> <#= property.Name #> 
+        { 
+            get
+            {
+                return <#= fieldName #>.<#= property.Name #>;
+            }
+        }
+<#
+            }
+            else if (property.PropertyType.IsGenericCollection())
+            {
+                var itemType = property.PropertyType.GetGenericArguments()[0];
+
+                if (itemType.IsScalar())
+                {
+#>
+
+        public <#= isVirtual ? "override" : "new" #> <#= property.PropertyType #><<#= itemType.Name #>> <#= property.Name #> 
+        { 
+            get
+            {
+                <#= ReflectMember(property) #>
+            }
+        }
+<#
+                }
+            }
+            else
+            {
+#>
+
+        public <#= isVirtual ? "override" : "new" #> <#= property.PropertyType.Name #> <#= property.Name #> 
+        { 
+            get
+            {
+                <#= ReflectMember(property) #>
+            }
+        }
+<#
+            }
+        }
+    }
+
+    foreach (var method in type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+    {
+        var methodName = method.Name;
+
+        if (!method.IsAccessor() && !methodName.IsOneOf("GetType", "Finalize"))
+        {
+            var isVirtual = false;
+
+            if (method.Attributes.HasFlag(System.Reflection.MethodAttributes.Virtual) && !method.Attributes.HasFlag(System.Reflection.MethodAttributes.Final))
+            {
+                isVirtual = true;
+            }
+
+            if (methodName == "Equals")
+            {
+#>
+
+        public <#= isVirtual ? "override" : "new" #> <#= method.GetSignature() #>
+        {
+            return <#= method.GetParameters().First().Name #>.GetHashCode() == this.GetHashCode();
+        }
+<#
+            }
+            else
+            {
+#>
+        public <#= isVirtual ? "override" : "new" #> <#= method.GetSignature() #>
+        {
+            <#= ReflectMember(method) #>
+        }
+<#
+            }
+        }
+    }
+
+    foreach (var method in type.GetMethods(System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance))
+    {
+        var methodName = method.Name;
+
+        if (!method.IsAccessor() && !methodName.IsOneOf("GetType", "Finalize"))
+        {
+            if (method.Attributes.HasFlag(System.Reflection.MethodAttributes.Virtual | System.Reflection.MethodAttributes.Family) && !method.Attributes.HasFlag(System.Reflection.MethodAttributes.Final))
+            {
+#>
+
+        protected override <#= method.GetSignature() #>
+        {
+            <#= ReflectMember(method) #>
+        }
+<#
+            }
+        }
+    }
+
+    if (typeName == "Type")
+    {
+#>
+
+        public static bool operator==(<#= typeName #> <#= fieldName #>, <#= typeName #>Shim <#= fieldName #>Shim)
+        {
+            return <#= fieldName #>Shim.CompareTo(<#= fieldName #>);
+        }
+
+        public static bool operator !=(<#= typeName #> <#= fieldName #>, <#= typeName #>Shim <#= fieldName #>Shim)
+        {
+            return !<#= fieldName #>Shim.CompareTo(<#= fieldName #>);
+        }
+<#
+    }
+#>
+    }
+}
+<#+
+    public string ReflectMember(System.Reflection.MemberInfo memberInfo)
+    {
+        var reflectMemberEventArgs = new ReflectMemberEventArgs(memberInfo, ReflectKind.ShimTypes);
+
+        ReflectMemberCallback(this, reflectMemberEventArgs);
+
+        return reflectMemberEventArgs.Code;
+    }
+#>

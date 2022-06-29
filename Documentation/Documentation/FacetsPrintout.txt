@@ -1,0 +1,17 @@
+﻿Home
+/Home/Publisher = PublishersPortal
+PublishersPortal[@Courses] = PublisherCurriculum
+PublisherCurriculum/Course
+PublisherCurriculum/Course[@Lessons]
+PublisherCurriculum/Course[@Lessons]/Lesson
+PublisherCurriculum/Course[@Lessons]/Lesson[@Units]
+PublisherCurriculum/Course[@Lessons]/Lesson[@Units]/Unit
+
+Home
+/Home/Publisher
+/Home/Publisher[@Courses]
+/Home/Publisher[@Courses]/Course
+/Home/Publisher[@Courses]/Course[@Lessons]
+/Home/Publisher[@Courses]/Course[@Lessons]/Lesson
+/Home/Publisher[@Courses]/Course[@Lessons]/Lesson[@Units]
+/Home/Publisher[@Courses]/Course[@Lessons]/Lesson[@Units]/Unit

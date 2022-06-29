@@ -1,0 +1,10 @@
+namespace AbstraX.ImportHandlers.Packages
+{
+    public class SuperTabsPackage : Package
+    {
+        public SuperTabsPackage()
+        {
+            this.PackageInstalls = new string[] { "supertabs" };
+        }
+    }
+}

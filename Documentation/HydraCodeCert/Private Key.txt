@@ -1,0 +1,5 @@
+https://keepersecurity.com/vault/#
+
+HydraCodeCert Private Key Password
+
+Obtained through: https://www.ksoftware.net/code-signing-certificates

@@ -1,0 +1,114 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<AssemblyVersion>1.0.0.483</AssemblyVersion>
+		<FileVersion>1.0.0.483</FileVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Description>Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful microservice layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, progressive web apps (PWA), Docker, Helm, Azure Devops, and Kubernetes.
+		</Description>
+		<Authors>CloudIDEaaS</Authors>
+		<Company>Copyright ©  2018 CloudIDEaaS</Company>
+		<PackageLicenseFile>Hydra - EULA.txt</PackageLicenseFile>
+		<PackageProjectUrl>https://github.com/CloudIDEaaS/hydra</PackageProjectUrl>
+		<PackageIcon>HydraPackage.png</PackageIcon>
+		<IncludeBuildOutput>true</IncludeBuildOutput>
+		<RepositoryUrl>https://github.com/CloudIDEaaS/hydra</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>codegen; app generation; code generation; code scaffolding; rapid application development; .net; .net core; sql server; entity framework core; mobile app; docker; microservices; helm; azure devops; kubernetes; progressive web apps; PWA</PackageTags>
+		<Copyright>Copyright ©  2018 CloudIDEaaS</Copyright>
+		<Version>$(AssemblyVersion)</Version>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>TRACE;NET_CORE</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>TRACE;NET_CORE</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\ApplicationGenerator.Interfaces\AppResourcesBase.cs" Link="AppResourcesBase.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\AppNameAttribute.cs" Link="DataAnnotations\AppNameAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\AppSettingsKind.cs" Link="DataAnnotations\AppSettingsKind.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\AppSettingsKindAttribute.cs" Link="DataAnnotations\AppSettingsKindAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\AuthorizationState.cs" Link="DataAnnotations\AuthorizationState.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\AuthorizeAttribute.cs" Link="DataAnnotations\AuthorizeAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\CustomQueryAttribute.cs" Link="DataAnnotations\CustomQueryAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\FormFieldAttribute.cs" Link="DataAnnotations\FormFieldAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\FormFieldKind.cs" Link="DataAnnotations\FormFieldKind.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\GlobalSettingsFieldKind.cs" Link="DataAnnotations\GlobalSettingsFieldKind.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\GlobalSettingsFieldKindAttribute.cs" Link="DataAnnotations\GlobalSettingsFieldKindAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\GridColumnAttribute.cs" Link="DataAnnotations\GridColumnAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\GridColumnKind.cs" Link="DataAnnotations\GridColumnKind.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\IdentityAttribute.cs" Link="DataAnnotations\IdentityAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\IdentityEntityAttribute.cs" Link="DataAnnotations\IdentityEntityAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\IdentityEntityKind.cs" Link="DataAnnotations\IdentityEntityKind.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\IdentityFieldAttribute.cs" Link="DataAnnotations\IdentityFieldAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\IdentityFieldCategory.cs" Link="DataAnnotations\IdentityFieldCategory.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\IdentityFieldCategoryAttribute.cs" Link="DataAnnotations\IdentityFieldCategoryAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\IdentityFieldKind.cs" Link="DataAnnotations\IdentityFieldKind.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\IdentityKind.cs" Link="DataAnnotations\IdentityKind.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\InherentRoleAttribute.cs" Link="DataAnnotations\InherentRoleAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\NavigableAttribute.cs" Link="DataAnnotations\NavigableAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\QueryKind.cs" Link="DataAnnotations\QueryKind.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\ResourcesAttribute.cs" Link="DataAnnotations\ResourcesAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\SortByAttribute.cs" Link="DataAnnotations\SortByAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\StakeholderKind.cs" Link="DataAnnotations\StakeholderKind.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\TaskCapabilities.cs" Link="DataAnnotations\TaskCapabilities.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\UIAttribute.cs" Link="DataAnnotations\UIAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\UICustomAttribute.cs" Link="DataAnnotations\UICustomAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\UIKind.cs" Link="DataAnnotations\UIKind.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\UILoadKind.cs" Link="DataAnnotations\UILoadKind.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\UINavigationAttribute.cs" Link="DataAnnotations\UINavigationAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\DataAnnotations\UINavigationNameAttribute.cs" Link="DataAnnotations\UINavigationNameAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\EntityMetadataSourceAssemblyAttribute.cs" Link="EntityMetadataSourceAssemblyAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\IAppResources.cs" Link="IAppResources.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\IFacetHandlerKindAttribute.cs" Link="IFacetHandlerKindAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\KindGuidAttribute.cs" Link="KindGuidAttribute.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\QueryInfo.cs" Link="QueryInfo.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\QueryInfoProxy.cs" Link="QueryInfoProxy.cs" />
+		<Compile Include="..\ApplicationGenerator.Interfaces\TypeProxyAttribute.cs" Link="TypeProxyAttribute.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="DataAnnotations\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Utils.Core\Utils.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\ApplicationGenerator.Interfaces\images\HydraPackage.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\Hydra.InstallerStandalone\Hydra - EULA.txt">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Hydra.Interfaces.Debug.nuspec">
+	    <IsTransformFile>true</IsTransformFile>
+	    <DependentUpon>Hydra.Interfaces.nuspec</DependentUpon>
+	  </None>
+	  <None Update="Hydra.Interfaces.nuspec">
+	    <TransformOnBuild>true</TransformOnBuild>
+	  </None>
+	  <None Update="Hydra.Interfaces.Release.nuspec">
+	    <IsTransformFile>true</IsTransformFile>
+	    <DependentUpon>Hydra.Interfaces.nuspec</DependentUpon>
+	  </None>
+	</ItemGroup>
+
+	<UsingTask AssemblyFile="$(MSBuildProjectDirectory)\..\Binaries\SolutionLibraries\ApplicationGeneratorBuildTasks.dll" TaskName="UpdateHydraNuget" />
+	<Target Name="AfterBuild">
+		<Message Importance="high" Text="Updating Hydra.Interfaces nuget package" />
+		<UpdateHydraNuget Configuration="$(Configuration)" TargetFramework="$(TargetFrameworkVersion)" TargetVersion="$(AssemblyVersion)" />
+	</Target>
+
+</Project>

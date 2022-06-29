@@ -14,12 +14,15 @@ namespace Utils
         private int delay;
         private bool useCustomTimer;
         private int currentFrame;
+        public bool Stopped { get; private set; }
+        public bool Started { get; private set; }
+
         private int frames;
         private int totalTime;
+        private int startingTick;
         private Form form;
         private Timer timer;
         private int lastTick;
-
         public event OnFrameHandler OnFrame;
 
         public Animation(Form form, int delay)
@@ -56,6 +59,9 @@ namespace Utils
 
                 timer = null;
             }
+
+            this.Stopped = true;
+            this.Started = false;
         }
 
         public void Start(int frames)
@@ -69,14 +75,16 @@ namespace Utils
                 timer.Start();
             }
 
+            this.Started = true;
             this.frames = frames;
             totalTime = frames * delay;
+            startingTick = Environment.TickCount;
         }
 
         public void Tick()
         {
-            var tick = Environment.TickCount;
-            var time = tick % totalTime;
+            var tick = Environment.TickCount - startingTick;
+            var time = tick % Math.Max(1, totalTime);
             var percentOfTime = ((float)time) / ((float)totalTime);
 
             currentFrame = (int)Math.Round(Lerp(1, frames, percentOfTime), 0);

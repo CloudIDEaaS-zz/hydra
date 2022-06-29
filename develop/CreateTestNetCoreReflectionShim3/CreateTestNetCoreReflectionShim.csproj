@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{2932D627-D7C9-4F45-B3AE-70BD3D94C5F8}</ProjectGuid>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>CreateTest.NetCoreReflectionShim</RootNamespace>
+		<AssemblyName>CreateTest.NetCoreReflectionShim</AssemblyName>
+		<TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+		<FileAlignment>512</FileAlignment>
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+		<Deterministic>true</Deterministic>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Include="DummyType.cs" />
+	  <Compile Include="Generators\JsonReflectionClassTemplate.cs" />
+	  <Compile Include="Generators\ReflectionGenerator.cs" />
+	  <Compile Include="Generators\ShimReflectionClassTemplate.cs" />
+	  <Compile Include="Partials.cs" />
+	  <Compile Include="Program.cs" />
+	  <Compile Include="ReflectMemberEventHandler.cs" />
+	  <Compile Include="TemplateBase.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
+		<Reference Include="System.Xml.Linq" />
+		<Reference Include="System.Data.DataSetExtensions" />
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Data" />
+		<Reference Include="System.Net.Http" />
+		<Reference Include="System.Xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="Generators\JsonReflectionClassTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>JsonReflectionClassTemplate.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Generators\ShimReflectionClassTemplate.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ShimReflectionClassTemplate.tt</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="ClientMapper.cs" />
+		<None Include="Generators\JsonReflectionClassTemplate.tt">
+		  <Generator>TextTemplatingFileGenerator</Generator>
+		  <LastGenOutput>JsonReflectionClassTemplate.cs</LastGenOutput>
+		</None>
+		<None Include="Generators\ShimReflectionClassTemplate.tt">
+		  <Generator>TextTemplatingFileGenerator</Generator>
+		  <LastGenOutput>ShimReflectionClassTemplate.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

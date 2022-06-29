@@ -3,11 +3,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace Utils
 {
     public static class EnumerableExtensions
     {
+        public static object ToTypedList(this IEnumerable enumerable, Type itemType)
+        {
+            var listType = typeof(List<>).MakeGenericType(new Type[] { itemType });
+            var listInstance = (IList) Activator.CreateInstance(listType);
+
+            foreach (var obj in enumerable)
+            {
+                listInstance.Add(obj);
+            }
+
+            return listInstance;
+        }
+
+        public static string NameValuesToUrlQueryString(this IEnumerable<KeyValuePair<string, string>> pairs, string urlBase)
+        {
+            var builder = new StringBuilder();
+
+            builder.Append(urlBase + "?");
+
+            foreach (var keyValuePair in pairs)
+            {
+                builder.AppendFormat("{0}={1}&", keyValuePair.Key, keyValuePair.Value);
+            }
+
+            builder.RemoveEnd(1);
+
+            return builder.ToString();
+        }
+
+        public static List<KeyValuePair<string, string>> PairedListToKeyValuePairs(this IEnumerable<string> pairs, Func<string, KeyValuePair<string, string>> matchExceptionCallback)
+        {
+            var keyValuePairs = new List<KeyValuePair<string, string>>();
+            var regex = new Regex(@"(?<key>[\w\d_].*?)=(?<value>.*)$");
+            string key = null;
+            string value = null;
+
+            foreach (var pair in pairs)
+            {
+                if (!regex.Match(pair, m =>
+                {
+                    key = m.GetGroupValue("key");
+                    value = m.GetGroupValue("value");
+                }))
+                {
+                    var keyValuePair = matchExceptionCallback(pair);
+
+                    key = keyValuePair.Key;
+                    value = keyValuePair.Value;
+                }
+
+                keyValuePairs.Add(new KeyValuePair<string, string>(key, value));
+            }
+
+            return keyValuePairs;
+        }
+
         public static IEnumerable<IEnumerable<T>> GetCartesianProduct<T>(this IEnumerable<IEnumerable<T>> sequences, bool cloneInstances = false)
         {
             IEnumerable<IEnumerable<T>> emptyProduct = new[] { Enumerable.Empty<T>() };

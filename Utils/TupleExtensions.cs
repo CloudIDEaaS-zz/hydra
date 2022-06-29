@@ -14,9 +14,9 @@ namespace Utils
         {
             var values = new List<object>();
             var tupleType = tuple.GetType();
-            var type = Type.GetType("System.ITuple");
-            var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty;
-            var property = tupleType.GetProperty("Item1", flags);
+            var type = Type.GetType("System.Runtime.CompilerServices.ITuple");
+            var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField;
+            var field = tupleType.GetField("Item1", flags);
             var x = 2;
 
             if (!tupleType.Implements(type))
@@ -25,13 +25,13 @@ namespace Utils
                 return null;
             }
 
-            while (property != null)
+            while (field != null)
             {
-                var value = property.GetGetMethod().Invoke(tuple, null);
+                var value = field.GetValue(tuple);
 
                 values.Add(value);
 
-                property = tupleType.GetProperty(string.Format("Item{0}", x), flags);
+                field = tupleType.GetField(string.Format("Item{0}", x), flags);
                 x++;
             }
 

@@ -1,0 +1,21 @@
+﻿https://dev.azure.com/cloudideaas/_apis/projects?api-version=5.1
+https://dev.azure.com/cloudideaas/_apis/project?api-version=5.1
+https://dev.azure.com/cloudideaas/hydra
+
+User-Agent: Fiddler
+Host: dev.azure.com
+Content-Type: text/html
+Authorization: Basic OmNuYjdpdHZjcjNwaHN3MzR5ZW1mMjY0cXQ0ZDJ6NGpsZ3N2bnN4dDc1dHh6ZGRpZWtkdGE=
+
+/Model[@Model='Ripley']/Entity_Container[@Container='RipleyEntities']/Entity_Set[@EntitySet='Projects']/EntityType[@Entity='Project']/organizationName=cloudideaas
+HydraDevOpsContext/Projects/Project?organizationName=cloudideaas
+
+http://localhost:55682/api/devops/devopsservice/project/SHlkcmFEZXZPcHNDb250ZXh0L1Byb2plY3RzL1Byb2plY3Qvb3JnYW5pemF0aW9uTmFtZT1jbG91ZGlkZWFhcw==
+http://localhost:55682/api/devops/getProject
+
+query query {
+  customers(name: "John Doe") {
+    id,
+    name
+  }
+}

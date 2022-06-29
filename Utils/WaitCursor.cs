@@ -22,7 +22,7 @@ namespace Utils
         {
             if (Cursor.Current == Cursors.WaitCursor)
             {
-                previousCursor = Cursors.Arrow;
+                previousCursor = Cursors.Default;
             }
             else
             {

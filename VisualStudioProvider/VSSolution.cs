@@ -80,7 +80,7 @@ namespace VisualStudioProvider
                 if (projectArray == null)
                 {
                     Reparse();
-                    projectArray = (Array)s_SolutionParser_projects.GetValue(solutionParser, null);
+                    projectArray = ((IEnumerable)s_SolutionParser_projects.GetValue(solutionParser, null)).OfType<object>().ToArray();
                 }
 
                 return projectArray.Count;

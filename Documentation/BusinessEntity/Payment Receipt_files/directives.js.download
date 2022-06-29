@@ -1,0 +1,153 @@
+function directives() {
+
+	function permission(AuthService) {
+		return {
+			restrict : 'A',
+			scope : {
+				permission : '='
+			},
+
+			link : function(scope, elem, attrs) {
+				scope.$watch(AuthService.isLoggedIn, function() {
+					if (AuthService.userHasPermission(scope.permission)) {
+						elem.show();
+					} else {
+						elem.hide();
+					}
+				});
+			}
+		}
+	}
+	;
+	function goClick($location, $rootScope) {
+		return function(scope, element, attrs) {
+			var path;
+
+			attrs.$observe('goClick', function(val) {
+				path = val;
+			});
+
+			element.bind('click', function() {
+				scope.$apply(function() {
+					$rootScope.messageCenter = {};
+					$location.path(path);
+				});
+			});
+		};
+	}
+	;
+
+	function ngBtngotop() {
+		return {
+			restrict : 'E',
+			template : '<a href="javascript:void(0);" id="scroll" title="Scroll to Top" style="display: none;">Top<span></span></a>',
+			link : function(scope, element, attrs) {
+				$(window).scroll(function() {
+					if ($(this).scrollTop() > 100) {
+						$('#scroll').fadeIn();
+					} else {
+						$('#scroll').fadeOut();
+					}
+				});
+				element.on('click', function() {
+					$("html, body").animate({
+						scrollTop : 0
+					}, 600);
+					return false;
+				});
+			}
+		}
+	}
+	;
+
+	function ngGoTop() {
+		return {
+			restrict : 'A',
+			link : function(scope, element, attrs) {
+				$(window).scroll(function() {
+					if ($(this).scrollTop() > 100) {
+						$('#scroll').fadeIn();
+					} else {
+						$('#scroll').fadeOut();
+					}
+				});
+				element.on('click', function() {
+					$("html, body").animate({
+						scrollTop : 0
+					}, 600);
+					return false;
+				});
+			}
+		}
+	}
+	;
+
+	function emptyToNull() {
+		return {
+			restrict : 'A',
+			require : 'ngModel',
+			link : function(scope, elem, attrs, ctrl) {
+				ctrl.$parsers.push(function(viewValue) {
+					if (viewValue === "") {
+						return null;
+					}
+					return viewValue;
+				});
+			}
+		};
+	}
+	;
+
+	function datePicker($timeout) {
+		return {
+			require : '?ngModel',
+			restrict : 'EA',
+			scope : {
+				datetimepickerOptions : '@',
+				onDateChangeFunction : '&',
+				onDateClickFunction : '&'
+			},
+			link : function($scope, $element, $attrs, controller) {
+				$element.on('dp.change', function() {
+					$timeout(function() {
+						var dtp = $element.data('DateTimePicker');
+						controller.$setViewValue(dtp.date());
+						$scope.onDateChangeFunction();
+					});
+				});
+
+				$element.on('click', function() {
+					$scope.onDateClickFunction();
+				});
+
+				controller.$render = function() {
+					if (!!controller && !!controller.$viewValue) {
+						var result = controller.$viewValue;
+
+						$element.data('DateTimePicker').date(result);
+					}
+				};
+
+				$element.datetimepicker($scope
+						.$eval($attrs.datetimepickerOptions));
+			}
+		};
+	}
+
+	angular
+			.module("AZ_PORTAL")
+			.directive('goClick', goClick)
+			.directive('emptyToNull', emptyToNull)
+			.directive("datetimepicker", datePicker)
+			.directive('permission', permission)
+			.directive(
+					'reqStar',
+					function() {
+						return {
+							transclude : true,
+							template : '<a style="color:red;">*</a>'
+						};
+					})
+
+			.directive("ngBtngotop", ngBtngotop).directive("ngGoTop", ngGoTop)
+}

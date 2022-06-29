@@ -24,6 +24,26 @@ namespace Utils
             this.assembly = assembly;
         }
 
+        public string Title
+        {
+            get
+            {
+                var attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+
+                return attributes.Length == 0 ? "" : ((AssemblyTitleAttribute)attributes[0]).Title;
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                var attributes = assembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+
+                return attributes.Length == 0 ? "" : ((AssemblyDescriptionAttribute)attributes[0]).Description;
+            }
+        }
+
         public string Product
         {
             get

@@ -54,5 +54,10 @@ namespace Utils
         {
             File.AppendAllText(this.Path, "\r\n");
         }
+
+        public IDisposable ErrorMode()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -5,9 +5,32 @@ using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace Utils
 {
+	public class FlagConverter : JsonConverter
+	{
+		public override object ReadJson(JsonReader reader, Type objectType, Object existingValue, JsonSerializer serializer)
+		{
+			var text = (string) reader.Value;
+			var value = text.ToEnum(objectType);
+
+			return value;
+		}
+
+		public override void WriteJson(JsonWriter writer, Object value, JsonSerializer serializer)
+		{
+			var flags = value.ToString().Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(f => $"\"{f.Trim()}\"");
+
+			writer.WriteRawValue($"{string.Join(", ", flags)}");
+		}
+
+		public override bool CanConvert(Type objectType)
+		{
+			return true;
+		}
+	}
 	public static class Enum<T> where T : struct
 	{
 		public static string GetName(T value)
@@ -78,8 +101,8 @@ namespace Utils
 
 			return values.Any(v =>
 			{
-				var intEnum = (int)(ValueType)_enum;
-				var intValue = (int)(ValueType)v;
+				var intEnum = ((IConvertible)_enum).ToInt32(null);
+				var intValue = ((IConvertible)v).ToInt32(null);
 
 				if ((intEnum & intValue) == intValue)
 				{
@@ -95,6 +118,11 @@ namespace Utils
 		public static IEnumerable<string> GetNames<T>() where T : struct, IComparable, IConvertible, IFormattable
 		{
 			return Enum.GetNames(typeof(T));
+		}
+
+		public static IEnumerable<string> GetNames(Type enumType)
+		{
+			return Enum.GetNames(enumType);
 		}
 
 		public static string GetName<T>(T _enum) where T : struct, IComparable, IConvertible, IFormattable
@@ -129,8 +157,8 @@ namespace Utils
 		{
 			foreach (var value in GetValues<T>())
 			{
-				var intEnum = (int)(ValueType)_enum;
-				var intValue = (int)(ValueType)value;
+				var intEnum = ((IConvertible)_enum).ToInt32(null);
+				var intValue = ((IConvertible)value).ToInt32(null);
 
 				if (intValue == 0 && intEnum != 0)
 				{
@@ -199,6 +227,40 @@ namespace Utils
 			return default(T);
 		}
 
+		public static T GetValue<T>(int intValue) where T : struct, IComparable, IConvertible, IFormattable
+		{
+			var x = 0;
+
+			foreach (var value in GetValues<T>())
+			{
+				if (((int)(object)value) == intValue)
+				{
+					return (T)value;
+				}
+
+				x++;
+			}
+
+			return default(T);
+		}
+
+		public static object GetValue(Type enumType, int intValue)
+		{
+			var x = 0;
+
+			foreach (var value in Enum.GetValues(enumType))
+			{
+				if (((int) value) == intValue)
+				{
+					return value;
+				}
+
+				x++;
+			}
+
+			return null;
+		}
+
 		public static object GetValue(Type enumType, string name)
 		{
 			var x = 0;
@@ -216,6 +278,13 @@ namespace Utils
 			}
 
 			return null;
+		}
+
+		public static object GetRawValue(Type enumType, string name)
+		{
+			var value = Convert.ChangeType(EnumUtils.GetValue(enumType, name), enumType.GetEnumUnderlyingType());
+
+			return value;
 		}
 
 		public static T ShiftLeft<T>(T _enum, int positions = 1) where T : struct, IComparable, IConvertible, IFormattable
@@ -303,6 +372,19 @@ namespace Utils
 			}
 
 			return (T)(ValueType) value;
+		}
+
+		public static object ToEnum(this string commaDelimitedText, Type enumType)
+		{
+			var items = commaDelimitedText.Split(',').Select(t => t.Trim());
+			int value = 0;
+
+			foreach (var item in items)
+			{
+				value |= (int)(ValueType)Enum.Parse(enumType, item);
+			}
+
+			return Enum.ToObject(enumType, value);
 		}
 
 		public static T SetFlag<T>(T _enum, T flag) where T : struct, IComparable, IConvertible, IFormattable

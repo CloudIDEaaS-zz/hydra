@@ -59,6 +59,42 @@ namespace Utils
 
     public static class XmlExtensions
     {
+        public static int GetElementTextOffset(string content, IXmlLineInfo lineInfo)
+        {
+            var contentChars = content.ToList();    
+            var line = lineInfo.LineNumber;
+            var pos = lineInfo.LinePosition;
+            var currentLine = 1;
+            var currentPos = 1;
+            var x = 0;
+
+            foreach (var ch in contentChars)
+            {
+                if (currentLine == line && currentPos == pos)
+                {
+                    break;
+                }
+
+                if (ch == '\n')
+                {
+                    currentPos = -1;
+                    currentLine++;
+                }
+
+                x++;
+                currentPos++;
+            }
+
+            return x;
+        }
+
+        public static string GetContent(this XDocument document)
+        {
+            var declaration = document.Declaration.ToString();
+
+            return declaration + "\r\n" + document.GetPrivateFieldValue<XElement>("content").ToString();
+        }
+
         public static void Save(this XDocument document, string file, XmlWriterSettings settings)
         {
             using (var stream = File.Create(file))
@@ -81,6 +117,22 @@ namespace Utils
             {
                 e.SetDefaultXmlNamespace(xmlns);
             }
+        }
+
+        public static XElement WithDefaultXmlNamespace(this XElement xelem, XNamespace xmlns)
+        {
+            XName name;
+
+            if (xelem.Name.NamespaceName == string.Empty)
+            {
+                name = xmlns + xelem.Name.LocalName;
+            }
+            else
+            {
+                name = xelem.Name;
+            }
+
+            return new XElement(name, from e in xelem.Elements() select e.WithDefaultXmlNamespace(xmlns));
         }
 
         public static XmlNamespaceManager CreateNamespaceManager(this XDocument document)
@@ -128,7 +180,7 @@ namespace Utils
                 }
             }
 
-            if (namespaces.Count > 0)
+            if (namespaces != null && namespaces.Count > 0)
             {
                 foreach (var pair in namespaces)
                 {

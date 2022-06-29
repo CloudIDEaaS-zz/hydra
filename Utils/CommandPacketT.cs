@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -39,6 +40,7 @@ namespace Utils
         }
 
         [ScriptIgnore]
+        [JsonIgnore]
         public string DebugInfo
         {
             get

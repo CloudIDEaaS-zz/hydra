@@ -3,11 +3,74 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using System.Text.RegularExpressions;
+using BTreeIndex.Collections.Generic.BTree;
 
 namespace Utils
 {
     public static class EnumerableExtensions
     {
+        public static IterationStateEnumerable<T> WithState<T>(this IEnumerable<T> enumerable)
+        {
+            return new IterationStateEnumerable<T>(enumerable);
+        }
+
+        public static object ToTypedList(this IEnumerable enumerable, Type itemType)
+        {
+            var listType = typeof(List<>).MakeGenericType(new Type[] { itemType });
+            var listInstance = (IList)Activator.CreateInstance(listType);
+
+            foreach (var obj in enumerable)
+            {
+                listInstance.Add(obj);
+            }
+
+            return listInstance;
+        }
+
+        public static string NameValuesToUrlQueryString(this IEnumerable<KeyValuePair<string, string>> pairs, string urlBase)
+        {
+            var builder = new StringBuilder();
+
+            builder.Append(urlBase + "?");
+
+            foreach (var keyValuePair in pairs)
+            {
+                builder.AppendFormat("{0}={1}&", keyValuePair.Key, keyValuePair.Value);
+            }
+
+            builder.RemoveEnd(1);
+
+            return builder.ToString();
+        }
+
+        public static List<KeyValuePair<string, string>> PairedListToKeyValuePairs(this IEnumerable<string> pairs, Func<string, KeyValuePair<string, string>> matchExceptionCallback)
+        {
+            var keyValuePairs = new List<KeyValuePair<string, string>>();
+            var regex = new Regex(@"(?<key>[\w\d_].*?)=(?<value>.*)$");
+            string key = null;
+            string value = null;
+
+            foreach (var pair in pairs)
+            {
+                if (!regex.Match(pair, m =>
+                {
+                    key = m.GetGroupValue("key");
+                    value = m.GetGroupValue("value");
+                }))
+                {
+                    var keyValuePair = matchExceptionCallback(pair);
+
+                    key = keyValuePair.Key;
+                    value = keyValuePair.Value;
+                }
+
+                keyValuePairs.Add(new KeyValuePair<string, string>(key, value));
+            }
+
+            return keyValuePairs;
+        }
+
         public static bool InAll<T>(this IEnumerable<IEnumerable<T>> collectionOfCollections, T value)
         {
             foreach (var collection in collectionOfCollections)
@@ -84,6 +147,17 @@ namespace Utils
             }
         }
 
+        public static void AddToListIfNotExists<TListItem>(this List<TListItem> list, IEnumerable<TListItem> listItems)
+        {
+            foreach (var listItem in listItems)
+            {
+                if (!list.Contains(listItem))
+                {
+                    list.Add(listItem);
+                }
+            }
+        }
+
         public static void AddToDictionaryListCreateIfNotExist<TKey, TListItem>(this Dictionary<TKey, List<TListItem>> dictionary, TKey key, TListItem listItem, IEqualityComparer<TListItem> comparer = null)
         {
             List<TListItem> items;
@@ -114,6 +188,56 @@ namespace Utils
                 }
             }
         }
+
+        public static void AddToDictionaryListCreateIfNotExist<TKey, TListItem>(this Dictionary<TKey, List<TListItem>> dictionary, TKey key, IEnumerable<TListItem> listItems)
+        {
+            List<TListItem> items;
+
+            if (dictionary.ContainsKey(key))
+            {
+                items = dictionary[key];
+
+                items.AddRange(listItems);
+            }
+            else
+            {
+                items = new List<TListItem>();
+
+                dictionary.Add(key, items);
+            }
+        }
+
+        public static void AddToBTreeDictionaryListCreateIfNotExist<TKey, TListItem>(this BTreeDictionary<TKey, List<TListItem>> dictionary, TKey key, TListItem listItem, IEqualityComparer<TListItem> comparer = null)
+        {
+            List<TListItem> items;
+
+            if (dictionary.ContainsKey(key))
+            {
+                items = dictionary[key];
+            }
+            else
+            {
+                items = new List<TListItem>();
+
+                dictionary.Add(key, items);
+            }
+
+            if (comparer != null)
+            {
+                if (!items.Contains(listItem, comparer))
+                {
+                    items.Add(listItem);
+                }
+            }
+            else
+            {
+                if (!items.Contains(listItem))
+                {
+                    items.Add(listItem);
+                }
+            }
+        }
+
 
         public static void AddToDictionaryListCreateIfNotExist<TKey, TListItem>(this Dictionary<TKey, List<TListItem>> dictionary, TKey key)
         {
@@ -236,6 +360,21 @@ namespace Utils
             dictionaryToAdd.ForEach(x => dictionary.Add(x.Key, x.Value));
         }
 
+        public static void AddOrUpdateRange<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, Dictionary<TKey, TValue> dictionaryToAddOrUpdate)
+        {
+            dictionaryToAddOrUpdate.ForEach(x =>
+            {
+                if (dictionary.ContainsKey(x.Key))
+                {
+                    dictionary[x.Key] = x.Value;
+                }
+                else
+                {
+                    dictionary.Add(x.Key, x.Value);
+                }
+            });
+        }
+
         public static bool ContainsKeys<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, IEnumerable<TKey> keys)
         {
             bool result = false;
@@ -258,13 +397,21 @@ namespace Utils
             }
         }
 
-        public static TItem AddAndOrUpdateDictionary<TKey, TItem>(this Dictionary<TKey, TItem> dictionary, TKey key, TItem value, Action<TItem> action)
+        public static TItem AddAndOrUpdateDictionary<TKey, TItem>(this Dictionary<TKey, TItem> dictionary, TKey key, TItem value, Action<TItem> action = null)
         {
             TItem item;
 
             if (dictionary.ContainsKey(key))
             {
                 item = dictionary[key];
+
+                if (action == null)
+                {
+                    dictionary.Remove(key);
+                    dictionary.Add(key, value);
+
+                    item = (TItem)value;
+                }
             }
             else
             {
@@ -273,7 +420,10 @@ namespace Utils
                 dictionary.Add(key, item);
             }
 
-            action(item);
+            if (action != null)
+            {
+                action(item);
+            }
 
             return item;
         }
@@ -746,10 +896,7 @@ namespace Utils
             {
                 var item = list.Cast<object>().ElementAt(x).ToString();
 
-                if (x < count - 1)
-                {
-                    item += "\r\n";
-                }
+                item += "\r\n";
 
                 text += item;
             }
@@ -766,10 +913,7 @@ namespace Utils
             {
                 var item = list.Cast<object>().ElementAt(x).ToString();
 
-                if (x < count - 1)
-                {
-                    item += "\r\n";
-                }
+                item += "\r\n";
 
                 text += postProcess(item);
             }
@@ -787,11 +931,9 @@ namespace Utils
             {
                 var item = list.Cast<object>().ElementAt(x).ToString();
 
-                if (x < count - 1)
-                {
-                    item += "\r\n";
-                }
-                else
+                item += "\r\n";
+
+                if (x == count - 1)
                 {
                     isLast = true;
                 }

@@ -6,11 +6,27 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Windows.Forms;
+#if !NOCOLORMINE
 using ColorMine.ColorSpaces;
 using ColorMine.ColorSpaces.Comparisons;
+#endif
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace Utils
 {
+    public enum MetaProperty
+    {
+        Title = 40091,
+        Comment = 40092,
+        Author = 40093,
+        Keywords = 40094,
+        Subject = 40095,
+        Copyright = 33432,
+        Software = 11,
+        DateTime = 36867
+    }
+
     public enum ColorCompareOption
     {
         CIE2000
@@ -194,6 +210,453 @@ namespace Utils
         private static extern RegionFlags ExcludeClipRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
         private const double DegToRad = Math.PI / 180;
 
+        [DllImport("gdi32.dll", CharSet = CharSet.Auto)]
+        public static extern int SetTextCharacterExtra(IntPtr hdc, int nCharExtra);
+
+        public static Rectangle Round(this RectangleF rect)
+        {
+            return new Rectangle((int) Math.Round(rect.X), (int)Math.Round(rect.Y), (int)Math.Round(rect.Width), (int)Math.Round(rect.Height));
+        }
+
+        public static float GetContrastRatio(this Color color1, Color color2)
+        {
+            var luminence1 = ((HSLColor)color1).Luminosity;
+            var luminence2 = ((HSLColor)color2).Luminosity;
+            var brightest = Math.Max(luminence1, luminence2);
+            var darkest = Math.Min(luminence1, luminence2);
+
+            return (float)((brightest + 0.05) / (darkest + 0.05));
+        }
+
+        public static void SetMetaValue(this Bitmap sourceBitmap, MetaProperty property, string value)
+        {
+            var prop = sourceBitmap.PropertyItems[0];
+            var iLen = value.Length + 1;
+            var bTxt = new Byte[iLen];
+
+            for (int i = 0; i < iLen - 1; i++)
+            {
+                bTxt[i] = (byte)value[i];
+            }
+
+            bTxt[iLen - 1] = 0x00;
+            
+            prop.Id = (int)property;
+            prop.Type = 2;
+            prop.Value = bTxt;
+            prop.Len = iLen;
+            
+            sourceBitmap.SetPropertyItem(prop);
+        }
+
+        public static string GetMetaValue(this Bitmap sourceBitmap, MetaProperty property)
+        {
+            PropertyItem[] propItems = sourceBitmap.PropertyItems;
+            var prop = propItems.FirstOrDefault(p => p.Id == (int)property);
+            if (prop != null)
+            {
+                return Encoding.UTF8.GetString(prop.Value);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Bitmap ChangeColor(this Bitmap sourceBitmap, Color sourceColor, Color newColor, int threshold = 10)
+        {
+            var filter = new ColorChangeFilter { SourceColor = sourceColor, NewColor = newColor, ThresholdValue = threshold };
+
+            return sourceBitmap.ChangeColor(filter);
+        }
+
+        public static Bitmap ProcessImage(this Bitmap sourceBitmap, Func<Color, Color> colorProcessor)
+        {
+            var bitmap = (Bitmap) sourceBitmap.Clone();
+            var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),ImageLockMode.ReadWrite, bitmap.PixelFormat);
+            var ptr = bitmapData.Scan0;
+            var bytes = bitmapData.Stride * bitmapData.Height;
+            var rgbValues = new byte[bytes];
+
+            Marshal.Copy(ptr, rgbValues, 0, bytes);
+
+            for (var c = 0; c < rgbValues.Length; c += 4)
+            {
+                var color = Color.FromArgb(rgbValues[c + 3], rgbValues[c + 2], rgbValues[c + 1], rgbValues[c]);
+
+                color = colorProcessor(color);
+
+                rgbValues[c] = color.B;
+                rgbValues[c + 1] = color.G;
+                rgbValues[c + 2] = color.R;
+                rgbValues[c + 3] = color.A;
+            }
+            
+            Marshal.Copy(rgbValues, 0, ptr, bytes);
+
+            bitmap.UnlockBits(bitmapData);
+
+            return bitmap;
+        }
+
+        public static IEnumerable<Color> GetColors(this Bitmap sourceBitmap, int sampleSkipSize = 1)
+        {
+            var bitmap = (Bitmap)sourceBitmap.Clone();
+            var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
+            var ptr = bitmapData.Scan0;
+            var bytes = bitmapData.Stride * bitmapData.Height;
+            var rgbValues = new byte[bytes];
+
+            Marshal.Copy(ptr, rgbValues, 0, bytes);
+
+            for (var c = 0; c < rgbValues.Length; c += (3 * sampleSkipSize))
+            {
+                var color = Color.FromArgb(rgbValues[c + 2], rgbValues[c + 1], rgbValues[c]);
+
+                yield return color;
+            }
+
+            bitmap.UnlockBits(bitmapData);
+        }
+
+        public static IEnumerable<ColorMapEntry> GetColorMap(this Bitmap sourceBitmap, int sampleSkipSize = 1)
+        {
+            var bitmap = (Bitmap)sourceBitmap.Clone();
+            var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
+            var ptr = bitmapData.Scan0;
+            var bytes = bitmapData.Stride * bitmapData.Height;
+            var rgbValues = new byte[bytes];
+
+            Marshal.Copy(ptr, rgbValues, 0, bytes);
+
+            for (var c = 0; c < rgbValues.Length; c += (3 * sampleSkipSize))
+            {
+                var color = Color.FromArgb(rgbValues[c + 2], rgbValues[c + 1], rgbValues[c]);
+                var row = (c / 3) / bitmapData.Stride;
+                var col = (c / 3) % bitmapData.Stride;
+
+                yield return new ColorMapEntry(row, col, color);
+            }
+
+            bitmap.UnlockBits(bitmapData);
+        }
+
+        public static Color GetDominantColor(this Bitmap sourceBitmap, int sampleSkipSize = 1)
+        {
+            var bitmap = (Bitmap) sourceBitmap.Clone();
+            var colors = bitmap.GetColors(sampleSkipSize).ToList();
+            var distinctColors = colors.Distinct().ToList();
+            var color = distinctColors.OrderBy(c => colors.Count(c2 => c == c2)).Last();
+
+            return color;
+        }
+
+        public static int GetColorDiff(this Color color)
+        {
+            var diffRG = Math.Abs(color.R - color.G);
+            var diffRB = Math.Abs(color.R - color.B);
+            var diffGB = Math.Abs(color.G - color.B);
+
+            return diffRG + diffRB + diffGB;
+        }
+
+        public static Color[] FilterGrays(this Color[] colors, int threshold = 20)
+        {
+            return colors.Where(c => c.GetColorDiff() > threshold).ToArray(); 
+        }
+
+        public static void DrawWarningSquiggly(this Graphics graphics, string text, Font font, RectangleF rect)
+        {
+            var pixelsPerSample = 1.2f;
+            var pointCount = (int)(rect.Width / pixelsPerSample);
+            var metrics = graphics.GetTextMetrics(font);
+            var amplitude = 1.5f;
+            var fYOffset = rect.Y + metrics.tmAscent + metrics.tmDescent * 0.5f + 1.0f;
+            var xOffset = 0.0f;
+            var points = new List<Point>();
+            var pen = new Pen(Color.Green);
+
+            if (pointCount == 0)
+            {
+                return;
+            }
+
+            for (var x = 0; x < pointCount; x++)
+            {
+                var pt = new Point();
+                float value;
+
+                pt.X = (int)(rect.X + xOffset++ * rect.Width / (pointCount - 1));
+                value = (float)(amplitude * Math.Sin((pt.X / pixelsPerSample) * (Math.PI / 3.0)));
+                pt.Y = (int)(fYOffset + value);
+
+                points.Add(pt);
+            }
+
+            graphics.DrawLines(pen, points.ToArray());
+        }
+
+        public static void DrawErrorSquiggly(this Graphics graphics, string text, Font font, RectangleF rect)
+        {
+            var pixelsPerSample = 1.2f;
+            var pointCount = (int)(rect.Width / pixelsPerSample);
+            var metrics = graphics.GetTextMetrics(font);
+            var amplitude = 1.5f;
+            var fYOffset = rect.Y + metrics.tmAscent + metrics.tmDescent * 0.5f + 1.0f;
+            var xOffset = 0.0f;
+            var points = new List<Point>();
+            var pen = new Pen(Color.Red);
+
+            if (pointCount == 0)
+            {
+                return;
+            }
+
+            for (var x = 0; x < pointCount; x++)
+            {
+                var pt = new Point();
+                float value;
+
+                pt.X = (int) (rect.X + xOffset++ * rect.Width / (pointCount - 1));
+                value = (float)(amplitude * Math.Sin((pt.X / pixelsPerSample) * (Math.PI / 3.0)));
+                pt.Y = (int) (fYOffset + value);
+
+                points.Add(pt);
+            }
+
+            graphics.DrawLines(pen, points.ToArray());
+        }
+
+        public static Bitmap ChangeColor(this Bitmap sourceBitmap, ColorChangeFilter filterData)
+        {
+            Bitmap resultBitmap = new Bitmap(sourceBitmap.Width, sourceBitmap.Height, PixelFormat.Format32bppArgb);
+            BitmapData sourceData = sourceBitmap.LockBits(new Rectangle(0, 0, sourceBitmap.Width, sourceBitmap.Height),
+                                                          ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            BitmapData resultData = resultBitmap.LockBits(new Rectangle(0, 0, resultBitmap.Width, resultBitmap.Height),
+                                                          ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+
+            byte[] resultBuffer = new byte[resultData.Stride * resultData.Height];
+            Marshal.Copy(sourceData.Scan0, resultBuffer, 0, resultBuffer.Length);
+
+            sourceBitmap.UnlockBits(sourceData);
+
+            byte sourceRed = 0, sourceGreen = 0, sourceBlue = 0, sourceAlpha = 0;
+            int resultRed = 0, resultGreen = 0, resultBlue = 0;
+            byte newRedValue = filterData.NewColor.R;
+            byte newGreenValue = filterData.NewColor.G;
+            byte newBlueValue = filterData.NewColor.B;
+            byte redFilter = filterData.SourceColor.R;
+            byte greenFilter = filterData.SourceColor.G;
+            byte blueFilter = filterData.SourceColor.B;
+            byte minValue = 0;
+            byte maxValue = 255;
+
+            for (int k = 0; k < resultBuffer.Length; k += 4)
+            {
+                sourceAlpha = resultBuffer[k + 3];
+
+                if (sourceAlpha != 0)
+                {
+                    sourceBlue = resultBuffer[k];
+                    sourceGreen = resultBuffer[k + 1];
+                    sourceRed = resultBuffer[k + 2];
+
+                    if ((sourceBlue < blueFilter + filterData.ThresholdValue &&
+                            sourceBlue > blueFilter - filterData.ThresholdValue) &&
+                        (sourceGreen < greenFilter + filterData.ThresholdValue &&
+                            sourceGreen > greenFilter - filterData.ThresholdValue) &&
+                        (sourceRed < redFilter + filterData.ThresholdValue &&
+                            sourceRed > redFilter - filterData.ThresholdValue))
+                    {
+                        resultBlue = blueFilter - sourceBlue + newBlueValue;
+
+                        if (resultBlue > maxValue)
+                        { resultBlue = maxValue; }
+                        else if (resultBlue < minValue)
+                        { resultBlue = minValue; }
+
+                        resultGreen = greenFilter - sourceGreen + newGreenValue;
+
+                        if (resultGreen > maxValue)
+                        { resultGreen = maxValue; }
+                        else if (resultGreen < minValue)
+                        { resultGreen = minValue; }
+
+                        resultRed = redFilter - sourceRed + newRedValue;
+
+                        if (resultRed > maxValue)
+                        { resultRed = maxValue; }
+                        else if (resultRed < minValue)
+                        { resultRed = minValue; }
+
+                        resultBuffer[k] = (byte)resultBlue;
+                        resultBuffer[k + 1] = (byte)resultGreen;
+                        resultBuffer[k + 2] = (byte)resultRed;
+                        resultBuffer[k + 3] = sourceAlpha;
+                    }
+                }
+            }
+
+            Marshal.Copy(resultBuffer, 0, resultData.Scan0, resultBuffer.Length);
+            resultBitmap.UnlockBits(resultData);
+
+            return resultBitmap;
+        }
+
+        public static void DrawRoundedRectangle(this Graphics graphics, Pen pen, Rectangle bounds, int cornerRadius)
+        {
+            if (graphics == null)
+                throw new ArgumentNullException("graphics");
+            if (pen == null)
+                throw new ArgumentNullException("pen");
+
+            using (GraphicsPath path = bounds.ToRoundedRect(cornerRadius))
+            {
+                graphics.DrawPath(pen, path);
+            }
+        }
+
+        public static void DrawBorder(this Graphics graphics, Pen pen, Control control)
+        {
+            var rect = control.ClientRectangle;
+
+            if (graphics == null)
+            {
+                throw new ArgumentNullException("graphics");
+            }
+
+            if (pen == null)
+            {
+                throw new ArgumentNullException("pen");
+            }
+
+            rect.Inflate(-1, -1);
+
+            graphics.DrawRectangle(pen, rect);
+        }
+
+        public static void FillRoundedRectangle(this Graphics graphics, Brush brush, Rectangle bounds, int cornerRadius)
+        {
+            if (graphics == null)
+                throw new ArgumentNullException("graphics");
+            if (brush == null)
+                throw new ArgumentNullException("brush");
+
+            using (GraphicsPath path = bounds.ToRoundedRect(cornerRadius))
+            {
+                graphics.FillPath(brush, path);
+            }
+        }
+
+        public static GraphicsPath ToRoundedRect(this Rectangle bounds, int radius)
+        {
+            int diameter = radius * 2;
+            Size size = new Size(diameter, diameter);
+            Rectangle arc = new Rectangle(bounds.Location, size);
+            GraphicsPath path = new GraphicsPath();
+
+            if (radius == 0)
+            {
+                path.AddRectangle(bounds);
+                return path;
+            }
+
+            // top left arc  
+            path.AddArc(arc, 180, 90);
+
+            // top right arc  
+            arc.X = bounds.Right - diameter;
+            path.AddArc(arc, 270, 90);
+
+            // bottom right arc  
+            arc.Y = bounds.Bottom - diameter;
+            path.AddArc(arc, 0, 90);
+
+            // bottom left arc 
+            arc.X = bounds.Left;
+            path.AddArc(arc, 90, 90);
+
+            path.CloseFigure();
+            return path;
+        }
+
+        public static IDisposable SetTextSpacing(this Graphics graphics, int pixels)
+        {
+            var hdc = graphics.GetHdc();
+            int previous;
+
+            previous = SetTextCharacterExtra(hdc, pixels);
+            graphics.ReleaseHdc(hdc);
+
+            return graphics.CreateDisposable(() =>
+            {
+                hdc = graphics.GetHdc();
+
+                SetTextCharacterExtra(hdc, previous);
+                graphics.ReleaseHdc(hdc);
+            });
+        }
+
+        public static Bitmap ResizeImage(this Image image, int width, int height = -1)
+        {
+            Rectangle destRect;
+            Bitmap destImage;
+
+            if (height == -1)
+            {
+                var imageWidth = image.Width;
+                var imageHeight = image.Height;
+                var aspect = imageHeight.As<float>() / imageWidth.As<float>();
+
+                height = (int) (width.As<float>() * aspect);
+            }
+
+            destRect = new Rectangle(0, 0, width, height);
+            destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.Default;
+                graphics.InterpolationMode = InterpolationMode.Default;
+                graphics.SmoothingMode = SmoothingMode.Default;
+                graphics.PixelOffsetMode = PixelOffsetMode.Default;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
+        public static int ToCOLORREF(this Color color)
+        {
+            var r = color.R;
+            var g = color.G;
+            var b = color.B;
+
+            return (int)(((uint)r) | (((uint)g) << 8) | (((uint)b) << 16));
+        }
+
+        public static int MakeCOLORREF(byte r, byte g, byte b)
+        {
+            return (int)(((uint)r) | (((uint)g) << 8) | (((uint)b) << 16));
+        }
+
+        public static Color FromCOLORREF(uint colorref)
+        {
+            int r = (int)((colorref >> 16) & 0xFF);
+            int g = (int)((colorref >> 8) & 0x00FF);
+            int b = (int)(colorref & 0x0000FF);
+
+            return Color.FromArgb(r, g, b);
+        }
+
         public static Rectangle GetCenteredRect(this Rectangle outerRect, Size innerRectSize)
         {
             var rect = new Rectangle(Point.Empty, innerRectSize);
@@ -203,6 +666,15 @@ namespace Utils
             rect.Location = new Point(x, y);
 
             return rect;
+        }
+
+        public static Point GetCenterPoint(this Rectangle outerRect)
+        {
+            var x = outerRect.X + (outerRect.Width / 2);
+            var y = outerRect.Y + (outerRect.Height / 2);
+            var point = new Point(x, y);
+
+            return point;
         }
 
         public static bool AdjacentWith(this Rectangle a, Rectangle b)
@@ -463,6 +935,20 @@ namespace Utils
             return new Size(size.Height, size.Width);
         }
 
+        public static Color MidPoint(this Color color1, Color color2, float percentTo)
+        {
+            var r1 = color1.R;
+            var g1 = color1.G;
+            var b1 = color1.B;
+            var r2 = color2.R;
+            var g2 = color2.G;
+            var b2 = color2.B;
+            var percent1 = 1f - percentTo;
+            var percent2 = percentTo;
+
+            return Color.FromArgb((int)((r1 * percent1) + (r2 * percent2)), (int)((g1 * percent1) + (g2 * percent2)), (int)((b1 * percent1) + (b2 * percent2)));
+        }
+
         public static Color MidPoint(this Color color1, Color color2)
         {
             return color1.MidPoint(color2, .5f);
@@ -507,23 +993,10 @@ namespace Utils
             return true;
         }
 
-        public static Color MidPoint(this Color color1, Color color2, float percentTo)
-        {
-            var r1 = color1.R;
-            var g1 = color1.G;
-            var b1 = color1.B;
-            var r2 = color2.R;
-            var g2 = color2.G;
-            var b2 = color2.B;
-            var percent1 = 1f - percentTo;
-            var percent2 = percentTo;
-
-            return Color.FromArgb((int)((r1 * percent1) + (r2 * percent2)), (int)((g1 * percent1) + (g2 * percent2)), (int)((b1 * percent1) + (b2 * percent2)));
-        }
-
         public static Color Lighten(this Color color, double percent)
         {
             var hslColor = (HSLColor) color;
+            Color newColor;
 
             if (percent < 0)
             {
@@ -538,7 +1011,73 @@ namespace Utils
                 hslColor.Luminosity += margin;
             }
 
-            return hslColor;
+            newColor = hslColor;
+
+            return Color.FromArgb(color.A, newColor);
+        }
+
+        public static Color Saturate(this Color color, double percent)
+        {
+            var hslColor = (HSLColor)color;
+            Color newColor;
+
+            if (percent < 0)
+            {
+                var margin = (((float)hslColor.Saturation) * -percent);
+
+                hslColor.Saturation -= margin;
+            }
+            else
+            {
+                var margin = ((double)HSLColor.SCALE - hslColor.Saturation) * percent;
+
+                hslColor.Saturation += margin;
+            }
+
+            newColor = hslColor;
+
+            return Color.FromArgb(color.A, newColor);
+        }
+
+#if !NOCOLORMINE
+
+        public static Color[] GetDominantColors(this Bitmap sourceBitmap, int sampleSkipSize = 50, int sampleSize = 100, int compareSpacingAmount = 20)
+        {
+            var bitmap = (Bitmap)sourceBitmap.Clone();
+            var colors = bitmap.GetColors(sampleSkipSize).ToList();
+            var distinctColors = colors.Distinct().ToList();
+            var dominantColors = distinctColors.OrderByDescending(c => colors.Count(c2 => c == c2)).Take(sampleSize);
+            var returnColors = new List<Color>();
+            Color? lastColor = null;
+
+            foreach (var color in dominantColors)
+            {
+                if (lastColor.HasValue)
+                {
+                    var compare = color.Compare(lastColor.Value);
+
+                    if (compare > compareSpacingAmount)
+                    {
+                        returnColors.Add(color);
+                        lastColor = color;
+                    }
+                }
+                else
+                {
+                    returnColors.Add(color);
+                    lastColor = color;
+                }
+            }
+
+            return returnColors.ToArray();
+        }
+
+        public static double Compare(this Color color, Color colorCompare)
+        {
+            var rgbColor = new Rgb(color.R, color.G, color.B);
+            var rgbCompare = new Rgb(colorCompare.R, colorCompare.G, colorCompare.B);
+
+            return rgbColor.Compare(rgbCompare, new CieDe2000Comparison());
         }
 
         public static double Compare(this Color color, Color colorCompare, ColorCompareOption option)
@@ -555,7 +1094,7 @@ namespace Utils
                     return -1;
             }
         }
-
+#endif
         public static Color SetLight(this Color color, double luminosity)
         {
             var hslColor = (HSLColor)color;
@@ -565,6 +1104,26 @@ namespace Utils
             hslColor.Luminosity = luminosity;
 
             return hslColor;
+        }
+        
+        public static Color SetA(this Color color, byte a)
+        {
+            return Color.FromArgb(a, color.R, color.G, color.B);
+        }
+
+        public static Color SetR(this Color color, byte r)
+        {
+            return Color.FromArgb(color.A, r, color.G, color.B);
+        }
+
+        public static Color SetG(this Color color, byte g)
+        {
+            return Color.FromArgb(color.A, color.R, g, color.B);
+        }
+
+        public static Color SetB(this Color color, byte b)
+        {
+            return Color.FromArgb(color.A, color.R, color.G, b);
         }
 
         public static void DrawString(this Graphics graphics, string text, Font font, Brush brush, Rectangle layoutRectangle, StringAlignment alignment)

@@ -1,0 +1,257 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<RelatedEntity>" name="RelatedEntities" #>
+<#@ parameter type="System.Collections.Generic.List<Generators.EntityProperty>" name="EntityProperties" #>
+<#@ parameter type="System.String" name="ControllerName" #>
+<#@ parameter type="System.String" name="EntityName" #>
+<#@ parameter type="System.String" name="KeyType" #>
+<#@ parameter type="System.String" name="KeyName" #>
+<#@ parameter type="System.String" name="ContainerSet" #>
+<#@ parameter type="AbstraX.ServerInterfaces.IElement" name="Container" #>
+<#
+    var entityVariable = this.EntityName.ToCamelCase();
+    var containerSetVariable = this.ContainerSet.ToCamelCase();
+    var containerInterface = this.Container.Name.Prepend("I");
+    var containerVariable = this.Container.Name.ToCamelCase();
+    var lambdaParameter = containerVariable.Left(1);
+#>
+using Ripley.Entities;
+using Ripley.Services.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+using <#= this.EntityName #> = Ripley.Services.Models.<#= this.EntityName #>;
+
+namespace Ripley.Services.Controllers
+{
+    [Authorize(Roles = "User")]
+    [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+    public class <#= this.ControllerName #>Controller : ApiController
+    {
+        private <#= containerInterface #> <#= containerVariable #>;
+
+        public <#= this.ControllerName #>Controller(<#= containerInterface #> <#= containerVariable #>)
+        {
+            this.<#= containerVariable #> = <#= containerVariable #>;
+        }
+
+<#
+    foreach (var relatedEntity in this.RelatedEntities)
+    {
+        var property = relatedEntity.Name;
+        var propertyVariable = relatedEntity.Name.ToCamelCase();
+        var sortBy = relatedEntity.SortBy;
+        var sortDirection = relatedEntity.SortDirection;
+
+        if (relatedEntity.IsEntitySet)
+        {
+#>
+        [HttpGet]
+        [Route("~/api/<#= propertyVariable #>")]
+        public Models.Client<#= this.EntityName #>[] Get<#= property #>()
+        {
+            var <#= propertyVariable #> = <#= containerVariable #>.<#= property #>;
+
+            return <#= propertyVariable #>.Select(<#= lambdaParameter #> => new <#= this.EntityName #>
+            {
+<#
+            foreach (var entityProperty in this.EntityProperties)
+            {
+#>
+                <#= entityProperty.Name #> = <#= lambdaParameter #>.<#= entityProperty.Name #>,
+<#
+            }
+
+            if (sortDirection == SortDirection.Ascending)
+            {
+#>
+            }).OrderBy(c => c.<#= sortBy #>).ToArray();
+<#
+            }
+            else
+            {
+#>
+            }).OrderByDescending(c => c.<#= sortBy #>).ToArray();
+<#
+            }
+#>
+        }
+
+<#
+        }
+        else
+        {
+            var parentRefName = relatedEntity.EntityParentRef.Name;
+            var parentRefVariableName = parentRefName.ToCamelCase();
+            var propertyRefVariableName = relatedEntity.ThisPropertyRef.Name.ToCamelCase();
+            var scriptType = relatedEntity.ThisPropertyRefScriptType;
+            var shortType = relatedEntity.ThisPropertyRefShortType;
+            var containerSetName = relatedEntity.ContainerSet.Name;
+#>
+        [Route("~/api/<#= containerSetName #>/{<#= propertyRefVariableName #>:<#= shortType.ToLower() #>}/<#= property.ToLower() #>")]
+        [HttpGet]
+        public Models.Client<#= this.EntityName #>[] Get<#= property #>For<#= parentRefName #>(<#= shortType #> <#= propertyRefVariableName #>)
+        {
+            var <#= propertyVariable #> = <#= containerVariable #>.<#= property #>;
+
+            return <#= propertyVariable #>.Where(<#= lambdaParameter #> => <#= lambdaParameter #>.<#= relatedEntity.ThisPropertyRef.Name #> == <#= propertyRefVariableName #>).Select(<#= lambdaParameter #> => new <#= this.EntityName #>
+            {
+<#
+            foreach (var entityProperty in this.EntityProperties)
+            {
+#>
+                <#= entityProperty.Name #> = <#= lambdaParameter #>.<#= entityProperty.Name #>,
+<#
+            }
+
+            if (sortDirection == SortDirection.Ascending)
+            {
+#>
+            }).OrderBy(<#= lambdaParameter #> => <#= lambdaParameter #>.<#= sortBy #>).ToArray();
+<#
+            }
+            else
+            {
+#>
+            }).OrderByDescending(<#= lambdaParameter #> => <#= lambdaParameter #>.<#= sortBy #>).ToArray();
+<#
+            }
+#>
+        }
+
+<#
+        }
+    }
+#>
+
+        [HttpGet]
+        [Route("~/api/<#= entityVariable #>/{id:<#= this.KeyType.ToLower() #>}")]
+        public Client<#= this.EntityName #> Get<#= this.EntityName #>(<#= this.KeyType #> id)
+        {
+            var <#= containerSetVariable #> = <#= containerVariable #>.<#= this.ContainerSet #>;
+
+            return <#= containerSetVariable #>.Where(<#= lambdaParameter #> => <#= lambdaParameter #>.<#= this.KeyName #> == id).Select(<#= lambdaParameter #> => new <#= this.EntityName #>
+            {
+<#
+            foreach (var entityProperty in this.EntityProperties)
+            {
+#>
+                <#= entityProperty.Name #> = <#= lambdaParameter #>.<#= entityProperty.Name #>,
+<#
+            }
+#>
+            }).Single();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public void Create<#= this.EntityName #>(Models.Client<#= this.EntityName #> <#= entityVariable #>)
+        {
+            var <#= containerSetVariable #> = <#= containerVariable #>.<#= this.ContainerSet #>;
+
+            <#= containerSetVariable #>.Add(new Entities.<#= this.EntityName #>
+            {
+<#
+            foreach (var entityProperty in this.EntityProperties)
+            {
+                if (entityProperty.IsKey)
+                {
+                    if (entityProperty.DataType == "Guid")
+                    {
+#>
+                <#= entityProperty.Name #> = Guid.NewGuid(),
+<#
+                    }
+                }
+                else
+                {
+#>
+                <#= entityProperty.Name #> = <#= entityVariable #>.<#= entityProperty.Name #>,
+<#
+                }
+            }
+#>
+            });
+
+            <#= containerVariable #>.SaveChanges();
+        }
+
+        [HttpPost]
+        [Route("~/api/register")]
+        public void Register<#= this.EntityName #>(Models.Register<#= this.EntityName #> <#= entityVariable #>)
+        {
+            var <#= containerSetVariable #> = <#= containerVariable #>.<#= this.ContainerSet #>;
+
+            <#= containerSetVariable #>.Add(new Entities.<#= this.EntityName #>
+            {
+<#
+            foreach (var entityProperty in this.EntityProperties)
+            {
+                if (entityProperty.IsKey)
+                {
+                    if (entityProperty.DataType == "Guid")
+                    {
+#>
+                <#= entityProperty.Name #> = Guid.NewGuid(),
+<#
+                    }
+                }
+                else
+                {
+#>
+                <#= entityProperty.Name #> = <#= entityVariable #>.<#= entityProperty.Name #>,
+<#
+                }
+            }
+#>
+            });
+
+            <#= containerVariable #>.SaveChanges();
+        }
+
+        [HttpPut]
+        public void Update<#= this.EntityName #>(Models.Client<#= this.EntityName #> <#= entityVariable #>)
+        {
+            var update<#= this.EntityName #> = <#= containerVariable #>.<#= this.ContainerSet #>.Single(<#= lambdaParameter #> => <#= lambdaParameter #>.<#= this.KeyName #> == <#= entityVariable #>.<#= this.KeyName #>);
+
+<#
+            foreach (var entityProperty in this.EntityProperties)
+            {
+                if (!entityProperty.IsKey)
+                {
+#>
+            update<#= this.EntityName #>.<#= entityProperty.Name #> = <#= entityVariable #>.<#= entityProperty.Name #>;
+<#
+                }
+            }
+#>
+
+            <#= containerVariable #>.SaveChanges();
+        }
+
+        [HttpDelete]
+        public void Delete<#= this.EntityName #>(<#= this.KeyType #> id)
+        {
+            var <#= containerSetVariable #> = <#= containerVariable #>.<#= this.ContainerSet #>;
+            var delete<#= this.EntityName #> = <#= containerSetVariable #>.Single(<#= lambdaParameter #> => <#= lambdaParameter #>.<#= this.KeyName #> == id);
+
+            <#= containerSetVariable #>.Remove(delete<#= this.EntityName #>);
+
+            <#= containerVariable #>.SaveChanges();
+        }
+    }
+}

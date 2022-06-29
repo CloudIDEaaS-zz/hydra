@@ -1,0 +1,1553 @@
+{
+  "id": "https://schemas.cloudideaas.com/soundeffects.schema.json",
+  "properties":
+  {
+    "Roles":
+    {
+      "type": "array",
+      "items":
+      {
+        "properties":
+        {
+          "AgeMin":
+          {
+            "required": false,
+            "type": "integer"
+          },
+          "AgeMax":
+          {
+            "required": false,
+            "type": "integer"
+          },
+          "AnyAge":
+          {
+            "required": false,
+            "type": "boolean"
+          },
+          "Effects":
+          {
+            "required": true,
+            "type": "array",
+            "items":
+            {
+              "properties":
+              {
+                "BASS_DX8_CHORUS":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "WetDryMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Depth":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Feedback":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Frequency":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Waveform":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    },
+                    "Delay":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Phase":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.BASSFXPhase"
+                    }
+                  },
+                  "format": "Un4seen.Bass.BASS_DX8_CHORUS, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_DX8_COMPRESSOR":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Gain":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Attack":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Release":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Threshold":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Ratio":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Predelay":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    }
+                  },
+                  "format": "Un4seen.Bass.BASS_DX8_COMPRESSOR, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_DX8_DISTORTION":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Gain":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Edge":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "PostEQCenterFrequency":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "PostEQBandwidth":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "PreLowpassCutoff":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    }
+                  },
+                  "format": "Un4seen.Bass.BASS_DX8_DISTORTION, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_DX8_ECHO":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "WetDryMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Feedback":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "LeftDelay":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "RightDelay":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "PanDelay":
+                    {
+                      "required": true,
+                      "type": "boolean",
+                      "format": "System.Boolean"
+                    }
+                  },
+                  "format": "Un4seen.Bass.BASS_DX8_ECHO, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_DX8_FLANGER":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "WetDryMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Depth":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Feedback":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Frequency":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Waveform":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    },
+                    "Delay":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Phase":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.BASSFXPhase"
+                    }
+                  },
+                  "format": "Un4seen.Bass.BASS_DX8_FLANGER, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_DX8_GARGLE":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "RateHz":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    },
+                    "WaveShape":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    }
+                  },
+                  "format": "Un4seen.Bass.BASS_DX8_GARGLE, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_DX8_I3DL2REVERB":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Room":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    },
+                    "RoomHF":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    },
+                    "RoomRolloffFactor":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "DecayTime":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "DecayHFRatio":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Reflections":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    },
+                    "ReflectionsDelay":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Reverb":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    },
+                    "ReverbDelay":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Diffusion":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Density":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "HFReference":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    }
+                  },
+                  "format": "Un4seen.Bass.BASS_DX8_I3DL2REVERB, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_DX8_PARAMEQ":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Center":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Bandwidth":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Gain":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    }
+                  },
+                  "format": "Un4seen.Bass.BASS_DX8_PARAMEQ, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_DX8_REVERB":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "InGain":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "ReverbMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "ReverbTime":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "HighFreqRTRatio":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    }
+                  },
+                  "format": "Un4seen.Bass.BASS_DX8_REVERB, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_ROTATE":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Rate":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_ROTATE, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_ECHO":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Level":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Delay":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_ECHO, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_FLANGER":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "WetDry":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Speed":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_FLANGER, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_VOLUME":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Volume":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_VOLUME, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_PEAKEQ":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Band":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    },
+                    "Bandwidth":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Q":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Center":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Gain":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_PEAKEQ, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_REVERB":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Level":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Delay":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_REVERB, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_LPF":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Resonance":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "CutOffFreq":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_LPF, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_MIX":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "numChans":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    },
+                    "channels":
+                    {
+                      "required": true,
+                      "type": "array",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan[]"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_MIX, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_DAMP":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Target":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Quiet":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Rate":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Gain":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Delay":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_DAMP, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_AUTOWAH":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "DryMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "WetMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Feedback":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Rate":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Range":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Freq":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_AUTOWAH, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_ECHO2":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "DryMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "WetMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Feedback":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Delay":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_ECHO2, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_PHASER":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "DryMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "WetMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Feedback":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Rate":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Range":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Freq":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_PHASER, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_ECHO3":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "DryMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "WetMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Delay":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_ECHO3, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_CHORUS":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "DryMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "WetMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Feedback":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "MinSweep":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "MaxSweep":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Rate":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_CHORUS, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_APF":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Gain":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Delay":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_APF, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_COMPRESSOR":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Threshold":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Attacktime":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Releasetime":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_COMPRESSOR, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_DISTORTION":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Drive":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "DryMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "WetMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Feedback":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Volume":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_DISTORTION, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_COMPRESSOR2":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "Gain":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Threshold":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Ratio":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Attack":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Release":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_COMPRESSOR2, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_VOLUME_ENV":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "nodeCount":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    },
+                    "nodes":
+                    {
+                      "required": true,
+                      "type": "array",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_ENV_NODE[]"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_VOLUME_ENV, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_BQF":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "filter":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSBFXBQF"
+                    },
+                    "center":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "gain":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "bandwidth":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "q":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "s":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_BQF, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_ECHO4":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "DryMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "WetMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Delay":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Feedback":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Stereo":
+                    {
+                      "required": true,
+                      "type": "boolean",
+                      "format": "System.Boolean"
+                    },
+                    "chans":
+                    {
+                      "required": true,
+                      "type": "any",
+                      "format": "Un4seen.Bass.AddOn.Fx.BASSFXChan"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_ECHO4, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_PITCHSHIFT":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "PitchShift":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Semitones":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "FFTsize":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int64"
+                    },
+                    "Osamp":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int64"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_PITCHSHIFT, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                },
+                "BASS_BFX_FREEVERB":
+                {
+                  "required": false,
+                  "type": "object",
+                  "properties":
+                  {
+                    "DryMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "WetMix":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "RoomSize":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Damp":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Width":
+                    {
+                      "required": true,
+                      "type": "number",
+                      "format": "System.Single"
+                    },
+                    "Mode":
+                    {
+                      "required": true,
+                      "type": "integer",
+                      "format": "System.Int32"
+                    }
+                  },
+                  "format": "Un4seen.Bass.AddOn.Fx.BASS_BFX_FREEVERB, Bass.Net, Version=2.4.14.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480"
+                }
+              }
+            }
+          },
+          "Attributes":
+          {
+            "required": true,
+            "type": "array",
+            "items":
+            {
+              "properties":
+              {
+                "BASS_ATTRIB_FREQ":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_VOL":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_PAN":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_EAXMIX":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_NOBUFFER":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_CPU":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_SRC":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_NET_RESUME":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_SCANINFO":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_NORAMP":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_BITRATE":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_BUFFER":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MUSIC_AMPLIFY":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MUSIC_PANSEP":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MUSIC_PSCALER":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MUSIC_BPM":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MUSIC_SPEED":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MUSIC_VOL_GLOBAL":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MUSIC_ACTIVE":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MUSIC_VOL_CHAN":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MUSIC_VOL_INST":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_TEMPO":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_TEMPO_PITCH":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_TEMPO_FREQ":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_TEMPO_OPTION_USE_AA_FILTER":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_TEMPO_OPTION_AA_FILTER_LENGTH":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_TEMPO_OPTION_USE_QUICKALGO":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_TEMPO_OPTION_SEQUENCE_MS":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_TEMPO_OPTION_SEEKWINDOW_MS":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_TEMPO_OPTION_OVERLAP_MS":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_TEMPO_OPTION_PREVENT_CLICK":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_REVERSE_DIR":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MIDI_PPQN":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MIDI_CPU":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MIDI_CHANS":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MIDI_VOICES":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MIDI_VOICES_ACTIVE":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MIDI_STATE":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MIDI_SRC":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MIDI_KILL":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MIDI_TRACK_VOL":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_OPUS_ORIGFREQ":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_DSD_GAIN":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_DSD_RATE":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_MIXER_LATENCY":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_SPLIT_ASYNCBUFFER":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_SPLIT_ASYNCPERIOD":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_ATTRIB_WEBM_TRACK":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                },
+                "BASS_SLIDE_LOG":
+                {
+                  "required": true,
+                  "type": "number",
+                  "format": "Un4seen.Bass.BASSAttribute"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

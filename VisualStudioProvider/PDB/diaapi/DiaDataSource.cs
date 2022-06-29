@@ -31,16 +31,22 @@ namespace VisualStudioProvider.PDB.diaapi
             var value = (string)regKey.Single(k => k.SubName == "InprocServer32").Default;
             var fileInfo = new FileInfo(value);
             var details = fileInfo.GetDetails();
-            var description = details["File description"];
-            var version = details["File version"];
+            IntPtr pUnk;
 
-            this.Version = string.Format("{0} v{1}", description, version);
-
-            hr = NativeMethods.CoCreateInstance(ref CLSID_DiaSource, IntPtr.Zero, 1, ref IID_IDiaSource, out dataSource);
-
-            if (hr != VSConstants.S_OK)
+            try
             {
-                Marshal.ThrowExceptionForHR(hr);
+                hr = NativeMethods.CoCreateInstance(CLSID_DiaSource, IntPtr.Zero, 1, IID_IDiaSource, out pUnk);
+
+                if (hr != VSConstants.S_OK)
+                {
+                    Marshal.ThrowExceptionForHR(hr);
+                }
+
+                dataSource = (IDiaDataSource)Marshal.GetObjectForIUnknown(pUnk);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 

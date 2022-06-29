@@ -1,19 +1,43 @@
 ﻿using Microsoft.CSharp.RuntimeBinder;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Web;
 using System.Web.Helpers;
+using Binder = Microsoft.CSharp.RuntimeBinder.Binder;
 
 namespace Utils
 {
     public static class WebExtensions
     {
+        public static void RegisterIEEmulation(this Assembly assembly, int preferredVersionValue = 10000)
+        {
+            var processName = Path.GetFileName(assembly.Location);
+            var emulationKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true);
+            var versionValue = 0;
+
+            try
+            {
+                versionValue = (int)emulationKey.GetValue(processName);
+            }
+            catch
+            {
+            }
+
+            if (versionValue != preferredVersionValue)
+            {
+                versionValue = preferredVersionValue;
+                emulationKey.SetValue(processName, versionValue, Microsoft.Win32.RegistryValueKind.DWord);
+            }
+        }
+
         public static string Unescape(this Uri uri)
         {
             return UnescapeUri(uri.AbsoluteUri);
@@ -174,6 +198,35 @@ namespace Utils
                 var results = new StreamReader(resp.GetResponseStream()).ReadToEnd();
 
                 return JsonDecode(results);
+            }
+        }
+
+        public static T CallRestServiceGet<T>(string url, KeyValuePair<string, string>[] requestProperties, params KeyValuePair<string, object>[] parms)
+        {
+            HttpWebRequest request;
+            string fullUrl;
+
+            if (parms.Length > 0)
+            {
+                var queryParms = string.Join("&", parms.Select(p => string.Format("{0}={1}", p.Key, p.Value)));
+
+                fullUrl = string.Format("{0}?{1}", url, queryParms);
+            }
+            else
+            {
+                fullUrl = url;
+            }
+
+            request = (HttpWebRequest)HttpWebRequest.Create(fullUrl);
+            request.Method = "GET";
+            request.Headers = new WebHeaderCollection();
+            request.SetHeaders(requestProperties);
+
+            using (var resp = request.GetResponse())
+            {
+                var results = new StreamReader(resp.GetResponseStream()).ReadToEnd();
+
+                return JsonExtensions.ReadJson<T>(results);
             }
         }
 

@@ -2,15 +2,49 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if USES_CORE
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+#elif USE_SYSTEM_DATA
 using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.SqlClient;
 using System.Data.Objects.DataClasses;
+#endif
+using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Utils
 {
     public static class ADOExtensions
     {
+#if USES_CORE
+        public static void AddFromTSV<TEntity>(this EntityTypeBuilder<TEntity> entityTypeBuilder, string tabSeparatedValuesPath, Func<string> getFirstColumnValue = null, Action<TEntity> validate = null) where TEntity : class
+        {
+            var entityParserHost = new TsvEntityParserHost<TEntity>();
+            var entities = entityParserHost.ParseFile(tabSeparatedValuesPath, null, getFirstColumnValue);
+
+            if (validate != null)
+            {
+                entities.ForEach(e => validate(e));
+            }
+
+            entityTypeBuilder.HasData(entities);
+        }
+
+        public static void AddFromTSV<TEntity>(this EntityTypeBuilder<TEntity> entityTypeBuilder, string tabSeparatedValuesPath, EntityTypeConfigRelationshipManager relationshipManager, Action<TEntity> validate = null) where TEntity : class
+        {
+            var entityParserHost = new TsvEntityParserHost<TEntity>();
+            var entities = entityParserHost.ParseFile(tabSeparatedValuesPath, null, relationshipManager);
+
+            if (validate != null)
+            {
+                entities.ForEach(e => validate(e));
+            }
+
+            entityTypeBuilder.HasData(entities);
+        }
+
+#elif USE_SYSTEM_DATA
         public static string GetDatabaseName(this ObjectContext entities)
         {
             var connection = (EntityConnection) entities.Connection;
@@ -21,6 +55,11 @@ namespace Utils
         public static string GetDatabaseName(string connectionString)
         {
             return new SqlConnectionStringBuilder(connectionString).InitialCatalog;
+        }
+
+        public static string GetAttachDbFilename(string connectionString)
+        {
+            return new SqlConnectionStringBuilder(connectionString).AttachDBFilename;
         }
 
         public static void TruncateAll(this ObjectContext entities)
@@ -90,5 +129,7 @@ namespace Utils
 
             return entity;
         }
+
+#endif
     }
 }

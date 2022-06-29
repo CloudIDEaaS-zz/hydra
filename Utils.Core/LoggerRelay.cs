@@ -81,7 +81,7 @@ namespace Utils
             var logFileName = logName + ".log";
             string logFileFullName;
 
-            var disposable = this.AsDisposable(() =>
+            var disposable = this.CreateDisposable(() =>
             {
                 ClearSetting();
             });

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using Microsoft.Win32.SafeHandles;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Utils.ProcessHelpers
 {
@@ -17,6 +18,24 @@ namespace Utils.ProcessHelpers
     {
         public string FileName { get; set; }
         public IntPtr FileHandle { get; set; }
+    }
+
+    public class ProcessAdvancedInfo
+    {
+        public IntPtr Handle { get; set; }
+        public int Id { get; set; }
+        public PROCESS_BASIC_INFORMATION BasicInformation { get; set; }
+        public RtlUserProcessParameters ProcessParameters { get; set; }
+        public string[] CommandLine { get; set; }
+        public string CommandLineFull { get; set; }
+        public string EnvironmentFull { get; set; }
+
+        public ProcessAdvancedInfo(IntPtr handle, int processId)
+        {
+            this.Handle = handle;
+            this.Id = processId;
+        }
+
     }
 
     [DebuggerDisplay(" { DebugInfo } ")]
@@ -44,7 +63,7 @@ namespace Utils.ProcessHelpers
         }
     }
 
-    internal enum NT_STATUS
+    public enum NT_STATUS
     {
         STATUS_SUCCESS = 0x00000000,
         STATUS_BUFFER_OVERFLOW = unchecked((int)0x80000005L),
@@ -65,6 +84,45 @@ namespace Utils.ProcessHelpers
         SystemLookasideInformation = 45
     }
 
+    [StructLayout(LayoutKind.Sequential)]
+    public struct PROCESS_BASIC_INFORMATION
+    {
+        public NT_STATUS ExitStatus;
+        public IntPtr PebBaseAddress;
+        public UIntPtr AffinityMask;
+        public int BasePriority;
+        public UIntPtr UniqueProcessId;
+        public UIntPtr InheritedFromUniqueProcessId;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct UnicodeString
+    {
+        public ushort Length;
+        public ushort MaximumLength;
+        public IntPtr Buffer;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RtlUserProcessParameters
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
+        public byte[] Reserved1;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+        public IntPtr[] Reserved2;
+        public UnicodeString ImagePathName;
+        public UnicodeString CommandLine;
+        public IntPtr Environment;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct PEB
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        public IntPtr[] Reserved;
+        public IntPtr ProcessParameters;
+    }
+
     internal enum OBJECT_INFORMATION_CLASS
     {
         ObjectBasicInformation = 0,
@@ -77,7 +135,26 @@ namespace Utils.ProcessHelpers
     [Flags]
     internal enum ProcessAccessRights
     {
-        PROCESS_DUP_HANDLE = 0x00000040
+        PROCESS_DUP_HANDLE = 0x00000040,
+        PROCESS_CREATE_THREAD = 0X0002,
+        PROCESS_SET_SESSION_ID = 0X0004,
+        PROCESS_VM_OPERATION = 0X0008,
+        PROCESS_VM_READ = 0X0010,
+        PROCESS_VM_WRITE = 0X0020,
+        PROCESS_CREATE_PROCESS = 0X0080,
+        PROCESS_SET_QUOTA = 0X0100,
+        PROCESS_SET_INFORMATION = 0X0200,
+        PROCESS_QUERY_INFORMATION = 0X0400,
+        PROCESS_SUSPEND_RESUME = 0X0800,
+        PROCESS_QUERY_LIMITED_INFORMATION = 0X1000,
+        PROCESS_SYNCHRONIZE = 0X100000,
+        DELETE = 0X00010000,
+        READCONTROL = 0X00020000,
+        SYNCHRONIZE = 0x00100000,
+        WRITE_DAC = 0X00040000,
+        WRITE_OWNER = 0X00080000,
+        PROCESS_STANDARD_RIGHTS_REQUIRED = 0X000F0000,
+        PROCESS_ALL_ACCESS = PROCESS_STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | 0xFFFF
     }
 
     [Flags]
@@ -91,7 +168,8 @@ namespace Utils.ProcessHelpers
     internal sealed class SafeObjectHandle : SafeHandleZeroOrMinusOneIsInvalid
     {
         private SafeObjectHandle() : base(true)
-        { }
+        { 
+        }
 
         internal SafeObjectHandle(IntPtr preexistingHandle, bool ownsHandle)
             : base(ownsHandle)
@@ -108,9 +186,9 @@ namespace Utils.ProcessHelpers
     [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
     internal sealed class SafeProcessHandle : SafeHandleZeroOrMinusOneIsInvalid
     {
-        private SafeProcessHandle()
-            : base(true)
-        { }
+        private SafeProcessHandle() : base(true)
+        {
+        }
 
         internal SafeProcessHandle(IntPtr preexistingHandle, bool ownsHandle)
             : base(ownsHandle)
@@ -126,6 +204,27 @@ namespace Utils.ProcessHelpers
 
     internal static class NativeMethods
     {
+        internal enum FileType : uint
+        {
+            FileTypeChar = 0x0002,
+            FileTypeDisk = 0x0001,
+            FileTypePipe = 0x0003,
+            FileTypeRemote = 0x8000,
+            FileTypeUnknown = 0x0000,
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MEMORY_BASIC_INFORMATION
+        {
+            public IntPtr BaseAddress;
+            public IntPtr AllocationBase;
+            public uint AllocationProtect;
+            public IntPtr RegionSize;
+            public uint State;
+            public uint Protect;
+            public uint Type;
+        }
+
         [DllImport("ntdll.dll")]
         internal static extern NT_STATUS NtQuerySystemInformation(
             [In] SYSTEM_INFORMATION_CLASS SystemInformationClass,
@@ -133,13 +232,16 @@ namespace Utils.ProcessHelpers
             [In] int SystemInformationLength,
             [Out] out int ReturnLength);
 
+        [DllImport("ntdll.dll", SetLastError = true)]
+        internal static extern NT_STATUS NtQueryInformationProcess(IntPtr processHandle, OBJECT_INFORMATION_CLASS processInformationClass, IntPtr processInformation, uint processInformationLength, out uint returnLength);
+
         [DllImport("ntdll.dll")]
         internal static extern NT_STATUS NtQueryObject(
             [In] IntPtr Handle,
             [In] OBJECT_INFORMATION_CLASS ObjectInformationClass,
             [In] IntPtr ObjectInformation,
-            [In] int ObjectInformationLength,
-            [Out] out int ReturnLength);
+            [In] uint ObjectInformationLength,
+            [Out] out uint ReturnLength);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern SafeProcessHandle OpenProcess(
@@ -176,6 +278,15 @@ namespace Utils.ProcessHelpers
             [In] string lpDeviceName,
             [Out] StringBuilder lpTargetPath,
             [In] int ucchMax);
+
+        [DllImport("kernel32.dll")]
+        internal static extern FileType GetFileType(IntPtr hFile);
+
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, IntPtr lpBuffer, uint dwSize, out uint lpNumberOfBytesRead);
+
+        [DllImport("kernel32.dll")]
+        internal static extern int VirtualQueryEx(IntPtr hProcess, IntPtr lpAddress, out MEMORY_BASIC_INFORMATION lpBuffer, uint dwLength);
     }
 
     public enum HandleType
@@ -287,66 +398,181 @@ namespace Utils.ProcessHelpers
             return FindPidFromIndexedProcessName(FindIndexedProcessName(process.Id));
         }
 
-        public static IEnumerable<Process> FindLockingProcesses(this FileInfo fileInfo, Func<Process, bool> processFilter = null)
+
+        //public static IEnumerable<Process> FindLockingProcesses(this FileInfo fileInfo, Func<Process, bool> processFilter = null)
+        //{
+        //    var processes = Process.GetProcesses().AsEnumerable();
+
+        //    if (processFilter != null)
+        //    {
+        //        processes = processes.Where(p => processFilter(p));
+        //    }
+
+        //    foreach (var process in processes)
+        //    {
+        //        var hasOpen = false;
+
+        //        try
+        //        {
+        //            if (process.GetOpenFiles().Any(f => f.LocalPath != null && f.LocalPath.AsCaseless() == fileInfo.FullName))
+        //            {
+        //                hasOpen = true;
+        //            }
+        //        }
+        //        catch
+        //        {
+        //        }
+
+        //        if (hasOpen)
+        //        {
+        //            yield return process;
+        //        }
+        //    }
+        //}
+
+        [StructLayout(LayoutKind.Sequential)]
+        struct RM_UNIQUE_PROCESS
         {
-            var processes = Process.GetProcesses().AsEnumerable();
-
-            if (processFilter != null)
-            {
-                processes = processes.Where(p => processFilter(p));
-            }
-
-            foreach (var process in processes)
-            {
-                var hasOpen = false;
-
-                try
-                {
-                    if (process.GetOpenFiles().Any(f => f.LocalPath != null && f.LocalPath.AsCaseless() == fileInfo.FullName))
-                    {
-                        hasOpen = true;
-                    }
-                }
-                catch
-                {
-                }
-
-                if (hasOpen)
-                {
-                    yield return process;
-                }
-            }
+            public int dwProcessId;
+            public System.Runtime.InteropServices.ComTypes.FILETIME ProcessStartTime;
         }
 
-        public static IEnumerable<Process> FindLockingProcesses(this DirectoryInfo directoryInfo, Func<Process, bool> processFilter = null)
+        const int RmRebootReasonNone = 0;
+        const int CCH_RM_MAX_APP_NAME = 255;
+        const int CCH_RM_MAX_SVC_NAME = 63;
+
+        enum RM_APP_TYPE
         {
-            var processes = Process.GetProcesses().AsEnumerable();
+            RmUnknownApp = 0,
+            RmMainWindow = 1,
+            RmOtherWindow = 2,
+            RmService = 3,
+            RmExplorer = 4,
+            RmConsole = 5,
+            RmCritical = 1000
+        }
 
-            if (processFilter != null)
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        struct RM_PROCESS_INFO
+        {
+            public RM_UNIQUE_PROCESS Process;
+
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCH_RM_MAX_APP_NAME + 1)]
+            public string strAppName;
+
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCH_RM_MAX_SVC_NAME + 1)]
+            public string strServiceShortName;
+
+            public RM_APP_TYPE ApplicationType;
+            public uint AppStatus;
+            public uint TSSessionId;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool bRestartable;
+        }
+
+        [DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
+        static extern int RmRegisterResources(uint pSessionHandle, UInt32 nFiles, string[] rgsFilenames, UInt32 nApplications, [In] RM_UNIQUE_PROCESS[] rgApplications, UInt32 nServices, string[] rgsServiceNames);
+
+        [DllImport("rstrtmgr.dll", CharSet = CharSet.Auto)]
+        static extern int RmStartSession(out uint pSessionHandle, int dwSessionFlags, string strSessionKey);
+
+        [DllImport("rstrtmgr.dll")]
+        static extern int RmEndSession(uint pSessionHandle);
+
+        [DllImport("rstrtmgr.dll")]
+        static extern int RmGetList(uint dwSessionHandle,
+                                    ref uint pnProcInfoNeeded,
+                                    ref uint pnProcInfo,
+                                    [In, Out] RM_PROCESS_INFO[] rgAffectedApps,
+                                    ref uint lpdwRebootReasons);
+
+        /// <summary>
+        /// Find out what process(es) have a lock on the specified file.
+        /// </summary>
+        /// <param name="path">Path of the file.</param>
+        /// <returns>Processes locking the file</returns>
+        /// <remarks>See also:
+        /// http://msdn.microsoft.com/en-us/library/windows/desktop/aa373661(v=vs.85).aspx
+        /// http://wyupdate.googlecode.com/svn-history/r401/trunk/frmFilesInUse.cs (no copyright in code at time of viewing)
+        /// 
+        /// </remarks>
+
+        public static IEnumerable<Process> FindLockingProcesses(this FileSystemInfo fileSysemInfo, Func<Process, bool> processFilter = null)
+        {
+            uint handle;
+            var path = fileSysemInfo.FullName;
+            string key = "\0".Repeat(255);
+            List<Process> processes = new List<Process>();
+
+            int res = RmStartSession(out handle, 0, key);
+            if (res != 0) throw new Exception("Could not begin restart session.  Unable to determine file locker.");
+
+            try
             {
-                processes = processes.Where(p => processFilter(p));
-            }
+                const int ERROR_MORE_DATA = 234;
+                uint pnProcInfoNeeded = 0,
+                     pnProcInfo = 0,
+                     lpdwRebootReasons = RmRebootReasonNone;
 
-            foreach (var process in processes)
-            {
-                var hasOpen = false;
+                string[] resources = new string[] { path }; // Just checking on one resource.
 
-                try
+                res = RmRegisterResources(handle, (uint)resources.Length, resources, 0, null, 0, null);
+
+                if (res != 0) throw new Exception("Could not register resource.");
+
+                //Note: there's a race condition here -- the first call to RmGetList() returns
+                //      the total number of process. However, when we call RmGetList() again to get
+                //      the actual processes this number may have increased.
+                res = RmGetList(handle, ref pnProcInfoNeeded, ref pnProcInfo, null, ref lpdwRebootReasons);
+
+                if (res == ERROR_MORE_DATA)
                 {
-                    if (process.GetOpenFiles().Any(f => f.LocalPath != null && f.LocalPath.AsCaseless().StartsWith(directoryInfo.FullName)))
+                    // Create an array to store the process results
+                    RM_PROCESS_INFO[] processInfo = new RM_PROCESS_INFO[pnProcInfoNeeded];
+                    pnProcInfo = pnProcInfoNeeded;
+
+                    // Get the list
+                    res = RmGetList(handle, ref pnProcInfoNeeded, ref pnProcInfo, processInfo, ref lpdwRebootReasons);
+
+                    if (res == 0)
                     {
-                        hasOpen = true;
+                        processes = new List<Process>((int)pnProcInfo);
+
+                        // Enumerate all of the results and add them to the 
+                        // list to be returned
+                        for (int i = 0; i < pnProcInfo; i++)
+                        {
+                            try
+                            {
+                                var process = Process.GetProcessById(processInfo[i].Process.dwProcessId);
+
+                                if (processFilter == null || processFilter(process))
+                                {
+                                    processes.Add(process);
+                                }
+                            }
+                            // catch the error -- in case the process is no longer running
+                            catch (ArgumentException) 
+                            {
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Could not list processes locking resource.");
                     }
                 }
-                catch
+                else if (res != 0)
                 {
-                }
-
-                if (hasOpen)
-                {
-                    yield return process;
+                    throw new Exception("Could not list processes locking resource. Failed to get size of result.");
                 }
             }
+            finally
+            {
+                RmEndSession(handle);
+            }
+
+            return processes;
         }
 
         public static IEnumerable<HandleInfo> GetOpenFiles(this Process process)
@@ -363,10 +589,25 @@ namespace Utils.ProcessHelpers
             return process.GetOpenHandles().Where(h => h.HandleType == type);
         }
 
+        public static PROCESS_BASIC_INFORMATION? GetBasicInfo(this Process process)
+        {
+            return GetBasicInfo(process.Handle, process.Id);
+        }
+
+        public static ProcessAdvancedInfo GetAdvancedInfo(this Process process)
+        {
+            return GetAdvancedInfo(process.Handle, process.Id);
+        }
+
         public static IEnumerable<HandleInfo> GetOpenHandles(this Process process)
         {
             NT_STATUS returnValue;
             int length = 0x10000;
+
+            if (process.ProcessName == "svchost")
+            {
+                yield break;
+            }
 
             do
             {
@@ -572,17 +813,17 @@ namespace Utils.ProcessHelpers
                 if (NativeMethods.DuplicateHandle(processHandle.DangerousGetHandle(), handle, currentProcess, out objectHandle, 0, false, DuplicateHandleOptions.DUPLICATE_SAME_ACCESS))
                 {
                     handle = objectHandle.DangerousGetHandle();
-                    int length;
-                    NativeMethods.NtQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectTypeInformation, IntPtr.Zero, 0, out length);
+                    uint length;
+                    SafeQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectTypeInformation, IntPtr.Zero, 0, out length);
                     IntPtr ptrObjectType = IntPtr.Zero;
 
                     try
                     {
                         if (length > 0)
                         {
-                            ptrObjectType = Marshal.AllocHGlobal(length);
+                            ptrObjectType = Marshal.AllocHGlobal((int) length);
 
-                            if (NativeMethods.NtQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectTypeInformation, ptrObjectType, length, out length) == NT_STATUS.STATUS_SUCCESS)
+                            if (SafeQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectTypeInformation, ptrObjectType, length, out length) == NT_STATUS.STATUS_SUCCESS)
                             {
                                 var token = Marshal.PtrToStringUni((IntPtr)((int)ptrObjectType + 0x60));
                                 HandleType handleType;
@@ -592,27 +833,33 @@ namespace Utils.ProcessHelpers
                                     IntPtr ptrObjectName = IntPtr.Zero;
                                     NT_STATUS returnValue;
                                     string objectName = null;
+                                    var fileType = NativeMethods.GetFileType(handle);
+
+                                    if (fileType != NativeMethods.FileType.FileTypeDisk)
+                                    {
+                                        return false;
+                                    }
 
                                     try
                                     {
 
                                         length = 0x200;  // 512 bytes 
 
-                                        ptrObjectName = Marshal.AllocHGlobal(length);
-                                        returnValue = NativeMethods.NtQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectNameInformation, ptrObjectName, length, out length);
+                                        ptrObjectName = Marshal.AllocHGlobal((int)length);
+                                        returnValue = SafeQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectNameInformation, ptrObjectName, length, out length);
 
                                         if (returnValue == NT_STATUS.STATUS_BUFFER_OVERFLOW)
                                         {
                                             RuntimeHelpers.PrepareConstrainedRegions();
                                             Marshal.FreeHGlobal(ptrObjectName);
-                                            ptrObjectName = Marshal.AllocHGlobal(length);
+                                            ptrObjectName = Marshal.AllocHGlobal((int)length);
 
-                                            returnValue = NativeMethods.NtQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectNameInformation, ptrObjectName, length, out length);
+                                            returnValue = SafeQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectNameInformation, ptrObjectName, length, out length);
                                         }
 
                                         if (returnValue == NT_STATUS.STATUS_SUCCESS)
                                         {
-                                            objectName = Marshal.PtrToStringUni((IntPtr)((int)ptrObjectName + 8), (length - 9) / 2);
+                                            objectName = Marshal.PtrToStringUni((IntPtr)((int)ptrObjectName + 8), (((int) length) - 9) / 2);
                                         }
                                     }
                                     finally
@@ -652,6 +899,217 @@ namespace Utils.ProcessHelpers
             }
 
             return false;
+        }
+
+        private static bool ReadStructFromProcessMemory<TStruct>(IntPtr hProcess, IntPtr lpBaseAddress, out TStruct val)
+        {
+            val = default;
+            var structSize = Marshal.SizeOf<TStruct>();
+            var mem = Marshal.AllocHGlobal(structSize);
+            uint returnLength;
+
+            try
+            {
+                if (NativeMethods.ReadProcessMemory(hProcess, lpBaseAddress, mem, (uint)structSize, out returnLength))
+                {
+                    val = Marshal.PtrToStructure<TStruct>(mem);
+                    return true;
+                }
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(mem);
+            }
+            return false;
+        }
+
+        private unsafe static ProcessAdvancedInfo GetAdvancedInfo(IntPtr handle, int processId)
+        {
+            SafeProcessHandle processHandle = null;
+            uint returnLength = 0;
+            NT_STATUS status;
+            var advancedInfo = new ProcessAdvancedInfo(handle, processId);
+
+            try
+            {
+                var basicInformation = new PROCESS_BASIC_INFORMATION();
+                var size = Marshal.SizeOf<PROCESS_BASIC_INFORMATION>();
+                var ptrBasicInformation = Marshal.AllocCoTaskMem(size);
+
+                Marshal.StructureToPtr(basicInformation, ptrBasicInformation, false);
+
+                processHandle = NativeMethods.OpenProcess(ProcessAccessRights.PROCESS_DUP_HANDLE, true, processId);
+
+                try
+                {
+                    status = NativeMethods.NtQueryInformationProcess(handle, OBJECT_INFORMATION_CLASS.ObjectBasicInformation, ptrBasicInformation, (uint)size, out returnLength);
+
+                    if (status == NT_STATUS.STATUS_SUCCESS)
+                    {
+                        PEB peb;
+
+                        basicInformation = (PROCESS_BASIC_INFORMATION)Marshal.PtrToStructure(ptrBasicInformation, typeof(PROCESS_BASIC_INFORMATION));
+                        advancedInfo.BasicInformation = basicInformation;
+
+                        if (basicInformation.PebBaseAddress != IntPtr.Zero)
+                        {
+                            if (ReadStructFromProcessMemory(handle, basicInformation.PebBaseAddress, out peb))
+                            {
+                                RtlUserProcessParameters processParameters;
+
+                                if (ReadStructFromProcessMemory(handle, peb.ProcessParameters, out processParameters))
+                                {
+                                    var maxLength = processParameters.CommandLine.MaximumLength;
+                                    var ptrCommandLine = Marshal.AllocHGlobal(maxLength);
+                                    string commandLine;
+                                    
+                                    advancedInfo.ProcessParameters = processParameters;
+
+                                    try
+                                    {
+                                        if (NativeMethods.ReadProcessMemory(handle, processParameters.CommandLine.Buffer, ptrCommandLine, maxLength, out returnLength))
+                                        {
+                                            commandLine = Marshal.PtrToStringUni(ptrCommandLine);
+
+                                            advancedInfo.CommandLine = ProcessExtensions.CommandLineToArgs(commandLine);
+                                            advancedInfo.CommandLineFull = commandLine;
+                                        }
+                                    }
+                                    finally
+                                    {
+                                        Marshal.FreeHGlobal(ptrCommandLine);
+                                    }
+
+                                    try
+                                    {
+                                        NativeMethods.MEMORY_BASIC_INFORMATION memBasicInfo;
+                                        string environment;
+
+                                        if (NativeMethods.VirtualQueryEx(handle, processParameters.Environment, out memBasicInfo, (uint) sizeof(NativeMethods.MEMORY_BASIC_INFORMATION)) > 0)
+                                        {
+                                            var environmentLength = IntPtr.Subtract(memBasicInfo.RegionSize, (int)(IntPtr.Subtract(processParameters.Environment, (int) memBasicInfo.BaseAddress)));
+                                            var ptrEnvironment = Marshal.AllocHGlobal(environmentLength);
+
+                                            if (NativeMethods.ReadProcessMemory(handle, processParameters.Environment, ptrEnvironment, (uint) environmentLength, out returnLength))
+                                            {
+                                                environment = Marshal.PtrToStringUni(ptrCommandLine);
+
+                                                advancedInfo.EnvironmentFull = environment;
+                                            }
+                                        }
+                                    }
+                                    finally
+                                    {
+                                        Marshal.FreeHGlobal(ptrCommandLine);
+                                    }
+                                }
+                            }
+                        }
+
+                        return advancedInfo;
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+                finally
+                {
+                    Marshal.FreeHGlobal(ptrBasicInformation);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                if (processHandle != null)
+                {
+                    processHandle.Close();
+                }
+            }
+
+            return advancedInfo;
+        }
+
+        private static PROCESS_BASIC_INFORMATION? GetBasicInfo(IntPtr handle, int processId)
+        {
+            SafeProcessHandle processHandle = null;
+            uint returnLength = 0;
+            NT_STATUS status;
+
+            try
+            {
+                var basicInformation = new PROCESS_BASIC_INFORMATION();
+                var size = Marshal.SizeOf<PROCESS_BASIC_INFORMATION>();
+                var ptrBasicInformation = Marshal.AllocCoTaskMem(size);
+
+                Marshal.StructureToPtr(basicInformation, ptrBasicInformation, false);
+
+                processHandle = NativeMethods.OpenProcess(ProcessAccessRights.PROCESS_DUP_HANDLE, true, processId);
+
+                try
+                {
+                    status = NativeMethods.NtQueryInformationProcess(handle, OBJECT_INFORMATION_CLASS.ObjectBasicInformation, ptrBasicInformation, (uint)size, out returnLength);
+
+                    if (status == NT_STATUS.STATUS_SUCCESS)
+                    {
+                        PEB peb;
+
+                        basicInformation = (PROCESS_BASIC_INFORMATION)Marshal.PtrToStructure(ptrBasicInformation, typeof(PROCESS_BASIC_INFORMATION));
+
+                        if (basicInformation.PebBaseAddress != IntPtr.Zero)
+                        {
+                            if (ReadStructFromProcessMemory(handle, basicInformation.PebBaseAddress, out peb))
+                            {
+                                RtlUserProcessParameters processParameters;
+
+                                if (ReadStructFromProcessMemory(handle, peb.ProcessParameters, out processParameters))
+                                {
+                                    var maxLength = processParameters.CommandLine.MaximumLength;
+                                    var ptrCommandLine = Marshal.AllocHGlobal(maxLength);
+                                    string commandLine;
+
+                                    try
+                                    {
+                                        if (NativeMethods.ReadProcessMemory(handle, processParameters.CommandLine.Buffer, ptrCommandLine, maxLength, out returnLength))
+                                        {
+                                            commandLine = Marshal.PtrToStringUni(ptrCommandLine);
+                                        }
+                                        else
+                                        {
+                                        }
+                                    }
+                                    finally
+                                    {
+                                        Marshal.FreeHGlobal(ptrCommandLine);
+                                    }
+                                }
+                            }
+                        }
+
+                        return basicInformation;
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+                finally
+                {
+                    Marshal.FreeHGlobal(ptrBasicInformation);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                if (processHandle != null)
+                {
+                    processHandle.Close();
+                }
+            }
+
+            return null;
         }
 
         private static bool GetFileNameFromHandle(IntPtr handle, int processId, out string fileName)
@@ -794,7 +1252,7 @@ namespace Utils.ProcessHelpers
 
             try
             {
-                int length = 0x200;  // 512 bytes 
+                uint length = 0x200;  // 512 bytes 
                 RuntimeHelpers.PrepareConstrainedRegions();
 
                 try { }
@@ -803,10 +1261,10 @@ namespace Utils.ProcessHelpers
                     // CER guarantees the assignment of the allocated  
                     // memory address to ptr, if an ansynchronous exception  
                     // occurs. 
-                    ptr = Marshal.AllocHGlobal(length);
+                    ptr = Marshal.AllocHGlobal((int) length);
                 }
 
-                NT_STATUS ret = NativeMethods.NtQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectNameInformation, ptr, length, out length);
+                NT_STATUS ret = SafeQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectNameInformation, ptr, length, out length);
 
                 if (ret == NT_STATUS.STATUS_BUFFER_OVERFLOW)
                 {
@@ -819,15 +1277,15 @@ namespace Utils.ProcessHelpers
                         // and that the newly allocated memory address is  
                         // assigned to ptr if an asynchronous exception occurs. 
                         Marshal.FreeHGlobal(ptr);
-                        ptr = Marshal.AllocHGlobal(length);
+                        ptr = Marshal.AllocHGlobal((int)length);
                     }
 
-                    ret = NativeMethods.NtQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectNameInformation, ptr, length, out length);
+                    ret = SafeQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectNameInformation, ptr, length, out length);
                 }
 
                 if (ret == NT_STATUS.STATUS_SUCCESS)
                 {
-                    fileName = Marshal.PtrToStringUni((IntPtr)((int)ptr + 8), (length - 9) / 2);
+                    fileName = Marshal.PtrToStringUni((IntPtr)((int)ptr + 8), (((int)length) - 9) / 2);
                     return fileName.Length != 0;
                 }
             }
@@ -907,8 +1365,8 @@ namespace Utils.ProcessHelpers
 
         private static string GetHandleTypeToken(IntPtr handle)
         {
-            int length;
-            NativeMethods.NtQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectTypeInformation, IntPtr.Zero, 0, out length);
+            uint length;
+            SafeQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectTypeInformation, IntPtr.Zero, 0, out length);
             IntPtr ptr = IntPtr.Zero;
             RuntimeHelpers.PrepareConstrainedRegions();
             try
@@ -917,9 +1375,9 @@ namespace Utils.ProcessHelpers
 
                 if (length > 0)
                 {
-                    ptr = Marshal.AllocHGlobal(length);
+                    ptr = Marshal.AllocHGlobal((int) length);
 
-                    if (NativeMethods.NtQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectTypeInformation, ptr, length, out length) == NT_STATUS.STATUS_SUCCESS)
+                    if (SafeQueryObject(handle, OBJECT_INFORMATION_CLASS.ObjectTypeInformation, ptr, length, out length) == NT_STATUS.STATUS_SUCCESS)
                     {
                         return Marshal.PtrToStringUni((IntPtr)((int) ptr + 0x60));
                     }
@@ -931,6 +1389,15 @@ namespace Utils.ProcessHelpers
             }
 
             return string.Empty;
+        }
+
+        private static NT_STATUS SafeQueryObject(IntPtr handle, OBJECT_INFORMATION_CLASS objectTypeInformation, IntPtr zero, uint length, out uint returnLength)
+        {
+            var status = NT_STATUS.STATUS_INFO_LENGTH_MISMATCH;
+
+            status = NativeMethods.NtQueryObject(handle, objectTypeInformation, zero, length, out returnLength);
+
+            return status;
         }
 
         public static bool ConvertDevicePathToLocalPath(string devicePath, out string dosPath)
