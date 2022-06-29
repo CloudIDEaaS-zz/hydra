@@ -8,5 +8,7 @@ export class PackageCacheStatus {
     public InstallsFromCache : string[];
     public CopiedToCache : string[];
     public InstallErrorsFromCache : string[];
+    public NoCaching : boolean;
     public StatusText : string;
+    public StatusProgressPercent: number;
 }

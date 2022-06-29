@@ -1,11 +1,9 @@
-import { openSync } from "fs";
-
 const Promise = require('bluebird');
 const exec = require('child_process').exec;
 const colors = require('colors/safe');
 const path = require('path');
 let npmPath = "C:/Program Files/nodejs/node_modules/npm";
-let cmd = require(path.join(npmPath, "lib/install.js"));
+let cmd = <any> require(path.join(npmPath, "lib/install.js"));
 
 export class npm {
     static stdout: any;
@@ -19,20 +17,39 @@ export class npm {
         return errorHandler;
     }
 
+    static getLoaded() : boolean
+    {
+        var npm = <any> require(path.join(npmPath, "lib/npm.js"));
+
+        return npm.config.loaded;
+    }
+
     static install(packages, opts) {
 
-        var npm = require(path.join(npmPath, "lib/npm.js"));
-        var npmconf = require(path.join(npmPath, "lib/config/core.js"));
+        var npm = <any> require(path.join(npmPath, "lib/npm.js"));
+        var npmconf = <any> require(path.join(npmPath, "lib/config/core.js"));
+        var args = [];
         
         var configDefs = npmconf.defs;
         var shorthands = configDefs.shorthands;
         var types = configDefs.types;
 
         var nopt = require('nopt');
-        var conf = nopt(types, shorthands);
+
+        if (opts.lean) {
+            args = args.concat(["--no-optional"]);
+            args = args.concat(["--prod"]);
+            args = args.concat(["--no-progress"]);
+            args = args.concat(["-loglevel"], ["silent"]);
+            args = args.concat(["--prefer-offline"]);
+            args = args.concat(["--no-audit"]);
+            args = args.concat(["--no-fund"]);
+         }
+
+        var conf = nopt(types, shorthands, args);
 
         return new Promise((resolve, reject) => {
-      
+
             npm.load(conf, (er) => {
                         
                 if (er) {

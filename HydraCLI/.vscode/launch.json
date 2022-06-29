@@ -1,13 +1,131 @@
 {
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    // For more information, visit: https:/go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Attach by Process ID",
+            "processId": "${command:PickProcess}",
+            "request": "attach",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
+            "name": "Debug CssEditor",
             "type": "node",
             "request": "launch",
+            "preLaunchTask": "launch-csseditor",
+            "url": "http:/localhost:4200",
+            "sourceMaps": true,
+            "webRoot": "${workspaceFolder}/CssEditor"
+        },
+        {
+            "name": "Debug carousel",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "launch-carousel",
+            "url": "http:/localhost:8100",
+            "sourceMaps": true,
+            "webRoot": "${workspaceFolder}/carousel"
+        },
+        {
+            "name": "Debug testjsx",
+            "type": "chrome",
+            "request": "launch",
+            "preLaunchTask": "launch-testjsx",
+            "url": "http:/localhost:8100",
+            "sourceMaps": true,
+            "webRoot": "${workspaceFolder}/testjsx"
+        },
+        {
+            "name": "Debug Jest Tests",
+            "type": "node",
+            "request": "launch",
+            "runtimeArgs": [
+                "--inspect-brk",
+                "${workspaceRoot}/node_modules/jest/bin/jest.js",
+                "--runInBand"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "port": 9229
+        },
+        {
+            "name": "Debug Driver",
+            "program": "${workspaceFolder}/HydraCli/out/drive",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
+            "name": "Debug Captcha",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/HydraCli/out/window.js",
+            "stopOnEntry": false,
+            "args": [
+                "--p",
+                "60225"
+            ],
+            "cwd": ".",
+            "runtimeExecutable": "${workspaceRoot}/HydraCli/node_modules/electron/dist/electron.exe",
+            "runtimeArgs": [],
+            "env": {}
+        },
+        {
+            "name": "Debug ionic cordova build android --prod --release",
+            "program": "C:/Users/Ken/AppData/Roaming/npm/node_modules/@ionic/cli/bin/ionic",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/../ApplicationGenerator/TestOutput/contoso.Web/contoso",
+            "type": "pwa-node",
+            "console": "externalTerminal",
+            "args": [
+                "cordova",
+                "build",
+                "android",
+                "--prod",
+                "--release",
+            ]
+        },
+        {
+            "name": "Debug npm install",
+            "type": "node",
+            "request": "launch",
+            "cwd": "d:/Users/Ken/Documents/HydraProjects/contoso/contoso.Web/contoso",
+            "console": "externalTerminal",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "install",
+                "guid",
+                "--no-optional",
+                "--prod",
+                "--only=prod",
+                "--no-progress",
+                "--loglevel",
+                "silent",
+                "--prefer-offline",
+                "--no-audit",
+                "--no-fund"
+            ],
+            "port": 5858
+        },
+        {
+            "name": "Debug Hydra Cli - Attach",
+            "request": "attach",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
             "name": "Debug Hydra Installer - install",
+            "type": "node",
+            "request": "launch",
             "preLaunchTask": "build",
             "cwd": "${workspaceFolder}/GenOutput/sample",
             "program": "${workspaceFolder}/HydraInstall/out/postinstall.js",
@@ -15,12 +133,12 @@
             "args": []
         },
         {
+            "name": "Debug Hydra Cli - generate app",
             "type": "node",
             "request": "launch",
-            "name": "Debug Hydra Cli - generate app",
             "preLaunchTask": "build",
-            "cwd": "${workspaceFolder}/GenOutput/sample",
-            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "cwd": "d:\\Users\\Ken\\Documents\\HydraProjects\\MyApp\\MyApp.Web\\MyApp",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
                 "generate",
@@ -30,12 +148,70 @@
             ]
         },
         {
+            "name": "Debug Hydra Cli - install",
             "type": "node",
             "request": "launch",
-            "name": "Debug Hydra Cli - generate workspace",
             "preLaunchTask": "build",
-            "cwd": "${workspaceFolder}/GenOutput/sample",
-            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "cwd": "d:/Users/Ken/Documents/HydraProjects/contoso/contoso.Web/contoso",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "install",
+                "guid"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - launchRenderer from agent",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": ".",
+            "runtimeExecutable": "${workspaceRoot}/../TestComponentRenderingAgent/bin/Debug/TestComponentRenderingAgent.exe",
+            "runtimeArgs": []
+        },
+        {
+            "name": "Debug Hydra Cli - launchRenderer from cmd",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": ".",
+            "runtimeExecutable": "C:\\Users\\Ken\\AppData\\Roaming\\npm\\hydra",
+            "runtimeArgs": [
+                "launchRenderer"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - launchRenderer",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "launchRenderer",
+                "--logClient"
+            ]
+        },
+        {
+            "name": "Debug - ESMRenderer",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "buildESMRenderer",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/ESMRenderer/out/render",
+            "console": "externalTerminal",
+            "args": [
+                "\"http://localhost/modules/cloudideaas-carousel-0.0.1/package/dist/esm/carousel-component.entry.js\""
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - generate workspace",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "d:\\Users\\Ken\\Documents\\HydraProjects\\MyApp",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
                 "generate",
@@ -43,16 +219,33 @@
                 "--logToConsole",
                 "--debug",
                 "--appName",
-                "contoso"
+                "MyApp",
+                "--appDescription",
+                "MyApp app",
+                "--organizationName",
+                "MyApp organization"
             ]
         },
         {
+            "name": "Debug Hydra Cli - generate workspace 2",
             "type": "node",
             "request": "launch",
-            "name": "Debug Hydra Cli - generate businessmodel",
             "preLaunchTask": "build",
-            "cwd": "${workspaceFolder}/GenOutput/sample",
-            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "cwd": "${workspaceFolder}/GenOutput",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "generate",
+                "workspace"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - generate businessmodel",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "d:\\Users\\Ken\\Documents\\HydraProjects\\MyApp",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
                 "generate",
@@ -60,16 +253,46 @@
                 "--logToConsole",
                 "--debug",
                 "--template",
-                "\"%HYDRASOLUTIONPATH%\\ApplicationGenerator\\GeneratorTemplates\\Default\\businessModel.template\""
+                "blank"
             ]
         },
         {
+            "name": "Debug Hydra Cli - generate businessmodel 2",
             "type": "node",
             "request": "launch",
-            "name": "Debug Hydra Cli - generate entities from template",
             "preLaunchTask": "build",
-            "cwd": "${workspaceFolder}/GenOutput/sample",
-            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "cwd": "d:\\Users\\Ken\\Documents\\HydraProjects\\MyApp",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "generate",
+                "businessmodel",
+                "--logToConsole",
+                "--debug"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - generate entities",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "d:\\Users\\Ken\\Documents\\HydraProjects\\MyApp",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "generate",
+                "entities",
+                "--logToConsole",
+                "--debug"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - generate entities from template",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "d:\\Users\\Ken\\Documents\\HydraProjects\\MyApp",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
                 "generate",
@@ -77,18 +300,33 @@
                 "--logToConsole",
                 "--debug",
                 "--template",
-                "\"%HYDRASOLUTIONPATH%\\ApplicationGenerator\\GeneratorTemplates\\Default\\entityDomainModel.template\"",
-                "--businessmodel",
-                "\"%HYDRASOLUTIONPATH%\\ApplicationGenerator\\TestOutput\\businessModel.json\""
+                "blank"
             ]
         },
         {
+            "name": "Debug Hydra Cli - generate entities from json",
             "type": "node",
             "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "d:\\Users\\Ken\\Documents\\HydraProjects\\MyApp",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "generate",
+                "entities",
+                "--logToConsole",
+                "--debug",
+                "--json",
+                "default"
+            ]
+        },
+        {
             "name": "Debug Hydra Cli - test",
+            "type": "node",
+            "request": "launch",
             "preLaunchTask": "build",
             "cwd": "${workspaceFolder}/GenOutput/sample",
-            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
                 "test",
@@ -97,35 +335,34 @@
             ]
         },
         {
+            "name": "Debug Hydra Cli - version",
             "type": "node",
             "request": "launch",
-            "name": "Debug Hydra Cli - version",
             "preLaunchTask": "build",
             "cwd": "${workspaceFolder}/GenOutput/sample",
-            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
                 "--version"
             ]
         },
         {
+            "name": "Debug Hydra Cli - help",
             "type": "node",
             "request": "launch",
-            "name": "Debug Hydra Cli - help",
             "preLaunchTask": "build",
             "cwd": "${workspaceFolder}/GenOutput/sample",
-            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
-            "args": [
-            ]
+            "args": []
         },
         {
+            "name": "Debug Hydra Cli - setPackages",
             "type": "node",
             "request": "launch",
-            "name": "Debug Hydra Cli - setPackages",
             "preLaunchTask": "build",
             "cwd": "${workspaceFolder}/GenOutput/sample",
-            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
                 "setPackages",
@@ -134,26 +371,67 @@
             ]
         },
         {
+            "name": "Debug Hydra Cli - addResource: appDescription",
             "type": "node",
             "request": "launch",
-            "name": "Debug Hydra Cli - start",
             "preLaunchTask": "build",
-            "cwd": "${workspaceFolder}/GenOutput",
-            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
-                "start",
-                "sample",
+                "addResource",
+                "--appDescription",
+                "--logToConsole",
                 "--debug"
             ]
         },
         {
+            "name": "Debug Hydra Cli - addResource: splashScreen",
             "type": "node",
             "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "addResource",
+                "--splashScreen"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - showDesigner",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "showDesigner",
+                "--debug"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - start",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "d:\\Users\\Ken\\Documents\\HydraProjects\\MyApp\\MyApp.Web",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "start",
+                "MyApp",
+                "--logToConsole"
+            ]
+        },
+        {
             "name": "Debug Hydra Cli - set wd",
+            "type": "node",
+            "request": "launch",
             "preLaunchTask": "build",
             "cwd": "${workspaceFolder}/GenOutput",
-            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
                 "set",
@@ -162,12 +440,12 @@
             ]
         },
         {
+            "name": "Debug Hydra Cli - delete",
             "type": "node",
             "request": "launch",
-            "name": "Debug Hydra Cli - delete",
             "preLaunchTask": "build",
             "cwd": "${workspaceFolder}/GenOutput",
-            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
                 "delete",
@@ -175,85 +453,163 @@
             ]
         },
         {
+            "name": "Debug Hydra Cli - clean",
             "type": "node",
             "request": "launch",
-            "name": "Debug Hydra Cli - clean",
             "preLaunchTask": "build",
             "cwd": "${workspaceFolder}/GenOutput/sample",
-            "program": "${workspaceFolder}/HydraCli/out/cli.js",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
                 "clean",
             ]
         },
         {
+            "name": "Debug Hydra Cli - add android",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/../ApplicationGenerator/TestOutput/contoso.Web/contoso",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "add",
+                "android"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - remove android",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/../ApplicationGenerator/TestOutput/contoso.Web/contoso",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "remove",
+                "android"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - update android",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/../ApplicationGenerator/TestOutput/contoso.Web/contoso",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "update",
+                "android"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - platforms",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/../ApplicationGenerator/TestOutput/contoso.Web/contoso",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "platforms"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - build android prod release",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "build",
+                "android",
+                "--prod",
+                "--release",
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - build",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "build"
+            ]
+        },
+        {
+            "name": "Debug Sample",
             "type": "chrome",
             "request": "launch",
-            "name": "Debug Sample",
             "preLaunchTask": "launch-ionic-sample",
-            "url": "http://localhost:8100",
+            "url": "http:/localhost:8100",
             "sourceMaps": true,
             "webRoot": "${workspaceRoot}/GenOutput/sample"
         },
         {
+            "name": "Debug Blank",
             "type": "chrome",
             "request": "launch",
-            "name": "Debug Blank",
             "preLaunchTask": "launch-ionic-blank",
-            "url": "http://localhost:8100",
+            "url": "http:/localhost:8100",
             "sourceMaps": true,
             "webRoot": "${workspaceRoot}/GenOutput/blank"
         },
         {
+            "name": "Debug Business Modeler",
             "type": "chrome",
             "request": "launch",
-            "name": "Debug Business Modeler",
             "preLaunchTask": "launch-ionic-businessModeler",
-            "url": "http://www.hydracloudservices.com:8101/home/model",
+            "url": "http:/www.hydracloudservices.com:8101/home/model",
             "sourceMaps": true,
             "webRoot": "${workspaceRoot}/GenOutput/businessModeler"
         },
         {
+            "name": "Debug Data Item Editor",
             "type": "chrome",
             "request": "launch",
-            "name": "Debug Data Item Editor",
             "url": "D:/MC/RazorViewsDesigner/HydraCLI/GenOutput/dataItemEditor/DataItemEditor.html",
             "sourceMaps": true,
             "webRoot": "${workspaceRoot}/GenOutput/dataItemEditor"
         },
         {
+            "name": "Debug conference",
             "type": "chrome",
             "request": "launch",
-            "name": "Debug conference",
             "preLaunchTask": "launch-ionic-conference",
-            "url": "http://localhost:8100",
+            "url": "http:/localhost:8100",
             "sourceMaps": true,
             "webRoot": "${workspaceRoot}/GenOutput/conference"
         },
         {
+            "name": "Debug Sample Courses Page",
             "type": "chrome",
             "request": "launch",
-            "name": "Debug Sample Courses Page",
             "preLaunchTask": "launch-ionic-sample",
-            "url": "http://localhost:8100?root=CoursesPage",
+            "url": "http:/localhost:8100?root=CoursesPage",
             "sourceMaps": true,
             "webRoot": "${workspaceRoot}/GenOutput/sample"
         },
         {
+            "name": "Debug Sample2",
             "type": "chrome",
             "request": "launch",
-            "name": "Debug Sample2",
             "preLaunchTask": "launch-ionic-sample2",
-            "url": "http://localhost:8100",
+            "url": "http:/localhost:8100",
             "sourceMaps": true,
             "webRoot": "${workspaceRoot}/GenOutput/sample2"
         },
         {
+            "name": "Debug Sample3",
             "type": "chrome",
             "request": "launch",
-            "name": "Debug Sample3",
             "preLaunchTask": "launch-ionic-sample3",
-            "url": "http://localhost:8100",
+            "url": "http:/localhost:8100",
             "sourceMaps": true,
             "webRoot": "${workspaceRoot}/GenOutput/sample3"
         },

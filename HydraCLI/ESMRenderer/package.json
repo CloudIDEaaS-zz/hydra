@@ -1,0 +1,22 @@
+{
+  "name": "ESMRenderer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^17.0.18",
+    "@types/puppeteer": "^5.4.4",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "@stencil/core": "^2.14.0",
+    "puppeteer": "^13.3.2",
+    "string-builder": "^0.1.8"
+  }
+}

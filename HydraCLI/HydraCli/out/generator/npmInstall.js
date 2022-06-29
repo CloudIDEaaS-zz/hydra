@@ -12,14 +12,28 @@ class npm {
         var errorHandler = require(path.join(npmPath, "lib/utils/error-handler.js"));
         return errorHandler;
     }
+    static getLoaded() {
+        var npm = require(path.join(npmPath, "lib/npm.js"));
+        return npm.config.loaded;
+    }
     static install(packages, opts) {
         var npm = require(path.join(npmPath, "lib/npm.js"));
         var npmconf = require(path.join(npmPath, "lib/config/core.js"));
+        var args = [];
         var configDefs = npmconf.defs;
         var shorthands = configDefs.shorthands;
         var types = configDefs.types;
         var nopt = require('nopt');
-        var conf = nopt(types, shorthands);
+        if (opts.lean) {
+            args = args.concat(["--no-optional"]);
+            args = args.concat(["--prod"]);
+            args = args.concat(["--no-progress"]);
+            args = args.concat(["-loglevel"], ["silent"]);
+            args = args.concat(["--prefer-offline"]);
+            args = args.concat(["--no-audit"]);
+            args = args.concat(["--no-fund"]);
+        }
+        var conf = nopt(types, shorthands, args);
         return new Promise((resolve, reject) => {
             npm.load(conf, (er) => {
                 if (er) {

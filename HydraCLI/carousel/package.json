@@ -1,0 +1,69 @@
+{
+  "name": "@cloudideaas/carousel",
+  "version": "0.0.3",
+  "description": "Carousel component",
+  "displayName": "Hydra Carousel",
+  "main": "dist/index.cjs.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CloudIDEaaS/hydra.git"
+  },
+  "contributors": [
+    "ken.l.netherland@cloudideaas.com"
+  ],
+  "keywords": [
+    "codegen",
+    "app generation",
+    "code generation",
+    "code scaffolding",
+    ".net",
+    ".net core",
+    "sql server",
+    "entity framework core",
+    "mobile app",
+    "docker",
+    "microservices",
+    "helm",
+    "azure devops",
+    "kubernetes",
+    "progressive web apps",
+    "pwa"
+  ],
+  "author": "CloudIDEaaS Inc",
+  "license": "ISC",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "module": "dist/index.js",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
+  "types": "dist/types/components.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/carousel/carousel.esm.js",
+  "files": [
+    "dist/",
+    "loader/"
+  ],
+  "scripts": {
+    "build": "stencil build --docs",
+    "start": "stencil build --dev --watch --serve",
+    "test": "stencil test --spec --e2e",
+    "test.watch": "stencil test --spec --e2e --watchAll",
+    "generate": "stencil generate"
+  },
+  "dependencies": {
+    "@stencil/core": "2.14.0",
+    "stencil": "0.0.5",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "grunt": "^1.4.1",
+    "grunt-bump": "^0.8.0",
+    "jest": "^27.5.1",
+    "jest-cli": "^27.4.5",
+    "puppeteer": "^10.0.0"
+  }
+}

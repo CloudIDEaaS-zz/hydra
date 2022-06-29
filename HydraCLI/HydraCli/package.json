@@ -1,7 +1,7 @@
 {
 	"name": "@cloudideaas/hydra",
-	"version": "1.0.71",
-	"description": "Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes.",
+	"version": "1.0.76",
+	"description": "Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful microservice layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, progressive web apps (PWA), Docker, Helm, Azure Devops, and Kubernetes.",
 	"displayName": "Hydra",
 	"repository": {
 		"type": "git",
@@ -21,15 +21,22 @@
 		"entity framework core",
 		"mobile app",
 		"docker",
+		"microservices",
 		"helm",
 		"azure devops",
-		"kubernetes"
+		"kubernetes",
+		"progressive web apps",
+		"pwa"
 	],
 	"author": "CloudIDEaaS Inc",
 	"license": "ISC",
 	"publishConfig": {
 		"registry": "https://registry.npmjs.org/",
 		"access": "public"
+	},
+	"funding": {
+		"type": "patreon",
+		"url": "https://www.patreon.com/cloudideaas"
 	},
 	"bugs": {
 		"url": "https://github.com/CloudIDEaaS/hydra/issues"
@@ -44,9 +51,9 @@
 	"activationEvents": [
 		"onCommand:extension.HydraCli"
 	],
-	"main": "./out/cli.js",
+	"main": "./out/cli",
 	"bin": {
-		"hydra": "out/cli.js"
+		"hydra": "out/cli"
 	},
 	"contributes": {
 		"commands": [
@@ -59,44 +66,65 @@
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
+		"start": "electron ./",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile",
 		"test": "node ./out/test/runTest.js",
-		"preinstall": "echo 'Downloading Hydra, this may take a while. Please wait...' & npm install -g @cloudideaas/hydrainstall"
+		"preinstall": "echo 'Downloading Hydra, this may take a while. Please wait...' & npm install -g @cloudideaas/hydrainstall",
+		"postinstall": "npm install -g javascript-obfuscator modclean & node ./out/welcome"
 	},
 	"devDependencies": {
+		"@types/electron": "^1.6.10",
 		"@types/glob": "^7.1.3",
 		"@types/mocha": "^5.2.6",
-		"@types/node": "^10.17.35",
-		"@types/vscode": "^1.49.0",
+		"@types/node": "^15.14.9",
+		"@types/puppeteer": "^5.4.4",
+		"@types/vscode": "^1.52.0",
 		"glob": "^7.1.6",
 		"grunt": "^1.3.0",
 		"grunt-bump": "^0.8.0",
 		"mocha": "^6.2.3",
+		"spectron": "^15.0.0",
 		"tslint": "^5.20.1",
-		"typescript": "^3.9.7",
-		"vscode-test": "^1.4.0"
+		"typescript": "^3.9.10",
+		"vscode-test": "^1.6.1"
 	},
 	"dependencies": {
+		"@stencil/core": "^2.14.0",
+		"@stencil/dev-server": "0.0.18",
 		"bluebird": "^3.5.3",
+		"center-align": "^1.0.1",
 		"chalk": "^4.1.0",
 		"cli-progress": "^3.8.2",
 		"colors": "^1.3.2",
-		"command-line-args": "^5.0.2",
-		"command-line-usage": "^6.1.0",
-		"js-beautify": "^1.13.0",
-		"js-yaml": "^3.14.0",
+		"command-line-args": "^5.2.1",
+		"command-line-usage": "^6.1.1",
+		"crypto-js": "^4.0.0",
+		"dateformat": "^4.4.1",
+		"dialog": "^0.3.1",
+		"electron": "^12.0.7",
+		"file-url": "^3.0.0",
+		"js-beautify": "^1.14.3",
+		"js-yaml": "^3.14.1",
 		"linq-javascript": "^1.0.249",
 		"node-cmd": "^3.0.0",
+		"node-ipc": "^9.1.4",
 		"path": "^0.12.7",
 		"ps-node": "^0.1.6",
+		"puppeteer": "^13.7.0",
 		"read-package-json": "^2.1.2",
 		"readline": "^1.3.0",
+		"readline-sync": "^1.4.10",
 		"regedit": "^3.0.3",
 		"rimraf": "^2.6.2",
+		"serialize-error": "^8.0.1",
 		"shelljs": "^0.8.4",
+		"stack-trace": "0.0.10",
+		"string-builder": "^0.1.8",
 		"stringbuilder": "0.0.11",
+		"timespan": "^2.3.0",
+		"uuid": "^8.3.2",
 		"write-file": "^1.0.0",
-		"yarn": "^1.22.5"
+		"yarn": "^1.22.18"
 	}
 }

@@ -8,16 +8,17 @@ require("../modules/utils/extensions");
 const events_1 = require("events");
 const api_1 = require("./api/api");
 const fs = require("fs");
+const dateFormat = require("dateformat");
 class ApplicationGeneratorAgent {
     constructor() {
         this.stdout = process.stdout;
         this.onError = new events_1.EventEmitter();
         this.api = new api_1.Api();
     }
-    initialize(debug = false) {
+    initialize(debug = false, logServiceMessages = false) {
         let programFilesPath;
         let generatorApp;
-        let commandLine;
+        let args;
         let hydraSolutionPath = process.env.HYDRASOLUTIONPATH;
         programFilesPath = process.env["PROGRAMFILES(x86)"];
         if (!programFilesPath) {
@@ -32,11 +33,16 @@ class ApplicationGeneratorAgent {
             this.stdout.writeLine("You must install Hydra to run this command.");
             throw new Error("Application not fully installed.");
         }
-        commandLine = `"${generatorApp}" -waitForInput`;
+        args = new Array();
+        args.push("-waitForInput");
         if (debug) {
-            commandLine += " -debug";
+            args.push("-debug");
         }
-        this.generatorProcess = child_process_1.exec(commandLine);
+        if (logServiceMessages) {
+            this.logPath = path.join(process.cwd(), "Logs\\Messages\\" + dateFormat(new Date(), "yyyymmdd_HHMMss_l"));
+            args.push(" -logServiceMessages");
+        }
+        this.generatorProcess = child_process_1.execFile(generatorApp, args);
         this.generatorProcess.stderr.on("data", (e) => {
             this.onError.emit("onError", e.toString());
         });
@@ -47,11 +53,11 @@ class ApplicationGeneratorAgent {
     launchCacheServer(listener) {
         var commandLine = "verdaccio";
         this.stdout.writeLine("Launching Cache Server");
-        this.cacheServerProcess = child_process_1.exec(commandLine);
+        this.cacheServerProcess = child_process_1.execFile(commandLine);
         this.cacheServerProcess.stderr.on("data", (e) => {
             this.onError.emit("onError", e.toString());
         });
-        this.cacheServerProcess.stdout.readText(listener);
+        this.cacheServerProcess.stdout.readText(this.logPath, listener);
     }
     stopCacheServer(listener) {
         this.cacheServerProcess.kill();
@@ -67,8 +73,22 @@ class ApplicationGeneratorAgent {
             listener(null);
         }
     }
+    endProcessing(listener) {
+        if (this.generatorProcess) {
+            this.sendSimpleCommand("endprocessing", listener);
+        }
+        else {
+            listener(null);
+        }
+    }
     stopListening() {
         this.generatorProcess.stdout.removeListener("data", this.textListener);
+    }
+    sendHydraStatus(status, alertLevel = "info") {
+        if (this.connected) {
+            let commandObject = new commandPacket_1.CommandPacket("request", "sendhydrastatus", [{ Status: status }, { AlertLevel: alertLevel }]);
+            this.generatorProcess.stdin.writeJson(this.logPath, commandObject);
+        }
     }
     sendSimpleCommand(command, listener = null, ...args) {
         if (this.generatorProcess.killed) {
@@ -78,111 +98,121 @@ class ApplicationGeneratorAgent {
         }
         this.write(command, ...args);
         if (listener) {
-            this.read(listener);
+            this.read(this.logPath, listener);
         }
     }
     getInstallFromCacheStatus(mode, listener) {
         let promise = this.api.get("GetInstallFromCacheStatus", { key: "mode", value: mode });
-        promise.then((status) => {
+        promise
+            .then((status) => {
             listener(status);
-        }).catch((reason) => {
+        })
+            .catch((reason) => {
             let status = {
                 StatusText: reason,
-                StatusIsError: true
+                StatusIsError: true,
             };
             listener(status);
         });
     }
     getVersion(mode, listener) {
         let promise = this.api.get("GetInstallFromCacheStatus", { key: "mode", value: mode });
-        promise.then((status) => {
+        promise
+            .then((status) => {
             listener(status);
-        }).catch((reason) => {
+        })
+            .catch((reason) => {
             let status = {
                 StatusText: reason,
-                StatusIsError: true
+                StatusIsError: true,
             };
             listener(status);
         });
     }
     generateApp(entitiesProjectPath, servicesProjectPath, packageCachePath, noFileCreation, generatorPass, listener = null) {
         let commandObject = new commandPacket_1.CommandPacket("request", "generate", [
-            { "Kind": "app" },
-            { "EntitiesProjectPath": entitiesProjectPath },
-            { "ServicesProjectPath": servicesProjectPath },
-            { "GeneratorPass": generatorPass },
-            { "PackageCachePath": packageCachePath },
-            { "NoFileCreation": noFileCreation }
-        ], new Date(Date.now()));
-        this.generatorProcess.stdin.writeJson(commandObject);
+            { Kind: "app" },
+            { GeneratorHandlerType: "Ionic/Angular" },
+            { EntitiesProjectPath: entitiesProjectPath },
+            { ServicesProjectPath: servicesProjectPath },
+            { GeneratorPass: generatorPass },
+            { PackageCachePath: packageCachePath },
+            { NoFileCreation: noFileCreation },
+        ]);
+        this.generatorProcess.stdin.writeJson(this.logPath, commandObject);
         if (listener) {
             this.textListener = listener;
-            this.readText(this.textListener);
+            this.readText(this.logPath, this.textListener);
         }
     }
     generateBusinessModel(templateFile, noFileCreation, generatorPass, listener = null) {
         let commandObject = new commandPacket_1.CommandPacket("request", "generate", [
-            { "Kind": "businessModel" },
-            { "TemplateFile": templateFile },
-            { "GeneratorPass": generatorPass },
-            { "NoFileCreation": noFileCreation }
-        ], new Date(Date.now()));
-        this.generatorProcess.stdin.writeJson(commandObject);
+            { Kind: "businessModel" },
+            { GeneratorHandlerType: "Ionic/Angular" },
+            { TemplateFile: templateFile },
+            { GeneratorPass: generatorPass },
+            { NoFileCreation: noFileCreation },
+        ]);
+        this.generatorProcess.stdin.writeJson(this.logPath, commandObject);
         if (listener) {
             this.textListener = listener;
-            this.readText(this.textListener);
+            this.readText(this.logPath, this.textListener);
         }
     }
     generateEntities(templateFile, jsonFile, businessModelFile, entitiesProjectPath, noFileCreation, generatorPass, listener = null) {
         let commandObject = new commandPacket_1.CommandPacket("request", "generate", [
-            { "Kind": "entities" },
-            { "TemplateFile": templateFile },
-            { "JsonFile": jsonFile },
-            { "BusinessModelFile": businessModelFile },
-            { "EntitiesProjectPath": entitiesProjectPath },
-            { "GeneratorPass": generatorPass },
-            { "NoFileCreation": noFileCreation }
-        ], new Date(Date.now()));
-        this.generatorProcess.stdin.writeJson(commandObject);
+            { Kind: "entities" },
+            { GeneratorHandlerType: "Ionic/Angular" },
+            { TemplateFile: templateFile },
+            { JsonFile: jsonFile },
+            { BusinessModelFile: businessModelFile },
+            { EntitiesProjectPath: entitiesProjectPath ?? "" },
+            { GeneratorPass: generatorPass },
+            { NoFileCreation: noFileCreation },
+        ]);
+        this.generatorProcess.stdin.writeJson(this.logPath, commandObject);
         if (listener) {
             this.textListener = listener;
-            this.readText(this.textListener);
+            this.readText(this.logPath, this.textListener);
         }
     }
-    generateWorkspace(appName, noFileCreation, generatorPass, listener = null) {
+    generateWorkspace(appName, appDescription, organizationName, noFileCreation, generatorPass, listener = null) {
         let commandObject = new commandPacket_1.CommandPacket("request", "generate", [
-            { "Kind": "workspace" },
-            { "AppName": appName },
-            { "GeneratorPass": generatorPass },
-            { "NoFileCreation": noFileCreation }
-        ], new Date(Date.now()));
-        this.generatorProcess.stdin.writeJson(commandObject);
+            { Kind: "workspace" },
+            { GeneratorHandlerType: "Ionic/Angular" },
+            { AppName: appName },
+            { AppDescription: appDescription },
+            { OrganizationName: organizationName },
+            { GeneratorPass: generatorPass },
+            { NoFileCreation: noFileCreation },
+        ]);
+        this.generatorProcess.stdin.writeJson(this.logPath, commandObject);
         if (listener) {
             this.textListener = listener;
-            this.readText(this.textListener);
+            this.readText(this.logPath, this.textListener);
         }
     }
     write(command, ...args) {
         let commandObject;
         if (args.length) {
             let argsArray = [];
-            args.forEach(a => {
+            args.forEach((a) => {
                 let item = new Object();
                 item[a.key] = a.value;
                 argsArray.push(item);
             });
-            commandObject = new commandPacket_1.CommandPacket("request", command, argsArray, new Date(Date.now()));
+            commandObject = new commandPacket_1.CommandPacket("request", command, argsArray);
         }
         else {
-            commandObject = new commandPacket_1.CommandPacket("request", command, null, new Date(Date.now()));
+            commandObject = new commandPacket_1.CommandPacket("request", command, null);
         }
-        this.generatorProcess.stdin.writeJson(commandObject);
+        this.generatorProcess.stdin.writeJson(this.logPath, commandObject);
     }
-    readText(listener) {
-        this.generatorProcess.stdout.readText(listener);
+    readText(logPath = null, listener) {
+        this.generatorProcess.stdout.readText(logPath, listener);
     }
-    read(listener) {
-        this.generatorProcess.stdout.readJson(listener);
+    read(logPath = null, listener) {
+        this.generatorProcess.stdout.readJson(logPath, listener);
     }
 }
 exports.ApplicationGeneratorAgent = ApplicationGeneratorAgent;

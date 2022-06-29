@@ -1,0 +1,5 @@
+#! /usr/bin/env node
+
+const windowDriver = require('./windowdriver').Driver;
+
+windowDriver.start();

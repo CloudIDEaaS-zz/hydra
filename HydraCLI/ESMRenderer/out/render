@@ -1,0 +1,5 @@
+#! /usr/bin/env node
+
+const client = require('./client/RendererClient').RendererClient;
+
+client.start();

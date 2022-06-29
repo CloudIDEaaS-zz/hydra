@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Css Editor</title>
+    <link href="js/dev/vs/editor/editor.main.css" rel="stylesheet" />
+</head>
+<body>
+   <div id="editor"> 
+
+   </div>
+
+    <script>var require = { paths: { 'vs': 'js/dev/vs' } };</script>
+    <script type="text/javascript" src="js/dev/vs/loader.js"></script>
+    <script type="text/javascript" src="js/dev/vs/editor/editor.main.nls.js"></script>
+    <script type="text/javascript" src="js/dev/vs/editor/editor.main.js"></script>
+    <script>
+        "use strict";
+        var el = document.getElementById('editor');
+        el.style.height = '200px';
+        el.style.width = '400px';
+
+        // window.editor is accessible. 
+        var editor = null;
+        var init = function () {
+ 
+            require(['vs/editor/editor.main'], function () {
+
+                editor = monaco.editor.create(el, {
+                    value: ".class {\r\n\r\n}",
+                    language: "css"
+                });
+
+                editor.layout();
+            });
+
+            // no point in keeping this around.
+            window.removeEventListener("load", init);
+        };
+
+        window.addEventListener("load", init);
+    </script> 
+</body>
+</html>

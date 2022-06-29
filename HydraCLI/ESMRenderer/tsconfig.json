@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+      "outDir": "out",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "lib": [
+          "dom",
+          "es2015"
+      ],
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "rootDir": "src",
+      "target": "esNext",
+      "esModuleInterop": true
+  },
+  "include": [
+      "src/**/*.ts"
+  ],
+  "exclude": [
+      "node_modules",
+      ".vscode-test"
+  ]
+}

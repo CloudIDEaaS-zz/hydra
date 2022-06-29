@@ -10,23 +10,50 @@ const installInfo_1 = require("./installInfo");
 const events_1 = require("events");
 const connectPromise_1 = require("./connectPromise");
 const npmInstall_1 = require("./npmInstall");
-const readJson = require('read-package-json');
-const path = require('path');
-const commandLineArgs = require('command-line-args');
-const colors = require('colors/safe');
-const fs = require('fs');
-const beautify = require('js-beautify');
-const rimraf = require('rimraf');
-const readline = require('readline');
+const renderer_1 = require("./renderer");
+const reader = require("readline-sync");
+const readJson = require("read-package-json");
+const path = require("path");
+const commandLineArgs = require("command-line-args");
+const colors = require("colors/safe");
+const fs = require("fs");
+const beautify = require("js-beautify");
+const rimraf = require("rimraf");
+const readline = require("readline");
 const child_process = require("child_process");
-const yaml = require('js-yaml');
-const regedit = require('regedit');
-const { version } = require('../../package.json');
-const commandLineUsage = require('command-line-usage');
+const yaml = require("js-yaml");
+const regedit = require("regedit");
+const { version } = require("../../package.json");
+const commandLineUsage = require("command-line-usage");
+const cliProgress = require("cli-progress");
+const chalk = require("chalk");
+const dateFormat = require("dateformat");
+const stackTrace = require("stack-trace");
+const fileUrl = require("file-url");
+const dialog = require("dialog");
+const hydraGreen = chalk.hex("#0a7e79");
+const hydraWarning = chalk.hex("#ae6600");
+const barPreset = {
+    format: hydraGreen(" {bar}") + " {status} {percentage}% ",
+    barCompleteChar: "\u25aa",
+    barIncompleteChar: " ",
+};
+const multiBar = new cliProgress.MultiBar({
+    clearOnComplete: false,
+    hideCursor: true,
+}, barPreset);
+var ReportedMessages;
+(function (ReportedMessages) {
+    ReportedMessages[ReportedMessages["downloadingTemplate"] = 1] = "downloadingTemplate";
+    ReportedMessages[ReportedMessages["initializingTemplate"] = 4] = "initializingTemplate";
+    ReportedMessages[ReportedMessages["installingDependencies"] = 8] = "installingDependencies";
+    ReportedMessages[ReportedMessages["finished"] = 16] = "finished";
+})(ReportedMessages || (ReportedMessages = {}));
 class ApplicationGeneratorClient {
     constructor() {
         this.pollingInstallFromCacheStatus = false;
         this.pollingInstallFromCacheStatusComplete = false;
+        this.reportedMessages = 0;
         this.agent = new agent_1.ApplicationGeneratorAgent();
         this.stdout = process.stdout;
         this.stderr = process.stderr;
@@ -37,11 +64,15 @@ class ApplicationGeneratorClient {
     }
     static start() {
         let client;
+        let clientVersion = version;
         if (ApplicationGeneratorClient.client === undefined) {
             ApplicationGeneratorClient.client = new ApplicationGeneratorClient();
         }
         client = ApplicationGeneratorClient.client;
-        client.launch();
+        if (!process.versions["electron"]) {
+            client.writeLine(`Hydra client version v${clientVersion} `);
+        }
+        client.processCommand();
         client.onComplete.on("onComplete", (status = null, isError = false) => {
             if (isError) {
                 console.error(status);
@@ -51,9 +82,12 @@ class ApplicationGeneratorClient {
             }
         });
     }
-    launch() {
-        const mainCommand = commandLineArgs(commands.mainDefinitions, { stopAtFirstUnknown: true });
+    processCommand() {
+        const mainCommand = commandLineArgs(commands.mainDefinitions, {
+            stopAtFirstUnknown: true,
+        });
         let debug = mainCommand.debug;
+        let logClient = mainCommand.logClient;
         let logToConsole = mainCommand.logToConsole;
         let skipInstalls = mainCommand.skipInstalls;
         let skipIonicInstall = mainCommand.skipIonicInstall;
@@ -63,22 +97,42 @@ class ApplicationGeneratorClient {
         let argv = mainCommand._unknown || [];
         let configFile = path.join(process.cwd(), "package.json");
         let commandsFile = path.join(__dirname, "commands.json");
+        if (logClient) {
+            this.logClient = true;
+            this.logPath = path.join(process.cwd(), "Logs\\CLI\\" + dateFormat(new Date(), "yyyymmdd_HHMMss_l"));
+        }
         readJson(commandsFile, console.error, false, (error, data) => {
             if (error) {
                 this.writeError("There was an error reading the commands.json file.");
+                this.writeLog("errors.log", error.toJson());
                 this.onComplete.emit("onComplete");
                 return;
             }
             else {
                 this.commands = data.commands;
-                if (mainCommand.command === "start") {
-                    this.start(argv, logToConsole, skipIonicInstall);
+                if (mainCommand.command === "launchRenderer") {
+                    renderer_1.Renderer.launchRenderer();
+                }
+                else if (mainCommand.command === "install") {
+                    this.install(argv, debug, logToConsole);
+                }
+                else if (mainCommand.command === "captcha") {
+                    this.captcha(argv);
+                }
+                else if (mainCommand.command === "start") {
+                    this.start(argv, debug, logToConsole, skipIonicInstall);
                 }
                 else if (mainCommand.command === "setPackages") {
                     this.setPackages(argv, logToConsole, configFile);
                 }
+                else if (mainCommand.command === "addResource") {
+                    this.addResource(argv, debug);
+                }
+                else if (mainCommand.command === "showDesigner") {
+                    this.showDesigner(argv, debug);
+                }
                 else if (mainCommand.command === "build") {
-                    this.build(logToConsole);
+                    this.build(argv, logToConsole);
                 }
                 else if (mainCommand.command === "delete") {
                     this.delete(argv, logToConsole);
@@ -90,12 +144,32 @@ class ApplicationGeneratorClient {
                     this.set(argv, logToConsole, configFile, data);
                 }
                 else if (mainCommand.command === "test") {
-                    this.test(debug);
+                    this.test(debug, false);
+                }
+                else if (mainCommand.command === "add") {
+                    this.add(argv);
+                }
+                else if (mainCommand.command === "remove") {
+                    this.remove(argv);
+                }
+                else if (mainCommand.command === "update") {
+                    this.update(argv);
+                }
+                else if (mainCommand.command === "serve") {
+                    this.serve(argv);
+                }
+                else if (mainCommand.command === "platforms") {
+                    this.platforms();
                 }
                 else if (version || mainCommand.command === "version") {
-                    this.version(debug);
+                    this.version(debug, false);
                 }
-                else if (help || mainCommand.command === undefined || mainCommand.command === "help") {
+                else if (version || mainCommand.command === "launchServices") {
+                    this.launchServices(debug, true);
+                }
+                else if (help ||
+                    mainCommand.command === undefined ||
+                    mainCommand.command === "help") {
                     this.help();
                 }
                 else {
@@ -105,7 +179,10 @@ class ApplicationGeneratorClient {
                         let packageCachePath;
                         if (argv[0] === "app") {
                             if (error) {
-                                this.writeError("There was an error reading the package.json file. " + error + "\nDid you run 'hydra start'?");
+                                this.writeError("There was an error reading the package.json file. " +
+                                    error +
+                                    "\nDid you run 'hydra start'?");
+                                this.writeLog("errors.log", error.toJson());
                                 this.onComplete.emit("onComplete");
                                 return;
                             }
@@ -136,12 +213,118 @@ class ApplicationGeneratorClient {
             }
         });
     }
+    captcha(argv) {
+        const uuid = require("uuid");
+        const electron = require("electron");
+        const app = electron.app;
+        const BrowserWindow = electron.BrowserWindow;
+        const BrowserView = electron.BrowserView;
+        let mainWindow;
+        let view;
+        app.on("ready", () => {
+            mainWindow = new BrowserWindow({
+                width: 1200,
+                height: 800,
+                frame: false,
+                modal: true,
+            });
+            view = new BrowserView();
+            mainWindow.setBrowserView(view);
+            mainWindow.setAlwaysOnTop(true);
+            view.setBounds({ x: 0, y: 0, width: 1200, height: 800 });
+            view.webContents.loadURL(argv[0] + "?key=" + argv[1]);
+            view.webContents.on("did-finish-load", (e) => {
+                try {
+                    let title = view.webContents.getTitle();
+                    let uuidString = uuid.stringify(uuid.parse(title));
+                    process.stdout.write(uuidString);
+                }
+                catch { }
+            });
+            mainWindow.on("closed", () => {
+                mainWindow = null;
+            });
+        });
+    }
+    serve(argv) {
+        let commandLine = "ionic serve";
+        let ionicProcess;
+        ionicProcess = child_process.exec(commandLine);
+        ionicProcess.stdout.on("data", (o) => {
+            let p = process;
+            let c = p.connected;
+            let output = o.toString();
+            this.write(output);
+        });
+        ionicProcess.stderr.on("data", (e) => {
+            let p = process;
+            let c = p.connected;
+            this.writeError(e.toString());
+        });
+    }
+    install(argv, debug, logToConsole) {
+        let npmPackage = argv;
+        let cwd = process.cwd();
+        this.writeLine(`Installing ${npmPackage}...`);
+        npmInstall_1.npm
+            .install(npmPackage, {
+            cwd: cwd,
+            save: true,
+            output: true,
+            lean: true,
+            global: true,
+        })
+            .then(() => {
+            this.writeSuccess(`Finished installing package: ${npmPackage}`);
+        })
+            .catch((e) => {
+            this.writeError(`Unable to install package: ${npmPackage}, Error: ${e}`);
+            this.writeLog("errors.log", e.toJson());
+        });
+    }
+    showDesigner(argv, debug) {
+        this.initializeAndConnect(debug, false).then(() => {
+            this.agent.sendSimpleCommand("showdesigner", (commandObject) => {
+                let response = commandObject.Response;
+            });
+        });
+    }
+    addResource(argv, debug) {
+        const resourceOptions = commandLineArgs(commands.resourceDefinitions, {
+            argv,
+            stopAtFirstUnknown: true,
+        });
+        if (!debug) {
+            debug = resourceOptions.debug;
+        }
+        switch (argv[0]) {
+            case "--splashScreen":
+            case "splashScreen": {
+                if (resourceOptions.appDescription) {
+                }
+                else {
+                    this.initializeAndConnect(debug, false).then(() => {
+                        this.agent.sendSimpleCommand("addresourcebrowsefile", (commandObject) => {
+                            let filePath = commandObject.Response;
+                        }, {
+                            key: "filter",
+                            value: "Image files|*.bmp;*.jpg;*.gif;*.png;*.tif|All files|*.*",
+                        }, { key: "resourcename", value: "splashScreen" });
+                    });
+                }
+                break;
+            }
+        }
+    }
     setPackages(argv, logToConsole, configFile) {
-        const generateOptions = commandLineArgs(commands.setPackagesDefinitions, { argv, stopAtFirstUnknown: true });
+        const generateOptions = commandLineArgs(commands.setPackagesDefinitions, {
+            argv,
+            stopAtFirstUnknown: true,
+        });
         let packageListArg = generateOptions.packageListArg;
         let saveDev = generateOptions["save-dev"];
         let clear = generateOptions.clear;
-        readJson(configFile, console.error, false, (error, data) => {
+        this.readJson(configFile, console.error, false, (error, data) => {
             let content;
             let propertyName;
             let packageList = packageListArg ? packageListArg.split(",") : [];
@@ -164,7 +347,7 @@ class ApplicationGeneratorClient {
                             }
                         }
                     }
-                    packageList.forEach(i => {
+                    packageList.forEach((i) => {
                         let packageName;
                         let version;
                         [packageName, version] = i.split("@");
@@ -173,8 +356,11 @@ class ApplicationGeneratorClient {
                     break;
                 }
             }
-            content = beautify(JSON.stringify(data), { indent_size: 2, space_in_empty_paren: true });
-            fs.writeFile(configFile, content, 'utf8', (err) => {
+            content = beautify(JSON.stringify(data), {
+                indent_size: 2,
+                space_in_empty_paren: true,
+            });
+            fs.writeFile(configFile, content, "utf8", (err) => {
                 if (err) {
                     throw Error(err);
                 }
@@ -182,30 +368,36 @@ class ApplicationGeneratorClient {
             });
         });
     }
+    readJson(configFile, error, arg2, arg3) {
+        throw new Error("Method not implemented.");
+    }
     set(argv, logToConsole, configFile, data) {
-        const generateOptions = commandLineArgs(commands.setDefinitions, { argv, stopAtFirstUnknown: true });
+        const generateOptions = commandLineArgs(commands.setDefinitions, {
+            argv,
+            stopAtFirstUnknown: true,
+        });
         let name = generateOptions.name;
         let directory = process.cwd();
         if (name) {
             regedit.putValue({
-                'HKCU\\SOFTWARE\\Hydra\\ApplicationGenerator': {
-                    'CurrentWorkingDirectory': {
+                "HKCU\\SOFTWARE\\Hydra\\ApplicationGenerator": {
+                    CurrentWorkingDirectory: {
                         value: name,
-                        type: 'REG_SZ'
-                    }
-                }
+                        type: "REG_SZ",
+                    },
+                },
             }, function (err) {
                 throw new Error(err);
             });
         }
         else {
             regedit.putValue({
-                'HKCU\\SOFTWARE\\Hydra\\ApplicationGenerator': {
-                    'CurrentWorkingDirectory': {
+                "HKCU\\SOFTWARE\\Hydra\\ApplicationGenerator": {
+                    CurrentWorkingDirectory: {
                         value: directory,
-                        type: 'REG_SZ'
-                    }
-                }
+                        type: "REG_SZ",
+                    },
+                },
             }, function (err) {
                 throw new Error(err);
             });
@@ -248,9 +440,109 @@ class ApplicationGeneratorClient {
             });
         });
     }
-    build(name) {
-        let commandLine = "ionic build";
-        let ionicProcess = child_process.exec(commandLine);
+    build(argv, name) {
+        const buildOptions = commandLineArgs(commands.buildDefinitions, {
+            argv,
+            stopAtFirstUnknown: true,
+        });
+        let platform = buildOptions.platform;
+        let prod = buildOptions.prod;
+        let release = buildOptions.release;
+        let ionicProcess;
+        let commandLine;
+        if (platform) {
+            commandLine = "ionic cordova build";
+            commandLine += " " + platform;
+        }
+        else {
+            commandLine = "ionic build";
+        }
+        if (prod) {
+            commandLine += " --prod";
+        }
+        if (release) {
+            commandLine += " --release";
+        }
+        ionicProcess = child_process.exec(commandLine);
+        ionicProcess.stdout.on("data", (o) => {
+            let p = process;
+            let c = p.connected;
+            let output = o.toString();
+            this.write(output);
+        });
+        ionicProcess.stderr.on("data", (e) => {
+            let p = process;
+            let c = p.connected;
+            this.writeError(e.toString());
+        });
+    }
+    add(argv) {
+        const buildOptions = commandLineArgs(commands.buildDefinitions, {
+            argv,
+            stopAtFirstUnknown: true,
+        });
+        let platform = buildOptions.platform;
+        let commandLine = "ionic cordova platform add " + platform;
+        let ionicProcess;
+        ionicProcess = child_process.exec(commandLine);
+        ionicProcess.stdout.on("data", (o) => {
+            let p = process;
+            let c = p.connected;
+            let output = o.toString();
+            this.write(output);
+        });
+        ionicProcess.stderr.on("data", (e) => {
+            let p = process;
+            let c = p.connected;
+            this.writeError(e.toString());
+        });
+    }
+    remove(argv) {
+        const buildOptions = commandLineArgs(commands.buildDefinitions, {
+            argv,
+            stopAtFirstUnknown: true,
+        });
+        let platform = buildOptions.platform;
+        let commandLine = "ionic cordova platform remove " + platform;
+        let ionicProcess;
+        ionicProcess = child_process.exec(commandLine);
+        ionicProcess.stdout.on("data", (o) => {
+            let p = process;
+            let c = p.connected;
+            let output = o.toString();
+            this.write(output);
+        });
+        ionicProcess.stderr.on("data", (e) => {
+            let p = process;
+            let c = p.connected;
+            this.writeError(e.toString());
+        });
+    }
+    update(argv) {
+        const buildOptions = commandLineArgs(commands.buildDefinitions, {
+            argv,
+            stopAtFirstUnknown: true,
+        });
+        let platform = buildOptions.platform;
+        let commandLine = "ionic cordova platform update" + platform;
+        let ionicProcess;
+        ionicProcess = child_process.exec(commandLine);
+        ionicProcess.stdout.on("data", (o) => {
+            let p = process;
+            let c = p.connected;
+            let output = o.toString();
+            this.write(output);
+        });
+        ionicProcess.stderr.on("data", (e) => {
+            let p = process;
+            let c = p.connected;
+            this.writeError(e.toString());
+        });
+    }
+    platforms() {
+        let commandLine = "ionic cordova platform ls";
+        let ionicProcess;
+        ionicProcess = child_process.exec(commandLine);
         ionicProcess.stdout.on("data", (o) => {
             let p = process;
             let c = p.connected;
@@ -286,8 +578,11 @@ class ApplicationGeneratorClient {
                     }
                 }
             }
-            content = beautify(JSON.stringify(configData), { indent_size: 2, space_in_empty_paren: true });
-            fs.writeFile(configFile, content, 'utf8', function (err) {
+            content = beautify(JSON.stringify(configData), {
+                indent_size: 2,
+                space_in_empty_paren: true,
+            });
+            fs.writeFile(configFile, content, "utf8", function (err) {
                 if (err) {
                     thisWriteError(err);
                     return;
@@ -298,7 +593,9 @@ class ApplicationGeneratorClient {
                     let fileName = f;
                     let fullName = path.join(directory, fileName);
                     fs.stat(fullName, (err, result) => {
-                        if (result.isDirectory() || (fileName !== "package.json" && fileName !== "package.backup.json")) {
+                        if (result.isDirectory() ||
+                            (fileName !== "package.json" &&
+                                fileName !== "package.backup.json")) {
                             rimraf(fullName, (err) => {
                                 if (err) {
                                     thisWriteError(err);
@@ -311,14 +608,40 @@ class ApplicationGeneratorClient {
             });
         });
     }
-    start(argv, logToConsole, skipIonicInstall) {
-        const generateOptions = commandLineArgs(commands.startDefinitions, { argv, stopAtFirstUnknown: true });
+    start(argv, debug, logToConsole, skipIonicInstall) {
+        const generateOptions = commandLineArgs(commands.startDefinitions, {
+            argv,
+            stopAtFirstUnknown: true,
+        });
         let argv2 = generateOptions._unknown || [];
         let name = generateOptions.name;
-        let npmCommand = "ionic cordova";
+        let pause = generateOptions.pause;
+        let useAgent = generateOptions.useAgent;
+        let logClient = generateOptions.logClient;
+        let logServiceMessages = generateOptions.logServiceMessages;
+        let npmCommand = "@ionic/cli@6.16.3";
         let cwd = process.cwd();
-        let runStart = () => {
+        this.complete = () => {
+            if (useAgent) {
+                this.writeSuccess("Signalling agent to end processing");
+                this.agent.endProcessing((commandObject) => {
+                    this.writeSuccess("Signalling agent to close");
+                    this.agent.dispose((commandObject) => {
+                        this.writeSuccess("Agent closed successfully. Finalizing");
+                        try {
+                            this.writeSuccess("Finalized");
+                            this.onComplete.emit("onComplete");
+                        }
+                        catch (err) {
+                            this.writeError(err.toString());
+                        }
+                    });
+                });
+            }
+        };
+        this.runStart = () => {
             let ionicProcess;
+            let modCleanProcess;
             ionicProcess = this.runIonicStart(name);
             ionicProcess.on("close", () => {
                 if (!this.hasError) {
@@ -329,8 +652,10 @@ class ApplicationGeneratorClient {
                         let configData = {};
                         let hydraConfigFile = path.join(cwd, "hydra.json");
                         if (error) {
-                            this.writeError("There was an error reading the package.json file. " + error + "\nDid you run 'hydra start'?");
-                            this.onComplete.emit("onComplete");
+                            this.writeError("There was an error reading the package.json file. " +
+                                error +
+                                "\nDid you run 'hydra start'?");
+                            this.complete();
                             return;
                         }
                         readJson(hydraConfigFile, console.error, false, (error2, data2) => {
@@ -338,6 +663,7 @@ class ApplicationGeneratorClient {
                             let entitiesProjectPath = "";
                             let packageCachePath = "";
                             let directories = [];
+                            let files = [];
                             let directory = "";
                             if (!error2) {
                                 servicesProjectPath = data2.servicesProjectPath;
@@ -348,84 +674,131 @@ class ApplicationGeneratorClient {
                                 if (property === "scripts") {
                                     configData["servicesProjectPath"] = servicesProjectPath;
                                     configData["entitiesProjectPath"] = entitiesProjectPath;
-                                    configData["packageCachePath"] = packageCachePath;
                                     configData["config"] = {
                                         ionic_sass: "./config/sass.config.js",
                                         ionic_copy: "./config/copy.config.js",
                                         ionic_generate_source_map: "true",
-                                        ionic_source_map_type: "source-map"
+                                        ionic_source_map_type: "source-map",
                                     };
                                 }
                                 configData[property] = data[property];
                             }
-                            content = beautify(JSON.stringify(configData), { indent_size: 2, space_in_empty_paren: true });
-                            fs.writeFile(configFile, content, 'utf8', (err) => {
+                            content = beautify(JSON.stringify(configData), {
+                                indent_size: 2,
+                                space_in_empty_paren: true,
+                            });
+                            fs.writeFile(configFile, content, "utf8", (err) => {
                                 if (err) {
-                                    this.writeError(err);
+                                    this.writeError(err.toString());
+                                    this.writeLog("errors.log", err.toJson());
                                     return;
                                 }
                                 process.chdir(projectPath);
-                                directories = ["src/app/pages", "src/app/providers"];
+                                directories = [".git", ".github"];
                                 directories.forEach((d) => {
                                     let directory = path.join(projectPath, d);
-                                    fs.readdir(directory, (err, items) => {
-                                        items.forEach((f) => {
-                                            let fileName = f;
-                                            let fullName = path.join(directory, fileName);
-                                            fs.stat(fullName, (err, result) => {
-                                                rimraf(fullName, (err) => {
-                                                    if (err) {
-                                                        this.writeError(err);
-                                                        return;
-                                                    }
-                                                });
-                                            });
-                                        });
-                                    });
+                                    if (fs.existsSync(directory)) {
+                                        rimraf.sync(directory);
+                                    }
                                 });
-                                this.writeSuccess(`Finished creating project '${name}'. Please set the following fields in package.json: servicesProjectPath, entitiesProjectPath`);
+                                this.writeStatus("Cleaning modules");
+                                this.reportHydraStatusProgress("Template Generation", "Cleaning modules", 99);
+                                modCleanProcess = this.runModClean();
+                                modCleanProcess.on("close", () => {
+                                    this.writeSuccess(`Finished creating project '${name}'. Please set the following fields in package.json: servicesProjectPath, entitiesProjectPath`);
+                                    this.reportHydraStatusProgress("Template Generation", "Finished creating project", 100);
+                                    this.complete();
+                                });
                             });
                         });
                     });
                 }
             });
         };
-        logToConsole = generateOptions.logToConsole;
-        skipIonicInstall = generateOptions.skipIonicInstall;
-        if (skipIonicInstall) {
-            runStart();
+        if (pause) {
+            utils_1.Utils.pause(pause);
         }
-        else {
-            this.writeLine("Installing ionic cordova...");
-            npmInstall_1.npm.install(npmCommand.split(" "), {
-                cwd: cwd,
-                save: true,
-                output: true,
-                global: true
-            })
+        if (!debug) {
+            debug = generateOptions.debug;
+        }
+        this.logClient = logClient;
+        this.logOutputToConsole = generateOptions.logToConsole;
+        skipIonicInstall = generateOptions.skipIonicInstall;
+        if (useAgent) {
+            this.initializeAndConnect(debug, logServiceMessages)
                 .then(() => {
-                this.writeSuccess(`Finished installing package: ${npmCommand}`);
-                runStart();
+                this.reportHydraStatusProgress("Template Generation", "Starting template generation", 0);
+                if (skipIonicInstall) {
+                    this.runStart();
+                }
+                else {
+                    this.writeLine(`Installing ${npmCommand}...`);
+                    this.reportHydraStatusProgress("Template Generation", "Installing the Ionic Framework", 1);
+                    npmInstall_1.npm
+                        .install(npmCommand, {
+                        cwd: cwd,
+                        save: true,
+                        output: true,
+                        lean: true,
+                        global: true,
+                    })
+                        .then(() => {
+                        this.reportHydraStatusProgress("Template Generation", "Finished installing the Ionic Framework", 5);
+                        this.writeSuccess(`Finished installing package: ${npmCommand}`);
+                        this.runStart();
+                    })
+                        .catch((e) => {
+                        this.writeError(`Unable to install package: ${npmCommand}, Error: ${e}`);
+                        this.writeLog("errors.log", e.toJson());
+                    });
+                }
             })
                 .catch((e) => {
-                this.writeError(`Unable to install package: ${npmCommand}, Error: ${e}`);
+                this.writeError(`Error: ${e}`);
+                this.writeLog("errors.log", e.toJson());
             });
+        }
+        else {
+            if (skipIonicInstall) {
+                this.runStart();
+            }
+            else {
+                this.writeLine(`Installing ${npmCommand}...`);
+                npmInstall_1.npm
+                    .install(npmCommand, {
+                    cwd: cwd,
+                    save: true,
+                    lean: true,
+                    output: true,
+                    global: true,
+                })
+                    .then(() => {
+                    this.writeSuccess(`Finished installing package: ${npmCommand}`);
+                    this.runStart();
+                })
+                    .catch((e) => {
+                    this.writeError(`Unable to install package: ${npmCommand}, Error: ${e}`);
+                    this.writeLog("errors.log", e.toJson());
+                });
+            }
         }
     }
     runIonicStart(name) {
-        let template = "conference";
+        let template = "https://github.com/CloudIDEaaS/hydra-ionic-angular-baseline-app";
         let type = "ionic-angular";
-        //let commandLine = `ionic start ${name} ${template} --type=${type} --cordova --no-link`;
-        let commandLine = `ionic start ${name} ${template}`;
+        let commandLine = `ionic start ${name} ${template} --no-git --type=${type} --cordova --no-link`;
+        //let commandLine = `ionic start ${name} ${template}`;
         let ionicProcess = child_process.exec(commandLine);
-        let dialog = this.commands["ionic start"];
+        /* ATTENTION: you may get the unhandled exception ERROR_LOCAL_CLI_NOT_FOUND, just ignore it */
         ionicProcess.stdout.on("data", (o) => {
             let p = process;
             let c = p.connected;
             let output = o.toString();
+            this.reportHydraStatusFromOutput("Template Generation", output);
             if (output.indexOf("Not erasing existing project") > -1) {
                 this.hasError = true;
                 this.writeError(output);
+                process.exit();
             }
             else {
                 this.write(output);
@@ -435,41 +808,174 @@ class ApplicationGeneratorClient {
             let p = process;
             let c = p.connected;
             let error = e.toString();
-            if (error.indexOf("Cloning into ") === -1) {
-                this.writeError(error);
-            }
+            this.reportHydraStatusFromOutput("Template Generation", error);
+            this.write(error);
         });
         return ionicProcess;
     }
+    agentComplete() {
+        if (!this.agentDisposed) {
+            this.agentDisposed = true;
+            this.agent.endProcessing((commandObject) => {
+                this.writeSuccess("Signalling agent to close");
+                this.agent.dispose((commandObject) => {
+                    this.writeSuccess("Agent closed successfully. Finalizing");
+                    try {
+                        this.writeSuccess("Finalized");
+                        this.onComplete.emit("onComplete");
+                    }
+                    catch (err) {
+                        this.writeError(err.toString());
+                    }
+                });
+            });
+        }
+    }
+    runModClean() {
+        let commandLine = `modclean --ignore="cordova*,cordova*/**,platforms,platforms/**,plugins,plugins/**,@angular,@angular/**,@ionic,@ionic/**" --run --patterns default:caution`;
+        let modCleanProcess = child_process.exec(commandLine);
+        modCleanProcess.stdout.on("data", (o) => {
+            let p = process;
+            let c = p.connected;
+            let output = o.toString();
+            this.writeLine(output);
+            this.writeLog("modclean", output);
+        });
+        modCleanProcess.stderr.on("data", (e) => {
+            let p = process;
+            let c = p.connected;
+            let error = e.toString();
+            this.writeError(error);
+            this.writeLog("errors.log", error);
+        });
+        return modCleanProcess;
+    }
+    reportHydraStatusFromOutput(name, output) {
+        let message;
+        let status;
+        let percentComplete = 0;
+        let alertLevel = "info";
+        if (output.indexOf("Not erasing existing project") > -1) {
+            status = "Error: Not erasing existing project";
+            this.writeError(output);
+        }
+        else if (!(this.reportedMessages & ReportedMessages.finished) &&
+            output.indexOf("Go to your cloned project") > -1) {
+            status = "Finished creating project";
+            percentComplete = 100;
+            this.reportedMessages |= ReportedMessages.finished;
+            // dialog.info(output, status, (exitCode) => {});
+        }
+        else if (!(this.reportedMessages & ReportedMessages.finished) &&
+            output.indexOf("Finished creating project '") !== -1) {
+            status = "Finished creating project";
+            percentComplete = 100;
+            this.reportedMessages |= ReportedMessages.finished;
+            // dialog.info(output, status, (exitCode) => {});
+        }
+        else if (!(this.reportedMessages & ReportedMessages.installingDependencies) &&
+            output.indexOf("Installing dependencies may take several minutes") !== -1) {
+            status = "Installing dependencies may take several minutes";
+            percentComplete = 30;
+            this.reportedMessages |= ReportedMessages.installingDependencies;
+            // dialog.info(output, status, (exitCode) => {});
+        }
+        else if (!(this.reportedMessages & ReportedMessages.initializingTemplate) &&
+            output.indexOf("Resolving deltas:") !== -1) {
+            status = "Initializing template";
+            percentComplete = 20;
+            this.reportedMessages |= ReportedMessages.initializingTemplate;
+            // dialog.info(output, status, (exitCode) => {});
+        }
+        else if (!(this.reportedMessages & ReportedMessages.downloadingTemplate) &&
+            output.indexOf("Receiving objects:") !== -1) {
+            status = "Downloading template";
+            percentComplete = 10;
+            this.reportedMessages |= ReportedMessages.downloadingTemplate;
+            // dialog.info(output, status, (exitCode) => {});
+        }
+        if (status) {
+            this.reportHydraStatusProgress(name, status, percentComplete, alertLevel);
+        }
+    }
+    reportHydraStatusProgress(name, status, percentComplete, alertLevel = "info") {
+        let message;
+        message = `callback: name=${name}, status=${status}, percentComplete=${percentComplete}`;
+        this.writeStatus(message);
+        if (this.agent.connected) {
+            this.agent.sendHydraStatus(message, alertLevel);
+        }
+    }
     generate(argv, debug, logToConsole, skipInstalls, entitiesProjectPath, servicesProjectPath, packageCachePath, noFileCreation) {
-        const generateOptions = commandLineArgs(commands.generateDefinitions, { argv });
-        let emptyLineCount = 0;
-        let generateApp = () => {
+        const generateOptions = commandLineArgs(commands.generateDefinitions, {
+            argv,
+        });
+        let logServiceMessages = generateOptions.logServiceMessages;
+        let logClient = generateOptions.logClient;
+        let pause = generateOptions.pause;
+        if (logClient) {
+            this.logClient = true;
+            this.logPath = path.join(process.cwd(), "Logs\\CLI\\" + dateFormat(new Date(), "yyyymmdd_HHMMss_l"));
+            process.on("uncaughtException", (e) => {
+                this.writeError(e.toString());
+                this.writeLog("errors.log", e.toJson());
+                this.agent.sendHydraStatus(e.toString(), "critical");
+                process.exit();
+            });
+        }
+        else {
+            process.on("uncaughtException", (e) => {
+                this.writeError(e.toString());
+                this.writeLog("errors.log", e.toJson());
+                process.exit();
+            });
+        }
+        this.generateApp = () => {
             this.agent.generateApp(entitiesProjectPath, servicesProjectPath, packageCachePath, noFileCreation, "All", (response) => {
-                let eof = false;
-                let close = (status) => {
+                let commandPacket = JSON.parse(response);
+                this.complete = () => {
+                    let loaded = npmInstall_1.npm.getLoaded();
                     let errorHandler = npmInstall_1.npm.getErrorHandler();
-                    this.agent.dispose((commandObject) => {
-                        this.onComplete.emit("onComplete", status);
-                        try {
-                            errorHandler();
-                        }
-                        catch {
-                        }
+                    this.reportHydraStatusProgress("Completion", "Generation completed", 50);
+                    this.writeSuccess("Signalling agent to end processing");
+                    this.agent.endProcessing((commandObject) => {
+                        this.writeSuccess("Signalling agent to close");
+                        this.agent.dispose((commandObject) => {
+                            this.writeSuccess("Agent closed successfully. Finalizing");
+                            try {
+                                utils_1.Utils.sleep(1000).then(() => {
+                                    try {
+                                        if (loaded) {
+                                            errorHandler();
+                                        }
+                                    }
+                                    catch { }
+                                    this.writeSuccess("Finalized");
+                                    this.onComplete.emit("onComplete", "Finalized");
+                                });
+                            }
+                            catch { }
+                        });
                     });
                 };
-                if (response.trim().length > 0 && emptyLineCount > 0) {
-                    emptyLineCount = 0;
-                }
-                emptyLineCount += response.getEndingCount("\r\n");
-                if (emptyLineCount === 3) {
-                    eof = true;
+                let cleanupAndComplete = (status) => {
+                    let modCleanProcess;
+                    this.agent.sendHydraStatus(status, "important");
+                    this.writeStatus("Cleaning modules");
+                    this.reportHydraStatusProgress("Completion", "Cleaning modules", 0);
+                    modCleanProcess = this.runModClean();
+                    modCleanProcess.on("close", () => {
+                        this.complete();
+                    });
+                };
+                if (!commandPacket.IsChainedStream) {
                     this.agent.stopListening();
                 }
                 else {
-                    this.write(response);
+                    this.writeLine(commandPacket.Response);
                 }
-                if (eof) {
+                if (!commandPacket.IsChainedStream) {
+                    this.agent.sendHydraStatus("Generating app");
                     if (skipInstalls) {
                         this.onComplete.emit("onComplete");
                     }
@@ -477,6 +983,7 @@ class ApplicationGeneratorClient {
                         const installWatch = 1000;
                         const statusWatch = 5000;
                         const statusPrintInterval = 60000;
+                        let cacheProgressPercent = 0;
                         let lastStatusPrint = 0;
                         let usesPackageCache = false;
                         let showCacheProcessingWarning = false;
@@ -485,7 +992,10 @@ class ApplicationGeneratorClient {
                         let cacheStatusMode = "installs";
                         let waitingForInstallStatus = false;
                         let installsInProcess = false;
-                        let setInstallStatus = (status) => {
+                        this.setInstallStatus = (status) => {
+                            if (this.logClient) {
+                                this.writeAllLogs("installStatus.log", status);
+                            }
                             return new Promise((resolve, reject) => {
                                 waitingForInstallStatus = true;
                                 this.agent.sendSimpleCommand("setinstallstatus", (commandObject) => {
@@ -495,24 +1005,34 @@ class ApplicationGeneratorClient {
                                 }, { key: "status", value: status });
                             });
                         };
-                        let getCacheStatus = (mode) => {
+                        this.getCacheStatus = (mode) => {
                             return new Promise((resolve, reject) => {
                                 this.agent.sendSimpleCommand("getcachestatus", (commandObject) => {
-                                    let cacheStatus = commandObject.Response;
+                                    let cacheStatus = (commandObject.Response);
+                                    if (this.logClient) {
+                                        this.writeAllLogs("cacheStatus.log", "\r\n" + beautify(JSON.stringify(cacheStatus)));
+                                    }
                                     resolve(cacheStatus);
                                 }, { key: "mode", value: mode });
                             });
                         };
-                        let pollInstallFromCacheStatus = async (mode, listener) => {
-                            let getInstallFromCacheStatus = () => {
+                        this.pollInstallFromCacheStatus = async (mode, listener) => {
+                            this.getInstallFromCacheStatus = () => {
                                 this.agent.getInstallFromCacheStatus(mode, (installsFromCacheStatus) => {
+                                    if (this.logClient) {
+                                        this.writeAllLogs("installFromCacheStatus.log", "\r\n" +
+                                            beautify(JSON.stringify(installsFromCacheStatus)));
+                                    }
                                     listener(installsFromCacheStatus);
                                     if (installsFromCacheStatus.NothingToPoll) {
                                         this.pollingInstallFromCacheStatusComplete = true;
                                     }
                                     else if (installsFromCacheStatus.TotalRemaining > 0) {
+                                        let percent = Math.trunc((installsFromCacheStatus.TotalRemaining /
+                                            installsFromCacheStatus.Total) *
+                                            100);
                                         utils_1.Utils.sleep(watchMilliseconds).then(() => {
-                                            getInstallFromCacheStatus();
+                                            this.getInstallFromCacheStatus();
                                         });
                                     }
                                     else {
@@ -520,71 +1040,130 @@ class ApplicationGeneratorClient {
                                     }
                                 });
                             };
-                            getInstallFromCacheStatus();
+                            this.getInstallFromCacheStatus();
                         };
-                        let watch = (installs, next) => {
-                            utils_1.Utils.sleep(watchMilliseconds).then(() => {
-                                installing = installs.any(i => !i.value.InstallAttempted);
+                        this.watch2 = (installs, next) => {
+                            utils_1.Utils.sleep(watchMilliseconds)
+                                .then(() => {
+                                installing = installs.any((i) => !i.value.InstallAttempted);
                                 if (installing) {
-                                    if (!this.pollingInstallFromCacheStatus) {
+                                    if (usesPackageCache &&
+                                        !this.pollingInstallFromCacheStatus) {
                                         this.pollingInstallFromCacheStatus = true;
-                                        pollInstallFromCacheStatus(cacheStatusMode, (s) => this.installsFromCacheStatusListener(s));
+                                        this.pollInstallFromCacheStatus(cacheStatusMode, (s) => this.installsFromCacheStatusListener(s));
                                     }
-                                    watch(installs, next);
+                                    this.watch2(installs, next);
                                 }
                                 else if (usesPackageCache) {
                                     watchMilliseconds = statusWatch;
                                     if (showCacheProcessingWarning) {
+                                        lastStatusPrint = Date.now();
                                         this.writeWarning("Package cache processing may take a while on first run.  Please be patient.");
                                         showCacheProcessingWarning = false;
                                     }
                                     if (waitingForInstallStatus || installsInProcess) {
-                                        watch(installs, next);
+                                        this.watch2(installs, next);
                                     }
-                                    else if (this.pollingInstallFromCacheStatus && !this.pollingInstallFromCacheStatusComplete) {
-                                        watch(installs, next);
+                                    else if (this.pollingInstallFromCacheStatus &&
+                                        !this.pollingInstallFromCacheStatusComplete) {
+                                        this.watch2(installs, next);
                                     }
                                     else if (this.installTotalCount === 0) {
                                         this.installTotalCount = -1;
                                         if (!this.pollingInstallFromCacheStatus) {
                                             this.pollingInstallFromCacheStatus = true;
-                                            pollInstallFromCacheStatus(cacheStatusMode, (s) => this.installsFromCacheStatusListener(s));
+                                            this.pollInstallFromCacheStatus(cacheStatusMode, (s) => this.installsFromCacheStatusListener(s));
                                         }
-                                        watch(installs, next);
+                                        this.watch2(installs, next);
                                     }
                                     else {
-                                        getCacheStatus(cacheStatusMode).then((cacheStatus) => {
+                                        this.getCacheStatus(cacheStatusMode)
+                                            .then((cacheStatus) => {
                                             let now = Date.now();
-                                            if (now - lastStatusPrint > statusPrintInterval) {
-                                                this.writeStatus(cacheStatus.StatusText);
+                                            let diff = now - lastStatusPrint;
+                                            let statusText;
+                                            cacheProgressPercent =
+                                                cacheStatus.StatusProgressPercent;
+                                            if (!this.progressBarNextUpdate) {
+                                                this.progressBarNextUpdate = multiBar.create(statusPrintInterval, 0, { status: "Next status update" });
+                                            }
+                                            if (!this.progressBarCacheStatus) {
+                                                this.progressBarCacheStatus = multiBar.create(100, 0, { status: "Cache progress" });
+                                            }
+                                            if (!this.progressBarNotUsed) {
+                                                this.progressBarNotUsed = multiBar.create(100, 0, { status: "Cache progress" });
+                                            }
+                                            if (diff > statusPrintInterval) {
+                                                try {
+                                                    this.progressBarNextUpdate.update(statusPrintInterval, { status: "Next status update" });
+                                                    this.progressBarCacheStatus.update(Math.max(cacheProgressPercent, 1), { status: "Cache progress" });
+                                                    this.progressBarNotUsed.update(100, {
+                                                        status: "Started",
+                                                    });
+                                                }
+                                                catch (e) {
+                                                    this.writeLog("errors.log", e, true);
+                                                }
+                                                statusText = cacheStatus.StatusText.replace("{ lastRequest }", dateFormat(new Date(), "m/d/yyyy h:MM:ss TT"));
+                                                this.writeStatus(statusText);
                                                 lastStatusPrint = now;
                                             }
-                                            if (cacheStatus.CacheStatus === "EndOfProcessing") {
+                                            else {
+                                                try {
+                                                    this.progressBarNextUpdate.update(diff, {
+                                                        status: "Next status update",
+                                                    });
+                                                    this.progressBarCacheStatus.update(Math.max(cacheProgressPercent, 1), { status: "Cache progress" });
+                                                    this.progressBarNotUsed.update(100, {
+                                                        status: "Started",
+                                                    });
+                                                }
+                                                catch (e) {
+                                                    this.writeLog("errors.log", e, true);
+                                                }
+                                            }
+                                            if (cacheStatus.NoCaching ||
+                                                cacheStatus.CacheStatus === "EndOfProcessing") {
+                                                try {
+                                                    this.progressBarNextUpdate.update(statusPrintInterval, { status: "Next status update" });
+                                                    this.progressBarCacheStatus.update(100, {
+                                                        status: "Cache progress",
+                                                    });
+                                                }
+                                                catch (e) {
+                                                    this.writeLog("errors.log", e, true);
+                                                }
                                                 if (cacheStatusMode === "devInstalls") {
-                                                    setInstallStatus("finalized").then((result) => {
+                                                    this.writeSuccess(`${cacheStatusMode} processing complete ************************************`);
+                                                    this.setInstallStatus("finalized").then((result) => {
                                                         cacheStatusMode = "finalizing";
-                                                        watch(installs, next);
+                                                        this.watch2(installs, next);
                                                     });
                                                     return;
                                                 }
                                                 else {
-                                                    this.writeStatus(cacheStatus.StatusText);
+                                                    this.writeStatus(cacheStatus.StatusText.replace("{ lastRequest }", dateFormat(new Date(), "m/d/yyyy h:MM:ss TT")));
                                                     lastStatusPrint = now;
+                                                    this.writeSuccess(`${cacheStatusMode} processing complete ************************************`);
                                                     next();
                                                     return;
                                                 }
                                             }
-                                            watch(installs, next);
-                                        }).catch((e) => {
+                                            this.watch2(installs, next);
+                                        })
+                                            .catch((e) => {
                                             this.writeError(`Error: ${e}`);
+                                            this.writeLog("errors.log", e.toJson());
                                         });
                                     }
                                 }
                                 else {
                                     next();
                                 }
-                            }).catch((e) => {
+                            })
+                                .catch((e) => {
                                 this.writeError(`Error: ${e}`);
+                                this.writeLog("errors.log", e.toJson());
                             });
                         };
                         if (packageCachePath) {
@@ -598,32 +1177,48 @@ class ApplicationGeneratorClient {
                                 let count = 0;
                                 let totalCount = packageInstalls.length;
                                 this.installTotalCount = totalCount;
-                                if (this.pollingInstallFromCacheStatus && !this.pollingInstallFromCacheStatusComplete) {
+                                if (this.pollingInstallFromCacheStatus &&
+                                    !this.pollingInstallFromCacheStatusComplete) {
                                     throw new Error("Unexpected incompletion of pollingInstallFromCacheStatus");
                                 }
                                 this.pollingInstallFromCacheStatusComplete = false;
                                 this.pollingInstallFromCacheStatus = false;
-                                setInstallStatus("installsStarted").then((result) => {
+                                this.agent.sendHydraStatus("Package dev installs started");
+                                this.reportHydraStatusProgress("Final Lap", "Package dev installs started", 0);
+                                this.setInstallStatus("installsStarted").then((result) => {
                                     let installNext = () => {
                                         if (packageInstalls.length) {
-                                            let install = packageInstalls.pop();
-                                            installsInProcess = true;
-                                            installDevPackage(install);
+                                            try {
+                                                let install = packageInstalls.pop();
+                                                installsInProcess = true;
+                                                installDevPackage(install);
+                                            }
+                                            catch (err) {
+                                                console.log();
+                                            }
                                         }
                                         else {
                                             installsInProcess = false;
-                                            setInstallStatus("installsComplete").then((result) => { });
+                                            this.setInstallStatus("installsComplete").then((result) => { });
                                         }
                                     };
                                     let installDevPackage = (i) => {
+                                        let message;
+                                        let percent;
                                         this.devInstalls.set(i, new installInfo_1.InstallInfo(i));
                                         count++;
-                                        this.writeLine(`\nAttempting to install ${count} of ${totalCount} dev packages` + "*".repeat(25) + "\n");
+                                        message = `Attempting to install ${count} of ${totalCount} dev packages`;
+                                        percent = Math.trunc((count / totalCount) * 0.25 * 100);
+                                        this.reportHydraStatusProgress("Final Lap", `Installing ${i}`, percent);
+                                        this.agent.sendHydraStatus(message);
+                                        this.writeLine("\n\n" + message + "*".repeat(25) + "\n");
                                         this.writeLine(`npm install ${i} --save-dev`);
-                                        npmInstall_1.npm.install(i, {
+                                        npmInstall_1.npm
+                                            .install(i, {
                                             cwd: process.cwd(),
                                             saveDev: true,
-                                            output: true
+                                            lean: true,
+                                            output: true,
                                         })
                                             .then(() => {
                                             let info = this.devInstalls.get(i);
@@ -637,12 +1232,15 @@ class ApplicationGeneratorClient {
                                             info.InstallAttempted = true;
                                             info.Failed = true;
                                             this.writeError(`Unable to install package: ${i}, Error: ${e}`);
+                                            this.writeLog("errors.log", e.toJson());
                                             installNext();
                                         });
                                     };
-                                    this.writeLine(`\nInstalling ${totalCount} dev dependencies ` + "*".repeat(50) + "\n");
+                                    this.writeLine(`\nInstalling ${totalCount} dev dependencies ` +
+                                        "*".repeat(50) +
+                                        "\n");
                                     installNext();
-                                    watch(this.installs, () => close("\nHydra installs completed!"));
+                                    this.watch2(this.devInstalls, () => cleanupAndComplete("\nHydra installs completed!"));
                                 });
                             });
                         };
@@ -654,32 +1252,48 @@ class ApplicationGeneratorClient {
                             let watchMilliseconds = installWatch;
                             let lastStatusPrint = 0;
                             this.installTotalCount = totalCount;
-                            if (this.pollingInstallFromCacheStatus && !this.pollingInstallFromCacheStatusComplete) {
+                            if (this.pollingInstallFromCacheStatus &&
+                                !this.pollingInstallFromCacheStatusComplete) {
                                 throw new Error("Unexpected incompletion of pollingInstallFromCacheStatus");
                             }
                             this.pollingInstallFromCacheStatusComplete = false;
                             this.pollingInstallFromCacheStatus = false;
-                            setInstallStatus("installsStarted").then((result) => {
+                            this.agent.sendHydraStatus("Package installs started");
+                            this.reportHydraStatusProgress("Full Throttle", "Package installs started", 0);
+                            this.setInstallStatus("installsStarted").then((result) => {
                                 let installNext = () => {
                                     if (packageInstalls.length) {
-                                        let install = packageInstalls.pop();
-                                        installsInProcess = true;
-                                        installPackage(install);
+                                        try {
+                                            let install = packageInstalls.pop();
+                                            installsInProcess = true;
+                                            installPackage(install);
+                                        }
+                                        catch (err) {
+                                            console.log();
+                                        }
                                     }
                                     else {
                                         installsInProcess = false;
-                                        setInstallStatus("installsComplete").then((result) => { });
+                                        this.setInstallStatus("installsComplete").then((result) => { });
                                     }
                                 };
                                 let installPackage = (i) => {
+                                    let message;
+                                    let percent;
                                     this.installs.set(i, new installInfo_1.InstallInfo(i));
                                     count++;
-                                    this.writeLine(`\nAttempting to install ${count} of ${totalCount} packages ` + "*".repeat(25) + "\n");
+                                    message = `Attempting to install ${count} of ${totalCount} packages `;
+                                    percent = Math.trunc((count / totalCount) * 0.25 * 100);
+                                    this.reportHydraStatusProgress("Full Throttle", `Installing ${i}`, percent);
+                                    this.agent.sendHydraStatus(message);
+                                    this.writeLine("\n\n" + message + "*".repeat(25) + "\n");
                                     this.writeLine(`npm install ${i} --save`);
-                                    npmInstall_1.npm.install(i, {
+                                    npmInstall_1.npm
+                                        .install(i, {
                                         cwd: process.cwd(),
                                         save: true,
-                                        output: true
+                                        lean: true,
+                                        output: true,
                                     })
                                         .then(() => {
                                         let info = this.installs.get(i);
@@ -693,18 +1307,24 @@ class ApplicationGeneratorClient {
                                         info.InstallAttempted = true;
                                         info.Failed = true;
                                         this.writeError(`Unable to install package: ${i}, Error: ${e}`);
+                                        this.writeLog("errors.log", e.toJson());
                                         installNext();
                                     });
                                 };
-                                this.writeLine(`\nInstalling ${totalCount} dependencies ` + "*".repeat(50) + "\n");
+                                this.writeLine(`\nInstalling ${totalCount} dependencies ` +
+                                    "*".repeat(50) +
+                                    "\n");
                                 installNext();
-                                watch(this.installs, installDev);
+                                this.watch2(this.installs, installDev);
                             });
                         });
                     }
                 }
             });
         };
+        if (pause) {
+            utils_1.Utils.pause(pause);
+        }
         if (!debug) {
             debug = generateOptions.debug;
         }
@@ -721,56 +1341,110 @@ class ApplicationGeneratorClient {
             this.logOutputToConsole = generateOptions.logToConsole;
         }
         if (generateOptions.target === "app") {
-            this.initializeAndConnect(debug).then(() => {
-                generateApp();
+            this.initializeAndConnect(debug, logServiceMessages)
+                .then(() => {
+                this.generateApp();
             })
                 .catch((e) => {
                 this.writeError(`Error: ${e}`);
+                this.writeLog("errors.log", e.toJson());
             });
         }
         else if (generateOptions.target === "workspace") {
-            this.initializeAndConnect(debug).then(() => {
+            this.initializeAndConnect(debug, logServiceMessages)
+                .then(() => {
                 let appName = generateOptions.appName;
-                this.agent.generateWorkspace(appName, noFileCreation, "All", (response) => {
-                    this.writeSuccess(`Finished generating workspace ${appName}`);
+                let appDescription = generateOptions.appDescription;
+                let organizationName = generateOptions.organizationName;
+                let promises = [];
+                if (!appName) {
+                    do {
+                        appName = reader.question(hydraGreen("?") + " App name : ");
+                        if (/^[a-zA-Z]{1}[a-zA-Z]{4,24}$/.test(appName)) {
+                            break;
+                        }
+                        this.writeExplicit(hydraWarning("No spaces or special characters. > 5 char, < 25"));
+                    } while (true);
+                }
+                if (!appDescription) {
+                    do {
+                        appDescription = reader.question(hydraGreen("?") + " App description: ");
+                        if (/^.{5,255}$/.test(appDescription)) {
+                            break;
+                        }
+                        this.writeExplicit(hydraWarning("> 5 char, < 255"));
+                    } while (true);
+                }
+                if (!organizationName) {
+                    do {
+                        organizationName = reader.question(hydraGreen("?") + " Organization name: ");
+                        if (/^[a-zA-Z]{1}[a-zA-Z]{4,24}$/.test(appName)) {
+                            break;
+                        }
+                        this.writeExplicit(hydraWarning("No spaces or special characters. > 5 char, < 25"));
+                    } while (true);
+                }
+                this.agent.generateWorkspace(appName, appDescription, organizationName, noFileCreation, "All", (response) => {
+                    this.handleResponse(response, generateOptions.target);
                 });
             })
                 .catch((e) => {
                 this.writeError(`Error: ${e}`);
+                this.writeLog("errors.log", e.toJson());
+                this.agentComplete();
             });
         }
         else if (generateOptions.target === "businessmodel") {
-            this.initializeAndConnect(debug).then(() => {
+            this.initializeAndConnect(debug, logServiceMessages)
+                .then(() => {
                 let templateFile = generateOptions.template;
                 this.agent.generateBusinessModel(templateFile, noFileCreation, "All", (response) => {
-                    this.writeSuccess(`Finished generating business model from ${templateFile}`);
+                    this.handleResponse(response, generateOptions.target);
                 });
             })
                 .catch((e) => {
                 this.writeError(`Error: ${e}`);
+                this.writeLog("errors.log", e.toJson());
+                this.agentComplete();
             });
         }
         else if (generateOptions.target === "entities") {
-            this.initializeAndConnect(debug).then(() => {
+            this.initializeAndConnect(debug, logServiceMessages)
+                .then(() => {
                 let templateFile = generateOptions.template;
                 let businessModelFile = generateOptions.businessmodel;
                 let jsonFile = generateOptions.json;
                 this.agent.generateEntities(templateFile, jsonFile, businessModelFile, entitiesProjectPath, noFileCreation, "All", (response) => {
-                    this.writeSuccess(`Finished generating entities`);
+                    this.handleResponse(response, generateOptions.target);
                 });
             })
                 .catch((e) => {
                 this.writeError(`Error: ${e}`);
+                this.writeLog("errors.log", e.toJson());
+                this.agentComplete();
             });
         }
         else {
             this.writeError(`Unknown target: ${generateOptions.target}`);
         }
     }
-    setPackageJsonConfig(configPath, packageList, callback) {
+    handleResponse(response, target) {
+        if (response.startsWith("{")) {
+            let commandPacket = JSON.parse(response);
+            if (!commandPacket.IsChainedStream) {
+                this.writeSuccess(`Finished generating ${target}, response: ${commandPacket.Response}`);
+                if (commandPacket.Response !== "End Processing") {
+                    this.agentComplete();
+                }
+            }
+            else {
+                this.writeLine(commandPacket.Response);
+            }
+        }
     }
+    setPackageJsonConfig(configPath, packageList, callback) { }
     setPackageYamlConfig(configPath, packageList, callback) {
-        let configData = yaml.safeLoad(fs.readFileSync(configPath, 'utf8'));
+        let configData = yaml.safeLoad(fs.readFileSync(configPath, "utf8"));
         let packagesSection = configData["packages"];
         let configContents;
         let scopedAllProperty = "@*/*";
@@ -791,7 +1465,10 @@ class ApplicationGeneratorClient {
                     packagesSection[`${p}`] = { access: "$all", publish: "$all" };
                 }
                 else {
-                    packagesSection[`\ua725${p}\ua725`] = { access: "$all", publish: "$all" };
+                    packagesSection[`\ua725${p}\ua725`] = {
+                        access: "$all",
+                        publish: "$all",
+                    };
                 }
             }
         });
@@ -843,8 +1520,11 @@ class ApplicationGeneratorClient {
                                     }
                                 }
                                 if (count === 0) {
-                                    content = beautify(JSON.stringify(data), { indent_size: 2, space_in_empty_paren: true });
-                                    fs.writeFile(packageDataFile, content, 'utf8', (err) => {
+                                    content = beautify(JSON.stringify(data), {
+                                        indent_size: 2,
+                                        space_in_empty_paren: true,
+                                    });
+                                    fs.writeFile(packageDataFile, content, "utf8", (err) => {
                                         let packageConfigPath = path.join(packageCachePath, "..\\", "config.yaml");
                                         if (err) {
                                             callback(err);
@@ -860,15 +1540,17 @@ class ApplicationGeneratorClient {
             });
         });
     }
-    initializeAndConnect(debug) {
+    initializeAndConnect(debug, logServiceMessages) {
         let promise = new connectPromise_1.ConnectPromise();
-        this.agent.initialize(debug);
+        this.agent.initialize(debug, logServiceMessages);
         this.agent.onError.on("onError", (e) => {
             this.writeError(e);
             this.dispose();
         });
         this.agent.sendSimpleCommand("connect", (connectObject) => {
             if (connectObject.Response === "Connected successfully") {
+                this.agent.sendHydraStatus("Connected successfully");
+                this.agent.connected = true;
                 this.writeSuccess("Connected");
                 promise.resolve("Connected");
             }
@@ -878,10 +1560,21 @@ class ApplicationGeneratorClient {
         });
         return promise;
     }
-    dispose() {
+    dispose() { }
+    launchServices(debug, logServiceMessages) {
+        this.initializeAndConnect(debug, logServiceMessages).then(() => {
+            this.agent.sendSimpleCommand("launchservices", (commandObject) => {
+                let response = commandObject.Response;
+                this.writeLine(response);
+                this.agent.dispose((commandObject) => {
+                    this.onComplete.emit("onComplete");
+                });
+            });
+        });
     }
-    version(debug) {
+    version(debug, logServiceMessages) {
         let clientVersion = version;
+        this.logOutputToConsole = true;
         this.writeLine("     ./&.                                       *((                             ");
         this.writeLine("     ,(#.                                       (#*                             ");
         this.writeLine("     *((..*///*    .,,         .*.    .*////*.  (#,  ,*..*//,    ,*///*,  .*.   ");
@@ -914,7 +1607,7 @@ class ApplicationGeneratorClient {
         this.writeLine("#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/.           ");
         this.writeLine("");
         this.writeLine(`Client version v${clientVersion} `);
-        this.initializeAndConnect(debug).then(() => {
+        this.initializeAndConnect(debug, logServiceMessages).then(() => {
             this.agent.sendSimpleCommand("getversion", (commandObject) => {
                 let appGeneratorVersion = commandObject.Response;
                 this.writeLine(`ApplicationGenerator version v${appGeneratorVersion} `);
@@ -928,41 +1621,48 @@ class ApplicationGeneratorClient {
     }
     help() {
         let mainDefinitions = new linq_javascript_1.List(commands.mainDefinitions);
-        let availableCommands = mainDefinitions.where(d => d.type.name === "String");
-        let globalOptions = mainDefinitions.where(d => d.type.name !== "String");
-        let definitionsWithInner = mainDefinitions.where(d => Object.keys(d).includes("innerDefinitions"));
+        let availableCommands = mainDefinitions.where((d) => d.type.name === "String");
+        let globalOptions = mainDefinitions.where((d) => d.type.name !== "String");
+        let definitionsWithInner = mainDefinitions.where((d) => Object.keys(d).includes("innerDefinitions"));
         let sections = [
             {
                 content: commands.HELP_HEADER,
-                raw: true
+                raw: true,
             },
             {
                 header: "Available Commands",
-                content: availableCommands.select(c => ({ name: c.name, summary: c.description })).toArray(),
+                content: availableCommands
+                    .select((c) => ({ name: c.name, summary: c.description }))
+                    .toArray(),
             },
             {
                 header: "Global Options",
-                content: globalOptions.select(c => ({ name: c.name, summary: c.description })).toArray(),
+                content: globalOptions
+                    .select((c) => ({ name: c.name, summary: c.description }))
+                    .toArray(),
             },
         ];
         this.addSections(sections, definitionsWithInner);
         const usage = commandLineUsage(sections);
-        this.write(usage);
+        this.writeExplicit(usage);
     }
     addSections(sections, definitions) {
-        definitions.forEach(d => {
+        definitions.forEach((d) => {
             let name = d.name;
             let innerDefinitions = new linq_javascript_1.List(d["innerDefinitions"]);
-            let definitionsWithInner = innerDefinitions.where(d => Object.keys(d).includes("innerDefinitions"));
+            let definitionsWithInner = innerDefinitions.where((d) => Object.keys(d).includes("innerDefinitions"));
             let section = {
                 header: `Commands and options for ${name}`,
-                content: innerDefinitions.where(c => c.description !== undefined).select(c => ({ name: c.name, summary: c.description })).toArray(),
+                content: innerDefinitions
+                    .where((c) => c.description !== undefined)
+                    .select((c) => ({ name: c.name, summary: c.description }))
+                    .toArray(),
             };
             sections.push(section);
             this.addSections(sections, definitionsWithInner);
         });
     }
-    test(debug) {
+    test(debug, logServiceMessages) {
         const watchMilliseconds = 1000;
         let pollInstallFromCacheStatus = async (mode, listener) => {
             let getInstallFromCacheStatus = () => {
@@ -981,74 +1681,165 @@ class ApplicationGeneratorClient {
             };
             getInstallFromCacheStatus();
         };
-        this.initializeAndConnect(debug).then(() => {
+        this.initializeAndConnect(debug, logServiceMessages).then(() => {
             this.pollingInstallFromCacheStatus = false;
             this.pollingInstallFromCacheStatusComplete = false;
-            let close = () => {
+            this.close = () => {
                 this.agent.dispose((commandObject) => {
                     this.onComplete.emit("onComplete");
                 });
             };
-            let watch = (next) => {
+            this.watch = (next) => {
                 utils_1.Utils.sleep(watchMilliseconds).then(() => {
                     if (this.pollingInstallFromCacheStatusComplete) {
                         next();
                     }
                     else {
-                        watch(next);
+                        this.watch(next);
                     }
                 });
             };
             this.writeStatus("This is a test. Nothing will actually be installed.  This tests the full connectivity of Hydra including the local Package Cache service.");
             pollInstallFromCacheStatus("Testing", (s) => this.installsFromCacheStatusListener(s));
-            watch(() => {
+            this.watch(() => {
                 this.writeStatus("Test complete.");
                 close();
             });
         });
     }
+    writeLog(fileName, output, addStack = false) {
+        if (!this.logPath) {
+            return;
+        }
+        try {
+            let fullFileName = path.join(this.logPath, fileName);
+            if (addStack) {
+                let stack = this.getTraceInfo();
+                output += "\r\nStack trace:\r\n" + stack;
+            }
+            if (!fs.existsSync(this.logPath)) {
+                fs.mkdirSync(this.logPath, { recursive: true });
+            }
+            fs.appendFileSync(fullFileName, output, (err) => {
+                if (err) {
+                    return console.log(err);
+                }
+            });
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+    getTraceInfo() {
+        try {
+            let trace = stackTrace.get();
+            let index = 0;
+            let skip = true;
+            let traceInfo;
+            while (skip && trace.length - 1 > index) {
+                let functionName;
+                index++;
+                functionName = trace[index].getFunctionName();
+                if (functionName &&
+                    !functionName.startsWith("write") &&
+                    !functionName.startsWith("addChunk") &&
+                    !functionName.startsWith("readableAddChunk") &&
+                    !functionName.startsWith("processTicksAndRejections") &&
+                    !trace[index].toString().startsWith("Socket.")) {
+                    let match;
+                    traceInfo = trace[index].toString();
+                    match = traceInfo.match(/(?<=\().*?(?=:\d*?\:\d*?\)$)/);
+                    if (match && match[0]) {
+                        let root = path.parse(match[0]).root;
+                        let url = fileUrl(match[0]);
+                        if (root.includes(":")) {
+                            skip = false;
+                        }
+                    }
+                }
+            }
+            if (traceInfo) {
+                return traceInfo + "\r\n";
+            }
+            else {
+                traceInfo = trace[1].toString();
+                return traceInfo;
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    writeAllLogs(fileName, output, generalLog = "general.log") {
+        this.writeLog(generalLog, output);
+        this.writeLog(fileName, output);
+    }
     writeStatus(output) {
-        if (!output) {
-            console.error("No writeStatus output provided");
+        if (this.logOutputToConsole) {
+            if (!output) {
+                console.error("No writeStatus output provided");
+            }
         }
         this.writeLine(output);
+        if (this.logClient) {
+            this.writeLog("general.log", output + "\r\n");
+        }
     }
     writeLine(output) {
-        this.stdout.writeLine(output);
         if (this.logOutputToConsole) {
-            console.log(output);
+            this.stdout.writeLine(output);
+        }
+        if (this.logClient) {
+            this.writeLog("general.log", output + "\r\n");
         }
     }
     write(output) {
-        this.stdout.write(output);
         if (this.logOutputToConsole) {
-            console.log(output);
+            this.stdout.write(output);
+        }
+        if (this.logClient) {
+            this.writeLog("general.log", output);
+        }
+    }
+    writeExplicit(output) {
+        this.stdout.write(output);
+        if (this.logClient) {
+            this.writeLog("general.log", output);
         }
     }
     writeConsole(output) {
         if (this.logOutputToConsole) {
             console.log(output);
         }
+        if (this.logClient) {
+            this.writeLog("general.log", output + "\r\n");
+        }
     }
     writeError(output) {
-        let coloredOutput = colors.red(output);
-        this.stderr.writeLine(coloredOutput);
         if (this.logOutputToConsole) {
-            console.log(coloredOutput);
+            let coloredOutput = colors.red(output);
+            this.stderr.writeLine(coloredOutput);
+        }
+        if (this.logClient) {
+            this.writeLog("errors.log", output + "\r\n");
         }
     }
     writeWarning(output) {
-        let coloredOutput = colors.yellow(output);
-        this.stderr.writeLine(coloredOutput);
         if (this.logOutputToConsole) {
-            console.log(coloredOutput);
+            let coloredOutput = colors.yellow(output);
+            this.stderr.writeLine(coloredOutput);
+        }
+        if (this.logClient) {
+            this.writeLog("general.log", output + "\r\n");
         }
     }
     writeSuccess(output) {
-        let coloredOutput = colors.green(output);
-        this.stdout.writeLine(coloredOutput);
         if (this.logOutputToConsole) {
-            console.log(coloredOutput);
+            let coloredOutput = colors.green(output);
+            this.stdout.writeLine(coloredOutput);
+        }
+        if (this.logClient) {
+            this.writeLog("general.log", output + "\r\n");
         }
     }
     installsFromCacheStatusListener(installsFromCacheStatus) {
