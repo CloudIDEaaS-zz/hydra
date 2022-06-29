@@ -55,7 +55,7 @@ namespace AbstraX.CommandHandlers
 
         public void Commit(string message)
         {
-            base.RunCommand("commit", Environment.CurrentDirectory, "-m", message);
+            base.RunCommand("commit", Environment.CurrentDirectory, "-m", message.SurroundWithQuotes());
         }
 
         /// <summary>   Pushes an object onto this stack. </summary>
