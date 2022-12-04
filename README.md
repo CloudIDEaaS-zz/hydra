@@ -22,11 +22,11 @@ hydra generate entities
  ```
 - Generates front-end framework (i.e. Ionic) and resulting application:
  ```
-hydra generate start
+hydra generate start 
 hydra generate app
  ```
 
-## How it Works
+## How it Works 
 
 Most everything in life is naturally hierarchical, your family, your work organization, data relationships, 
 user interfaces, security models, etc. Hydra starts with what is called a "business model".  Business models are broken 
