@@ -1,0 +1,56 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ import namespace="AbstraX" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.String" name="ControllerName" #>
+<#@ parameter type="System.String" name="ContainerName" #>
+<#@ parameter type="System.String" name="RootNamespace" #>
+<#@ parameter type="System.String" name="AppName" #>
+<#
+    var containerVariable = this.ContainerName.ToCamelCase();
+#>
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Reflection;
+using <#= this.RootNamespace #>.Entities.Models;
+
+namespace <#= this.RootNamespace #>.Services.Controllers
+{
+    public class <#= this.ControllerName #>Controller : ControllerBase
+    {
+        private <#= this.ContainerName #> <#= containerVariable #>;
+        private IHostEnvironment environment;
+
+        public <#= this.ControllerName #>Controller(IHostEnvironment environment, <#= this.ContainerName #> <#= containerVariable #>)
+        {
+            this.<#= containerVariable #> = <#= containerVariable #>;
+            this.environment = environment;
+        }
+
+        [Route("~/api/<#= this.AppName #>/about")]
+        [HttpGet]
+        public string About()
+        {
+            var thisAssembly = Assembly.GetEntryAssembly();
+            var assemblyName = thisAssembly.GetName();
+            var versionAttribute = thisAssembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+            var version = $"{ assemblyName.Name } v{ versionAttribute.InformationalVersion } { environment.EnvironmentName }";
+
+            return version;
+        }
+    }
+}

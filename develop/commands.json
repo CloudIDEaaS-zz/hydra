@@ -1,9 +1,0 @@
-{
-  "commands": {
-    "7. PushToNuget - Test": {
-      "fileName": "cmd.exe",
-      "workingDirectory": ".",
-      "arguments": "/c \"ApplicationGenerator\\InternalScripts\\7. PushToNuget - Test.cmd\""
-    }
-  }
-}

@@ -81,13 +81,17 @@ namespace AbstraX.CommandHandlers
             return builder.ToString();
         }
 
-        /// <summary>   Publishes this.  </summary>
+        /// <summary>   Updates this.  </summary>
         ///
-        /// <remarks>   CloudIDEaaS, 6/28/2022. </remarks>
+        /// <remarks>   CloudIDEaaS, 9/24/2022. </remarks>
 
+        public void Update()
+        {
+            base.RunCommand("update", Environment.CurrentDirectory, Array.Empty<string>());
+        }
         public void Publish()
         {
-            base.RunCommand("publish", Environment.CurrentDirectory);
+            base.RunCommand("publish", Environment.CurrentDirectory, Array.Empty<string>());
         }
     }
 }

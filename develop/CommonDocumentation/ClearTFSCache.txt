@@ -1,8 +1,0 @@
-Delete the following:
-
-C:\Users\U164225\AppData\Local\Microsoft\Team Foundation\3.0\Cache
-
-Also can delete:
-
-*.vssscc
-*.vspscc

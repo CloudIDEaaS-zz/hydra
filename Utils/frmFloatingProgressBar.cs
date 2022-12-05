@@ -13,16 +13,16 @@ namespace Utils
 {
     public partial class frmFloatingProgressBar : Form
     {
-        private Form frmParent;
+        private Control ctrlParent;
 
         public frmFloatingProgressBar()
         {
             InitializeComponent();
         }
 
-        public frmFloatingProgressBar(Form frmParent = null)
+        public frmFloatingProgressBar(Control ctrlParent = null)
         {
-            this.frmParent = frmParent;
+            this.ctrlParent = ctrlParent;
 
             InitializeComponent();
         }
@@ -94,11 +94,17 @@ namespace Utils
             base.OnPaint(e);
         }
 
+        public void SetStatus(string statusText, int progressPercent = 0)
+        {
+            this.Message = statusText;
+            this.Progress = progressPercent;
+        }
+
         private void frmFloatingMessage_Load(object sender, EventArgs e)
         {
-            if (frmParent != null)
+            if (ctrlParent != null)
             {
-                this.CenterOver(frmParent, new Point(0, -100));
+                this.CenterOver(ctrlParent, new Point(0, -100));
             }
             else
             {

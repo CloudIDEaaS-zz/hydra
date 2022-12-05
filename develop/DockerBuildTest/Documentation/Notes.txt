@@ -1,1 +1,0 @@
-﻿The azure-pipelines.yml will need to be update to handle the additional COPY ./DockerApp

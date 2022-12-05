@@ -3,12 +3,13 @@ import { ApplicationGeneratorClient } from "./client";
 import { CommandPacket, CommandPacketResponse } from "./commandPacket";
 import { rendererServerCommands } from "./commands";
 import { Renderer } from "./renderer";
+import resourceManager, { HydraCli } from "../resources/resourceManager";
 
 export class StandardStreamService extends BaseStandardStreamService {
     client: ApplicationGeneratorClient;
 
-    constructor(public renderer: Renderer) {
-        super();
+    constructor(public renderer: Renderer, resourceManager: resourceManager) {
+        super(resourceManager);
         this.client = renderer.client;
     }
 

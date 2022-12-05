@@ -429,6 +429,33 @@ namespace Utils
             Synchronize = 0x00100000
         }
 
+        public static void Prepend(this FileStream file, string value)
+        {
+            PrependString(value, file);
+        }
+
+        public static void PrependString(string value, FileStream file)
+        {
+            byte[] numArray = new byte[(int)file.Length];
+            file.Position = (long)0;
+
+            while (file.Read(numArray, 0, (int)numArray.Length) != 0)
+            {
+            }
+
+            if (!file.CanWrite)
+            {
+                throw new ArgumentException("The specified file cannot be written.", "file");
+            }
+
+            file.Position = (long)0;
+            byte[] bytes = Encoding.ASCII.GetBytes(value);
+            
+            file.SetLength((long)((int)numArray.Length + (int)bytes.Length));
+            file.Write(bytes, 0, (int)bytes.Length);
+            file.Write(numArray, 0, (int)numArray.Length);
+        }
+
         public static string GetDocumentsDirectory()
         {
             const int MaxPath = 260;
@@ -500,6 +527,13 @@ namespace Utils
         public static FileInfo FindFile(this DirectoryInfo directoryInfo, string fileName)
         {
             var fileInfo = directoryInfo.GetFiles("*.*", SearchOption.AllDirectories).SingleOrDefault(f => f.Name.AsCaseless() == fileName);
+
+            return fileInfo;
+        }
+
+        public static FileInfo FindLastFile<TKey>(this DirectoryInfo directoryInfo, string fileName, Func<FileInfo, TKey> orderBy)
+        {
+            var fileInfo = directoryInfo.GetFiles("*.*", SearchOption.AllDirectories).OrderBy(orderBy).LastOrDefault(f => f.Name.AsCaseless() == fileName);
 
             return fileInfo;
         }
@@ -1525,6 +1559,14 @@ namespace Utils
         {
             writer.Write('\t'.Repeat(count));
             writer.WriteLine(text);
+        }
+
+        public static void WriteLinesTabIndent(this TextWriter writer, int count, string[] text)
+        {
+            foreach (var line in text)
+            {
+                writer.WriteLineTabIndent(count, line);
+            }
         }
 
         public static StreamReset MarkForReset(this BinaryReader reader)

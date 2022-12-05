@@ -69,7 +69,9 @@ namespace VisualStudioProvider
         private bool includeHiddenItems;
         private bool allItemsLoaded;
         public string OutputFile { get; private set; }
+        public string[] OutputFiles { get; private set; }
         public string OutputPath { get; private set; }
+        public string[] OutputPaths { get; private set; }
         public string ProjectType { get; private set; }
         public string RelativePath { get; private set; }
         public string ProjectGuid { get; private set; }
@@ -1189,15 +1191,73 @@ namespace VisualStudioProvider
 
                 if (assemblyName != null)
                 {
-                    var configurationPair = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "Configuration");
+                    var configurationProperty = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "Configuration");
 
-                    if (configurationPair == null)
+                    if (configurationProperty == null)
                     {
-                        var rawXml = rootElement.RawXml;
+                        var frameworkElement = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "TargetFramework");
+                        var directory = new FileInfo(this.projectFileName).DirectoryName;
+
+                        if (frameworkElement == null)
+                        {
+                            var frameworks = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "TargetFrameworks").Value.Split(";");
+                            var configurations = new[] { "Debug", "Release" };
+                            var outputPaths = new List<string>();
+
+                            foreach (var framework in frameworks)
+                            {
+                                foreach (var configuration in configurations)
+                                {
+                                    outputPaths.Add(Path.Combine(directory, @"bin", configuration, framework));
+                                }
+                            }
+
+                            this.OutputPaths = outputPaths.ToArray();
+                        }
+                        else
+                        { 
+                            var frameworkValue = frameworkElement.Value;
+                            var configurations = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "Configurations").Value.Split(";");
+                            var outputPaths = new List<string>();
+
+                            foreach (var configuration in configurations)
+                            {
+                                outputPaths.Add(Path.Combine(directory, @"bin", configuration, frameworkValue));
+                            }
+
+                            this.OutputPaths = outputPaths.ToArray();
+                        }
+
+                        string outputType = string.Empty;
+                        var outputTypeElement = rootElement.Properties.SingleOrDefault(p => p.Name == "OutputType");
+                        string outputExt = string.Empty;
+
+                        if (outputTypeElement != null)
+                        {
+                            outputType = outputTypeElement.Value;
+                        }
+
+                        switch (outputType)
+                        {
+                            case "Exe":
+                                outputExt = ".exe";
+                                break;
+                            case "WinExe":
+                                outputExt = ".exe";
+                                break;
+                            default:
+                                outputExt = ".dll";
+                                break;
+                        }
+
+                        if (OutputPath != null)
+                        {
+                            this.OutputFile = Path.GetFullPath(Path.Combine(directory, OutputPath, assemblyName.Value + outputExt));
+                        }
                     }
                     else
-                    { 
-                        var configuration = configurationPair.Value;
+                    {
+                        var configuration = configurationProperty.Value;
                         var platform = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "Platform");
                         var isSilverlightAppProperty = rootElement.Properties.SingleOrDefault(p2 => p2.Name == "SilverlightApplication");
                         string platformValue = string.Empty;

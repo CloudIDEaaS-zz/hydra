@@ -80,21 +80,21 @@ namespace Utils
             connection.Close();
         }
 
-        //public static T SaveIfNotExists<T>(this DbContext entities, Func<T, bool> query, Func<T> createFunc) where T : EntityObject
-        //{
-        //    var entityType = entities.GetType();
-        //    var objectSet = (IEnumerable<T>)entityType.GetProperties().Single(p => p.PropertyType.Name.StartsWith("ObjectSet") && p.PropertyType.GetGenericArguments().First() == typeof(T)).GetValue(entities, null);
-        //    var entity = objectSet.SingleOrDefault(e => query(e));
+        public static T SaveIfNotExists<T>(this DbContext entities, Func<T, bool> query, Func<T> createFunc) where T : EntityObject
+        {
+            var entityType = entities.GetType();
+            var objectSet = (IEnumerable<T>)entityType.GetProperties().Single(p => p.PropertyType.Name.StartsWith("ObjectSet") && p.PropertyType.GetGenericArguments().First() == typeof(T)).GetValue(entities, null);
+            var entity = objectSet.SingleOrDefault(e => query(e));
 
-        //    if (entity == null)
-        //    {
-        //        entity = createFunc();
-        //        ((dynamic)objectSet).AddObject(entity);
+            if (entity == null)
+            {
+                entity = createFunc();
+                ((dynamic)objectSet).AddObject(entity);
 
-        //        entities.SaveChanges();
-        //    }
+                entities.SaveChanges();
+            }
 
-        //    return entity;
-        //}
+            return entity;
+        }
     }
 }

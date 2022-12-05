@@ -1,0 +1,189 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ import namespace="AbstraX" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#
+    // this serves info from data.json (see Generators\Client\Theme\DataJsonTemplate.tt)
+#>
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { UserDataProvider } from './userdata.provider';
+
+export interface PageData {
+    pageTitle: string;
+    metaDescription: string;
+    metaKeywords: string;
+}
+
+export interface WelcomeDetails {
+    welcomeTitle: string;
+    description: string;
+    startAppTitle: string;
+    splashScreenAlt: string;
+}
+
+export interface WelcomeData {
+    page: PageData;
+    details: WelcomeDetails;
+}
+
+export interface AboutHeader {
+    aboutBannerAlt: string;
+    description: string;
+    version: string;
+}
+
+export interface MainPageLink {
+    title: string;
+    text: string;
+    url: string;
+}
+
+export interface SocialLink {
+    visitTitle: string;
+    visitText: string;
+    shareTitle: string;
+    shareText: string;
+    tinyIcon: string;
+    smallIcon: string;
+    largeIcon: string;
+    iconAlt: string;
+    accountUrl: string;
+    shareUrl: string;
+    enable: boolean;
+}
+
+export interface AppStore {
+    name: string;
+    title: string;
+    text: string;
+    tinyLogo: string;
+    smallLogo: string;
+    largeLogo: string;
+    logoAlt: string;
+    accountUrl: string;
+    device: string;
+    allowRating: boolean;
+}
+
+export interface SidelLink {
+    title: string;
+    Logo: string;
+    url: string;
+}
+
+export interface AboutDetails {
+    header: AboutHeader;
+    mainPageLinks: MainPageLink[];
+    socialLinks: SocialLink[];
+    appStoreLinks: AppStore[];
+    tellOthers: SocialLink[];
+    sidelLinks: SidelLink[];
+}
+
+export interface AboutData {
+    page: PageData;
+    details: AboutDetails;
+}
+
+
+export interface LicenseDetails {
+    content: string;
+    licenseUrl: string;
+    licenseUrlTitle: string;
+    questionsEmailAddress: string;
+    questionsEmailAddressTitle: string;
+    questionsMailingAddress: string;
+}
+
+export interface LicenseData {
+    page: PageData;
+    details: LicenseDetails;
+}
+
+
+export interface SupportDetails {
+    content: string;
+    supportUrl: string;
+    supportUrlTitle: string;
+    supportEmailAddress: string;
+    supportEmailAddressTitle: string;
+}
+
+export interface SupportData {
+    page: PageData;
+    details: SupportDetails;
+}
+
+export interface ContentDetails {
+  content: string;
+}
+
+export interface ContentPage {
+    uiPath: string;
+    page: PageData;
+    details: ContentDetails;
+    content: string;
+    menuIcon: string;
+}
+
+export interface RootData {
+    welcome: WelcomeData[];
+    about: AboutData[];
+    license: LicenseData[];
+    support: SupportData[];
+    pages: ContentPage[];
+}
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AppDataProvider {
+  data: RootData;
+
+  constructor(public http: HttpClient, public user: UserDataProvider) {
+  }
+
+  load(): any {
+    if (this.data) {
+      return of(this.data);
+    } else {
+      return this.http
+        .get('assets/data/data.json')
+        .pipe(map(this.processData, this));
+    }
+  }
+
+  processData(data: any) {
+    this.data = data;
+    return this.data;
+  }
+
+  getAboutData(): Observable<AboutData> {
+    return this.load().pipe(
+      map((data: any) => {
+        return data.about[0];
+      })
+    );
+  }
+
+  getWelcomeData(): Observable<WelcomeData> {
+    return this.load().pipe(
+      map((data: any) => {
+        return data.welcome[0];
+      })
+    );
+  }
+}
+

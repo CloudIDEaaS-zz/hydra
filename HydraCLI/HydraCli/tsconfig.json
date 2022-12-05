@@ -12,6 +12,7 @@
         "moduleResolution": "node",
         "sourceMap": true,
         "rootDir": "src",
+        "resolveJsonModule" :true,
         "target": "esNext"
     },
     "include": [

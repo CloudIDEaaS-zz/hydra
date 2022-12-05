@@ -1,0 +1,11 @@
+{
+  "TemplateData":
+  {
+    "Name": "Blank Project",
+    "Description": "Project with standard pages",
+    "ProjectType": "C#/Ionic/Angular",
+    "HandlerType": "Ionic/Angular",
+    "AppName": "BlankApp",
+    "SortOrder": 1
+  }
+}

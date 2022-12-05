@@ -126,6 +126,13 @@ namespace Utils
         public static extern IntPtr SetFocus(IntPtr hWnd);
         [DllImport("user32.dll")]
         public static extern IntPtr GetFocus();
+
+        [DllImport("user32.dll", CharSet = CharSet.None, ExactSpelling = false)]
+        public static extern bool ShowWindow(IntPtr hWnd, ControlExtensions.ShowWindowCommands nCmdShow);
+
+        [DllImport("user32.dll", CharSet = CharSet.None, ExactSpelling = false)]
+        public static extern bool ShowWindowAsync(IntPtr hWnd, ControlExtensions.ShowWindowCommands nCmdShow);
+
         [DllImport("user32")]
         private static extern IntPtr SetWindowLong(IntPtr hWnd, WindowLongIndex nIndex, IntPtr newProc);
         [DllImport("user32")]
@@ -216,8 +223,6 @@ namespace Utils
         internal static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray), In] INPUT[] pInputs, int cbSize);
         [System.Runtime.InteropServices.DllImport("Shell32.dll")]
         public static extern int SHChangeNotify(int eventId, int flags, IntPtr item1, IntPtr item2);
-        [DllImport("user32.dll")]
-        internal static extern bool ShowWindowAsync(IntPtr hWnd, ShowWindowCommands nCmdShow);
         [DllImport("user32.dll", SetLastError = false)]
         public static extern IntPtr GetDesktopWindow();
         [DllImport("user32.dll")]
@@ -3100,7 +3105,21 @@ namespace Utils
             return bitmap;
         }
 
-        public static Screen GetSecondaryMonitor(this Form form)
+        public static Screen GetSecondaryMonitor(this Control ctrl)
+        {
+            var leftScreen = Screen.AllScreens.SingleOrDefault(s => s != Screen.PrimaryScreen);
+
+            if (leftScreen != null)
+            {
+                return leftScreen;
+            }
+            else
+            {
+                return Screen.AllScreens.First();
+            }
+        }
+
+        public static Screen GetSecondaryMonitor()
         {
             var leftScreen = Screen.AllScreens.SingleOrDefault(s => s != Screen.PrimaryScreen);
 
@@ -4304,7 +4323,17 @@ namespace Utils
             }
         }
 
-        private static void TypeKeyDown(int hwnd, VirtualKeyShort key)
+        public static void TypeKeyDown(int hwnd, Keys key)
+        {
+            ControlExtensions.TypeKeyDown(hwnd, (ControlExtensions.VirtualKeyShort)((short)key));
+        }
+
+        public static void TypeKeyUp(int hwnd, Keys key)
+        {
+            ControlExtensions.TypeKeyUp(hwnd, (ControlExtensions.VirtualKeyShort)((short)key));
+        }
+
+        internal static void TypeKeyDown(int hwnd, VirtualKeyShort key)
         {
             var rect = new Rectangle();
 
@@ -4326,7 +4355,7 @@ namespace Utils
             var returnValue = SendInput(1, new INPUT[] { input }, Marshal.SizeOf(typeof(INPUT)));
         }
 
-        private static void TypeKeyUp(int hwnd, VirtualKeyShort key)
+        internal static void TypeKeyUp(int hwnd, VirtualKeyShort key)
         {
             var rect = new Rectangle();
 
@@ -4497,12 +4526,32 @@ namespace Utils
             {
                 if (m.Msg == (int)WindowsMessage.NCHITTEST)
                 {
+                    //if (form.IsMaximized())
+                    //{
+                    //    form.Normalize();
+                    //}
+
                     m.Result = (IntPtr)(HT_CAPTION);
                 }
 
                 return true;
 
             }, true);
+        }
+
+        public static void Normalize(this Form form)
+        {
+            form.WindowState = FormWindowState.Normal;
+        }
+
+        public static void Maximize(this Form form)
+        {
+            form.WindowState = FormWindowState.Maximized;
+        }
+
+        public static bool IsMaximized(this Form form)
+        {
+            return form.WindowState == FormWindowState.Maximized;
         }
 
         public static void Invoke(this Control control, Action action, bool throwException = false)

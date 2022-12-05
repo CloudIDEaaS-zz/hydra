@@ -27,6 +27,7 @@ namespace AbstraX
 
         /// <summary>   Gets window text matcher. </summary>
         ///
+        /// <param name="text">             The text. </param>
         /// <param name="workspaceName">    Name of the workspace. </param>
         ///
         /// <returns>   The window text matcher. </returns>
@@ -46,7 +47,7 @@ namespace AbstraX
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        bool Close();
+        bool Close(string solutionName);
 
         /// <summary>   Debug start. </summary>
         ///
@@ -59,23 +60,29 @@ namespace AbstraX
 
         /// <summary>   Debug stop. </summary>
         ///
-        /// <param name="disposable">   The disposable. </param>
+        /// <param name="solutionName"> Name of the solution. </param>
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        bool DebugStop(IDisposable disposable);
+        bool DebugStop(string solutionName);
 
         /// <summary>   Query if this  has errors. </summary>
         ///
         /// <returns>   True if errors, false if not. </returns>
 
-        bool HasErrors();
+        bool HasErrors(string solutionName);
 
         /// <summary>   Query if this  is debugging. </summary>
         ///
         /// <returns>   True if debugging, false if not. </returns>
 
-        bool IsDebugging();
-        void DebugAttach(Process[] processes, bool writeToConsole);
+        bool IsDebugging(string solutionName);
+
+        /// <summary>   Debug attach. </summary>
+        ///
+        /// <param name="processes">        The processes. </param>
+        /// <param name="writeToConsole">   True to write to console. </param>
+
+        void DebugAttach(System.Diagnostics.Process[] processes, bool writeToConsole);
     }
 }

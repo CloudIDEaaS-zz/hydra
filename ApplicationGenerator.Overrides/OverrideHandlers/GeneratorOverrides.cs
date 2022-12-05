@@ -195,7 +195,6 @@ namespace ApplicationGenerator.Overrides.OverrideHandlers
                 var hydraSolutionPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables("%HYDRASOLUTIONPATH%"));
                 var entitiesProjectPath = Path.Combine(hydraSolutionPath, @"Ripley.Entities\Ripley.Entities.csproj");
                 var servicesProjectPath = Path.Combine(hydraSolutionPath, @"Ripley.Services\Ripley.Services.csproj");
-                var accessToken = Environment.GetEnvironmentVariable("RestServiceProviderAccessToken");
 
                 this.OverridesAppName = true;
                 this.OverridesNamespace = true;
@@ -211,7 +210,7 @@ namespace ApplicationGenerator.Overrides.OverrideHandlers
                     { "GeneratorOptions", new DefaultGeneratorOptions(PrintMode.PrintUIHierarchyPathAndModuleAssembliesStackOnly) },
                     { "AdditionalOptions", new Dictionary<string, object>
                         {
-                            { "https://dev.azure.com/#accessToken", accessToken },
+                            { "https://dev.azure.com/#accessToken", "cnb7itvcr3phsw34yemf264qt4d2z4jlgsvnsxt75txzddiekdta" },
                             { "https://dev.azure.com/#parentPath", "HydraDevOps/HydraDevOpsContext/Projects/Project" },
                             { "https://dev.azure.com/#organizationName", "{/ parent()[lower-case(translate(@OrganizationName, ' ', ''))] /}" },
                             { "https://dev.azure.com/#clientControllerRouteBase", "api/devops/devopsservice" },

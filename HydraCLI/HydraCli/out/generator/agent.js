@@ -10,6 +10,15 @@ const api_1 = require("./api/api");
 const fs = require("fs");
 const dateFormat = require("dateformat");
 class ApplicationGeneratorAgent {
+    generatorProcess;
+    cacheServerProcess;
+    stdout;
+    textListener;
+    onError;
+    connected;
+    api;
+    logPath;
+    resourceManager;
     constructor() {
         this.stdout = process.stdout;
         this.onError = new events_1.EventEmitter();
@@ -25,13 +34,13 @@ class ApplicationGeneratorAgent {
             programFilesPath = process.env["PROGRAMFILES"];
         }
         generatorApp = path.join(programFilesPath, "\\CloudIDEaaS\\Hydra\\ApplicationGenerator.exe");
-        this.stdout.writeLine("Launching Hydra");
+        this.stdout.writeLine(this.resourceManager.HydraCli.Invoking_Hydra);
         if (!fs.existsSync(generatorApp)) {
             generatorApp = path.join(hydraSolutionPath, "\\ApplicationGenerator\\bin\\Debug\\ApplicationGenerator.exe");
         }
         if (!fs.existsSync(generatorApp)) {
-            this.stdout.writeLine("You must install Hydra to run this command.");
-            throw new Error("Application not fully installed.");
+            this.stdout.writeLine(this.resourceManager.HydraCli.You_must_install + "Hydra" + this.resourceManager.HydraCli.to_run_this_command);
+            throw new Error(this.resourceManager.HydraCli.Application_not_fully_installed);
         }
         args = new Array();
         args.push("-waitForInput");
@@ -42,7 +51,7 @@ class ApplicationGeneratorAgent {
             this.logPath = path.join(process.cwd(), "Logs\\Messages\\" + dateFormat(new Date(), "yyyymmdd_HHMMss_l"));
             args.push(" -logServiceMessages");
         }
-        this.generatorProcess = child_process_1.execFile(generatorApp, args);
+        this.generatorProcess = (0, child_process_1.execFile)(generatorApp, args);
         this.generatorProcess.stderr.on("data", (e) => {
             this.onError.emit("onError", e.toString());
         });
@@ -52,8 +61,8 @@ class ApplicationGeneratorAgent {
     }
     launchCacheServer(listener) {
         var commandLine = "verdaccio";
-        this.stdout.writeLine("Launching Cache Server");
-        this.cacheServerProcess = child_process_1.execFile(commandLine);
+        this.stdout.writeLine(this.resourceManager.HydraCli.Launching_Cache_Server);
+        this.cacheServerProcess = (0, child_process_1.execFile)(commandLine);
         this.cacheServerProcess.stderr.on("data", (e) => {
             this.onError.emit("onError", e.toString());
         });
@@ -62,7 +71,7 @@ class ApplicationGeneratorAgent {
     stopCacheServer(listener) {
         this.cacheServerProcess.kill();
         this.cacheServerProcess.on("close", () => {
-            this.stdout.writeLine("Cache server shut down");
+            this.stdout.writeLine(this.resourceManager.HydraCli.Cache_server_shut_down);
         });
     }
     dispose(listener) {
@@ -92,9 +101,9 @@ class ApplicationGeneratorAgent {
     }
     sendSimpleCommand(command, listener = null, ...args) {
         if (this.generatorProcess.killed) {
-            this.stdout.writeLine("ApplicationGeneratorAgent process has exited!");
+            this.stdout.writeLine(this.resourceManager.HydraCli.ApplicationGeneratorAgent_process);
             listener(null);
-            throw new Error("ApplicationGeneratorAgent process has exited!");
+            throw new Error(this.resourceManager.HydraCli.ApplicationGeneratorAgent_process);
         }
         this.write(command, ...args);
         if (listener) {
@@ -179,6 +188,22 @@ class ApplicationGeneratorAgent {
     generateWorkspace(appName, appDescription, organizationName, noFileCreation, generatorPass, listener = null) {
         let commandObject = new commandPacket_1.CommandPacket("request", "generate", [
             { Kind: "workspace" },
+            { GeneratorHandlerType: "Ionic/Angular" },
+            { AppName: appName },
+            { AppDescription: appDescription },
+            { OrganizationName: organizationName },
+            { GeneratorPass: generatorPass },
+            { NoFileCreation: noFileCreation },
+        ]);
+        this.generatorProcess.stdin.writeJson(this.logPath, commandObject);
+        if (listener) {
+            this.textListener = listener;
+            this.readText(this.logPath, this.textListener);
+        }
+    }
+    generateFrom(appName, appDescription, organizationName, noFileCreation, generatorPass, listener = null) {
+        let commandObject = new commandPacket_1.CommandPacket("request", "generate", [
+            { Kind: "from" },
             { GeneratorHandlerType: "Ionic/Angular" },
             { AppName: appName },
             { AppDescription: appDescription },

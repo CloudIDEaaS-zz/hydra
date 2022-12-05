@@ -4,14 +4,19 @@ exports.BaseThreadedService = void 0;
 const timespan = require('timespan');
 const events = require('events');
 class BaseThreadedService {
-    constructor(iterationSleep) {
-        this.Started = new events.EventEmitter();
-        this.isRunning = false;
-        this.processingHalted = false;
-        this.iterationSleep = iterationSleep;
-    }
+    iterationSleep;
+    firstRun;
+    Started = new events.EventEmitter();
+    working;
+    isRunning = false;
+    processingHalted = false;
+    StartTime;
+    intervalId;
     get IsRunning() {
         return this.isRunning;
+    }
+    constructor(iterationSleep) {
+        this.iterationSleep = iterationSleep;
     }
     Start() {
         this.firstRun = true;

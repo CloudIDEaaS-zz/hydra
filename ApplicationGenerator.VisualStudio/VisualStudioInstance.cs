@@ -27,8 +27,6 @@ namespace AbstraX
         ///
         /// <value> The DTE. </value>
 
-        public DTE DTE { get; }
-
         /// <summary>   Gets the process. </summary>
         ///
         /// <value> The process. </value>
@@ -42,10 +40,12 @@ namespace AbstraX
         ///
         /// <param name="process">  The process. </param>
 
-        public VisualStudioInstance(System.Diagnostics.Process process)
+        private DTE GetDTE(string solutionName)
         {
-            this.DTE = DTEExtensions.GetDTE(process.Id);
-            this.Process = process;
+            var process = System.Diagnostics.Process.GetProcessesByName("devenv.exe").Single(p => p.MainWindowTitle.StartsWith(solutionName + " - "));
+            var dte = DTEExtensions.GetDTE(process.Id);
+
+            return dte;
         }
 
         /// <summary>   Query if this  is debugging. </summary>
@@ -54,9 +54,9 @@ namespace AbstraX
         ///
         /// <returns>   True if debugging, false if not. </returns>
 
-        public bool IsDebugging()
+        public bool IsDebugging(string solutionName)
         {
-            var isDebugging = this.DTE.Debugger.CurrentMode != dbgDebugMode.dbgDesignMode;
+            var isDebugging = this.GetDTE(solutionName).Debugger.CurrentMode != dbgDebugMode.dbgDesignMode;
 
             if (isDebugging)
             {
@@ -74,13 +74,13 @@ namespace AbstraX
         ///
         /// <returns>   True if errors, false if not. </returns>
 
-        public bool HasErrors()
+        public bool HasErrors(string solutionName)
         {
-            DTE2 dte2 = (DTE2)this.DTE;
+            DTE2 dte2 = (DTE2)this.GetDTE(solutionName);
             ErrorList errorList;
             int count;
 
-            this.DTE.ExecuteCommand("View.ErrorList", " ");
+            this.GetDTE(solutionName).ExecuteCommand("View.ErrorList", " ");
             errorList = dte2.ToolWindows.ErrorList;
             count = errorList.ErrorItems.Count;
 
@@ -108,7 +108,8 @@ namespace AbstraX
                 DateTime start;
                 UIHierarchyItem hierarchyItem;
                 string name;
-                DTE2 dte2 = (DTE2)this.DTE;
+                DTE dte = this.GetDTE(solutionName);
+                DTE2 dte2 = (DTE2)dte;
                 Documents documents;
                 List<Document> documentList;
                 var retry = 0;
@@ -142,7 +143,7 @@ namespace AbstraX
 
                     try
                     {
-                        this.DTE.ExecuteCommand("Project.SetAsStartupProject");
+                        dte.ExecuteCommand("Project.SetAsStartupProject");
                     }
                     catch (Exception ex)
                     {
@@ -150,19 +151,19 @@ namespace AbstraX
 
                     try
                     {
-                        this.DTE.ExecuteCommand("ClassViewContextMenus.ClassViewProject.Debug.Startnewinstance");
+                        dte.ExecuteCommand("ClassViewContextMenus.ClassViewProject.Debug.Startnewinstance");
                     }
                     catch
                     {
                         try
                         {
-                            DTE.ExecuteCommand("Debug.Start");
+                            dte.ExecuteCommand("Debug.Start");
                         }
                         catch (Exception ex)
                         {
                             try
                             {
-                                DTE.ExecuteCommand("SolutionExplorer.Refresh");
+                                dte.ExecuteCommand("SolutionExplorer.Refresh");
                             }
                             catch (Exception ex2)
                             {
@@ -215,7 +216,7 @@ namespace AbstraX
                 var start = DateTime.Now;
                 string name;
                 UIHierarchyItem hierarchyItem;
-                DTE2 dte2 = (DTE2)this.DTE;
+                DTE2 dte2 = (DTE2)this.GetDTE(solutionName);
 
                 hierarchyItem = dte2.ToolWindows.SolutionExplorer.GetItem($"{ solutionName }\\{ projectName }");
 
@@ -243,10 +244,10 @@ namespace AbstraX
                 {
                 };
 
-                this.DTE.Events.BuildEvents.OnBuildBegin += onBuildBegin;
-                this.DTE.Events.BuildEvents.OnBuildDone += onBuildDone;
+                this.GetDTE(solutionName).Events.BuildEvents.OnBuildBegin += onBuildBegin;
+                this.GetDTE(solutionName).Events.BuildEvents.OnBuildDone += onBuildDone;
 
-                this.DTE.ExecuteCommand("Build.BuildSelection");
+                this.GetDTE(solutionName).ExecuteCommand("Build.BuildSelection");
 
                 while (!resetEvent.WaitOne(1))
                 {
@@ -257,8 +258,8 @@ namespace AbstraX
 
                 }
 
-                this.DTE.Events.BuildEvents.OnBuildBegin -= onBuildBegin;
-                this.DTE.Events.BuildEvents.OnBuildDone -= onBuildDone;
+                this.GetDTE(solutionName).Events.BuildEvents.OnBuildBegin -= onBuildBegin;
+                this.GetDTE(solutionName).Events.BuildEvents.OnBuildDone -= onBuildDone;
                 System.Threading.Thread.Sleep(1000);
 
                 return true;
@@ -279,22 +280,23 @@ namespace AbstraX
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        public bool DebugStop(IDisposable disposable)
+        public bool DebugStop(string solutionName)
         {
             try
             {
-                var isDebugging = this.DTE.Debugger.CurrentMode != dbgDebugMode.dbgDesignMode;
+                var dte = this.GetDTE(solutionName);
+                var isDebugging = dte.Debugger.CurrentMode != dbgDebugMode.dbgDesignMode;
 
                 if (isDebugging)
                 {
-                    this.DTE.Debugger.Stop();
-                    DTE.ExecuteCommand("Debug.StopDebugging");
+                    dte.Debugger.Stop();
+                    dte.ExecuteCommand("Debug.StopDebugging");
                 }
                 else
                 {
                     try
                     {
-                        DTE.ExecuteCommand("Build.Cancel");
+                        dte.ExecuteCommand("Build.Cancel");
                     }
                     catch
                     {
@@ -315,11 +317,11 @@ namespace AbstraX
         ///
         /// <returns>   True if it succeeds, false if it fails. </returns>
 
-        public bool Close()
+        public bool Close(string solutionName)
         {
             try
             {
-                this.DTE.Solution.Close(true);
+                this.GetDTE(solutionName).Solution.Close(true);
             }
             catch
             {
@@ -335,6 +337,7 @@ namespace AbstraX
             return text.Contains(workspaceName + " - Microsoft Visual Studio") && !text.Contains("Debugging");
         }
 
+        [DebuggerHidden]
         public void DebugAttach(System.Diagnostics.Process[] processes, bool writeToConsole)
         {
             var command = "AttachToProcess";
@@ -372,7 +375,7 @@ namespace AbstraX
                                 string json;
                                 var clientWindow = new frmDebugClientWindow();
 
-                                clientWindow.CreateControl();
+                                clientWindow.Show();
 
                                 commandPacket = new CommandPacket(command, new KeyValuePair<string, object>("ClientHwnd", clientWindow.Handle.ToHexString()), new KeyValuePair<string, object>("ProcessId", thisProcessId.ToHexString()));
                                 json = commandPacket.ToJsonText();
@@ -416,7 +419,6 @@ namespace AbstraX
                     {
                         break;
                     }
-
                 }
 
                 if (windowFound)

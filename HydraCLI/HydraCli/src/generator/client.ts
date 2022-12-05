@@ -14,6 +14,7 @@ import { InstallsFromCacheStatus } from "./InstallFromCacheStatus";
 import { Error } from "../modules/utils/extensions";
 import { Renderer } from "./renderer";
 import { gray, magenta, red } from "colors";
+import resourceManager from "../resources/resourceManager";
 const reader = require("readline-sync");
 const readJson = require("read-package-json");
 const path = require("path");
@@ -93,6 +94,7 @@ export class ApplicationGeneratorClient {
   getInstallFromCacheStatus: () => void;
   watch2: (installs: Dictionary<string, InstallInfo>, next: () => void) => void;
   agentDisposed: boolean;
+  resourceManager: any;
 
   constructor() {
     this.agent = new ApplicationGeneratorAgent();
@@ -107,7 +109,7 @@ export class ApplicationGeneratorClient {
   public static start() {
     let client: ApplicationGeneratorClient;
     let clientVersion = version;
-
+ 
     if (ApplicationGeneratorClient.client === undefined) {
       ApplicationGeneratorClient.client = new ApplicationGeneratorClient();
     }
@@ -133,7 +135,7 @@ export class ApplicationGeneratorClient {
   }
 
   processCommand() {
-    const mainCommand = commandLineArgs(commands.mainDefinitions, {
+    const mainCommand = commandLineArgs(commands["mainDefinitions"], {
       stopAtFirstUnknown: true,
     });
 
@@ -144,10 +146,13 @@ export class ApplicationGeneratorClient {
     let skipIonicInstall = mainCommand.skipIonicInstall;
     let noFileCreation = mainCommand.noFileCreation;
     let version = mainCommand.version;
+    let lang = mainCommand.lang;
     let help = mainCommand.help;
     let argv = mainCommand._unknown || [];
     let configFile = path.join(process.cwd(), "package.json");
-    let commandsFile = path.join(__dirname, "commands.json");
+
+    this.resourceManager = new resourceManager(lang);
+    this.agent.resourceManager = this.resourceManager;
 
     if (logClient) {
       this.logClient = true;
@@ -157,119 +162,124 @@ export class ApplicationGeneratorClient {
       );
     }
 
-    readJson(commandsFile, console.error, false, (error, data) => {
-      if (error) {
-        this.writeError("There was an error reading the commands.json file.");
-        this.writeLog("errors.log", error.toJson());
-        this.onComplete.emit("onComplete");
-        return;
-      } else {
-        this.commands = data.commands;
+    if (mainCommand.command === "launchRenderer") {
+      Renderer.launchRenderer(this.resourceManager);
+    } 
+    else if (mainCommand.command === "install") {
+      this.install(argv, debug, logToConsole);
+    } 
+    else if (mainCommand.command === "captcha") {
+      this.captcha(argv);
+    } 
+    else if (mainCommand.command === "start") {
+      this.start(argv, debug, logToConsole, skipIonicInstall);
+    } 
+    else if (mainCommand.command === "setPackages") {
+      this.setPackages(argv, logToConsole, configFile);
+    } 
+    else if (mainCommand.command === "addResource") {
+      this.addResource(argv, debug);
+    } 
+    else if (mainCommand.command === "showDesigner") {
+      this.showDesigner(argv, debug);
+    } 
+    else if (mainCommand.command === "build") {
+      this.build(argv, logToConsole);
+    } 
+    else if (mainCommand.command === "delete") {
+      this.delete(argv, logToConsole);
+    } 
+    else if (mainCommand.command === "test") {
+      this.test(debug, false);
+    } 
+    else if (mainCommand.command === "add") {
+      this.add(argv);
+    } 
+    else if (mainCommand.command === "remove") {
+      this.remove(argv);
+    } 
+    else if (mainCommand.command === "update") {
+      this.update(argv);
+    } 
+    else if (mainCommand.command === "serve") {
+      this.serve(argv);
+    } 
+    else if (mainCommand.command === "platforms") {
+      this.platforms();
+    } 
+    else if (version || mainCommand.command === "version") {
+      this.version(debug, false);
+    } 
+    else if (version || mainCommand.command === "launchServices") {
+      this.launchServices(debug, true);
+    } 
+    else if (help || mainCommand.command === undefined || mainCommand.command === "help") {
+      this.help();
+    } 
+    else {
+      readJson(configFile, null, false, (error, data) => {
+        let servicesProjectPath;
+        let entitiesProjectPath;
+        let packageCachePath;
 
-        if (mainCommand.command === "launchRenderer") {
-          Renderer.launchRenderer();
-        } else if (mainCommand.command === "install") {
-          this.install(argv, debug, logToConsole);
-        } else if (mainCommand.command === "captcha") {
-          this.captcha(argv);
-        } else if (mainCommand.command === "start") {
-          this.start(argv, debug, logToConsole, skipIonicInstall);
-        } else if (mainCommand.command === "setPackages") {
-          this.setPackages(argv, logToConsole, configFile);
-        } else if (mainCommand.command === "addResource") {
-          this.addResource(argv, debug);
-        } else if (mainCommand.command === "showDesigner") {
-          this.showDesigner(argv, debug);
-        } else if (mainCommand.command === "build") {
-          this.build(argv, logToConsole);
-        } else if (mainCommand.command === "delete") {
-          this.delete(argv, logToConsole);
-        } else if (mainCommand.command === "clean") {
-          this.clean(argv, logToConsole, configFile, data);
-        } else if (mainCommand.command === "set") {
-          this.set(argv, logToConsole, configFile, data);
-        } else if (mainCommand.command === "test") {
-          this.test(debug, false);
-        } else if (mainCommand.command === "add") {
-          this.add(argv);
-        } else if (mainCommand.command === "remove") {
-          this.remove(argv);
-        } else if (mainCommand.command === "update") {
-          this.update(argv);
-        } else if (mainCommand.command === "serve") {
-          this.serve(argv);
-        } else if (mainCommand.command === "platforms") {
-          this.platforms();
-        } else if (version || mainCommand.command === "version") {
-          this.version(debug, false);
-        } else if (version || mainCommand.command === "launchServices") {
-          this.launchServices(debug, true);
-        } else if (
-          help ||
-          mainCommand.command === undefined ||
-          mainCommand.command === "help"
-        ) {
-          this.help();
-        } else {
-          readJson(configFile, console.error, false, (error, data) => {
-            let servicesProjectPath;
-            let entitiesProjectPath;
-            let packageCachePath;
+        if (argv[0] === "app") {
+          if (error) {
+            this.writeError(
+              this.resourceManager.HydraCli.There_was_an_error_reading_the_package +
+                error +
+                this.resourceManager.HydraCli.Did_you_run_hydra_start
+            );
+            this.writeLog("errors.log", error.toJson());
+            this.onComplete.emit("onComplete");
+            return;
+          }
 
-            if (argv[0] === "app") {
-              if (error) {
-                this.writeError(
-                  "There was an error reading the package.json file. " +
-                    error +
-                    "\nDid you run 'hydra start'?"
-                );
-                this.writeLog("errors.log", error.toJson());
-                this.onComplete.emit("onComplete");
-                return;
-              }
+          if (!data.servicesProjectPath) {
+            this.writeError(
+              this.resourceManager.HydraCli.package_json_does_not_include + "'servicesProjectPath'"
+            );
+            this.onComplete.emit("onComplete");
+            return;
+          }
 
-              if (!data.servicesProjectPath) {
-                this.writeError(
-                  "package.json does not include 'servicesProjectPath'"
-                );
-                this.onComplete.emit("onComplete");
-                return;
-              }
+          if (!data.entitiesProjectPath) {
+            this.writeError(
+              "package.json does not include " + "'entitiesProjectPath'"
+            );
+            this.onComplete.emit("onComplete");
+            return;
+          }
 
-              if (!data.entitiesProjectPath) {
-                this.writeError(
-                  "package.json does not include 'entitiesProjectPath'"
-                );
-                this.onComplete.emit("onComplete");
-                return;
-              }
+          servicesProjectPath = Utils.expandPath(data.servicesProjectPath);
+          entitiesProjectPath = Utils.expandPath(data.entitiesProjectPath);
 
-              servicesProjectPath = Utils.expandPath(data.servicesProjectPath);
-              entitiesProjectPath = Utils.expandPath(data.entitiesProjectPath);
-
-              if (data.packageCachePath) {
-                packageCachePath = Utils.expandPath(data.packageCachePath);
-              }
-            }
-
-            if (mainCommand.command === "generate") {
-              this.generate(
-                argv,
-                debug,
-                logToConsole,
-                skipInstalls,
-                entitiesProjectPath,
-                servicesProjectPath,
-                packageCachePath,
-                noFileCreation
-              );
-            } else {
-              this.writeError(`Unknown command: ${mainCommand.command}`);
-            }
-          });
+          if (data.packageCachePath) {
+            packageCachePath = Utils.expandPath(data.packageCachePath);
+          }
         }
-      }
-    });
+        
+        if (mainCommand.command === "clean") {
+          this.clean(argv, logToConsole, configFile, data);
+        } 
+        else if (mainCommand.command === "set") {
+          this.set(argv, logToConsole, configFile, data);
+        } 
+        else if (mainCommand.command === "generate") {
+          this.generate(
+            argv,
+            debug,
+            logToConsole,
+            skipInstalls,
+            entitiesProjectPath,
+            servicesProjectPath,
+            packageCachePath,
+            noFileCreation
+          );
+        } else {
+          this.writeError(`Unknown command: ${mainCommand.command}`);
+        }
+      });
+    }
   }
 
   captcha(argv: any) {
@@ -302,7 +312,7 @@ export class ApplicationGeneratorClient {
           let uuidString = uuid.stringify(uuid.parse(title));
 
           process.stdout.write(uuidString);
-        } catch {}
+        } catch { }
       });
 
       mainWindow.on("closed", () => {
@@ -475,7 +485,7 @@ export class ApplicationGeneratorClient {
     arg2: boolean,
     arg3: (error: any, data: any) => void
   ) {
-    throw new Error("Method not implemented.");
+    throw new Error(this.resourceManager.HydraCli.Method_not_implemented);
   }
 
   set(argv: string, logToConsole: any, configFile: any, data: any) {
@@ -607,7 +617,7 @@ export class ApplicationGeneratorClient {
       stopAtFirstUnknown: true,
     });
     let platform = buildOptions.platform;
-    let commandLine = "ionic cordova platform add " + platform;
+    let commandLine = this.resourceManager.HydraCli.ionic_cordova_platform_add + platform;
     let ionicProcess;
 
     ionicProcess = child_process.exec(commandLine);
@@ -631,7 +641,7 @@ export class ApplicationGeneratorClient {
       stopAtFirstUnknown: true,
     });
     let platform = buildOptions.platform;
-    let commandLine = "ionic cordova platform remove " + platform;
+    let commandLine = this.resourceManager.HydraCli.ionic_cordova_platform_remove + platform;
     let ionicProcess;
 
     ionicProcess = child_process.exec(commandLine);
@@ -655,7 +665,7 @@ export class ApplicationGeneratorClient {
       stopAtFirstUnknown: true,
     });
     let platform = buildOptions.platform;
-    let commandLine = "ionic cordova platform update" + platform;
+    let commandLine = this.resourceManager.HydraCli.ionic_cordova_platform_update + platform;
     let ionicProcess;
 
     ionicProcess = child_process.exec(commandLine);
@@ -674,7 +684,7 @@ export class ApplicationGeneratorClient {
   }
 
   platforms() {
-    let commandLine = "ionic cordova platform ls";
+    let commandLine = this.resourceManager.HydraCli.ionic_cordova_platform_ls;
     let ionicProcess;
 
     ionicProcess = child_process.exec(commandLine);
@@ -778,17 +788,17 @@ export class ApplicationGeneratorClient {
     let useAgent = generateOptions.useAgent;
     let logClient = generateOptions.logClient;
     let logServiceMessages = generateOptions.logServiceMessages;
-    let npmCommand = "@ionic/cli@6.16.3";
+    let npmCommand = "@ionic/cli@6.20.3";
     let cwd = process.cwd();
     this.complete = () => {
       if (useAgent) {
-        this.writeSuccess("Signalling agent to end processing");
+        this.writeSuccess(this.resourceManager.HydraCli.Signalling_agent_to_end_processing);
 
         this.agent.endProcessing((commandObject) => {
-          this.writeSuccess("Signalling agent to close");
+          this.writeSuccess(this.resourceManager.HydraCli.Signalling_agent_to_close);
 
           this.agent.dispose((commandObject) => {
-            this.writeSuccess("Agent closed successfully. Finalizing");
+            this.writeSuccess(this.resourceManager.HydraCli.Agent_closed_successfully);
 
             try {
               this.writeSuccess("Finalized");
@@ -818,9 +828,9 @@ export class ApplicationGeneratorClient {
 
             if (error) {
               this.writeError(
-                "There was an error reading the package.json file. " +
-                  error +
-                  "\nDid you run 'hydra start'?"
+                this.resourceManager.HydraCli.There_was_an_error_reading_the_package +
+                error +
+                "\nDid you run 'hydra start'?"
               );
               this.complete();
               return;
@@ -938,8 +948,7 @@ export class ApplicationGeneratorClient {
               1
             );
 
-            npm
-              .install(npmCommand, {
+            npm.install(npmCommand, {
                 cwd: cwd,
                 save: true,
                 output: true,
@@ -1164,9 +1173,26 @@ export class ApplicationGeneratorClient {
     packageCachePath: string,
     noFileCreation: boolean
   ) {
-    const generateOptions = commandLineArgs(commands.generateDefinitions, {
+    let generateOptions = commandLineArgs(commands.generateDefinitions, {
       argv,
+      stopAtFirstUnknown: true,
     });
+
+    let source: string;
+    let unknown = <Array<string>> generateOptions._unknown;
+
+    if (unknown) {
+      source = unknown.shift();
+      unknown.unshift("app");
+      unknown.unshift("generate");
+
+      argv = unknown.join(" ");
+
+      generateOptions = commandLineArgs(commands.generateDefinitions, {
+        argv,
+      });      
+    }
+
     let logServiceMessages = generateOptions.logServiceMessages;
     let logClient = generateOptions.logClient;
     let pause = generateOptions.pause;
@@ -1194,6 +1220,8 @@ export class ApplicationGeneratorClient {
         process.exit();
       });
     }
+
+    // being generateApp
 
     this.generateApp = () => {
       this.agent.generateApp(
@@ -1227,13 +1255,13 @@ export class ApplicationGeneratorClient {
                       if (loaded) {
                         errorHandler();
                       }
-                    } catch {}
+                    } catch { }
 
                     this.writeSuccess("Finalized");
 
                     this.onComplete.emit("onComplete", "Finalized");
                   });
-                } catch {}
+                } catch { }
               });
             });
           };
@@ -1345,7 +1373,7 @@ export class ApplicationGeneratorClient {
                         this.writeAllLogs(
                           "installFromCacheStatus.log",
                           "\r\n" +
-                            beautify(JSON.stringify(installsFromCacheStatus))
+                          beautify(JSON.stringify(installsFromCacheStatus))
                         );
                       }
 
@@ -1357,7 +1385,7 @@ export class ApplicationGeneratorClient {
                         let percent = Math.trunc(
                           (installsFromCacheStatus.TotalRemaining /
                             installsFromCacheStatus.Total) *
-                            100
+                          100
                         );
 
                         Utils.sleep(watchMilliseconds).then(() => {
@@ -1619,7 +1647,7 @@ export class ApplicationGeneratorClient {
                           } else {
                             installsInProcess = false;
                             this.setInstallStatus("installsComplete").then(
-                              (result: string) => {}
+                              (result: string) => { }
                             );
                           }
                         };
@@ -1682,8 +1710,8 @@ export class ApplicationGeneratorClient {
 
                         this.writeLine(
                           `\nInstalling ${totalCount} dev dependencies ` +
-                            "*".repeat(50) +
-                            "\n"
+                          "*".repeat(50) +
+                          "\n"
                         );
                         installNext();
 
@@ -1742,7 +1770,7 @@ export class ApplicationGeneratorClient {
                         } else {
                           installsInProcess = false;
                           this.setInstallStatus("installsComplete").then(
-                            (result: string) => {}
+                            (result: string) => { }
                           );
                         }
                       };
@@ -1803,8 +1831,8 @@ export class ApplicationGeneratorClient {
 
                       this.writeLine(
                         `\nInstalling ${totalCount} dependencies ` +
-                          "*".repeat(50) +
-                          "\n"
+                        "*".repeat(50) +
+                        "\n"
                       );
 
                       installNext();
@@ -1818,6 +1846,8 @@ export class ApplicationGeneratorClient {
         }
       );
     };
+   
+    // end generateApp
 
     if (pause) {
       Utils.pause(pause);
@@ -1850,7 +1880,9 @@ export class ApplicationGeneratorClient {
           this.writeError(`Error: ${e}`);
           this.writeLog("errors.log", e.toJson());
         });
-    } else if (generateOptions.target === "workspace") {
+    } else if (generateOptions.target === "workspace" || generateOptions.target === "from") {
+
+
       this.initializeAndConnect(debug, logServiceMessages)
         .then(() => {
           let appName = generateOptions.appName;
@@ -1902,16 +1934,30 @@ export class ApplicationGeneratorClient {
             } while (true);
           }
 
-          this.agent.generateWorkspace(
-            appName,
-            appDescription,
-            organizationName,
-            noFileCreation,
-            "All",
-            (response: string) => {
-              this.handleResponse(response, generateOptions.target);
-            }
-          );
+          if (generateOptions.target === "workspace") {
+            this.agent.generateWorkspace(
+              appName,
+              appDescription,
+              organizationName,
+              noFileCreation,
+              "All",
+              (response: string) => {
+                this.handleResponse(response, generateOptions.target);
+              }
+            );
+          }
+          else if (generateOptions.target === "from") {
+            this.agent.generateWorkspace(
+              appName,
+              appDescription,
+              organizationName,
+              noFileCreation,
+              "All",
+              (response: string) => {
+                this.handleResponse(response, generateOptions.target);
+              }
+            );
+          }
         })
         .catch((e: Error) => {
           this.writeError(`Error: ${e}`);
@@ -1988,7 +2034,7 @@ export class ApplicationGeneratorClient {
     configPath: string,
     packageList: Array<string>,
     callback: (error: string) => void
-  ) {}
+  ) { }
 
   setPackageYamlConfig(
     configPath: string,
@@ -2142,7 +2188,7 @@ export class ApplicationGeneratorClient {
     return promise;
   }
 
-  dispose() {}
+  dispose() { }
 
   launchServices(debug: boolean, logServiceMessages: boolean) {
     this.initializeAndConnect(debug, logServiceMessages).then(() => {
@@ -2160,102 +2206,42 @@ export class ApplicationGeneratorClient {
   }
 
   version(debug: boolean, logServiceMessages: boolean) {
+    
     let clientVersion = version;
-
     this.logOutputToConsole = true;
 
-    this.writeLine(
-      "     ./&.                                       *((                             "
-    );
-    this.writeLine(
-      "     ,(#.                                       (#*                             "
-    );
-    this.writeLine(
-      "     *((..*///*    .,,         .*.    .*////*.  (#,  ,*..*//,    ,*///*,  .*.   "
-    );
-    this.writeLine(
-      "     /%#(/*,,,/%/. ./%,       /#(. ./#(/,,,,*(#/%(  ,(&#(*,.. ,(#(*,,,*/#(#%,   "
-    );
-    this.writeLine(
-      "     (%*.      /#(  ,(%,    .##*  /#/.        ,%%/  *#%,    ,(#*         /%#    "
-    );
-    this.writeLine(
-      "    *#(        /(/   .%(,  *##,  *#(          .((*  /#*.   ./&,          ,((    "
-    );
-    this.writeLine(
-      "   ./(/        #(*    ,#( (#/    *#(          ,%/.  (#     ./&,          ((/    "
-    );
-    this.writeLine(
-      "   .#(,       .%(.     *#&#*      /#/.      ,/%&*  ,#(      ,##*      .*#&#,    "
-    );
-    this.writeLine(
-      "   .#*.       ,#*      *##.        ./##(((((/*/#,  *(*        *(#((((((/,#*     "
-    );
-    this.writeLine(
-      "                     .(#/                                                       "
-    );
-    this.writeLine(
-      "                    ,##,                                                        "
-    );
-    this.writeLine(
-      "                     .                                                          "
-    );
-    this.writeLine(
-      "                                       .,*//((##%%%&&&&&&&&&&&&&%%#((/*.        "
-    );
-    this.writeLine(
-      "                             .,,*/(#&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#,     "
-    );
-    this.writeLine(
-      "                      ..,/#&@@@@@@@@@@@@@@@@@@@&&&&&%%%%#########(//////*       "
-    );
-    this.writeLine(
-      "                 ./%&@@@@@@@@@@@@@&&%%##(((((((((((((((((((((((/,               "
-    );
-    this.writeLine(
-      "           *(#%&@@@@@&&%%%#####((((((((((((((((((((((((((((((((,                "
-    );
-    this.writeLine(
-      "     ,*(#%&&%%%####(((((((((((((((((((((((((((((((((((((((((((*.                "
-    );
-    this.writeLine(
-      ",,*(####((((((((((((((((((((((((((((((((((((((((((((((((((((((*.                "
-    );
-    this.writeLine(
-      "#(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((*.                "
-    );
-    this.writeLine(
-      "#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((,                "
-    );
-    this.writeLine(
-      "#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/*               "
-    );
-    this.writeLine(
-      "#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/,.            "
-    );
-    this.writeLine(
-      "#((((((((((((((((((((((((((((((((((((((((((((((((#####%%%%%&&&&&&&&%#(**,,.     "
-    );
-    this.writeLine(
-      "#((((((((((((((((((((((((((((((((((((((((###%&&@@@@@@@@@@@@@@@@@@@@@@&&&&@@&%,  "
-    );
-    this.writeLine(
-      "#(((((((((((((((((((((((((((((((((#%%&@@@@@@@@&&&%%%####((((((((((((/.          "
-    );
-    this.writeLine(
-      "#((((((((((((((((((((((((((##%&&&&%%%######((((((((((((((((((((((((*            "
-    );
-    this.writeLine(
-      "#((((((((((((((((((((((((####(((((((((((((((((((((((((((((((((((((/,            "
-    );
-    this.writeLine(
-      "#(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/,            "
-    );
-    this.writeLine(
-      "#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/.           "
-    );
+    this.writeLine("     ./&.                                       *((                             ");
+    this.writeLine("     ,(#.                                       (#*                             ");
+    this.writeLine("     *((..*///*    .,,         .*.    .*////*.  (#,  ,*..*//,    ,*///*,  .*.   ");
+    this.writeLine("     /%#(/*,,,/%/. ./%,       /#(. ./#(/,,,,*(#/%(  ,(&#(*,.. ,(#(*,,,*/#(#%,   ");
+    this.writeLine("     (%*.      /#(  ,(%,    .##*  /#/.        ,%%/  *#%,    ,(#*         /%#    ");
+    this.writeLine("    *#(        /(/   .%(,  *##,  *#(          .((*  /#*.   ./&,          ,((    ");
+    this.writeLine("   ./(/        #(*    ,#( (#/    *#(          ,%/.  (#     ./&,          ((/    ");
+    this.writeLine("   .#(,       .%(.     *#&#*      /#/.      ,/%&*  ,#(      ,##*      .*#&#,    ");
+    this.writeLine("   .#*.       ,#*      *##.        ./##(((((/*/#,  *(*        *(#((((((/,#*     ");
+    this.writeLine("                     .(#/                                                       ");
+    this.writeLine("                    ,##,                                                        ");
+    this.writeLine("                     .                                                          ");
+    this.writeLine("                                       .,*//((##%%%&&&&&&&&&&&&&%%#((/*.        ");
+    this.writeLine("                             .,,*/(#&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#,     ");
+    this.writeLine("                      ..,/#&@@@@@@@@@@@@@@@@@@@&&&&&%%%%#########(//////*       ");
+    this.writeLine("                 ./%&@@@@@@@@@@@@@&&%%##(((((((((((((((((((((((/,               ");
+    this.writeLine("           *(#%&@@@@@&&%%%#####((((((((((((((((((((((((((((((((,                ");
+    this.writeLine("     ,*(#%&&%%%####(((((((((((((((((((((((((((((((((((((((((((*.                ");
+    this.writeLine(",,*(####((((((((((((((((((((((((((((((((((((((((((((((((((((((*.                ");
+    this.writeLine("#(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((*.                ");
+    this.writeLine("#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((,                ");
+    this.writeLine("#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/*               ");
+    this.writeLine("#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/,.            ");
+    this.writeLine("#((((((((((((((((((((((((((((((((((((((((((((((((#####%%%%%&&&&&&&&%#(**,,.     ");
+    this.writeLine("#((((((((((((((((((((((((((((((((((((((((###%&&@@@@@@@@@@@@@@@@@@@@@@&&&&@@&%,  ");
+    this.writeLine("#(((((((((((((((((((((((((((((((((#%%&@@@@@@@@&&&%%%####((((((((((((/.          ");
+    this.writeLine("#((((((((((((((((((((((((((##%&&&&%%%######((((((((((((((((((((((((*            ");
+    this.writeLine("#((((((((((((((((((((((((####(((((((((((((((((((((((((((((((((((((/,            ");
+    this.writeLine("#(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/,            ");
+    this.writeLine("#((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/.           ");
     this.writeLine("");
-    this.writeLine(`Client version v${clientVersion} `);
+    this.writeLine(`Client version v${ clientVersion } `);
 
     this.initializeAndConnect(debug, logServiceMessages).then(() => {
       this.agent.sendSimpleCommand(

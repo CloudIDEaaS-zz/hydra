@@ -30,7 +30,39 @@ namespace Pdb
 
                 if (directoryInfo.Exists)
                 {
-                    fileInfo = directoryInfo.GetFiles("*.*", SearchOption.AllDirectories).SingleOrDefault(f => f.Name.AsCaseless() == pdbFileName);
+                    var files = directoryInfo.GetFiles("*.*", SearchOption.AllDirectories).Where(f => f.Name.AsCaseless() == pdbFileName).ToList();
+
+                    if (files.Count != 1)
+                    {
+                        foreach (var file in files.Where(f => !f.FullName.Contains("stripped")))
+                        {
+                            try
+                            {
+                                diaDataSource.LoadPdb(file.FullName);
+
+                                return diaDataSource;
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+                        }
+                    }
+                    else
+                    {
+                        fileInfo = files.Single();
+                        diaDataSource = new DiaDataSource();
+
+                        try
+                        {
+                            diaDataSource.LoadPdb(fileInfo.FullName);
+
+                            return diaDataSource;
+                        }
+                        catch (Exception ex)
+                        {
+                            DebugUtils.Break();
+                        }
+                    }
                 }
 
                 if (fileInfo == null || !fileInfo.Exists)

@@ -1,0 +1,31 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.IEnumerable<AbstraX.ModuleImportDeclaration>" name="Imports" #>
+<#@ parameter type="AbstraX.Angular.Page" name="HomePage" #>
+<#@ parameter type="AbstraX.Angular.Page" name="MainPage" #>
+// The page the user lands on after opening the app and without a session
+export const HomePage = "<#= this.HomePage.Name #>";
+
+<#  if (this.MainPage != null)
+    {
+#>
+// The main page the user will see as they use the app over a long period of time.
+export const MainPage = "<#= this.MainPage.Name #>";
+<#
+    }
+    else
+    {
+#>
+// The main page the user will see as they use the app over a long period of time.
+export const MainPage = "<#= this.HomePage.Name #>";
+<#
+    }
+#>

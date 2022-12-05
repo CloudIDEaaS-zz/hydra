@@ -15,6 +15,6 @@ namespace VisualStudioProvider.PDB.raw
         int loadAndValidateDataFromPdb(string pdbPath, Guid pcsig70, uint sig, uint age);
         int loadDataForExe(string executable, string searchPath, IDiaLoadCallback pCallback);
         int loadDataFromIStream(IStream pIStream);
-        int openSession(out IDiaSession ppSession);
+        int openSession(out IDiaSession2 ppSession);
     }
 }

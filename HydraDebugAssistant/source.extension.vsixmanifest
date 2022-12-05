@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+    <Metadata>
+        <Identity Id="HydraDebugAssistant.1033d595-4a2f-4498-9f4a-4254d2f8cdbf" Version="2.0" Language="en-US" Publisher="CloudIDEaaS" />
+        <DisplayName>Hydra Debug Assistant</DisplayName>
+        <Description xml:space="preserve">Used to assist in debugging Hydra and related extensions. Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful microservice layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, progressive web apps (PWA), Docker, Helm, Azure Devops, and Kubernetes.</Description>
+        <MoreInfo>https://github.com/CloudIDEaaS/hydra</MoreInfo>
+        <Icon>HydraDebugger.ico</Icon>
+        <PreviewImage>HydraDebuggerPreview.png</PreviewImage>
+        <Tags>App Generation, Code Generation, Code Scaffolding, .NET., .NET Core, SQL Server, Mobile App, Docker, Helm, Azure Devops, Kubernetes</Tags>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.0, 17.0)" />
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    </Dependencies>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,17.0)" DisplayName="Visual Studio core editor" />
+    </Prerequisites>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    </Assets>
+</PackageManifest>

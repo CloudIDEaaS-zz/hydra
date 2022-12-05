@@ -162,6 +162,6 @@ namespace VisualStudioProvider.PDB.raw
         int get_liveRangeLength(ref ulong pRetVal);
         int get_offsetInUdt(ref uint pRetVal);
         int get_paramBasePointerRegisterId(ref uint pRetVal);
-        int get_localBasePointerRegisterId(ref uint pRetVal);    
+        int get_localBasePointerRegisterId(ref uint pRetVal);
     }
 }

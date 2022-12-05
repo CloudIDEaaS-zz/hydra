@@ -1,0 +1,332 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ import namespace="AbstraX" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.List<RelatedEntity>" name="RelatedEntities" #>
+<#@ parameter type="System.Collections.Generic.IEnumerable<AbstraX.QueryInfo>" name="CustomQueries" #>
+<#@ parameter type="System.Collections.Generic.List<Generators.EntityProperty>" name="EntityProperties" #>
+<#@ parameter type="System.String" name="ControllerName" #>
+<#@ parameter type="System.String" name="EntityName" #>
+<#@ parameter type="System.String" name="KeyType" #>
+<#@ parameter type="System.String" name="KeyName" #>
+<#@ parameter type="System.String" name="RootNamespace" #>
+<#@ parameter type="System.String" name="ContainerSet" #>
+<#@ parameter type="AbstraX.ServerInterfaces.IElement" name="Container" #>
+<#
+    var entityVariable = this.EntityName.ToCamelCase();
+    var containerSetVariable = this.ContainerSet.ToCamelCase();
+    var containerInterface = this.Container.Name.Prepend("I");
+    var containerVariable = this.Container.Name.ToCamelCase();
+    var lambdaParameter = containerVariable.Left(1);
+#>
+using <#= this.RootNamespace #>.Entities;
+using <#= this.RootNamespace #>.Services.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Cors;
+using Microsoft.AspNet.Identity;
+using <#= this.EntityName #> = <#= this.RootNamespace #>.Services.Models.<#= this.EntityName #>;
+<#
+    if (this.CustomQueries != null)
+    {
+        foreach (var query in this.CustomQueries)
+        {
+#>
+using <#= query.ServiceControllerMethodReturnType #> = <#= this.RootNamespace #>.Services.Models.<#= query.ServiceControllerMethodReturnType #>;
+<#
+        }
+    }
+#>
+
+namespace <#= this.RootNamespace #>.Services.Controllers
+{
+    [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+    public class <#= this.ControllerName #>Controller : ApiController
+    {
+        private <#= containerInterface #> <#= containerVariable #>;
+
+        public <#= this.ControllerName #>Controller(<#= containerInterface #> <#= containerVariable #>)
+        {
+            this.<#= containerVariable #> = <#= containerVariable #>;
+        }
+
+<#
+    if (this.CustomQueries != null)
+    {
+        foreach (var query in this.CustomQueries)
+        {
+            var queryEntityProperties = query.GetEntityProperties<Generators.EntityProperty>();
+            var queryCode = query.QueryExpression.ReplaceTokens(new Dictionary<string, string> { { "containerVariable", containerVariable }, { "identityName", "userName" } });
+            var queryPropertyVariable = query.QueryEntityName.ToCamelCase();
+#>
+        [Route("~/api/<#= query.ClientProviderMethodName #>")]
+        [HttpGet]
+        public <#= query.ServiceControllerMethodReturnType #> <#= query.ServiceControllerMethodName #>()
+        {
+            var identity = this.User.Identity;
+
+            if (identity.IsAuthenticated)
+            {
+                var userName = identity.Name;
+                var <#= queryPropertyVariable #> = <#= queryCode #>;
+
+                return new <#= query.ServiceControllerMethodReturnType #>
+                {
+<#
+            foreach (var entityProperty in queryEntityProperties)
+            {
+#>
+                    <#= entityProperty.Name #> = <#= queryPropertyVariable #>.<#= entityProperty.Name #>,
+<#
+            }
+#>
+                };
+            }
+            else
+            {
+                throw new UnauthorizedAccessException();
+            }
+        }
+<#
+        }
+    }
+
+    foreach (var relatedEntity in this.RelatedEntities)
+    {
+        var property = relatedEntity.Name;
+        var propertyVariable = relatedEntity.Name.ToCamelCase();
+        var sortBy = relatedEntity.SortBy;
+        var sortDirection = relatedEntity.SortDirection;
+
+        if (relatedEntity.IsEntitySet)
+        {
+#>
+
+        [HttpGet]
+        [Route("~/api/<#= propertyVariable #>")]
+        public <#= this.EntityName #>[] Get<#= property #>()
+        {
+            var identity = this.User.Identity;
+
+            if (identity.IsAuthenticated)
+            {
+                var <#= propertyVariable #> = <#= containerVariable #>.<#= property #>;
+
+                return <#= propertyVariable #>.Select(<#= lambdaParameter #> => new <#= this.EntityName #>
+                {
+<#
+            foreach (var entityProperty in this.EntityProperties)
+            {
+#>
+                    <#= entityProperty.Name #> = <#= lambdaParameter #>.<#= entityProperty.Name #>,
+<#
+            }
+
+            if (sortDirection == SortDirection.Ascending)
+            {
+#>
+                }).OrderBy(c => c.<#= sortBy #>).ToArray();
+<#
+            }
+            else
+            {
+#>
+                }).OrderByDescending(c => c.<#= sortBy #>).ToArray();
+<#
+            }
+#>
+            }
+            else
+            {
+                throw new UnauthorizedAccessException();
+            }
+        }
+
+<#
+        }
+        else
+        {
+            var parentRefName = relatedEntity.EntityParentRef.Name;
+            var parentRefVariableName = parentRefName.ToCamelCase();
+            var propertyRefVariableName = relatedEntity.ThisPropertyRef.Name.ToCamelCase();
+            var scriptType = relatedEntity.ThisPropertyRefScriptType;
+            var shortType = relatedEntity.ThisPropertyRefShortType;
+            var containerSetName = relatedEntity.ContainerSet.Name;
+
+#>
+        [Route("~/api/<#= containerSetName #>/{<#= propertyRefVariableName #>:<#= shortType.ToLower() #>}/<#= property.ToLower() #>")]
+        [HttpGet]
+        public <#= this.EntityName #>[] Get<#= property #>For<#= parentRefName #>(<#= shortType #> <#= propertyRefVariableName #>)
+        {
+            var identity = this.User.Identity;
+
+            if (identity.IsAuthenticated)
+            {
+                var <#= propertyVariable #> = <#= containerVariable #>.<#= property #>;
+
+                return <#= propertyVariable #>.Where(<#= lambdaParameter #> => <#= lambdaParameter #>.<#= relatedEntity.ThisPropertyRef.Name #> == <#= propertyRefVariableName #>).Select(<#= lambdaParameter #> => new <#= this.EntityName #>
+                {
+<#
+            foreach (var entityProperty in this.EntityProperties)
+            {
+#>
+                    <#= entityProperty.Name #> = <#= lambdaParameter #>.<#= entityProperty.Name #>,
+<#
+            }
+
+            if (sortDirection == SortDirection.Ascending)
+            {
+#>
+                }).OrderBy(<#= lambdaParameter #> => <#= lambdaParameter #>.<#= sortBy #>).ToArray();
+<#
+            }
+            else
+            {
+#>
+                }).OrderByDescending(<#= lambdaParameter #> => <#= lambdaParameter #>.<#= sortBy #>).ToArray();
+<#
+            }
+#>
+            }
+            else
+            {
+                throw new UnauthorizedAccessException();
+            }
+        }
+<#
+        }
+    }
+#>
+
+        [HttpGet]
+        [Route("~/api/<#= entityVariable #>/{id:<#= this.KeyType.ToLower() #>}")]
+        public <#= this.EntityName #> Get<#= this.EntityName #>(<#= this.KeyType #> id)
+        {
+            var identity = this.User.Identity;
+
+            if (identity.IsAuthenticated)
+            {
+                var <#= containerSetVariable #> = <#= containerVariable #>.<#= this.ContainerSet #>;
+
+                return <#= containerSetVariable #>.Where(<#= lambdaParameter #> => <#= lambdaParameter #>.<#= this.KeyName #> == id).Select(<#= lambdaParameter #> => new <#= this.EntityName #>
+                {
+<#
+            foreach (var entityProperty in this.EntityProperties)
+            {
+#>
+                    <#= entityProperty.Name #> = <#= lambdaParameter #>.<#= entityProperty.Name #>,
+<#
+            }
+#>
+                }).Single();
+            }
+            else
+            {
+                throw new UnauthorizedAccessException();
+            }
+        }
+
+        [HttpPost]
+        public void Create<#= this.EntityName #>(<#= this.EntityName #> <#= entityVariable #>)
+        {
+            var identity = this.User.Identity;
+
+            if (identity.IsAuthenticated)
+            {
+                var <#= containerSetVariable #> = <#= containerVariable #>.<#= this.ContainerSet #>;
+
+                <#= containerSetVariable #>.Add(new Entities.<#= this.EntityName #>
+                {
+<#
+            foreach (var entityProperty in this.EntityProperties)
+            {
+                if (entityProperty.IsKey)
+                {
+                    if (entityProperty.DataType == "Guid")
+                    {
+#>
+                    <#= entityProperty.Name #> = Guid.NewGuid(),
+<#
+                    }
+                }
+                else
+                {
+#>
+                    <#= entityProperty.Name #> = <#= entityVariable #>.<#= entityProperty.Name #>,
+<#
+                }
+            }
+#>
+                });
+
+                <#= containerVariable #>.SaveChanges();
+            }
+            else
+            {
+                throw new UnauthorizedAccessException();
+            }
+        }
+
+        [HttpPut]
+        public void Update<#= this.EntityName #>(<#= this.EntityName #> <#= entityVariable #>)
+        {
+            var identity = this.User.Identity;
+
+            if (identity.IsAuthenticated)
+            {
+                var update<#= this.EntityName #> = <#= containerVariable #>.<#= this.ContainerSet #>.Single(<#= lambdaParameter #> => <#= lambdaParameter #>.<#= this.KeyName #> == <#= entityVariable #>.<#= this.KeyName #>);
+
+<#
+            foreach (var entityProperty in this.EntityProperties)
+            {
+                if (!entityProperty.IsKey)
+                {
+#>
+                update<#= this.EntityName #>.<#= entityProperty.Name #> = <#= entityVariable #>.<#= entityProperty.Name #>;
+<#
+                }
+            }
+#>
+
+                <#= containerVariable #>.SaveChanges();
+            }
+            else
+            {
+                throw new UnauthorizedAccessException();
+            }
+        }
+
+        [HttpDelete]
+        public void Delete<#= this.EntityName #>(<#= this.KeyType #> id)
+        {
+            var identity = this.User.Identity;
+
+            if (identity.IsAuthenticated)
+            {
+                var <#= containerSetVariable #> = <#= containerVariable #>.<#= this.ContainerSet #>;
+                var delete<#= this.EntityName #> = <#= containerSetVariable #>.Single(<#= lambdaParameter #> => <#= lambdaParameter #>.<#= this.KeyName #> == id);
+
+                <#= containerSetVariable #>.Remove(delete<#= this.EntityName #>);
+
+                <#= containerVariable #>.SaveChanges();
+            }
+            else
+            {
+                throw new UnauthorizedAccessException();
+            }
+        }
+    }
+}

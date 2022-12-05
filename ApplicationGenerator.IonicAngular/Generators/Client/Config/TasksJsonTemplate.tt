@@ -1,0 +1,44 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.String" name="AppName" #>
+<#@ parameter type="System.Int32" name="PortNumber" #>
+{
+  "version": "2.0.0",
+  "tasks": [
+      {
+        "type": "shell",
+        "label": "launch-ionic",
+        "command": "ionic",
+        "args": ["serve", "--no-open", "-p", "<#= this.PortNumber #>", "-r",  "<#= this.PortNumber + 2 #>", "--dev-logger-port",  "<#= this.PortNumber + 3 #>"],
+        "isBackground": true,
+        "problemMatcher": {
+            "owner": "ionic",
+            "fileLocation": "relative",
+            "pattern": {
+                "regexp": "^([^\\\\s].*)\\\\((\\\\d+|\\\\d+,\\\\d+|\\\\d+,\\\\d+,\\\\d+,\\\\d+)\\\\):\\\\s+(error|warning|info)\\\\s+(TS\\\\d+)\\\\s*:\\\\s*(.*)$",
+                "file": 1,
+                "location": 2,
+                "severity": 3,
+                "code": 4,
+                "message": 5
+            },
+            "background": {
+                "activeOnStart": true,
+                "beginsPattern": "Development server running!",
+                "endsPattern": "Development server running!"
+            }
+        },
+        "options": {
+            "cwd": "${workspaceRoot}",
+        }
+      }
+  ]
+}

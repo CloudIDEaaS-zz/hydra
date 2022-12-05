@@ -69,11 +69,35 @@ dull, and drone.  It does this while at the same time, allowing for creativity a
     - [ApplicationFolderHierarchy](http://www.cloudideaas.com/hydra/_5vp12pqzx.htm)
     - [Generator Configuration](http://www.cloudideaas.com/hydra/_5vp12q8tf.htm)
     - [AbstraX Model](http://www.cloudideaas.com/hydra/_5vp12qvvq.htm)
+    - [HydraDesigner.Shell](http://www.cloudideaas.com/hydra/_6hg0rl5gi.htm)
+      - [EnvironmentDevTools](http://www.cloudideaas.com/hydra/_6hk0l21tj.htm)
+        - [Extensibility](http://www.cloudideaas.com/hydra/_6hk0rmka4.htm)
+        - [Window](http://www.cloudideaas.com/hydra/_6hk0u8p4x.htm)
+          - [Activate](http://www.cloudideaas.com/hydra/_6hk0vtlyp.htm)
+          - [Attach](http://www.cloudideaas.com/hydra/_6hk0vqg5n.htm)
+          - [Close](http://www.cloudideaas.com/hydra/_6hk0vxaym.htm)
+          - [Detach](http://www.cloudideaas.com/hydra/_6hk0vnocf.htm)
+          - [SetFocus](http://www.cloudideaas.com/hydra/_6hk0vgcfy.htm)
+          - [SetKind](http://www.cloudideaas.com/hydra/_6hk0vi8uj.htm)
+          - [SetSelectionContainer](http://www.cloudideaas.com/hydra/_6hk0w0n1j.htm)
+          - [SetTabPicture](http://www.cloudideaas.com/hydra/_6hk0w5dwv.htm)
+          - [Collection](http://www.cloudideaas.com/hydra/_6hk0wbh3b.htm)
+          - [Height](http://www.cloudideaas.com/hydra/_6hk0wkk0i.htm)
+          - [HWnd](http://www.cloudideaas.com/hydra/_6hk0xfp85.htm)
+          - [Left](http://www.cloudideaas.com/hydra/_6hk0wg1vf.htm)
+          - [LinkedWindowFrame](http://www.cloudideaas.com/hydra/_6hk0xd4ut.htm)
+          - [LinkedWindows](http://www.cloudideaas.com/hydra/_6hk0x9rmf.htm)
+          - [Top](http://www.cloudideaas.com/hydra/_6hk0wjpfo.htm)
+          - [Type](http://www.cloudideaas.com/hydra/_6hk0wpzrm.htm)
+          - [Visible](http://www.cloudideaas.com/hydra/_6hk0wdd59.htm)
+          - [Width](http://www.cloudideaas.com/hydra/_6hk0wk9ew.htm)
+          - [WindowState](http://www.cloudideaas.com/hydra/_6hk0wn2kc.htm)
     - [AbstraX Providers](http://www.cloudideaas.com/hydra/_5vp12sw1i.htm)
       - [Facets](http://www.cloudideaas.com/hydra/_5vp12tbhd.htm)
       - [Facet Handlers](http://www.cloudideaas.com/hydra/_5vp12tjjq.htm)
   - [Visual Studio Integration](http://www.cloudideaas.com/hydra/_5vp12xxqv.htm)
   - [Contribution](http://www.cloudideaas.com/hydra/_5vp12ykw2.htm)
+
 
 [//]: # (END HELP)
 
@@ -86,8 +110,6 @@ dull, and drone.  It does this while at the same time, allowing for creativity a
 - Preferred though not required: Visual Studio or VS Code
 
 ### Razor Syntax
-
-![Razor Syntax](https://www.cloudideaas.com/images/RazorSyntax.png)
 
 ```cs
 @using Ripley.Entities

@@ -43,6 +43,34 @@
     <Content Include="Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll" />
     <Content Include="Microsoft.TeamFoundation.Client.dll" />
     <Content Include="Microsoft.TeamFoundation.VersionControl.Client.dll" />
+    <Content Include="Packages\aforge.video.2.2.5\lib\AForge.Video.dll" />
+    <Content Include="Packages\aforge.video.2.2.5\lib\AForge.Video.xml" />
+    <Content Include="Packages\aforge.video.2.2.5\[Content_Types].xml" />
+    <Content Include="Packages\aforge.video.directshow.2.2.5\lib\AForge.Video.DirectShow.dll" />
+    <Content Include="Packages\aforge.video.directshow.2.2.5\lib\AForge.Video.DirectShow.xml" />
+    <Content Include="Packages\aforge.video.directshow.2.2.5\[Content_Types].xml" />
+    <Content Include="Packages\alglib.csharp\alglib318gpl_net2.dll" />
+    <Content Include="Packages\alglib.csharp\alglib318gpl_net5.dll" />
+    <Content Include="Packages\alglib.csharp\alglib318gpl_net5simd.dll" />
+    <Content Include="Packages\dock.avalonia.0.10.12\lib\net461\Dock.Avalonia.dll" />
+    <Content Include="Packages\dock.avalonia.0.10.12\lib\net461\Dock.Avalonia.xml" />
+    <Content Include="Packages\dock.avalonia.0.10.12\lib\net5.0\Dock.Avalonia.dll" />
+    <Content Include="Packages\dock.avalonia.0.10.12\lib\net5.0\Dock.Avalonia.xml" />
+    <Content Include="Packages\dock.avalonia.0.10.12\lib\net6.0\Dock.Avalonia.dll" />
+    <Content Include="Packages\dock.avalonia.0.10.12\lib\net6.0\Dock.Avalonia.xml" />
+    <Content Include="Packages\dock.avalonia.0.10.12\lib\netstandard2.0\Dock.Avalonia.dll" />
+    <Content Include="Packages\dock.avalonia.0.10.12\lib\netstandard2.0\Dock.Avalonia.xml" />
+    <Content Include="Packages\dock.avalonia.0.10.12\[Content_Types].xml" />
+    <Content Include="Packages\dock.model.reactiveui.0.10.12\net461\Dock.Model.ReactiveUI.dll" />
+    <Content Include="Packages\dock.model.reactiveui.0.10.12\net461\Dock.Model.ReactiveUI.xml" />
+    <Content Include="Packages\dockpanelsuite.3.1.0\lib\net35\WeifenLuo.WinFormsUI.Docking.dll" />
+    <Content Include="Packages\dockpanelsuite.3.1.0\lib\net40\WeifenLuo.WinFormsUI.Docking.dll" />
+    <Content Include="Packages\dockpanelsuite.3.1.0\lib\netcoreapp3.1\WeifenLuo.WinFormsUI.Docking.dll" />
+    <Content Include="Packages\dockpanelsuite.3.1.0\[Content_Types].xml" />
+    <Content Include="Packages\dockpanelsuite.themevs2015.3.1.0\lib\net35\WeifenLuo.WinFormsUI.Docking.ThemeVS2015.dll" />
+    <Content Include="Packages\dockpanelsuite.themevs2015.3.1.0\lib\net40\WeifenLuo.WinFormsUI.Docking.ThemeVS2015.dll" />
+    <Content Include="Packages\dockpanelsuite.themevs2015.3.1.0\lib\netcoreapp3.1\WeifenLuo.WinFormsUI.Docking.ThemeVS2015.dll" />
+    <Content Include="Packages\dockpanelsuite.themevs2015.3.1.0\[Content_Types].xml" />
     <Content Include="Packages\EnvDTE.8.0.2\lib\net10\EnvDTE.dll" />
     <Content Include="Packages\EnvDTE80.8.0.3\lib\net10\EnvDTE80.dll" />
     <Content Include="Packages\EnvDTE90.9.0.3\lib\net10\EnvDTE90.dll" />
@@ -143,8 +171,13 @@
     <Content Include="Packages\System.Net.Http.4.3.4\runtimes\win\lib\netstandard1.3\System.Net.Http.dll" />
     <Content Include="Packages\System.Net.Http.4.3.4\ThirdPartyNotices.txt" />
     <Content Include="Packages\VSSDK.Shell.10.10.0.4\lib\net40\Microsoft.VisualStudio.Shell.10.0.dll" />
+    <Content Include="Packages\WebDriver\WebDriver.dll" />
+    <Content Include="Packages\WebDriver\WebDriver.Support.dll" />
     <Content Include="Packages\WindowsInstaller\Microsoft.Deployment.WindowsInstaller.dll" />
     <Content Include="Packages\WindowsInstaller\Microsoft.Deployment.WindowsInstaller.Package.dll" />
+    <Content Include="Packages\zetalongpaths.1.0.16\lib\net452-full\de\ZetaLongPaths.resources.dll" />
+    <Content Include="Packages\zetalongpaths.1.0.16\lib\net452-full\ZetaLongPaths.dll" />
+    <Content Include="Packages\zetalongpaths.1.0.16\lib\net452-full\ZetaLongPaths.pdb" />
     <Content Include="RtfHtml\log4net.dll" />
     <Content Include="RtfHtml\nunit-console-runner.dll" />
     <Content Include="RtfHtml\nunit.framework.dll" />
@@ -194,15 +227,9 @@
     <Content Include="SolutionLibraries\BuildAndDeploy\System.Web.Helpers.dll" />
     <Content Include="SolutionLibraries\BuildAndDeploy\System.Web.WebPages.Deployment.dll" />
     <Content Include="SolutionLibraries\BuildAndDeploy\System.Web.WebPages.dll" />
-    <Content Include="SolutionLibraries\Castle.Core.dll" />
     <Content Include="SolutionLibraries\CodeInterfaces.dll" />
-    <Content Include="SolutionLibraries\CodeInterfaces.pdb" />
     <Content Include="SolutionLibraries\ColorMine.dll" />
-    <Content Include="SolutionLibraries\ColorMine.pdb" />
-    <Content Include="SolutionLibraries\ConsoleControl.dll" />
-    <Content Include="SolutionLibraries\ConsoleControlAPI.dll" />
     <Content Include="SolutionLibraries\CppParser.dll" />
-    <Content Include="SolutionLibraries\CppParser.pdb" />
     <Content Include="SolutionLibraries\CsTransformationParserLibrary.dll" />
     <Content Include="SolutionLibraries\DiscUtils.BootConfig.dll" />
     <Content Include="SolutionLibraries\DiscUtils.Btrfs.dll" />
@@ -450,6 +477,26 @@
     <Folder Include="obj\x86\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Packages\aforge.video.2.2.5\.signature.p7s" />
+    <None Include="Packages\aforge.video.2.2.5\AForge.Video.nuspec" />
+    <None Include="Packages\aforge.video.2.2.5\package\services\metadata\core-properties\487dddf783c143d6927a8a97b3e3e347.psmdcp" />
+    <None Include="Packages\aforge.video.2.2.5\_rels\.rels" />
+    <None Include="Packages\aforge.video.directshow.2.2.5\.signature.p7s" />
+    <None Include="Packages\aforge.video.directshow.2.2.5\AForge.Video.DirectShow.nuspec" />
+    <None Include="Packages\aforge.video.directshow.2.2.5\package\services\metadata\core-properties\968bc30c2a364607b5441864f37ee74e.psmdcp" />
+    <None Include="Packages\aforge.video.directshow.2.2.5\_rels\.rels" />
+    <None Include="Packages\dock.avalonia.0.10.12\.signature.p7s" />
+    <None Include="Packages\dock.avalonia.0.10.12\Dock.Avalonia.nuspec" />
+    <None Include="Packages\dock.avalonia.0.10.12\package\services\metadata\core-properties\e34880093cff4ea09c5d3a08da189dd1.psmdcp" />
+    <None Include="Packages\dock.avalonia.0.10.12\_rels\.rels" />
+    <None Include="Packages\dockpanelsuite.3.1.0\.signature.p7s" />
+    <None Include="Packages\dockpanelsuite.3.1.0\DockPanelSuite.nuspec" />
+    <None Include="Packages\dockpanelsuite.3.1.0\package\services\metadata\core-properties\886c35bea6714a698139f6e853f07d8e.psmdcp" />
+    <None Include="Packages\dockpanelsuite.3.1.0\_rels\.rels" />
+    <None Include="Packages\dockpanelsuite.themevs2015.3.1.0\.signature.p7s" />
+    <None Include="Packages\dockpanelsuite.themevs2015.3.1.0\DockPanelSuite.ThemeVS2015.nuspec" />
+    <None Include="Packages\dockpanelsuite.themevs2015.3.1.0\package\services\metadata\core-properties\58e8554f26b54a7a894afd577924f3ff.psmdcp" />
+    <None Include="Packages\dockpanelsuite.themevs2015.3.1.0\_rels\.rels" />
     <None Include="Packages\LibGit2Sharp.0.26.2\.signature.p7s" />
     <None Include="Packages\LibGit2Sharp.0.26.2\App_Readme\CHANGES.md" />
     <None Include="Packages\LibGit2Sharp.0.26.2\App_Readme\LICENSE.md" />
@@ -508,6 +555,22 @@
     <None Include="SolutionLibraries\StrongNameSigner\Help.chm" />
     <None Include="SolutionLibraries\StrongNameSigner\unins000.dat" />
     <None Include="SolutionLibraries\v47\DllExport.targets" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Packages\alglib.csharp\src\alglibinternal.cs" />
+    <Compile Include="Packages\alglib.csharp\src\alglibmisc.cs" />
+    <Compile Include="Packages\alglib.csharp\src\alglib_info.cs" />
+    <Compile Include="Packages\alglib.csharp\src\ap.cs" />
+    <Compile Include="Packages\alglib.csharp\src\dataanalysis.cs" />
+    <Compile Include="Packages\alglib.csharp\src\diffequations.cs" />
+    <Compile Include="Packages\alglib.csharp\src\fasttransforms.cs" />
+    <Compile Include="Packages\alglib.csharp\src\integration.cs" />
+    <Compile Include="Packages\alglib.csharp\src\interpolation.cs" />
+    <Compile Include="Packages\alglib.csharp\src\linalg.cs" />
+    <Compile Include="Packages\alglib.csharp\src\optimization.cs" />
+    <Compile Include="Packages\alglib.csharp\src\solvers.cs" />
+    <Compile Include="Packages\alglib.csharp\src\specialfunctions.cs" />
+    <Compile Include="Packages\alglib.csharp\src\statistics.cs" />
   </ItemGroup>
   <Target Name="Build">
   </Target>

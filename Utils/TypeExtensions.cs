@@ -281,21 +281,23 @@ namespace Utils
 				ReflectionMemberCategory.Interface);
 		}
 
-		public static XDocument GetAssemblyDocumentation(this Type type)
+		public static XDocument GetAssemblyDocumentation(this Type type, BTreeDictionary<string, List<FileSystemInfo>> bTreeDictionary = null)
 		{
-			return type.Assembly.GetAssemblyDocumentation();
+			return type.Assembly.GetAssemblyDocumentation(bTreeDictionary);
 		}
 
-		public static XDocument GetAssemblyDocumentation(this MemberInfo member)
+		public static XDocument GetAssemblyDocumentation(this MemberInfo member, BTreeDictionary<string, List<FileSystemInfo>> bTreeDictionary = null)
 		{
-			return member.DeclaringType.Assembly.GetAssemblyDocumentation();
+			return member.DeclaringType.Assembly.GetAssemblyDocumentation(bTreeDictionary);
 		}
 
-		public static XDocument GetAssemblyDocumentation(this Assembly assembly)
+		public static XDocument GetAssemblyDocumentation(this Assembly assembly, BTreeDictionary<string, List<FileSystemInfo>> bTreeDictionary = null)
 		{
 			var location = assembly.Location;
 			var fileName = Path.GetFileNameWithoutExtension(location) + ".xml";
 			var fullFileName = Path.Combine(Path.GetDirectoryName(location), fileName);
+			DirectoryInfo directory;
+			FileInfo file;
 
 			if (File.Exists(fullFileName))
 			{
@@ -303,28 +305,66 @@ namespace Utils
 			}
 			else
 			{
-				var version = assembly.GetFrameworkVersion();
 				string programFilesDirectory;
 
-				if (Environment.Is64BitProcess)
+				programFilesDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+
+                location = Path.Combine(programFilesDirectory, @"Reference Assemblies\Microsoft\Framework");
+                directory = new DirectoryInfo(location);
+
+				if (bTreeDictionary.AddToBTreeIfExists(directory, fileName, (f) => f.FullName.Split(@"\").Last(), out file))
 				{
-					programFilesDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-				}
-				else
-				{
-					programFilesDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+					return XDocument.Load(file.FullName);
 				}
 
-				location = Path.Combine(programFilesDirectory, @"Reference Assemblies\Microsoft\Framework\.NETFramework\v" + version);
-				fullFileName = Path.Combine(location, fileName);
+                programFilesDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 
-				if (File.Exists(fullFileName))
+				location = Path.Combine(programFilesDirectory, @"Reference Assemblies\Microsoft\Framework");
+				directory = new DirectoryInfo(location);
+
+                if (bTreeDictionary.AddToBTreeIfExists(directory, fileName, (f) => f.FullName.Split(@"\").Last(), out file))
+                {
+                    return XDocument.Load(file.FullName);
+                }
+            }
+
+            return null;
+		}
+
+		private static bool AddToBTreeIfExists(this BTreeDictionary<string, List<FileSystemInfo>> bTreeDictionary, DirectoryInfo directory, string fileName, Func<FileInfo, string> orderBy, out FileInfo file)
+		{
+			var extension = Path.GetExtension(fileName);
+            List<FileSystemInfo> list;
+
+			if (!bTreeDictionary.ContainsKey(directory.FullName))
+			{
+				foreach (var file2 in directory.GetFiles("*" + extension, SearchOption.AllDirectories))
 				{
-					return XDocument.Load(fullFileName);
-				}
-			}
+					if (bTreeDictionary.ContainsKey(file2.Name))
+					{
+						list = bTreeDictionary[file2.Name];
+                    }
+					else
+					{
+						list = new List<FileSystemInfo>();
 
-			return null;
+                        bTreeDictionary.Add(file2.Name, list);
+					}
+
+                    list.Add(file2);
+				}
+
+				bTreeDictionary.Add(directory.FullName, new List<FileSystemInfo>() { directory });
+            }
+
+			if (bTreeDictionary.ContainsKey(fileName))
+			{
+                list = bTreeDictionary[fileName];
+				file = list.Cast<FileInfo>().OrderBy(orderBy).Last();
+            }
+
+			file = null;
+			return false;
 		}
 
 		public static bool TryCast<T>(this object obj, Action<T> action)
@@ -1730,7 +1770,7 @@ namespace Utils
 			return signature;
 		}
 
-		public static string GetSignature(this MemberInfo memberInfo, bool includeDeclaringType = false, bool includeModifiers = false)
+		public static string GetSignature(this MemberInfo memberInfo, bool includeDeclaringType = false, bool includeModifiers = false, bool addAttributes = false)
 		{
 			string signature = null;
 
@@ -1738,23 +1778,23 @@ namespace Utils
 
 				SwitchExtensions.Case<MethodInfo>(MemberTypes.Method, (methodInfo) =>
 				{
-					signature = methodInfo.GetSignature(includeDeclaringType, includeModifiers);
+					signature = methodInfo.GetSignature(includeDeclaringType, includeModifiers, addAttributes);
 				}),
 				SwitchExtensions.Case<PropertyInfo>(MemberTypes.Property, (propertyInfo) =>
 				{
-					signature = propertyInfo.GetSignature(includeDeclaringType, includeModifiers);
+					signature = propertyInfo.GetSignature(includeDeclaringType, includeModifiers, addAttributes);
 				}),
 				SwitchExtensions.Case<EventInfo>(MemberTypes.Event, (eventInfo) =>
 				{
-					signature = eventInfo.GetSignature(includeDeclaringType, includeModifiers);
+					signature = eventInfo.GetSignature(includeDeclaringType, includeModifiers, addAttributes);
 				}),
 				SwitchExtensions.Case<ConstructorInfo>(MemberTypes.Constructor, (constructorInfo) =>
 				{
-					signature = constructorInfo.GetSignature(includeDeclaringType, includeModifiers);
+					signature = constructorInfo.GetSignature(includeDeclaringType, includeModifiers, addAttributes);
 				}),
 				SwitchExtensions.Case<FieldInfo>(MemberTypes.Field, (fieldInfo) =>
 				{
-					signature = fieldInfo.GetSignature(includeDeclaringType, includeModifiers);
+					signature = fieldInfo.GetSignature(includeDeclaringType, includeModifiers, addAttributes);
 				}),
 				SwitchExtensions.CaseElse(() =>
 				{
@@ -1775,74 +1815,268 @@ namespace Utils
 			return constructor.GenerateGenericSignature(genericArgs, includeDeclaringType, includeModifiers);
 		}
 
-		public static string GetSignature(this ConstructorInfo constructor, bool includeDeclaringType = false, bool includeModifiers = false)
+		public static string GetSignature(this ConstructorInfo constructor, bool includeDeclaringType = false, bool includeModifiers = false, bool addAttributes = false)
 		{
 			return constructor.GenerateSignature(includeDeclaringType, includeModifiers);
 		}
 
-		public static string GetSignature(this EventInfo _event, bool includeDeclaringType = false, bool includeModifiers = false)
+		public static string GetSignature(this EventInfo _event, bool includeDeclaringType = false, bool includeModifiers = false, bool addAttributes = false)
 		{
 			var type = _event.EventHandlerType.GetCodeDeclaration();
 			var name = _event.Name;
 			var modifiers = string.Empty;
+            var customAttributes = string.Empty;
 
-			if (includeModifiers)
+            if (includeModifiers)
 			{
 				modifiers = _event.GetModifiersString().AppendIfNotNullOrEmpty(" ");
 			}
 
-			if (includeDeclaringType)
+            if (addAttributes)
+            {
+                if (_event.HasCustomAttributes())
+                {
+                    customAttributes = _event.CustomAttributes.GetCustomAttributesString();
+                }
+            }
+
+            if (includeDeclaringType)
 			{
-				return modifiers + type + " " + _event.DeclaringType.GetCodeDeclaration() + "." + name;
+				return customAttributes + modifiers + type + " " + _event.DeclaringType.GetCodeDeclaration() + "." + name;
 			}
 			else
 			{
-				return modifiers + type + " " + name;
+				return customAttributes + modifiers + type + " " + name;
 			}
 		}
 
-		public static string GetSignature(this PropertyInfo property, bool includeDeclaringType = false, bool includeModifiers = false)
+		public static bool IsPrimitiveTypeShortName(string shortTypeName)
 		{
+			bool flag;
+			string str = shortTypeName;
+			switch (str)
+			{
+				case "string":
+					{
+						flag = true;
+						break;
+					}
+				case "int":
+					{
+						flag = true;
+						break;
+					}
+				case "uint":
+					{
+						flag = true;
+						break;
+					}
+				case "object":
+					{
+						flag = true;
+						break;
+					}
+				case "bool":
+					{
+						flag = true;
+						break;
+					}
+				case "sbyte":
+					{
+						flag = true;
+						break;
+					}
+				case "byte":
+					{
+						flag = true;
+						break;
+					}
+				case "short":
+					{
+						flag = true;
+						break;
+					}
+				case "ushort":
+					{
+						flag = true;
+						break;
+					}
+				case "long":
+					{
+						flag = true;
+						break;
+					}
+				case "ulong":
+					{
+						flag = true;
+						break;
+					}
+				case "float":
+					{
+						flag = true;
+						break;
+					}
+				case "double":
+					{
+						flag = true;
+						break;
+					}
+				case "decimal":
+					{
+						flag = true;
+						break;
+					}
+				case "char":
+					{
+						flag = true;
+						break;
+					}
+				default:
+					{
+						flag = (str == "void" ? true : false);
+						break;
+					}
+			}
+			return flag;
+		}
+
+
+		public static List<Type> GetAncestorInterfaces(this Type type, bool includeMe = false)
+		{
+			List<Type> types = new List<Type>();
+			Type baseType = type.BaseType;
+		
+			if (includeMe)
+			{
+				types.Add(type);
+			}
+			
+			Type[] interfaces = type.GetInterfaces();
+			
+			for (int i = 0; i < (int)interfaces.Length; i++)
+			{
+				types.AddRange(interfaces[i].GetAncestorInterfaces(true));
+			}
+			
+			return types.Distinct<Type>().ToList<Type>();
+		}
+
+		public static string GetFullName(this MemberInfo memberInfo)
+		{
+			if (memberInfo is Type type)
+			{
+				return type.FullName;
+			}
+			else
+			{
+				return memberInfo.DeclaringType.FullName + "." + memberInfo.Name;
+			}
+		}
+
+        public static string GetAssemblyName(this MemberInfo memberInfo)
+        {
+            if (memberInfo is Type type)
+            {
+				return type.Assembly.GetNameParts().AssemblyName;
+            }
+            else
+            {
+                return memberInfo.DeclaringType.Assembly.GetNameParts().AssemblyName;
+            }
+        }
+
+        public static string GetSignature(this PropertyInfo property, bool includeDeclaringType = false, bool includeModifiers = false, bool addAttributes = false, bool useExplicitInterfaceFormat = false)
+		{
+			Type declaringType;
+			List<Type> types;
 			var type = property.PropertyType.GetCodeDeclaration();
 			var name = property.Name;
 			var modifiers = string.Empty;
-			string accessors;
+            var customAttributes = string.Empty;
+            string accessors;
 
-			if (includeModifiers)
+			if (IsPrimitiveTypeShortName(name))
+			{
+				name = name.Prepend("@");
+			}
+			if (!useExplicitInterfaceFormat)
+			{
+				declaringType = property.DeclaringType;
+			}
+			else
+			{
+				types = (!property.DeclaringType.IsInterface ? property.DeclaringType.GetAncestorInterfaces(false) : property.DeclaringType.GetAncestorInterfaces(true));
+
+				if (!types.Any(t => t.GetProperties().Any(p => p.Name != name ? false : p.PropertyType == property.PropertyType)))
+				{
+					declaringType = property.DeclaringType;
+				}
+				else
+				{
+					declaringType = types.First(t => t.GetProperties().Any(p => p.Name != name ? false : p.PropertyType == property.PropertyType));
+					includeDeclaringType = true;
+				}
+			}
+
+            if (addAttributes)
+            {
+                if (property.HasCustomAttributes())
+                {
+                    customAttributes = property.CustomAttributes.GetCustomAttributesString();
+                }
+            }
+
+            if (includeModifiers)
 			{
 				modifiers = property.GetModifiersString().AppendIfNotNullOrEmpty(" ");
 			}
 
-			accessors = property.GetAccessorSignatures(includeModifiers, modifiers);
+			accessors = property.GetAccessorSignatures(includeModifiers, addAttributes, modifiers);
 
 			if (includeDeclaringType)
 			{
-				return modifiers + type + " " + property.DeclaringType.GetCodeDeclaration() + "." + name + accessors.PrependIfNotNullOrEmpty(" ");
+				return customAttributes + modifiers + type + " " + property.DeclaringType.GetCodeDeclaration() + "." + name + accessors.PrependIfNotNullOrEmpty(" ");
 			}
 			else
 			{
-				return modifiers + type + " " + name + accessors.PrependIfNotNullOrEmpty(" ");
+				return customAttributes + modifiers + type + " " + name + accessors.PrependIfNotNullOrEmpty(" ");
 			}
 		}
 
-		public static string GetSignature(this FieldInfo field, bool includeDeclaringType = false, bool includeModifiers = false)
+		public static string GetSignature(this FieldInfo field, bool includeDeclaringType = false, bool includeModifiers = false, bool addAttributes = false)
 		{
 			var type = field.FieldType.GetCodeDeclaration();
 			var name = field.Name;
 			var modifiers = string.Empty;
+            var customAttributes = string.Empty;
 
-			if (includeModifiers)
+            if (includeModifiers)
 			{
 				modifiers = field.GetModifiersString().AppendIfNotNullOrEmpty(" ");
 			}
 
-			if (includeDeclaringType)
+            if (addAttributes)
+            {
+                if (field.HasCustomAttributes())
+                {
+                    customAttributes = field.CustomAttributes.GetCustomAttributesString();
+                }
+            }
+
+			if (field.DeclaringType.IsEnum)
 			{
-				return modifiers + type + " " + field.DeclaringType.GetCodeDeclaration() + "." + name;
-			}
+                return field.DeclaringType.Name + "." + name;
+            }
 			else
 			{
-				return modifiers + type + " " + name;
+				if (includeDeclaringType)
+				{
+					return customAttributes + modifiers + type + " " + field.DeclaringType.GetCodeDeclaration() + "." + name;
+				}
+				else
+				{
+					return customAttributes + modifiers + type + " " + name;
+				}
 			}
 		}
 
@@ -2213,18 +2447,28 @@ namespace Utils
 			return codeDeclaration;
 		}
 
-		public static string GetSignature(this MethodInfo method, bool includeDeclaringType = false, bool includeModifiers = false, bool skipThisParameter = false, bool useExplicitInterfaceFormat = false, bool noReturnType = false)
+		public static string GetSignature(this MethodInfo method, bool includeDeclaringType = false, bool includeModifiers = false, bool addAttributes = false, bool skipThisParameter = false, bool useExplicitInterfaceFormat = false, bool noReturnType = false)
 		{
-			return method.GenerateSignature(includeDeclaringType, includeModifiers, skipThisParameter, useExplicitInterfaceFormat, noReturnType);
+			return method.GenerateSignature(includeDeclaringType, includeModifiers, addAttributes, skipThisParameter, useExplicitInterfaceFormat, noReturnType);
 		}
 
-		public static string GetAccessorSignatures(this PropertyInfo property, bool includeModifiers = false, string propertyModifiers = null)
+		public static string GetAccessorSignatures(this PropertyInfo property, bool includeModifiers = false, bool addAttributes = false, string propertyModifiers = null)
 		{
 			var signature = new StringBuilder();
+            var customAttributes = string.Empty;
 
-			foreach (var accessor in property.GetAccessors(true))
+            foreach (var accessor in property.GetAccessors(true))
 			{
-				if (accessor.IsSetter())
+                if (addAttributes)
+                {
+                    if (accessor.HasCustomAttributes())
+                    {
+                        customAttributes = accessor.CustomAttributes.GetCustomAttributesString();
+                        signature.Append(customAttributes);
+                    }
+                }
+
+                if (accessor.IsSetter())
 				{
 					if (includeModifiers)
 					{
@@ -2252,8 +2496,6 @@ namespace Utils
 
 					signature.AppendWithLeadingIfLength(" ", "get;");
 				}
-
-				var methodInfo = accessor;
 			}
 
 			return signature.ToString().Trim().SurroundWithIfNotNullOrEmpty("{ ", " }");
@@ -2685,6 +2927,10 @@ namespace Utils
 
 			SwitchExtensions.Switch(member, () => member.MemberType,
 
+				SwitchExtensions.Case<TypeInfo>(MemberTypes.TypeInfo, (typeInfo) =>
+				{
+					modifiers = ((Type)typeInfo).GetModifiers();
+				}),
 				SwitchExtensions.Case<MethodInfo>(MemberTypes.Method, (methodInfo) =>
 				{
 					if (methodInfo.IsPublic)
@@ -2929,6 +3175,13 @@ namespace Utils
 			return modifiers;
 		}
 
+		public static bool IsStatic(this Type type)
+        {
+			var attribForStaticClass = TypeAttributes.AutoLayout | TypeAttributes.AnsiClass | TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit;
+			
+			return type.Attributes == attribForStaticClass;
+		}
+
 		public static string GetModifiersString(this MemberInfo member)
 		{
 			var modifiersBuilder = new StringBuilder();
@@ -2952,6 +3205,40 @@ namespace Utils
 
 			SwitchExtensions.Switch(member, () => member.MemberType,
 
+				SwitchExtensions.Case<TypeInfo>(MemberTypes.TypeInfo, (typeInfo) =>
+				{
+					if (typeInfo.IsPublic)
+					{
+						modifiersBuilder.AppendWithLeadingIfLength(" ", ReflectionModifierStrings.Public);
+					}
+					else if (typeInfo.IsNestedFamORAssem)
+					{
+						modifiersBuilder.AppendWithLeadingIfLength(" ", ReflectionModifierStrings.Protected);
+						modifiersBuilder.AppendWithLeadingIfLength(" ", ReflectionModifierStrings.Internal);
+					}
+					else if (typeInfo.IsNestedFamily)
+					{
+						modifiersBuilder.AppendWithLeadingIfLength(" ", ReflectionModifierStrings.Protected);
+					}
+					else if (typeInfo.IsNestedAssembly)
+					{
+						modifiersBuilder.AppendWithLeadingIfLength(" ", ReflectionModifierStrings.Internal);
+					}
+					else if (typeInfo.IsNestedPrivate)
+					{
+						modifiersBuilder.AppendWithLeadingIfLength(" ", ReflectionModifierStrings.Private);
+					}
+
+					if (typeInfo.IsAbstract)
+					{
+						modifiersBuilder.AppendWithLeadingIfLength(" ", ReflectionModifierStrings.Abstract);
+					}
+
+					if (typeInfo.IsStatic())
+					{
+						modifiersBuilder.AppendWithLeadingIfLength(" ", ReflectionModifierStrings.Static);
+					}
+				}),
 				SwitchExtensions.Case<MethodInfo>(MemberTypes.Method, (methodInfo) =>
 				{
 					if (methodInfo.IsPublic)
@@ -3205,15 +3492,16 @@ namespace Utils
 			return modifiersBuilder.ToString();
 		}
 
-		public static string GenerateSignature(this MethodInfo method, bool includeDeclaringType = false, bool includeModifiers = false, bool skipThisParameter = false, bool useExplicitInterfaceFormat = false, bool noReturnType = false)
+		public static string GenerateSignature(this MethodInfo method, bool includeDeclaringType = false, bool includeModifiers = false, bool addAttributes = false, bool skipThisParameter = false, bool useExplicitInterfaceFormat = false, bool noReturnType = false)
 		{
 			var type = method.ReturnType.GetCodeDeclaration();
 			var name = method.GetMethodName(useExplicitInterfaceFormat);
 			var modifierString = string.Empty;
 			var isExtension = method.IsExtensionMethod();
 			var declaringType = method.DeclaringType;
+            var customAttributes = string.Empty;
 
-			if (useExplicitInterfaceFormat)
+            if (useExplicitInterfaceFormat)
 			{
 				var modifiers = method.GetModifiers();
 				var interfaceTypes = method.DeclaringType.GetInterfaces();
@@ -3222,7 +3510,7 @@ namespace Utils
 				
 				if (method.Name.Contains('.'))
 				{
-					if (modifiers.IsOneOf(TypeExtensions.ReflectionModifiers.Private, TypeExtensions.ReflectionModifiers.Public, TypeExtensions.ReflectionModifiers.Internal))
+					if (modifiers.IsOneOf(ReflectionModifiers.Private, ReflectionModifiers.Public, ReflectionModifiers.Internal))
 					{
 						var interfaceName = method.Name.LeftUpToLastIndexOf('.');
 						var closeBracketCount = 0;
@@ -3242,26 +3530,34 @@ namespace Utils
 				modifierString = method.GetModifiersString().Append(" ");
 			}
 
-			if (includeDeclaringType)
+            if (addAttributes)
+            {
+                if (method.HasCustomAttributes())
+                {
+                    customAttributes = method.CustomAttributes.GetCustomAttributesString();
+                }
+            }
+
+            if (includeDeclaringType)
 			{
 				if (noReturnType)
 				{
-					return modifierString + type + " " + declaringType.GetCodeDeclaration() + "." + name + GenerateParmStringSignature(method.GetParameters(), isExtension, skipThisParameter);
+					return customAttributes + modifierString + type + " " + declaringType.GetCodeDeclaration() + "." + name + GenerateParmStringSignature(method.GetParameters(), isExtension, addAttributes, skipThisParameter);
 				}
 				else
 				{
-					return modifierString + type + " " + declaringType.GetCodeDeclaration() + "." + name + GenerateParmStringSignature(method.GetParameters(), isExtension, skipThisParameter);
+					return customAttributes + modifierString + type + " " + declaringType.GetCodeDeclaration() + "." + name + GenerateParmStringSignature(method.GetParameters(), isExtension, addAttributes, skipThisParameter);
 				}
 			}
 			else
 			{
 				if (noReturnType)
 				{
-					return name + GenerateParmStringSignature(method.GetParameters(), isExtension, skipThisParameter);
+					return customAttributes + name + GenerateParmStringSignature(method.GetParameters(), isExtension, addAttributes, skipThisParameter);
 				}
 				else
 				{
-					return modifierString + type + " " + name + GenerateParmStringSignature(method.GetParameters(), isExtension, skipThisParameter);
+					return customAttributes + modifierString + type + " " + name + GenerateParmStringSignature(method.GetParameters(), isExtension, addAttributes, skipThisParameter);
 				}
 			}
 		}
@@ -3319,17 +3615,26 @@ namespace Utils
 			typeBuilder.CreateType();
 		}
 
-		public static string GenerateSignature(this ConstructorInfo constructor, bool includeDeclaringType = false, bool includeModifiers = false)
+		public static string GenerateSignature(this ConstructorInfo constructor, bool includeDeclaringType = false, bool addAttributes = false, bool includeModifiers = false)
 		{
 			string name;
 			var modifiers = string.Empty;
+            var customAttributes = string.Empty;
 
-			if (includeModifiers)
+            if (includeModifiers)
 			{
 				modifiers = constructor.GetModifiersString().Append(" ");
 			}
 
-			if (includeDeclaringType)
+            if (addAttributes)
+            {
+                if (constructor.HasCustomAttributes())
+                {
+                    customAttributes = constructor.CustomAttributes.GetCustomAttributesString();
+                }
+            }
+
+            if (includeDeclaringType)
 			{
 				name = constructor.DeclaringType.GenerateTypeString();
 			}
@@ -3338,7 +3643,7 @@ namespace Utils
 				name = constructor.Name;
 			}
 
-			return modifiers + name + GenerateParmStringSignature(constructor.GetParameters());
+			return customAttributes + modifiers + name + GenerateParmStringSignature(constructor.GetParameters());
 		}
 
 		public static string GenerateGenericSignature(this ConstructorInfo constructor, Type[] genericArgs, bool includeDeclaringType = false, bool includeModifiers = false)
@@ -3448,16 +3753,26 @@ namespace Utils
 			return builder.ToString();
 		}
 
-		private static string GenerateParmStringSignature(ParameterInfo[] parameters, bool isExtensionMethod = false, bool skipThisParameter = false)
+		private static string GenerateParmStringSignature(ParameterInfo[] parameters, bool isExtensionMethod = false, bool addAttributes = false, bool skipThisParameter = false)
 		{
 			var builder = new StringBuilder("(");
 			var hasComma = false;
+            var customAttributes = string.Empty;
 
-			foreach (ParameterInfo parameter in parameters)
+            foreach (ParameterInfo parameter in parameters)
 			{
 				var parmTypeName = parameter.ParameterType.GetCodeDeclaration();
 
-				if (isExtensionMethod && !skipThisParameter)
+                if (addAttributes)
+                {
+                    if (parameter.HasCustomAttributes())
+                    {
+						customAttributes = parameter.CustomAttributes.GetCustomAttributesString().RegexReplace("\n", " ");
+						builder.Append(customAttributes);
+                    }
+                }
+
+                if (isExtensionMethod && !skipThisParameter)
 				{
 					builder.Append("this ");
 				}
@@ -3488,7 +3803,7 @@ namespace Utils
 
 				if (parameter.IsOptional)
 				{
-					builder.Append(" = " + parameter.DefaultValue.AsDisplayText());
+					builder.Append(" = " + parameter.DefaultValue.AsDisplayText(QuoteTextType.DoubleQuote));
 				}
 
 				builder.Append(", ");
@@ -3634,9 +3949,10 @@ namespace Utils
 			return name;
 		}
 
-		public static string GetCodeDeclaration(this Type type, bool usePrimitiveShortNames = true, bool useGenericPrimitiveShortNames = true, bool addNamespace = false)
+		public static string GetCodeDeclaration(this Type type, bool usePrimitiveShortNames = true, bool useGenericPrimitiveShortNames = true, bool addAttributes = false, bool addNamespace = false)
 		{
 			var codeDeclaration = string.Empty;
+			var customAttributes = string.Empty;
 
 			if (type.IsGenericType)
 			{
@@ -3718,14 +4034,34 @@ namespace Utils
 				}
 			}
 
+			if (addAttributes)
+			{
+				if (type.HasCustomAttributes())
+				{
+					customAttributes = type.CustomAttributes.GetCustomAttributesString();
+                }
+			}
+
 			if (addNamespace)
 			{
-				return type.Namespace + "." + codeDeclaration;
+				return customAttributes + type.Namespace + "." + codeDeclaration;
 			}
 			else
 			{
-				return codeDeclaration;
+				return customAttributes + codeDeclaration;
 			}
+		}
+
+		public static string GetCustomAttributesString(this IEnumerable<System.Reflection.CustomAttributeData> customAttributes)
+		{
+			var builder = new StringBuilder();
+
+			foreach (var customAttribute in customAttributes)
+			{
+				builder.AppendLine(customAttribute.ToString());
+			}
+
+			return builder.ToString();
 		}
 
 		public static IEnumerable<T> GetCustomAttributes<T>(this Type type)
@@ -3750,7 +4086,27 @@ namespace Utils
 			return member.GetCustomAttributes(true).OfType<T>().Count() > 0;
 		}
 
-		public static T GetCustomAttribute<T>(this Type type, string memberName) where T : Attribute
+        public static bool HasCustomAttribute<T>(this ParameterInfo parm)
+        {
+            return parm.GetCustomAttributes(true).OfType<T>().Count() > 0;
+        }
+
+        public static bool HasCustomAttributes(this Type type)
+        {
+            return type.GetCustomAttributes(true).Count() > 0;
+        }
+
+        public static bool HasCustomAttributes(this MemberInfo member)
+        {
+            return member.GetCustomAttributes(true).Count() > 0;
+        }
+
+        public static bool HasCustomAttributes(this ParameterInfo parm)
+        {
+            return parm.GetCustomAttributes(true).Count() > 0;
+        }
+
+        public static T GetCustomAttribute<T>(this Type type, string memberName) where T : Attribute
 		{
 			var memberInfo = type.GetMember(memberName).First();
 			var attribute = memberInfo.GetCustomAttribute<T>();

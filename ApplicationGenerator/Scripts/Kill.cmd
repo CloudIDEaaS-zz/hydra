@@ -1,1 +1,0 @@
-﻿taskkill /f /im ApplicationGenerator.exe

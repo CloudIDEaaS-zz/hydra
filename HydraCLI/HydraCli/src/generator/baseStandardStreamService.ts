@@ -5,16 +5,19 @@ import { Socket } from "net";
 import { Utils } from "../modules/utils/utils";
 import { BaseThreadedService } from "./baseThreadedService";
 import { CommandPacket } from "./commandPacket";
+import resourceManager, { HydraCli } from "../resources/resourceManager";
 
 export abstract class BaseStandardStreamService extends BaseThreadedService {
     private stdout: Socket;
     private stdin: Socket;
+    public resourceManager: resourceManager;
     protected abstract HandleCommand(commandPacket : CommandPacket);
 
-    constructor() {
+    constructor(resourceManager: resourceManager) {
         super(new timespan.fromMilliseconds(100));
         this.stdout = <Socket>process.stdout;
         this.stdin = <Socket>process.stdin;
+        this.resourceManager = resourceManager;
     }
 
     public async DoWork(stopping: boolean) : Promise<void> {
@@ -34,7 +37,7 @@ export abstract class BaseStandardStreamService extends BaseThreadedService {
 
     async readJsonCommand(socket : Socket) : Promise<CommandPacket> {
         
-        this.WriteLine("Waiting for json command");
+        this.WriteLine(this.resourceManager.HydraCli.Waiting_for_json_command);
 
         let jsonText = await this.readUntil(socket, EOL + EOL);
         let commandPacket = <CommandPacket> JSON.parse(jsonText);

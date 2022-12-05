@@ -9,6 +9,10 @@ const { Env, Target, ExpandedForm } = require('windows-environment');
 const child_process_1 = require("child_process");
 const colors = require('colors/safe');
 class HydraInstaller {
+    static installer;
+    stdout;
+    stderr;
+    logOutputToConsole;
     constructor() {
         this.stdout = process.stdout;
         this.stderr = process.stderr;
@@ -32,7 +36,7 @@ class HydraInstaller {
         }
         commandLine = `${installerPath}`;
         this.writeLine(`Running command ${commandLine} /uninstall`);
-        installerProcess = child_process_1.exec(commandLine);
+        installerProcess = (0, child_process_1.exec)(commandLine);
         installerProcess.stderr.on("data", (e) => {
             this.stderr.writeLine(e.toString());
         });
@@ -63,7 +67,7 @@ class HydraInstaller {
         }
         commandLine = `${installerPath}`;
         this.writeLine(`Running command ${commandLine} `);
-        installerProcess = child_process_1.exec(commandLine);
+        installerProcess = (0, child_process_1.exec)(commandLine);
         installerProcess.stderr.on("data", (e) => {
             this.stderr.writeLine(e.toString());
         });

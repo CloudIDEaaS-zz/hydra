@@ -18,15 +18,20 @@ namespace BTreeIndex.Collections.Generic.BTree
 		public System.Collections.Generic.IComparer<TKey> KeyComparer;
 		public int Compare(BTreeItem<TKey, TValue> x, BTreeItem<TKey, TValue> y)
 		{
+			if (x == null || y == null)
+            {
+				return -1;
+            }
+
 			return KeyComparer.Compare(x.Key, y.Key);
 		}
 	}
 	/// <summary>
-    /// BTreeAlgorithm is the core BTree class wrapper and implements BTree Collection interface.
-    /// B-Tree data structure and algorithm are implemented in <see cref="BTreeAlgorithm.TreeNode">"TreeNode"</see> class
-    /// </summary>
-    internal partial class BTreeAlgorithm<TKey, TValue>
-    {
+	/// BTreeAlgorithm is the core BTree class wrapper and implements BTree Collection interface.
+	/// B-Tree data structure and algorithm are implemented in <see cref="BTreeAlgorithm.TreeNode">"TreeNode"</see> class
+	/// </summary>
+	internal partial class BTreeAlgorithm<TKey, TValue>
+	{
 		public BTreeAlgorithm(System.Collections.Generic.Comparer<TKey> Comparer)
 		{
 			this.Comparer = Comparer;
@@ -119,11 +124,11 @@ namespace BTreeIndex.Collections.Generic.BTree
 				bySlotLen++;
 
 #if (!DEBUG && TRIALWARE)
-		            const string ExpireMsg = "BTreeGold trial period has expired.\nVisit 4A site(http://www.4atech.net) to get details in getting a license.";
-		            if (!System.IO.File.Exists("Trialware.dll") || 
-		                Trialware.ExpirationManager.Instance == null ||
-		                Trialware.ExpirationManager.Instance.IsExpired())
-		                throw new InvalidOperationException(ExpireMsg);
+					const string ExpireMsg = "BTreeGold trial period has expired.\nVisit 4A site(http://www.4atech.net) to get details in getting a license.";
+					if (!System.IO.File.Exists("Trialware.dll") || 
+						Trialware.ExpirationManager.Instance == null ||
+						Trialware.ExpirationManager.Instance.IsExpired())
+						throw new InvalidOperationException(ExpireMsg);
 #endif
 
 			this.SlotLength = bySlotLen;

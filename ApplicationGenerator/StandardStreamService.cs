@@ -40,9 +40,10 @@ namespace AbstraX
         private AlertInfo alertInfo;
         private MailslotClient mailslotClient;
         private bool runAsAutomated;
-        private System.IO.DirectoryInfo logDirectory;
+        private System.IO.DirectoryInfo logServiceMessagesDirectory;
         private EventDrivenStreamWriter eventDrivenStreamWriter;
         private OnWriteLineHandler onWriteLine;
+        private DirectoryInfo logInstallsDirectory;
 
         /// <summary>   Constructor. </summary>
         ///
@@ -71,8 +72,10 @@ namespace AbstraX
 
             if (logServiceMessages)
             {
-                logDirectory = AbstraX.LoggingExtensions.FindCurrentLogFolder("Messages");
+                logServiceMessagesDirectory = AbstraX.LoggingExtensions.FindCurrentLogFolder("Messages");
             }
+
+            logInstallsDirectory = AbstraX.LoggingExtensions.CreateLogFolder("Installs");
 
             base.JsonTextReadCallback = this.JsonTextRead;
         }
@@ -89,7 +92,7 @@ namespace AbstraX
             {
                 var fileName = DateTime.Now.ToSortableDateTimeText() + "_ApplicationGenerator_In.json";
 
-                logDirectory.WriteToLog(fileName, jsonText);
+                logServiceMessagesDirectory.WriteToLog(fileName, jsonText);
             }
         }
 
@@ -105,7 +108,7 @@ namespace AbstraX
             {
                 var fileName = DateTime.Now.ToSortableDateTimeText() + "_ApplicationGenerator_Out.json";
 
-                logDirectory.WriteToLog(fileName, jsonText);
+                logServiceMessagesDirectory.WriteToLog(fileName, jsonText);
             }
         }
 
@@ -453,8 +456,8 @@ namespace AbstraX
                                     ((IDisposable)mailslotClient).Dispose();
                                 }
 
-                                outputWriter.WriteLine(Environment.NewLine);
-                                outputWriter.Flush();
+                                //outputWriter.WriteLine(Environment.NewLine);
+                                //outputWriter.Flush();
 
                                 Task.Run(() =>
                                 {
@@ -586,10 +589,13 @@ namespace AbstraX
                         {
                             var config = generatorHandler.GeneratorConfiguration;
                             var packageInstalls = config.PackageInstalls;
+                            var fileName = DateTime.Now.ToSortableDateTimeText() + "_ApplicationGenerator_PackageInstalls.txt";
 
                             // kn todo - comment
                             //packageInstalls = packageInstalls.Randomize().Take(5).ToList();
                             //packageInstalls = new List<string> { "@gracesnoh/tiny" };
+
+                            logInstallsDirectory.WriteToLog(fileName, packageInstalls.ToMultiLineList());
 
                             commandPacket = new CommandPacket(commandPacket.Command, commandPacket.SentTimestamp, (object)packageInstalls.ToArray());
                             outputWriter.WriteJsonCommand(commandPacket, this.JsonTextWrite);
@@ -601,10 +607,13 @@ namespace AbstraX
                         {
                             var config = generatorHandler.GeneratorConfiguration;
                             var packageDevInstalls = config.PackageDevInstalls;
+                            var fileName = DateTime.Now.ToSortableDateTimeText() + "_ApplicationGenerator_PackageDevInstalls.txt";
 
                             // kn todo - comment
                             // packageDevInstalls = packageDevInstalls.Randomize().Take(2).ToList();
                             // packageDevInstalls = new List<string> { "@gracesnoh/tiny" };
+
+                            logInstallsDirectory.WriteToLog(fileName, packageDevInstalls.ToMultiLineList());
 
                             commandPacket = new CommandPacket(commandPacket.Command, commandPacket.SentTimestamp, (object)packageDevInstalls.ToArray());
                             outputWriter.WriteJsonCommand(commandPacket, this.JsonTextWrite);

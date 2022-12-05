@@ -10,7 +10,7 @@ namespace Utils
     {
         public Type ProgramAssemblyType { get; }
         public Type CommandType { get; }
-        public Type SwitchType { get; }
+        public Type SwitchType { get; } 
         public string Description { get; }
         public string[] Syntax { get; }
         public bool SupplyHelpSwitch { get; }

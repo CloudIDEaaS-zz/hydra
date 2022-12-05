@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.HELP_HEADER = exports.WEB_SITE = exports.CLIENT_VERSION = exports.CLI_USAGE = exports.CLI_DESCRIPTION = exports.CLI_TITLE = exports.w = exports.b = exports.g = exports.mainDefinitions = exports.resourceDefinitions = exports.platformDefinitions = exports.buildDefinitions = exports.startDefinitions = exports.setDefinitions = exports.setPackagesDefinitions = exports.generateDefinitions = exports.generateTargetDefinitions = exports.rendererServerCommands = void 0;
+exports.HELP_HEADER = exports.WEB_SITE = exports.CLIENT_VERSION = exports.CLI_USAGE = exports.CLI_DESCRIPTION = exports.CLI_TITLE = exports.w = exports.b = exports.g = exports.mainDefinitions = exports.resourceDefinitions = exports.platformDefinitions = exports.buildDefinitions = exports.startDefinitions = exports.setDefinitions = exports.setPackagesDefinitions = exports.generateDefinitions = exports.generateTargetDefinitions = exports.generateFromDefinitions = exports.rendererServerCommands = void 0;
 const chalk = require("chalk");
 const process_1 = require("process");
 exports.rendererServerCommands = {
@@ -12,6 +12,13 @@ exports.rendererServerCommands = {
     PING: "ping",
     TERMINATE: "terminate",
 };
+exports.generateFromDefinitions = [
+    {
+        name: "source",
+        type: String,
+        description: "The source for the generate from command."
+    },
+];
 exports.generateTargetDefinitions = [
     {
         name: "app",
@@ -32,6 +39,12 @@ exports.generateTargetDefinitions = [
         name: "entities",
         type: String,
         description: "Generates either an entities json file or if one exists, entity model classes in the workspace.",
+    },
+    {
+        name: "from",
+        type: String,
+        description: "Generates from an external source.",
+        innerDefinitions: exports.generateFromDefinitions,
     },
 ];
 exports.generateDefinitions = [
@@ -61,6 +74,12 @@ exports.generateDefinitions = [
         defaultValue: 0,
         description: "Pauses to allow for debug attach.",
     },
+    {
+        name: "lang",
+        type: String,
+        defaultValue: "en-US",
+        description: "Specifies the language code to use for console input/output.",
+    },
     { name: "skipInstalls", type: Boolean, defaultValue: false },
     { name: "noFileCreation", type: Boolean, defaultValue: false },
     {
@@ -73,7 +92,7 @@ exports.generateDefinitions = [
         name: "appDescription",
         type: String,
         defaultValue: "",
-        description: "The appplication description.",
+        description: "The application description.",
     },
     {
         name: "organizationName",
@@ -86,12 +105,6 @@ exports.generateDefinitions = [
         type: String,
         defaultValue: "",
         description: "The starter template file for either the business model or entity domain model. For default template, specify 'default'",
-    },
-    {
-        name: "businessmodel",
-        type: String,
-        defaultValue: "",
-        description: "The business model json input file for processing the entity domain model.",
     },
     {
         name: "json",
@@ -369,6 +382,12 @@ exports.mainDefinitions = [
         description: "Shows the version of Hydra.",
     },
     {
+        name: "lang",
+        type: String,
+        defaultValue: "en-US",
+        description: "Specifies the language code to use for console input/output.",
+    },
+    {
         name: "launchServices",
         type: Boolean,
         defaultValue: false,
@@ -397,13 +416,13 @@ exports.CLIENT_VERSION = `Hydra ${process_1.version}, Copyright 2020 CloudIDEaaS
 exports.WEB_SITE = "http://www.cloudideaas.com/hydra";
 exports.HELP_HEADER = `
 
-                ${exports.b(".,/(%%&&&&%(*.")}      ${exports.CLI_TITLE}  
-        ${exports.b(",/#%&@@&&&%%%#####")}${exports.b(",,,.")}        
-  ${exports.b("./%&%%#")}${exports.g("(((((((((((((((((.")}         ${exports.CLI_DESCRIPTION}
-${exports.b("#")}${exports.g("(((((((((((((((((((((((((.")}           
-${exports.b("#")}${exports.g("((((((((((((((((((((((((((.")}        ${exports.CLI_USAGE}
-${exports.b("#")}${exports.g("((((((((((((((")}${exports.b("##%%&&&&&&&%%%##/")}
-${exports.b("#")}${exports.g("((((((((((")}${exports.b("#%##")}${exports.g("(((((((((((((")}        ${exports.CLIENT_VERSION}
-${exports.b("#")}${exports.g("(((((((((((((((((((((((((((.")}       ${exports.WEB_SITE}
+                ${(0, exports.b)(".,/(%%&&&&%(*.")}      ${exports.CLI_TITLE}  
+        ${(0, exports.b)(",/#%&@@&&&%%%#####")}${(0, exports.b)(",,,.")}        
+  ${(0, exports.b)("./%&%%#")}${(0, exports.g)("(((((((((((((((((.")}         ${exports.CLI_DESCRIPTION}
+${(0, exports.b)("#")}${(0, exports.g)("(((((((((((((((((((((((((.")}           
+${(0, exports.b)("#")}${(0, exports.g)("((((((((((((((((((((((((((.")}        ${exports.CLI_USAGE}
+${(0, exports.b)("#")}${(0, exports.g)("((((((((((((((")}${(0, exports.b)("##%%&&&&&&&%%%##/")}
+${(0, exports.b)("#")}${(0, exports.g)("((((((((((")}${(0, exports.b)("#%##")}${(0, exports.g)("(((((((((((((")}        ${exports.CLIENT_VERSION}
+${(0, exports.b)("#")}${(0, exports.g)("(((((((((((((((((((((((((((.")}       ${exports.WEB_SITE}
 `;
 //# sourceMappingURL=commands.js.map

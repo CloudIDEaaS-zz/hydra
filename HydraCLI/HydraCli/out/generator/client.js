@@ -11,6 +11,7 @@ const events_1 = require("events");
 const connectPromise_1 = require("./connectPromise");
 const npmInstall_1 = require("./npmInstall");
 const renderer_1 = require("./renderer");
+const resourceManager_1 = require("../resources/resourceManager");
 const reader = require("readline-sync");
 const readJson = require("read-package-json");
 const path = require("path");
@@ -50,10 +51,39 @@ var ReportedMessages;
     ReportedMessages[ReportedMessages["finished"] = 16] = "finished";
 })(ReportedMessages || (ReportedMessages = {}));
 class ApplicationGeneratorClient {
+    agent;
+    stdout;
+    stderr;
+    static client;
+    installs;
+    onComplete;
+    logOutputToConsole;
+    devInstalls;
+    commands;
+    hasError;
+    pollingInstallFromCacheStatus = false;
+    pollingInstallFromCacheStatusComplete = false;
+    installTotalCount;
+    logPath;
+    logClient;
+    progressBarNextUpdate;
+    progressBarCacheStatus;
+    progressBarNotUsed;
+    reportedMessages = 0;
+    finalLapStarted;
+    close;
+    watch;
+    complete;
+    runStart;
+    generateApp;
+    setInstallStatus;
+    getCacheStatus;
+    pollInstallFromCacheStatus;
+    getInstallFromCacheStatus;
+    watch2;
+    agentDisposed;
+    resourceManager;
     constructor() {
-        this.pollingInstallFromCacheStatus = false;
-        this.pollingInstallFromCacheStatusComplete = false;
-        this.reportedMessages = 0;
         this.agent = new agent_1.ApplicationGeneratorAgent();
         this.stdout = process.stdout;
         this.stderr = process.stderr;
@@ -83,7 +113,7 @@ class ApplicationGeneratorClient {
         });
     }
     processCommand() {
-        const mainCommand = commandLineArgs(commands.mainDefinitions, {
+        const mainCommand = commandLineArgs(commands["mainDefinitions"], {
             stopAtFirstUnknown: true,
         });
         let debug = mainCommand.debug;
@@ -93,125 +123,114 @@ class ApplicationGeneratorClient {
         let skipIonicInstall = mainCommand.skipIonicInstall;
         let noFileCreation = mainCommand.noFileCreation;
         let version = mainCommand.version;
+        let lang = mainCommand.lang;
         let help = mainCommand.help;
         let argv = mainCommand._unknown || [];
         let configFile = path.join(process.cwd(), "package.json");
-        let commandsFile = path.join(__dirname, "commands.json");
+        this.resourceManager = new resourceManager_1.default(lang);
+        this.agent.resourceManager = this.resourceManager;
         if (logClient) {
             this.logClient = true;
             this.logPath = path.join(process.cwd(), "Logs\\CLI\\" + dateFormat(new Date(), "yyyymmdd_HHMMss_l"));
         }
-        readJson(commandsFile, console.error, false, (error, data) => {
-            if (error) {
-                this.writeError("There was an error reading the commands.json file.");
-                this.writeLog("errors.log", error.toJson());
-                this.onComplete.emit("onComplete");
-                return;
-            }
-            else {
-                this.commands = data.commands;
-                if (mainCommand.command === "launchRenderer") {
-                    renderer_1.Renderer.launchRenderer();
+        if (mainCommand.command === "launchRenderer") {
+            renderer_1.Renderer.launchRenderer(this.resourceManager);
+        }
+        else if (mainCommand.command === "install") {
+            this.install(argv, debug, logToConsole);
+        }
+        else if (mainCommand.command === "captcha") {
+            this.captcha(argv);
+        }
+        else if (mainCommand.command === "start") {
+            this.start(argv, debug, logToConsole, skipIonicInstall);
+        }
+        else if (mainCommand.command === "setPackages") {
+            this.setPackages(argv, logToConsole, configFile);
+        }
+        else if (mainCommand.command === "addResource") {
+            this.addResource(argv, debug);
+        }
+        else if (mainCommand.command === "showDesigner") {
+            this.showDesigner(argv, debug);
+        }
+        else if (mainCommand.command === "build") {
+            this.build(argv, logToConsole);
+        }
+        else if (mainCommand.command === "delete") {
+            this.delete(argv, logToConsole);
+        }
+        else if (mainCommand.command === "test") {
+            this.test(debug, false);
+        }
+        else if (mainCommand.command === "add") {
+            this.add(argv);
+        }
+        else if (mainCommand.command === "remove") {
+            this.remove(argv);
+        }
+        else if (mainCommand.command === "update") {
+            this.update(argv);
+        }
+        else if (mainCommand.command === "serve") {
+            this.serve(argv);
+        }
+        else if (mainCommand.command === "platforms") {
+            this.platforms();
+        }
+        else if (version || mainCommand.command === "version") {
+            this.version(debug, false);
+        }
+        else if (version || mainCommand.command === "launchServices") {
+            this.launchServices(debug, true);
+        }
+        else if (help || mainCommand.command === undefined || mainCommand.command === "help") {
+            this.help();
+        }
+        else {
+            readJson(configFile, null, false, (error, data) => {
+                let servicesProjectPath;
+                let entitiesProjectPath;
+                let packageCachePath;
+                if (argv[0] === "app") {
+                    if (error) {
+                        this.writeError(this.resourceManager.HydraCli.There_was_an_error_reading_the_package +
+                            error +
+                            this.resourceManager.HydraCli.Did_you_run_hydra_start);
+                        this.writeLog("errors.log", error.toJson());
+                        this.onComplete.emit("onComplete");
+                        return;
+                    }
+                    if (!data.servicesProjectPath) {
+                        this.writeError(this.resourceManager.HydraCli.package_json_does_not_include + "'servicesProjectPath'");
+                        this.onComplete.emit("onComplete");
+                        return;
+                    }
+                    if (!data.entitiesProjectPath) {
+                        this.writeError("package.json does not include " + "'entitiesProjectPath'");
+                        this.onComplete.emit("onComplete");
+                        return;
+                    }
+                    servicesProjectPath = utils_1.Utils.expandPath(data.servicesProjectPath);
+                    entitiesProjectPath = utils_1.Utils.expandPath(data.entitiesProjectPath);
+                    if (data.packageCachePath) {
+                        packageCachePath = utils_1.Utils.expandPath(data.packageCachePath);
+                    }
                 }
-                else if (mainCommand.command === "install") {
-                    this.install(argv, debug, logToConsole);
-                }
-                else if (mainCommand.command === "captcha") {
-                    this.captcha(argv);
-                }
-                else if (mainCommand.command === "start") {
-                    this.start(argv, debug, logToConsole, skipIonicInstall);
-                }
-                else if (mainCommand.command === "setPackages") {
-                    this.setPackages(argv, logToConsole, configFile);
-                }
-                else if (mainCommand.command === "addResource") {
-                    this.addResource(argv, debug);
-                }
-                else if (mainCommand.command === "showDesigner") {
-                    this.showDesigner(argv, debug);
-                }
-                else if (mainCommand.command === "build") {
-                    this.build(argv, logToConsole);
-                }
-                else if (mainCommand.command === "delete") {
-                    this.delete(argv, logToConsole);
-                }
-                else if (mainCommand.command === "clean") {
+                if (mainCommand.command === "clean") {
                     this.clean(argv, logToConsole, configFile, data);
                 }
                 else if (mainCommand.command === "set") {
                     this.set(argv, logToConsole, configFile, data);
                 }
-                else if (mainCommand.command === "test") {
-                    this.test(debug, false);
-                }
-                else if (mainCommand.command === "add") {
-                    this.add(argv);
-                }
-                else if (mainCommand.command === "remove") {
-                    this.remove(argv);
-                }
-                else if (mainCommand.command === "update") {
-                    this.update(argv);
-                }
-                else if (mainCommand.command === "serve") {
-                    this.serve(argv);
-                }
-                else if (mainCommand.command === "platforms") {
-                    this.platforms();
-                }
-                else if (version || mainCommand.command === "version") {
-                    this.version(debug, false);
-                }
-                else if (version || mainCommand.command === "launchServices") {
-                    this.launchServices(debug, true);
-                }
-                else if (help ||
-                    mainCommand.command === undefined ||
-                    mainCommand.command === "help") {
-                    this.help();
+                else if (mainCommand.command === "generate") {
+                    this.generate(argv, debug, logToConsole, skipInstalls, entitiesProjectPath, servicesProjectPath, packageCachePath, noFileCreation);
                 }
                 else {
-                    readJson(configFile, console.error, false, (error, data) => {
-                        let servicesProjectPath;
-                        let entitiesProjectPath;
-                        let packageCachePath;
-                        if (argv[0] === "app") {
-                            if (error) {
-                                this.writeError("There was an error reading the package.json file. " +
-                                    error +
-                                    "\nDid you run 'hydra start'?");
-                                this.writeLog("errors.log", error.toJson());
-                                this.onComplete.emit("onComplete");
-                                return;
-                            }
-                            if (!data.servicesProjectPath) {
-                                this.writeError("package.json does not include 'servicesProjectPath'");
-                                this.onComplete.emit("onComplete");
-                                return;
-                            }
-                            if (!data.entitiesProjectPath) {
-                                this.writeError("package.json does not include 'entitiesProjectPath'");
-                                this.onComplete.emit("onComplete");
-                                return;
-                            }
-                            servicesProjectPath = utils_1.Utils.expandPath(data.servicesProjectPath);
-                            entitiesProjectPath = utils_1.Utils.expandPath(data.entitiesProjectPath);
-                            if (data.packageCachePath) {
-                                packageCachePath = utils_1.Utils.expandPath(data.packageCachePath);
-                            }
-                        }
-                        if (mainCommand.command === "generate") {
-                            this.generate(argv, debug, logToConsole, skipInstalls, entitiesProjectPath, servicesProjectPath, packageCachePath, noFileCreation);
-                        }
-                        else {
-                            this.writeError(`Unknown command: ${mainCommand.command}`);
-                        }
-                    });
+                    this.writeError(`Unknown command: ${mainCommand.command}`);
                 }
-            }
-        });
+            });
+        }
     }
     captcha(argv) {
         const uuid = require("uuid");
@@ -369,7 +388,7 @@ class ApplicationGeneratorClient {
         });
     }
     readJson(configFile, error, arg2, arg3) {
-        throw new Error("Method not implemented.");
+        throw new Error(this.resourceManager.HydraCli.Method_not_implemented);
     }
     set(argv, logToConsole, configFile, data) {
         const generateOptions = commandLineArgs(commands.setDefinitions, {
@@ -482,7 +501,7 @@ class ApplicationGeneratorClient {
             stopAtFirstUnknown: true,
         });
         let platform = buildOptions.platform;
-        let commandLine = "ionic cordova platform add " + platform;
+        let commandLine = this.resourceManager.HydraCli.ionic_cordova_platform_add + platform;
         let ionicProcess;
         ionicProcess = child_process.exec(commandLine);
         ionicProcess.stdout.on("data", (o) => {
@@ -503,7 +522,7 @@ class ApplicationGeneratorClient {
             stopAtFirstUnknown: true,
         });
         let platform = buildOptions.platform;
-        let commandLine = "ionic cordova platform remove " + platform;
+        let commandLine = this.resourceManager.HydraCli.ionic_cordova_platform_remove + platform;
         let ionicProcess;
         ionicProcess = child_process.exec(commandLine);
         ionicProcess.stdout.on("data", (o) => {
@@ -524,7 +543,7 @@ class ApplicationGeneratorClient {
             stopAtFirstUnknown: true,
         });
         let platform = buildOptions.platform;
-        let commandLine = "ionic cordova platform update" + platform;
+        let commandLine = this.resourceManager.HydraCli.ionic_cordova_platform_update + platform;
         let ionicProcess;
         ionicProcess = child_process.exec(commandLine);
         ionicProcess.stdout.on("data", (o) => {
@@ -540,7 +559,7 @@ class ApplicationGeneratorClient {
         });
     }
     platforms() {
-        let commandLine = "ionic cordova platform ls";
+        let commandLine = this.resourceManager.HydraCli.ionic_cordova_platform_ls;
         let ionicProcess;
         ionicProcess = child_process.exec(commandLine);
         ionicProcess.stdout.on("data", (o) => {
@@ -619,15 +638,15 @@ class ApplicationGeneratorClient {
         let useAgent = generateOptions.useAgent;
         let logClient = generateOptions.logClient;
         let logServiceMessages = generateOptions.logServiceMessages;
-        let npmCommand = "@ionic/cli@6.16.3";
+        let npmCommand = "@ionic/cli@6.20.3";
         let cwd = process.cwd();
         this.complete = () => {
             if (useAgent) {
-                this.writeSuccess("Signalling agent to end processing");
+                this.writeSuccess(this.resourceManager.HydraCli.Signalling_agent_to_end_processing);
                 this.agent.endProcessing((commandObject) => {
-                    this.writeSuccess("Signalling agent to close");
+                    this.writeSuccess(this.resourceManager.HydraCli.Signalling_agent_to_close);
                     this.agent.dispose((commandObject) => {
-                        this.writeSuccess("Agent closed successfully. Finalizing");
+                        this.writeSuccess(this.resourceManager.HydraCli.Agent_closed_successfully);
                         try {
                             this.writeSuccess("Finalized");
                             this.onComplete.emit("onComplete");
@@ -652,7 +671,7 @@ class ApplicationGeneratorClient {
                         let configData = {};
                         let hydraConfigFile = path.join(cwd, "hydra.json");
                         if (error) {
-                            this.writeError("There was an error reading the package.json file. " +
+                            this.writeError(this.resourceManager.HydraCli.There_was_an_error_reading_the_package +
                                 error +
                                 "\nDid you run 'hydra start'?");
                             this.complete();
@@ -734,8 +753,7 @@ class ApplicationGeneratorClient {
                 else {
                     this.writeLine(`Installing ${npmCommand}...`);
                     this.reportHydraStatusProgress("Template Generation", "Installing the Ionic Framework", 1);
-                    npmInstall_1.npm
-                        .install(npmCommand, {
+                    npmInstall_1.npm.install(npmCommand, {
                         cwd: cwd,
                         save: true,
                         output: true,
@@ -907,9 +925,21 @@ class ApplicationGeneratorClient {
         }
     }
     generate(argv, debug, logToConsole, skipInstalls, entitiesProjectPath, servicesProjectPath, packageCachePath, noFileCreation) {
-        const generateOptions = commandLineArgs(commands.generateDefinitions, {
+        let generateOptions = commandLineArgs(commands.generateDefinitions, {
             argv,
+            stopAtFirstUnknown: true,
         });
+        let source;
+        let unknown = generateOptions._unknown;
+        if (unknown) {
+            source = unknown.shift();
+            unknown.unshift("app");
+            unknown.unshift("generate");
+            argv = unknown.join(" ");
+            generateOptions = commandLineArgs(commands.generateDefinitions, {
+                argv,
+            });
+        }
         let logServiceMessages = generateOptions.logServiceMessages;
         let logClient = generateOptions.logClient;
         let pause = generateOptions.pause;
@@ -930,6 +960,7 @@ class ApplicationGeneratorClient {
                 process.exit();
             });
         }
+        // being generateApp
         this.generateApp = () => {
             this.agent.generateApp(entitiesProjectPath, servicesProjectPath, packageCachePath, noFileCreation, "All", (response) => {
                 let commandPacket = JSON.parse(response);
@@ -1322,6 +1353,7 @@ class ApplicationGeneratorClient {
                 }
             });
         };
+        // end generateApp
         if (pause) {
             utils_1.Utils.pause(pause);
         }
@@ -1350,7 +1382,7 @@ class ApplicationGeneratorClient {
                 this.writeLog("errors.log", e.toJson());
             });
         }
-        else if (generateOptions.target === "workspace") {
+        else if (generateOptions.target === "workspace" || generateOptions.target === "from") {
             this.initializeAndConnect(debug, logServiceMessages)
                 .then(() => {
                 let appName = generateOptions.appName;
@@ -1384,9 +1416,16 @@ class ApplicationGeneratorClient {
                         this.writeExplicit(hydraWarning("No spaces or special characters. > 5 char, < 25"));
                     } while (true);
                 }
-                this.agent.generateWorkspace(appName, appDescription, organizationName, noFileCreation, "All", (response) => {
-                    this.handleResponse(response, generateOptions.target);
-                });
+                if (generateOptions.target === "workspace") {
+                    this.agent.generateWorkspace(appName, appDescription, organizationName, noFileCreation, "All", (response) => {
+                        this.handleResponse(response, generateOptions.target);
+                    });
+                }
+                else if (generateOptions.target === "from") {
+                    this.agent.generateWorkspace(appName, appDescription, organizationName, noFileCreation, "All", (response) => {
+                        this.handleResponse(response, generateOptions.target);
+                    });
+                }
             })
                 .catch((e) => {
                 this.writeError(`Error: ${e}`);

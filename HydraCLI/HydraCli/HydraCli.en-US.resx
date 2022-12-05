@@ -1,0 +1,457 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="The_starter_template_file_for_either3" xml:space="preserve">
+    <value>The starter template file for either the business model or entity domain model. For default template, specify 'de_TRIAL</value>
+  </data>
+  <data name="to_run_this_command" xml:space="preserve">
+    <value> to run this command.</value>
+  </data>
+  <data name="For_help_getting_started_visit" xml:space="preserve">
+    <value>For help getting started, _TRIAL</value>
+  </data>
+  <data name="Initializing_renderer_Starting4" xml:space="preserve">
+    <value>Initializing renderer. Starting standardStreamS_TRIAL</value>
+  </data>
+  <data name="Error_Not_erasing_existing_project" xml:space="preserve">
+    <value>Error: Not erasing existing project</value>
+  </data>
+  <data name="Method_not_implemented" xml:space="preserve">
+    <value>Method not implemented.</value>
+  </data>
+  <data name="Initializing_renderer_Starting3" xml:space="preserve">
+    <value>Initializing renderer. Starting standardStreamS_TRIAL</value>
+  </data>
+  <data name="Saves_client_processing_in_the_Logs" xml:space="preserve">
+    <value>Saves client processing in the Logs folder.</value>
+  </data>
+  <data name="Finished_creating_project" xml:space="preserve">
+    <value>Finished creating project</value>
+  </data>
+  <data name="The_json_input_file_for_processing_the5" xml:space="preserve">
+    <value>The json input file for processing the business model or entity domain _TRIAL</value>
+  </data>
+  <data name="The_json_input_file_for_processing_the4" xml:space="preserve">
+    <value>The json input file for processing the business model or entity domain _TRIAL</value>
+  </data>
+  <data name="Did_you_run_hydra_start" xml:space="preserve">
+    <value>
+Did you run 'hydra start'?</value>
+  </data>
+  <data name="The_json_input_file_for_processing_the1" xml:space="preserve">
+    <value>The json input file for processing the business model or entity domain _TRIAL</value>
+  </data>
+  <data name="The_json_input_file_for_processing_the3" xml:space="preserve">
+    <value>The json input file for processing the business model or entity domain _TRIAL</value>
+  </data>
+  <data name="The_json_input_file_for_processing_the2" xml:space="preserve">
+    <value>The json input file for processing the business model or entity domain _TRIAL</value>
+  </data>
+  <data name="getpackagedevinstalls" xml:space="preserve">
+    <value>getpackagedevinstalls</value>
+  </data>
+  <data name="No_packages_found" xml:space="preserve">
+    <value>No packages found</value>
+  </data>
+  <data name="Downloading_template" xml:space="preserve">
+    <value>Downloading template</value>
+  </data>
+  <data name="The_json_input_file_for_processing_the" xml:space="preserve">
+    <value>The json input file for processing the business model or entity domain _TRIAL</value>
+  </data>
+  <data name="Starting_template_generation" xml:space="preserve">
+    <value>Starting template generation</value>
+  </data>
+  <data name="Signalling_agent_to_end_processing" xml:space="preserve">
+    <value>Signalling agent to end processing</value>
+  </data>
+  <data name="Launching_headless_browser5" xml:space="preserve">
+    <value>Launching headless b_TRIAL</value>
+  </data>
+  <data name="Generates_either_an_entities_json" xml:space="preserve">
+    <value>Generates either an entities json file or if one exists, entity model classes in the workspace.</value>
+  </data>
+  <data name="Unexpected_incompletion_of" xml:space="preserve">
+    <value>Unexpected incompletion of pollingInstallFromCacheStatus</value>
+  </data>
+  <data name="Copyright_CloudIDEaaS" xml:space="preserve">
+    <value>Copyright 2020 CloudIDEaaS</value>
+  </data>
+  <data name="Launching_headless_browser" xml:space="preserve">
+    <value>Launching headless b_TRIAL</value>
+  </data>
+  <data name="Package_dev_installs_started" xml:space="preserve">
+    <value>Package dev installs started</value>
+  </data>
+  <data name="Thank_you_for_installing_Hydra" xml:space="preserve">
+    <value>Thank you for installing _TRIAL</value>
+  </data>
+  <data name="Waiting_for_json_command" xml:space="preserve">
+    <value>Waiting for json command</value>
+  </data>
+  <data name="Application_not_fully_installed" xml:space="preserve">
+    <value>Application not fully installed.</value>
+  </data>
+  <data name="The_application_name" xml:space="preserve">
+    <value>The application name.</value>
+  </data>
+  <data name="Signalling_agent_to_close" xml:space="preserve">
+    <value>Signalling agent to close</value>
+  </data>
+  <data name="ApplicationGeneratorAgent_process" xml:space="preserve">
+    <value>ApplicationGeneratorAgent process has exited!</value>
+  </data>
+  <data name="read_package_json" xml:space="preserve">
+    <value>read-package-json</value>
+  </data>
+  <data name="Skips_installing_Ionic" xml:space="preserve">
+    <value>Skips installing _TRIAL</value>
+  </data>
+  <data name="The_organization_name3" xml:space="preserve">
+    <value>The organization_TRIAL</value>
+  </data>
+  <data name="Adds_resource_to_be_used_later_in_the" xml:space="preserve">
+    <value>Adds a resource to be used later in the code generation pr_TRIAL</value>
+  </data>
+  <data name="For_help_getting_started_visit1" xml:space="preserve">
+    <value>For help getting started, _TRIAL</value>
+  </data>
+  <data name="For_help_getting_started_visit3" xml:space="preserve">
+    <value>For help getting started, _TRIAL</value>
+  </data>
+  <data name="For_help_getting_started_visit2" xml:space="preserve">
+    <value>For help getting started, _TRIAL</value>
+  </data>
+  <data name="For_help_getting_started_visit5" xml:space="preserve">
+    <value>For help getting started, _TRIAL</value>
+  </data>
+  <data name="For_help_getting_started_visit4" xml:space="preserve">
+    <value>For help getting started, _TRIAL</value>
+  </data>
+  <data name="Pauses_to_allow_for_debug_attach" xml:space="preserve">
+    <value>Pauses to allow for debug attach.</value>
+  </data>
+  <data name="EndOfProcessing" xml:space="preserve">
+    <value>EndOfProcessing</value>
+  </data>
+  <data name="The_target_for_the_generate_command" xml:space="preserve">
+    <value>The target for the generate command.</value>
+  </data>
+  <data name="Installs_package" xml:space="preserve">
+    <value>Installs a package.</value>
+  </data>
+  <data name="The_organization_name" xml:space="preserve">
+    <value>The organization_TRIAL</value>
+  </data>
+  <data name="Generates_business_model" xml:space="preserve">
+    <value>Generates a business model.</value>
+  </data>
+  <data name="Launching_Cache_Server" xml:space="preserve">
+    <value>Launching Cache Server</value>
+  </data>
+  <data name="Generates_workspace_for_NET_Visual" xml:space="preserve">
+    <value>Generates a workspace, i.e. for .NET, a Visual Studio solution.</value>
+  </data>
+  <data name="ionic_cordova_platform_remove" xml:space="preserve">
+    <value>ionic cordova platform remove </value>
+  </data>
+  <data name="Agent_closed_successfully" xml:space="preserve">
+    <value>Agent closed successfully. Finalizing</value>
+  </data>
+  <data name="Updates_platform_in_the_front_end_app" xml:space="preserve">
+    <value>Updates a platform in the front-en_TRIAL</value>
+  </data>
+  <data name="The_appplication_description1" xml:space="preserve">
+    <value>The appplication descri_TRIAL</value>
+  </data>
+  <data name="Saves_restful_service_messages_in_the" xml:space="preserve">
+    <value>Saves restful service messages in the Logs folder.</value>
+  </data>
+  <data name="Package_cache_processing_may_take" xml:space="preserve">
+    <value>Package cache processing may take a while on first run.  Please be patient.</value>
+  </data>
+  <data name="Go_to_your_cloned_project" xml:space="preserve">
+    <value>Go to your cloned project</value>
+  </data>
+  <data name="The_appplication_description" xml:space="preserve">
+    <value>The appplication descri_TRIAL</value>
+  </data>
+  <data name="The_starter_template_file_for_either2" xml:space="preserve">
+    <value>The starter template file for either the business model or entity domain model. For default template, specify 'de_TRIAL</value>
+  </data>
+  <data name="Finished_creating_project1" xml:space="preserve">
+    <value>Finished creating project '</value>
+  </data>
+  <data name="Generates_fully_funtional" xml:space="preserve">
+    <value>Generates a fully funtional application. Previous steps are required.  See online help.</value>
+  </data>
+  <data name="package_json_does_not_include" xml:space="preserve">
+    <value>package.json does not include 'servicesProjectPath'</value>
+  </data>
+  <data name="Launching_headless_browser3" xml:space="preserve">
+    <value>Launching headless b_TRIAL</value>
+  </data>
+  <data name="The_organization_name1" xml:space="preserve">
+    <value>The organization_TRIAL</value>
+  </data>
+  <data name="Launching_headless_browser1" xml:space="preserve">
+    <value>Launching headless b_TRIAL</value>
+  </data>
+  <data name="The_starter_template_file_for_either" xml:space="preserve">
+    <value>The starter template file for either the business model or entity domain model. For default template, specify 'de_TRIAL</value>
+  </data>
+  <data name="List_of_packages_in_comma_delimited" xml:space="preserve">
+    <value>List of packages in comma delimited format.  Package format: &lt;packageName&gt;@&lt;ver_TRIAL</value>
+  </data>
+  <data name="Generation_completed" xml:space="preserve">
+    <value>Generation completed</value>
+  </data>
+  <data name="Thank_you_for_installing_Hydra1" xml:space="preserve">
+    <value>Thank you for installing _TRIAL</value>
+  </data>
+  <data name="Thank_you_for_installing_Hydra3" xml:space="preserve">
+    <value>Thank you for installing _TRIAL</value>
+  </data>
+  <data name="Finished_installing_the_Ionic" xml:space="preserve">
+    <value>Finished installing the Ionic Framework</value>
+  </data>
+  <data name="The_business_model_json_input_file_for4" xml:space="preserve">
+    <value>The business model json input file for processing the entity domain _TRIAL</value>
+  </data>
+  <data name="The_business_model_json_input_file_for3" xml:space="preserve">
+    <value>The business model json input file for processing the entity domain _TRIAL</value>
+  </data>
+  <data name="The_business_model_json_input_file_for2" xml:space="preserve">
+    <value>The business model json input file for processing the entity domain _TRIAL</value>
+  </data>
+  <data name="The_business_model_json_input_file_for1" xml:space="preserve">
+    <value>The business model json input file for processing the entity domain _TRIAL</value>
+  </data>
+  <data name="Launches_and_serves_the_front_end_app" xml:space="preserve">
+    <value>Launches and serves the front-en_TRIAL</value>
+  </data>
+  <data name="Cache_server_shut_down" xml:space="preserve">
+    <value>Cache server shut down</value>
+  </data>
+  <data name="The_business_model_json_input_file_for5" xml:space="preserve">
+    <value>The business model json input file for processing the entity domain _TRIAL</value>
+  </data>
+  <data name="ionic_cordova_platform_update" xml:space="preserve">
+    <value>ionic cordova platform update</value>
+  </data>
+  <data name="connected_to_parent_service" xml:space="preserve">
+    <value>connected to parent s_TRIAL</value>
+  </data>
+  <data name="Not_erasing_existing_project" xml:space="preserve">
+    <value>Not erasing existing project</value>
+  </data>
+  <data name="Thank_you_for_installing_Hydra2" xml:space="preserve">
+    <value>Thank you for installing _TRIAL</value>
+  </data>
+  <data name="Thank_you_for_installing_Hydra5" xml:space="preserve">
+    <value>Thank you for installing _TRIAL</value>
+  </data>
+  <data name="Thank_you_for_installing_Hydra4" xml:space="preserve">
+    <value>Thank you for installing _TRIAL</value>
+  </data>
+  <data name="Hydra_is_an_application_generation" xml:space="preserve">
+    <value>Hydra is an application generation p_TRIAL</value>
+  </data>
+  <data name="You_must_install" xml:space="preserve">
+    <value>You must install </value>
+  </data>
+  <data name="installsComplete" xml:space="preserve">
+    <value>installsComplete</value>
+  </data>
+  <data name="ionic_cordova_platform_add" xml:space="preserve">
+    <value>ionic cordova platform add </value>
+  </data>
+  <data name="package_json_does_not_include1" xml:space="preserve">
+    <value>package.json does not include </value>
+  </data>
+  <data name="The_organization_name4" xml:space="preserve">
+    <value>The organization_TRIAL</value>
+  </data>
+  <data name="The_business_model_json_input_file_for" xml:space="preserve">
+    <value>The business model json input file for processing the entity domain _TRIAL</value>
+  </data>
+  <data name="The_organization_name5" xml:space="preserve">
+    <value>The organization_TRIAL</value>
+  </data>
+  <data name="Launching_headless_browser2" xml:space="preserve">
+    <value>Launching headless b_TRIAL</value>
+  </data>
+  <data name="Next_status_update" xml:space="preserve">
+    <value>Next status update</value>
+  </data>
+  <data name="This_is_test_Nothing_will_actually_be" xml:space="preserve">
+    <value>This is a test. Nothing will actually be installed.  This tests the full connectivity of Hydra including the local Package Cache service.</value>
+  </data>
+  <data name="Invoking_Hydra" xml:space="preserve">
+    <value>Invoking Hydra</value>
+  </data>
+  <data name="Connected_successfully" xml:space="preserve">
+    <value>Connected succes_TRIAL</value>
+  </data>
+  <data name="There_was_an_error_reading_the_package" xml:space="preserve">
+    <value>There was an error reading the package.json file. </value>
+  </data>
+  <data name="Installing_the_Ionic_Framework" xml:space="preserve">
+    <value>Installing the Ionic Framework</value>
+  </data>
+  <data name="The_organization_name2" xml:space="preserve">
+    <value>The organization_TRIAL</value>
+  </data>
+  <data name="Installing_dependencies_may_take" xml:space="preserve">
+    <value>Installing dependencies may take several minutes</value>
+  </data>
+  <data name="Initializing_renderer_Starting" xml:space="preserve">
+    <value>Initializing renderer. Starting standardStreamS_TRIAL</value>
+  </data>
+  <data name="ionic_cordova_platform_ls" xml:space="preserve">
+    <value>ionic cordova platform ls</value>
+  </data>
+  <data name="No_writeStatus_output_provided" xml:space="preserve">
+    <value>No writeStatus output provided</value>
+  </data>
+  <data name="Initializing_renderer_Starting5" xml:space="preserve">
+    <value>Initializing renderer. Starting standardStreamS_TRIAL</value>
+  </data>
+  <data name="Runs_command_without_actually" xml:space="preserve">
+    <value>Runs command without actually generating files.  Used for te_TRIAL</value>
+  </data>
+  <data name="The_starter_template_file_for_either5" xml:space="preserve">
+    <value>The starter template file for either the business model or entity domain model. For default template, specify 'de_TRIAL</value>
+  </data>
+  <data name="The_starter_template_file_for_either4" xml:space="preserve">
+    <value>The starter template file for either the business model or entity domain model. For default template, specify 'de_TRIAL</value>
+  </data>
+  <data name="Initializing_renderer_Starting1" xml:space="preserve">
+    <value>Initializing renderer. Starting standardStreamS_TRIAL</value>
+  </data>
+  <data name="Launching_headless_browser4" xml:space="preserve">
+    <value>Launching headless b_TRIAL</value>
+  </data>
+  <data name="The_starter_template_file_for_either1" xml:space="preserve">
+    <value>The starter template file for either the business model or entity domain model. For default template, specify 'de_TRIAL</value>
+  </data>
+  <data name="Initializing_renderer_Starting2" xml:space="preserve">
+    <value>Initializing renderer. Starting standardStreamS_TRIAL</value>
+  </data>
+</root>

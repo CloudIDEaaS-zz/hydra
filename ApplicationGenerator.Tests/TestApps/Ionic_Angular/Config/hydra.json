@@ -1,0 +1,13 @@
+{
+  "appName": "TestApp",
+  "appDescription": "This is a test app",
+  "organizationName": "Test Inc.",
+  "servicesProjectPath": "..\\TestApp.Services\\TestApp.Services.csproj",
+  "entitiesProjectPath": "..\\TestApp.Entities\\TestApp.Entities.csproj",
+  "webProjectPath": "..\\TestApp.Web\\TestApp.Web.csproj",
+  "webFrontEndRootPath": "..\\TestApp.Web\\TestApp",
+  "generatorMode": "Console",
+  "generatorKind": "App",
+  "generatorHandlerType": "Ionic/Angular",
+  "argumentsKind": "GenerateAllNoFrontendBlank"
+}

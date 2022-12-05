@@ -138,7 +138,15 @@ namespace Utils
 			return field;
 		}
 
-		public static FieldInfo GetField(Enum _enum)
+        public static FieldInfo GetField(Type enumType, string fieldName)
+        {
+            var fields = enumType.GetFields(BindingFlags.Public | BindingFlags.Static);
+            var field = fields.Single(f => f.Name == fieldName);
+
+            return field;
+        }
+
+        public static FieldInfo GetField(Enum _enum)
 		{
 			var type = _enum.GetType();
 			var fields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
@@ -147,11 +155,10 @@ namespace Utils
 			return field;
 		}
 
-		public static IEnumerable<T> GetValues<T>() where T : struct, IComparable, IConvertible, IFormattable
+        public static IEnumerable<T> GetValues<T>() where T : struct, IComparable, IConvertible, IFormattable
 		{
 			return Enum.GetValues(typeof(T)).Cast<T>();
 		}
-
 
 		public static IEnumerable<T> GetValues<T>(T _enum) where T : struct, IComparable, IConvertible, IFormattable
 		{
@@ -282,9 +289,18 @@ namespace Utils
 
 		public static object GetRawValue(Type enumType, string name)
 		{
-			var value = Convert.ChangeType(EnumUtils.GetValue(enumType, name), enumType.GetEnumUnderlyingType());
+			var enumValue = EnumUtils.GetValue(enumType, name);
 
-			return value;
+			if (enumValue != null)
+			{
+				var value = Convert.ChangeType(enumValue, enumType.GetEnumUnderlyingType());
+
+				return value;
+			}
+			else
+			{
+				return null;
+			}
 		}
 
 		public static T ShiftLeft<T>(T _enum, int positions = 1) where T : struct, IComparable, IConvertible, IFormattable

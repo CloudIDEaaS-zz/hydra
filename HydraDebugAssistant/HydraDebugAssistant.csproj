@@ -1,0 +1,2894 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <AssemblyVersion>1.0.0.386</AssemblyVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{C6D8C107-CF8E-447A-A582-C7994116647A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HydraDebugAssistant</RootNamespace>
+    <AssemblyName>HydraDebugAssistant</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <UseCodebase>true</UseCodebase>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>false</IncludeDebugSymbolsInVSIXContainer>
+    <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
+    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
+    <StartAction>Program</StartAction>
+    <StartProgram Condition="'$(DevEnvDir)' != ''">$(DevEnvDir)devenv.exe</StartProgram>
+    <StartArguments>/rootsuffix Exp</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;COMBINE_STRINGS USE_JSON</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;COMBINE_STRINGS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\CodeInterfaces\IArchitectureLayer.cs">
+      <Link>CodeInterfaces\IArchitectureLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeInterfaces\ICodeFile.cs">
+      <Link>CodeInterfaces\ICodeFile.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeInterfaces\IProjectRoot.cs">
+      <Link>CodeInterfaces\IProjectRoot.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeInterfaces\IProjectStructure.cs">
+      <Link>CodeInterfaces\IProjectStructure.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeInterfaces\ISilverlightApp.cs">
+      <Link>CodeInterfaces\ISilverlightApp.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeInterfaces\IVSProject.cs">
+      <Link>CodeInterfaces\IVSProject.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeInterfaces\IVSProjectElement.cs">
+      <Link>CodeInterfaces\IVSProjectElement.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeInterfaces\IVSProjectItem.cs">
+      <Link>CodeInterfaces\IVSProjectItem.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeInterfaces\IVSProjectMetadataElement.cs">
+      <Link>CodeInterfaces\IVSProjectMetadataElement.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeInterfaces\IVSProjectProperty.cs">
+      <Link>CodeInterfaces\IVSProjectProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeInterfaces\IVSSolution.cs">
+      <Link>CodeInterfaces\IVSSolution.cs</Link>
+    </Compile>
+    <Compile Include="..\DynamicTemplateEngine\Commands.cs">
+      <Link>DynamicTemplateEngine\Commands.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Strings.cs">
+      <Link>Rtf2Html\Parser\Parser\Strings.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\XmlObjectNamingPropertySerializer.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\XmlObjectNamingPropertySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\Xml\IComplexValueConverter.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\Xml\IComplexValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorMapEntry.cs">
+      <Link>Utils\ColorMapEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ControlExtensions.cs">
+      <Link>Utils\ControlExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DebugState.cs">
+      <Link>Utils\DebugState.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DrawingExtensions.cs">
+      <Link>Utils\DrawingExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\FileDetails.cs">
+      <Link>Utils\FileDetails.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\frmConsole.cs">
+      <Link>Utils\frmConsole.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Utils\frmConsole.Designer.cs">
+      <Link>Utils\frmConsole.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\frmFloatingMessageBox.cs">
+      <Link>Utils\frmFloatingMessageBox.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Utils\frmFloatingMessageBox.Designer.cs">
+      <Link>Utils\frmFloatingMessageBox.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\IBaseWindowsCommandHandler.cs">
+      <Link>Utils\IBaseWindowsCommandHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\IDispatch.cs">
+      <Link>Utils\IDispatch.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ILockable.cs">
+      <Link>Utils\ILockable.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\IManagedSemaphoreObject.cs">
+      <Link>Utils\IManagedSemaphoreObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\IShellLink.cs">
+      <Link>Utils\IShellLink.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\IterationStateEnumerable.cs">
+      <Link>Utils\IterationStateEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ManagedSemaphore.cs">
+      <Link>Utils\ManagedSemaphore.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ManagedSemaphoreObject.cs">
+      <Link>Utils\ManagedSemaphoreObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\NamedPipes\Delegates.cs">
+      <Link>Utils\NamedPipes\Delegates.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\NamedPipes\PipeServerConnection.cs">
+      <Link>Utils\NamedPipes\PipeServerConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\AddressingUtils.cs">
+      <Link>Utils\PortableExecutable\AddressingUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ArchitectureEntry.cs">
+      <Link>Utils\PortableExecutable\ArchitectureEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\BaseRelocation.cs">
+      <Link>Utils\PortableExecutable\BaseRelocation.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\BoundForwarderReference.cs">
+      <Link>Utils\PortableExecutable\BoundForwarderReference.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\BoundImportDescriptor.cs">
+      <Link>Utils\PortableExecutable\BoundImportDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\CodeSource.cs">
+      <Link>Utils\PortableExecutable\CodeSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\CodeType.cs">
+      <Link>Utils\PortableExecutable\CodeType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\CodeViewHeader.cs">
+      <Link>Utils\PortableExecutable\CodeViewHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\CodeViewPDBHeader.cs">
+      <Link>Utils\PortableExecutable\CodeViewPDBHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\COFFHeader.cs">
+      <Link>Utils\PortableExecutable\COFFHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\COFFSection.cs">
+      <Link>Utils\PortableExecutable\COFFSection.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\COFFSectionHeader.cs">
+      <Link>Utils\PortableExecutable\COFFSectionHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\COFFSectionHeaders.cs">
+      <Link>Utils\PortableExecutable\COFFSectionHeaders.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ConfigurationDirectory.cs">
+      <Link>Utils\PortableExecutable\ConfigurationDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\DataDirectories.cs">
+      <Link>Utils\PortableExecutable\DataDirectories.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\DataDirectory.cs">
+      <Link>Utils\PortableExecutable\DataDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\DataDirectoryEntry.cs">
+      <Link>Utils\PortableExecutable\DataDirectoryEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\DataDirectoryHeader.cs">
+      <Link>Utils\PortableExecutable\DataDirectoryHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\DebugDirectory.cs">
+      <Link>Utils\PortableExecutable\DebugDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\DelayImportEntry.cs">
+      <Link>Utils\PortableExecutable\DelayImportEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\DescriptorEntry.cs">
+      <Link>Utils\PortableExecutable\DescriptorEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\DOSHeader.cs">
+      <Link>Utils\PortableExecutable\DOSHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\CertificateType.cs">
+      <Link>Utils\PortableExecutable\Enums\CertificateType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\DataSectionFlags.cs">
+      <Link>Utils\PortableExecutable\Enums\DataSectionFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\DebugType.cs">
+      <Link>Utils\PortableExecutable\Enums\DebugType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\DirectoryId.cs">
+      <Link>Utils\PortableExecutable\Enums\DirectoryId.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\DllCharacteristics.cs">
+      <Link>Utils\PortableExecutable\Enums\DllCharacteristics.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\ImageCharacteristics.cs">
+      <Link>Utils\PortableExecutable\Enums\ImageCharacteristics.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\LayoutFlags.cs">
+      <Link>Utils\PortableExecutable\Enums\LayoutFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\Machine.cs">
+      <Link>Utils\PortableExecutable\Enums\Machine.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\MemoryEnums.cs">
+      <Link>Utils\PortableExecutable\Enums\MemoryEnums.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\OptionalMagic.cs">
+      <Link>Utils\PortableExecutable\Enums\OptionalMagic.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\RelocationType.cs">
+      <Link>Utils\PortableExecutable\Enums\RelocationType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\ResourceId.cs">
+      <Link>Utils\PortableExecutable\Enums\ResourceId.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Enums\Subsystem.cs">
+      <Link>Utils\PortableExecutable\Enums\Subsystem.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ExceptionEntry.cs">
+      <Link>Utils\PortableExecutable\ExceptionEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ExportData.cs">
+      <Link>Utils\PortableExecutable\ExportData.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ExportDirectory.cs">
+      <Link>Utils\PortableExecutable\ExportDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Extensions.cs">
+      <Link>Utils\PortableExecutable\Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\GlobalPointerEntry.cs">
+      <Link>Utils\PortableExecutable\GlobalPointerEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\IDataDirectory.cs">
+      <Link>Utils\PortableExecutable\IDataDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\IImageLayoutCodeProviderItem.cs">
+      <Link>Utils\PortableExecutable\IImageLayoutCodeProviderItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\IImageLayoutItem.cs">
+      <Link>Utils\PortableExecutable\IImageLayoutItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\IImageReader.cs">
+      <Link>Utils\PortableExecutable\IImageReader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ImageLayoutEvents.cs">
+      <Link>Utils\PortableExecutable\ImageLayoutEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ImportAddressDirectory.cs">
+      <Link>Utils\PortableExecutable\ImportAddressDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ImportAddressEntry.cs">
+      <Link>Utils\PortableExecutable\ImportAddressEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ImportByName.cs">
+      <Link>Utils\PortableExecutable\ImportByName.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ImportDescriptor.cs">
+      <Link>Utils\PortableExecutable\ImportDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\IPEImage.cs">
+      <Link>Utils\PortableExecutable\IPEImage.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ChildrenEnumerator.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ChildrenEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ChildrenEnumeratorFilter.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ChildrenEnumeratorFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\DescendantEnumerator.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\DescendantEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\IImageLayoutGenericReference.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\IImageLayoutGenericReference.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\IImageLayoutItemContainer.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\IImageLayoutItemContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\IImageLayoutItemGenericContainer.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\IImageLayoutItemGenericContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\IImageLayoutItemTupleContainer.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\IImageLayoutItemTupleContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\IImageLayoutReference.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\IImageLayoutReference.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\IImageLayoutRelationship.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\IImageLayoutRelationship.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\IImageLayoutTree.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\IImageLayoutTree.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ImageLayoutItem.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ImageLayoutItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ImageLayoutItemFind.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ImageLayoutItemFind.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ImageLayoutItemT.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ImageLayoutItemT.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ImageLayoutItemTuple.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ImageLayoutItemTuple.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ImageLayoutReference.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ImageLayoutReference.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ImageLayoutReferenceT.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ImageLayoutReferenceT.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ImageLayoutRelationship.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ImageLayoutRelationship.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ImageLayoutRelationshipT.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ImageLayoutRelationshipT.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ItemEnumerator.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ItemEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\LayoutExtensions.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\LayoutExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ReferencedItem.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ReferencedItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ReferenceEnumerator.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ReferenceEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\ReferenceEnumeratorFilter.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\ReferenceEnumeratorFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\RootEnumerator.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\RootEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\LayoutItems\RootEnumeratorFilter.cs">
+      <Link>Utils\PortableExecutable\LayoutItems\RootEnumeratorFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\OffsetSizeCalculator.cs">
+      <Link>Utils\PortableExecutable\OffsetSizeCalculator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\PEExtensions.cs">
+      <Link>Utils\PortableExecutable\PEExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\PEHeader.cs">
+      <Link>Utils\PortableExecutable\PEHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\RealModeStub.cs">
+      <Link>Utils\PortableExecutable\RealModeStub.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\RelocationEntry.cs">
+      <Link>Utils\PortableExecutable\RelocationEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ResourceDataEntry.cs">
+      <Link>Utils\PortableExecutable\ResourceDataEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ResourceDirectory.cs">
+      <Link>Utils\PortableExecutable\ResourceDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ResourceDirectoryEntry.cs">
+      <Link>Utils\PortableExecutable\ResourceDirectoryEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ResourceEntry.cs">
+      <Link>Utils\PortableExecutable\ResourceEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\Section.cs">
+      <Link>Utils\PortableExecutable\Section.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\SectionHeader.cs">
+      <Link>Utils\PortableExecutable\SectionHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\SectionHeaders.cs">
+      <Link>Utils\PortableExecutable\SectionHeaders.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\ThunkData.cs">
+      <Link>Utils\PortableExecutable\ThunkData.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\TLSEntry.cs">
+      <Link>Utils\PortableExecutable\TLSEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\TreeBackupImageAttribute.cs">
+      <Link>Utils\PortableExecutable\TreeBackupImageAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\TreeImageAttribute.cs">
+      <Link>Utils\PortableExecutable\TreeImageAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\TreeImageExtensions.cs">
+      <Link>Utils\PortableExecutable\TreeImageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PortableExecutable\WinCertificate.cs">
+      <Link>Utils\PortableExecutable\WinCertificate.cs</Link>
+    </Compile>
+    <Compile Include="..\VisualStudioProvider\VSHierarchyItem.cs">
+      <Link>VisualStudioProvider\VSHierarchyItem.cs</Link>
+    </Compile>
+    <Compile Include="..\VisualStudioProvider\VSShellExtensions.cs">
+      <Link>VisualStudioProvider\VSShellExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\VisualStudioProvider\WPFExtensions\ControlExtensions.cs">
+      <Link>VisualStudioProvider\WPFExtensions\ControlExtensions.cs</Link>
+    </Compile>
+    <Compile Include="DebuggerState.cs" />
+    <Compile Include="HydraDebugAttachCommand.cs" />
+    <Compile Include="Info\BreakpointInfo.cs" />
+    <Compile Include="Info\RootFolderInfo.cs" />
+    <Compile Include="Info\TreeNodeInfo.cs" />
+    <Compile Include="HydraDebugToolWindow.cs" />
+    <Compile Include="HydraDebugToolWindowCommand.cs" />
+    <Compile Include="HydraDebugToolWindowControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HydraDebugToolWindowControl.Designer.cs">
+      <DependentUpon>HydraDebugToolWindowControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HydraDebugAssistantPackage.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Info\UserInfo.cs" />
+    <Compile Include="Utils.Resources.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="CsTransformationParserLibrary, Version=5.0.0.238, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\CsTransformationParserLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.9.0, Culture=neutral, PublicKeyToken=b32731d11ce58905">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\RtfHtml\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.Shell.15.0, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Ken\.nuget\packages\microsoft.visualstudio.shell.15.0\16.0.28729\lib\net45\Microsoft.VisualStudio.Shell.15.0.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit-console-runner, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\RtfHtml\nunit-console-runner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\RtfHtml\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\Binaries\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack">
+      <Version>1.11.46</Version>
+    </PackageReference>
+    <PackageReference Include="ConsoleControl">
+      <Version>1.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Diagnostics.Runtime">
+      <Version>2.0.221201</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="16.0.206" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="16.8.3038" />
+    <PackageReference Include="Microsoft.WindowsAPICodePack.Shell">
+      <Version>1.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Linq.Dynamic">
+      <Version>1.0.7</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="HydraDebugAssistantPackage.Debug.vsct">
+      <DependentUpon>HydraDebugAssistantPackage.vsct</DependentUpon>
+      <IsTransformFile>true</IsTransformFile>
+    </None>
+    <None Include="HydraDebugAssistantPackage.Release.vsct">
+      <DependentUpon>HydraDebugAssistantPackage.vsct</DependentUpon>
+      <IsTransformFile>true</IsTransformFile>
+    </None>
+    <Content Include="HydraDebugger.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="HydraDebuggerPreview.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ClosedFolderIcon.png" />
+    <Content Include="Resources\Continue.png" />
+    <Content Include="Resources\HideButDontClose.png" />
+    <Content Include="Resources\HydraDebuggerPreview.png" />
+    <Content Include="Resources\OpenFolderIcon.png" />
+    <None Include="Resources\RetryAndBreak.png" />
+    <Content Include="Resources\SetBreakpoint.png" />
+    <Content Include="Resources\T4Icon.png" />
+    <VSCTCompile Include="HydraDebugAssistantPackage.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+      <TransformOnBuild>true</TransformOnBuild>
+    </VSCTCompile>
+    <Content Include="Resources\HydraDebugger.ico" />
+    <Content Include="Resources\HydraDebugger16x16.png" />
+    <Content Include="Resources\HydraDebugger32x32.png" />
+    <Content Include="Resources\HydraDebugToolWindowCommand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="mscoree">
+      <Guid>{5477469E-83B1-11D2-8B49-00A0C9B7C9C4}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="mscoree">
+      <Guid>{5477469E-83B1-11D2-8B49-00A0C9B7C9C4}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Utils\BaseWindowsCommandHandler.cs">
+      <Link>Utils\BaseWindowsCommandHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\BTree.BTreeAlgorithm.cs">
+      <Link>Utils\BTreeIndex\Collections\BTree\BTree.BTreeAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\BTree.cs">
+      <Link>Utils\BTreeIndex\Collections\BTree\BTree.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\BTree.TreeNode.cs">
+      <Link>Utils\BTreeIndex\Collections\BTree\BTree.TreeNode.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\Collection.cs">
+      <Link>Utils\BTreeIndex\Collections\BTree\Collection.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\Common\BTreeEnums.cs">
+      <Link>Utils\BTreeIndex\Collections\BTree\Common\BTreeEnums.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\Common\IBTree.cs">
+      <Link>Utils\BTreeIndex\Collections\BTree\Common\IBTree.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\Common\SingleThreadAccess.cs">
+      <Link>Utils\BTreeIndex\Collections\BTree\Common\SingleThreadAccess.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\Common\Synchronizer.cs">
+      <Link>Utils\BTreeIndex\Collections\BTree\Common\Synchronizer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\BTree\ThreadSafeBTree.cs">
+      <Link>Utils\BTreeIndex\Collections\BTree\ThreadSafeBTree.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\BTree.BTreeAlgorithm.cs">
+      <Link>Utils\BTreeIndex\Collections\Generics\BTree.BTreeAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\BTree.BTreeKeys.cs">
+      <Link>Utils\BTreeIndex\Collections\Generics\BTree.BTreeKeys.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\BTree.BTreeValues.cs">
+      <Link>Utils\BTreeIndex\Collections\Generics\BTree.BTreeValues.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\BTree.TreeNode.cs">
+      <Link>Utils\BTreeIndex\Collections\Generics\BTree.TreeNode.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\BTreeDictionary.cs">
+      <Link>Utils\BTreeIndex\Collections\Generics\BTreeDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\ApplicationGenerator.IonicAngular\Handlers\CommandHandlers\NugetCommandHandler.cs">
+      <Link>NugetCommandHandler\NugetCommandHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils.Core\FrameworkVersion.cs">
+      <Link>Utils\FrameworkVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AdvanceableEnumerable.cs">
+      <Link>Utils\AdvanceableEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ArrayExtensions.cs">
+      <Link>Utils\ArrayExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyAttributes.cs">
+      <Link>Utils\AssemblyAttributes.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\AppDomainCloneLoader.cs">
+      <Link>Utils\AssemblyCloning\AppDomainCloneLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\AssemblyClone.cs">
+      <Link>Utils\AssemblyCloning\AssemblyClone.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\AssemblyLoader.cs">
+      <Link>Utils\AssemblyCloning\AssemblyLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\AssemblyNameClone.cs">
+      <Link>Utils\AssemblyCloning\AssemblyNameClone.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\CustomAttributeData.cs">
+      <Link>Utils\AssemblyCloning\CustomAttributeData.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\CustomAttributeNamedArgument.cs">
+      <Link>Utils\AssemblyCloning\CustomAttributeNamedArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\CustomAttributeTypedArgument.cs">
+      <Link>Utils\AssemblyCloning\CustomAttributeTypedArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\IAssemblyCloneLoader.cs">
+      <Link>Utils\AssemblyCloning\IAssemblyCloneLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\ReferencedAssemblies.cs">
+      <Link>Utils\AssemblyCloning\ReferencedAssemblies.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyCloning\VersionClone.cs">
+      <Link>Utils\AssemblyCloning\VersionClone.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyExtensions.cs">
+      <Link>Utils\AssemblyExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AssemblyNameParts.cs">
+      <Link>Utils\AssemblyNameParts.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BaseDictionary.cs">
+      <Link>Utils\BaseDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BracedAttributeArgumentEvaluator.cs">
+      <Link>Utils\BracedAttributeArgumentEvaluator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\IBTreeDictionary.cs">
+      <Link>Utils\BTreeIndex\Collections\Generics\IBTreeDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CaselessString.cs">
+      <Link>Utils\CaselessString.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CommandPacket.cs">
+      <Link>Utils\CommandPacket.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CommandPacketT.cs">
+      <Link>Utils\CommandPacketT.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ComObjectUtility.cs">
+      <Link>Utils\ComObjectUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CompareExtensions.cs">
+      <Link>Utils\CompareExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CompareWith.cs">
+      <Link>Utils\CompareWith.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ConsoleColorizer.cs">
+      <Link>Utils\ConsoleColorizer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DebugUtils.cs">
+      <Link>Utils\DebugUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DefaultEqualityComparer.cs">
+      <Link>Utils\DefaultEqualityComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DisposableBase.cs">
+      <Link>Utils\DisposableBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DisposableExtensions.cs">
+      <Link>Utils\DisposableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DotNetType.cs">
+      <Link>Utils\DotNetType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DotNetTypeAttribute.cs">
+      <Link>Utils\DotNetTypeAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DynamicJsonConverter.cs">
+      <Link>Utils\DynamicJsonConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DynamicObject.cs">
+      <Link>Utils\DynamicObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\EnumerableExtensions.cs">
+      <Link>Utils\EnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\EnumExtensions.cs">
+      <Link>Utils\EnumExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\EventArgsT.cs">
+      <Link>Utils\EventArgsT.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\EventExtensions.cs">
+      <Link>Utils\EventExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\EventHandlerT.cs">
+      <Link>Utils\EventHandlerT.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ExceptionExtensions.cs">
+      <Link>Utils\ExceptionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\FileCompare.cs">
+      <Link>Utils\FileCompare.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\FileSystemInfoStatus.cs">
+      <Link>Utils\FileSystemInfoStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\FileUtilities\FileUtilities.cs">
+      <Link>Utils\FileUtilities.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ILogWriter.cs">
+      <Link>Utils\ILogWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\IManagedLockObject.cs">
+      <Link>Utils\IManagedLockObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\InsignificantWords.cs">
+      <Link>Utils\InsignificantWords.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\IOExtensions.cs">
+      <Link>Utils\IOExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\JsonExtensions.cs">
+      <Link>Utils\JsonExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\JsonFormatter.cs">
+      <Link>Utils\JsonFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\KeyboardExtensions.cs">
+      <Link>Utils\KeyboardExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\KeyValuePairConverter.cs">
+      <Link>Utils\KeyValuePairConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\LockManager.cs">
+      <Link>Utils\LockManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\LogWriter.cs">
+      <Link>Utils\LogWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ManagedLock.cs">
+      <Link>Utils\ManagedLock.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ManagedLockDoOnceAction.cs">
+      <Link>Utils\ManagedLockDoOnceAction.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ManagedLockObject.cs">
+      <Link>Utils\ManagedLockObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryStatus.cs">
+      <Link>Utils\MemoryStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\NumberExtensions.cs">
+      <Link>Utils\NumberExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ObjectExtensions.cs">
+      <Link>Utils\ObjectExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\OneTimeTimer.cs">
+      <Link>Utils\OneTimeTimer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Oscillator.cs">
+      <Link>Utils\Oscillator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\OscillatorNotifyItem.cs">
+      <Link>Utils\OscillatorNotifyItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PlatformProcess.cs">
+      <Link>Utils\PlatformProcess.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ProcessExtensions.cs">
+      <Link>Utils\ProcessExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ProcessHelpers.cs">
+      <Link>Utils\ProcessHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PropertyChangeExtensions.cs">
+      <Link>Utils\PropertyChangeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\StreamReset.cs">
+      <Link>Utils\StreamReset.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\StringExtensions.cs">
+      <Link>Utils\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\SwitchExtensions.cs">
+      <Link>Utils\SwitchExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\SystemInfo.cs">
+      <Link>Utils\SystemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TagHandler.cs">
+      <Link>Utils\TagHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TypeCache.cs">
+      <Link>Utils\TypeCache.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TypeExtensions.cs">
+      <Link>Utils\TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\UnionExtensions.cs">
+      <Link>Utils\UnionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\VariantType.cs">
+      <Link>Utils\VariantType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\WindowWrapper.cs">
+      <Link>Utils\WindowWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\CharacterCodes.cs">
+      <Link>Utils\Parsing\CharacterCodes.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Diagnostic.cs">
+      <Link>Utils\Parsing\Diagnostic.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\DiagnosticCategory.cs">
+      <Link>Utils\Parsing\DiagnosticCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\ITextRange.cs">
+      <Link>Utils\Parsing\ITextRange.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\NodeArray.cs">
+      <Link>Utils\Parsing\NodeArray.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\ArrayTypeNode.cs">
+      <Link>Utils\Parsing\Nodes\ArrayTypeNode.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\BindingPattern.cs">
+      <Link>Utils\Parsing\Nodes\BindingPattern.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\ComputedPropertyName.cs">
+      <Link>Utils\Parsing\Nodes\ComputedPropertyName.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\CLRStringEntityName.cs">
+      <Link>Utils\Parsing\Nodes\CLRStringEntityName.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\CLRStringType.cs">
+      <Link>Utils\Parsing\Nodes\CLRStringType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Declaration.cs">
+      <Link>Utils\Parsing\Nodes\Declaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Expression.cs">
+      <Link>Utils\Parsing\Nodes\Expression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\FunctionLikeDeclaration.cs">
+      <Link>Utils\Parsing\Nodes\FunctionLikeDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\IncrementExpression.cs">
+      <Link>Utils\Parsing\Nodes\IncrementExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\LeftHandSideExpression.cs">
+      <Link>Utils\Parsing\Nodes\LeftHandSideExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\LiteralExpression.cs">
+      <Link>Utils\Parsing\Nodes\LiteralExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\LiteralLikeNode.cs">
+      <Link>Utils\Parsing\Nodes\LiteralLikeNode.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\MemberExpression.cs">
+      <Link>Utils\Parsing\Nodes\MemberExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\MethodDeclaration.cs">
+      <Link>Utils\Parsing\Nodes\MethodDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\ModifierFlags.cs">
+      <Link>Utils\Parsing\ModifierFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\NodeFlags.cs">
+      <Link>Utils\Parsing\NodeFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\ExtensionMethods.cs">
+      <Link>Utils\Parsing\ExtensionMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\NodeStackOperation.cs">
+      <Link>Utils\Parsing\NodeStackOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Identifier.cs">
+      <Link>Utils\Parsing\Nodes\Identifier.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\CLRStringMethod.cs">
+      <Link>Utils\Parsing\Nodes\CLRStringMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Node.cs">
+      <Link>Utils\Parsing\Nodes\Node.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\NumericLiteral.cs">
+      <Link>Utils\Parsing\Nodes\NumericLiteral.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\ParameterDeclaration.cs">
+      <Link>Utils\Parsing\Nodes\ParameterDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\PrimaryExpression.cs">
+      <Link>Utils\Parsing\Nodes\PrimaryExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Names.cs">
+      <Link>Utils\Parsing\Nodes\Names.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\QualifiedName.cs">
+      <Link>Utils\Parsing\Nodes\QualifiedName.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\SignatureDeclaration.cs">
+      <Link>Utils\Parsing\Nodes\SignatureDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\StringLiteral.cs">
+      <Link>Utils\Parsing\Nodes\StringLiteral.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\SyntaxTree.cs">
+      <Link>Utils\Parsing\Nodes\SyntaxTree.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Token.cs">
+      <Link>Utils\Parsing\Nodes\Token.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\TypeNode.cs">
+      <Link>Utils\Parsing\Nodes\TypeNode.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\TypeParameterDeclaration.cs">
+      <Link>Utils\Parsing\Nodes\TypeParameterDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\UnaryExpression.cs">
+      <Link>Utils\Parsing\Nodes\UnaryExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\Unions.cs">
+      <Link>Utils\Parsing\Nodes\Unions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Parser.cs">
+      <Link>Utils\Parsing\Parser.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\ParserExtensions.cs">
+      <Link>Utils\Parsing\ParserExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\ParsingContext.cs">
+      <Link>Utils\Parsing\ParsingContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Scanner.cs">
+      <Link>Utils\Parsing\Scanner.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\SourceKind.cs">
+      <Link>Utils\Parsing\SourceKind.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\SyntaxKind.cs">
+      <Link>Utils\Parsing\SyntaxKind.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\TokenNode.cs">
+      <Link>Utils\Parsing\Nodes\TokenNode.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\TransformFlags.cs">
+      <Link>Utils\Parsing\TransformFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Parsing\Nodes\TypeReferenceNode.cs">
+      <Link>Utils\Parsing\Nodes\TypeReferenceNode.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\NamedPipes\NamedPipeClient.cs">
+      <Link>Utils\NamedPipes\NamedPipeClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\NamedPipes\NamedPipeServer.cs">
+      <Link>Utils\NamedPipes\NamedPipeServer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\GlyphDrawing\ControlGlyph.cs">
+      <Link>Utils\GlyphDrawing\ControlGlyph.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\GlyphDrawing\GlyphDictionary.cs">
+      <Link>Utils\GlyphDrawing\GlyphDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\GlyphDrawing\GlyphManager.cs">
+      <Link>Utils\GlyphDrawing\GlyphManager.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- Utils -->
+  <ItemGroup>
+    <Compile Include="..\MailSlot\MailSlot.cs">
+      <Link>MailSlot\MailSlot.cs</Link>
+    </Compile>
+    <Compile Include="..\MailSlot\MailSlotClient.cs">
+      <Link>MailSlot\MailSlotClient.cs</Link>
+    </Compile>
+    <Compile Include="..\MailSlot\MailSlotServer.cs">
+      <Link>MailSlot\MailSlotServer.cs</Link>
+    </Compile>
+    <Compile Include="..\MailSlot\RawMailSlot.cs">
+      <Link>MailSlot\RawMailSlot.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ActionQueueService.cs">
+      <Link>Utils\ActionQueueService.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ActionStatus.cs">
+      <Link>Utils\ActionStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ActiveControls\ToolStrip.cs">
+      <Link>Utils\ActiveControls\ToolStrip.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ADOExtensions.cs">
+      <Link>Utils\ADOExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BoolExtensions.cs">
+      <Link>Utils\BoolExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BufferBuilder.cs">
+      <Link>Utils\BufferBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BufferedPaint\BufferedPainter.cs">
+      <Link>Utils\BufferedPaint\BufferedPainter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BufferedPaint\Interop.cs">
+      <Link>Utils\BufferedPaint\Interop.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorBox2D\ColorChangedEventArgs.cs">
+      <Link>Utils\ColorPicker\ColorBox2D\ColorChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorBox2D\ColorModes.cs">
+      <Link>Utils\ColorPicker\ColorBox2D\ColorModes.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorBox2D\Controls\ColorBox2D.cs">
+      <Link>Utils\ColorPicker\ColorBox2D\Controls\ColorBox2D.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorBox2D\Controls\ColorBox2D.Designer.cs">
+      <Link>Utils\ColorPicker\ColorBox2D\Controls\ColorBox2D.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorBox2D\Controls\ColorHexagon.cs">
+      <Link>Utils\ColorPicker\ColorBox2D\Controls\ColorHexagon.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorBox2D\Controls\ColorHexagon.Designer.cs">
+      <Link>Utils\ColorPicker\ColorBox2D\Controls\ColorHexagon.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorBox2D\Controls\ColorSliderVertical.cs">
+      <Link>Utils\ColorPicker\ColorBox2D\Controls\ColorSliderVertical.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorBox2D\Controls\ColorSliderVertical.Designer.cs">
+      <Link>Utils\ColorPicker\ColorBox2D\Controls\ColorSliderVertical.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorBox2D\Controls\ColorWheel.cs">
+      <Link>Utils\ColorPicker\ColorBox2D\Controls\ColorWheel.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorBox2D\HslColor.cs">
+      <Link>Utils\ColorPicker\ColorBox2D\HslColor.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorBox2D\MathExtensions.cs">
+      <Link>Utils\ColorPicker\ColorBox2D\MathExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorPickerDialog\ColorPickerDialog.cs">
+      <Link>Utils\ColorPicker\ColorPickerDialog\ColorPickerDialog.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorPickerDialog\ColorPickerDialog.Designer.cs">
+      <Link>Utils\ColorPicker\ColorPickerDialog\ColorPickerDialog.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorPickerDialog\OverlayScreen.cs">
+      <Link>Utils\ColorPicker\ColorPickerDialog\OverlayScreen.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker\ColorPickerDialog\OverlayScreen.Designer.cs">
+      <Link>Utils\ColorPicker\ColorPickerDialog\OverlayScreen.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorChangeFilter.cs">
+      <Link>Utils\ColorChangeFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorProgressBar.cs">
+      <Link>Utils\ColorProgressBar.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ColorProgressBarDesigner.cs">
+      <Link>Utils\ColorProgressBarDesigner.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ComboTreeBox\ComboTreeBox.cs">
+      <Link>Utils\ComboTreeBox\ComboTreeBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ComboTreeBox\ComboTreeDropDown.cs">
+      <Link>Utils\ComboTreeBox\ComboTreeDropDown.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ComboTreeBox\ComboTreeNode.cs">
+      <Link>Utils\ComboTreeBox\ComboTreeNode.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ComboTreeBox\ComboTreeNodeCollection.cs">
+      <Link>Utils\ComboTreeBox\ComboTreeNodeCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CursorExtensions.cs">
+      <Link>Utils\CursorExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DocumentExtensions.cs">
+      <Link>Utils\DocumentExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DropDownControlBase\DropDownControlBase.cs">
+      <Link>Utils\DropDownControlBase\DropDownControlBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DropDownSearchBox\DropDownSearchBox.cs">
+      <Link>Utils\DropDownSearchBox\DropDownSearchBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DropDownSearchBox\TextServices.cs">
+      <Link>Utils\DropDownSearchBox\TextServices.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DynamicAutocomplete.cs">
+      <Link>Utils\DynamicAutocomplete.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BaseList.cs">
+      <Link>Utils\BaseList.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BaseThreadedService.cs">
+      <Link>Utils\BaseThreadedService.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BitExtensions.cs">
+      <Link>Utils\BitExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BTreeIndex\Collections\Generics\PartialComparer.cs">
+      <Link>Utils\BTreeIndex\Collections\Generics\PartialComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BytesConverter.cs">
+      <Link>Utils\BytesConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Caret.cs">
+      <Link>Utils\Caret.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ChildPopupForm.cs">
+      <Link>Utils\ChildPopupForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ClipboardExtensions.cs">
+      <Link>Utils\ClipboardExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorGenerator.cs">
+      <Link>Utils\ColorGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ColorPicker.cs">
+      <Link>Utils\ColorPicker.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Utils\CommandLineParser.cs">
+      <Link>Utils\CommandLineParser.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ConsoleExtensions.cs">
+      <Link>Utils\ConsoleExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ConsoleTimer.cs">
+      <Link>Utils\ConsoleTimer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DataGridViewTemplateCell.cs">
+      <Link>Utils\DataGridViewTemplateCell.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DataGridViewTemplateColumn.cs">
+      <Link>Utils\DataGridViewTemplateColumn.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DataGridViewTemplateColumnCreateControlHandler.cs">
+      <Link>Utils\DataGridViewTemplateColumnCreateControlHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\FormatBuilder.cs">
+      <Link>Utils\FormatBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\GroupedComboBox\GroupedComboBox.cs">
+      <Link>Utils\GroupedComboBox\GroupedComboBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\GroupedComboBox\PriorityGroup.cs">
+      <Link>Utils\GroupedComboBox\PriorityGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ICloneable.cs">
+      <Link>Utils\ICloneable.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\InterprocessVariables.cs">
+      <Link>Utils\InterprocessVariables.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\IRuntimeProxy.cs">
+      <Link>Utils\IRuntimeProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ITemplateEngineHostManager.cs">
+      <Link>Utils\ITemplateEngineHostManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\LockTools.cs">
+      <Link>Utils\LockTools.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\DragDropOperation.cs">
+      <Link>Utils\MemoryView\DragDropOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\DrawRect.cs">
+      <Link>Utils\MemoryView\DrawRect.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\QueryDoDragDropEventHandler.cs">
+      <Link>Utils\MemoryView\QueryDoDragDropEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\RangePainterDragDropDataObject.cs">
+      <Link>Utils\MemoryView\RangePainterDragDropDataObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\RangePainterHitTestHandler.cs">
+      <Link>Utils\MemoryView\RangePainterHitTestHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\RangePainterTransaction.cs">
+      <Link>Utils\MemoryView\RangePainterTransaction.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\RangePainterType.cs">
+      <Link>Utils\MemoryView\RangePainterType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\NetworkExtensions.cs">
+      <Link>Utils\NetworkExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\NumberTimeConverter.cs">
+      <Link>Utils\NumberTimeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CtrlTabEventArgs.cs">
+      <Link>Utils\CtrlTabEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\CtrlTabManager.cs">
+      <Link>Utils\CtrlTabManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\AnimationExtensions.cs">
+      <Link>Utils\AnimationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\FolderBrowserDialogEx.cs">
+      <Link>Utils\FolderBrowserDialogEx.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Utils\HexNumberTypeConverter.cs">
+      <Link>Utils\HexNumberTypeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MediaExtensions.cs">
+      <Link>Utils\MediaExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\IStatusControl.cs">
+      <Link>Utils\MemoryView\IStatusControl.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\MemoryView.cs">
+      <Link>Utils\MemoryView\MemoryView.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\MemoryView.Designer.cs">
+      <Link>Utils\MemoryView\MemoryView.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\PainterInfo.cs">
+      <Link>Utils\MemoryView\PainterInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\RangeOrientation.cs">
+      <Link>Utils\MemoryView\RangeOrientation.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\RangePainter.cs">
+      <Link>Utils\MemoryView\RangePainter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\RangePainterList.cs">
+      <Link>Utils\MemoryView\RangePainterList.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\StatusEventArgs.cs">
+      <Link>Utils\MemoryView\StatusEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\TextExtensions.cs">
+      <Link>Utils\MemoryView\TextExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ObjectTree.cs">
+      <Link>Utils\ObjectTree.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ObjectTreeItem.cs">
+      <Link>Utils\ObjectTreeItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\OverlayScreenBase.cs">
+      <Link>Utils\OverlayScreenBase.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Utils\Phonetics\Phonetics.cs">
+      <Link>Utils\Phonetics\Phonetics.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\RegistryKeyEnumerableAttribute.cs">
+      <Link>Utils\RegistryKeyEnumerableAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\RegistryKeyInterfaces.cs">
+      <Link>Utils\RegistryKeyInterfaces.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\RegistryNonStringValueAttribute.cs">
+      <Link>Utils\RegistryNonStringValueAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\RuntimeProxyExtensions.cs">
+      <Link>Utils\RuntimeProxyExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ScreenCapture\ControlPanel.cs">
+      <Link>Utils\ScreenCapture\ControlPanel.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ScreenCapture\ControlPanel.Designer.cs">
+      <Link>Utils\ScreenCapture\ControlPanel.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ScreenCapture\ImageEditor.cs">
+      <Link>Utils\ScreenCapture\ImageEditor.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ScreenCapture\ImageEditor.Designer.cs">
+      <Link>Utils\ScreenCapture\ImageEditor.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ScreenCapture\OverlayScreen.cs">
+      <Link>Utils\ScreenCapture\OverlayScreen.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ScreenCapture\OverlayScreen.Designer.cs">
+      <Link>Utils\ScreenCapture\OverlayScreen.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ScreenCapture\ScreenShot.cs">
+      <Link>Utils\ScreenCapture\ScreenShot.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ScreenCapture\Settings.cs">
+      <Link>Utils\ScreenCapture\Settings.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ScreenCapture\TipWindow.cs">
+      <Link>Utils\ScreenCapture\TipWindow.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ScreenCapture\TipWindow.Designer.cs">
+      <Link>Utils\ScreenCapture\TipWindow.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\SortedList.cs">
+      <Link>Utils\SortedList.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\BaseStandardStreamService.cs">
+      <Link>Utils\BaseStandardStreamService.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\SwapListBase.cs">
+      <Link>Utils\SwapListBase.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\Utils\SwapListBase.Designer.cs">
+      <Link>Utils\SwapListBase.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\SwapListT.cs">
+      <Link>Utils\SwapListT.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ITemplateEngineHost.cs">
+      <Link>Utils\ITemplateEngineHost.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextEdit.cs">
+      <Link>Utils\TextEdit.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Utils\TextEdit.Designer.cs">
+      <Link>Utils\TextEdit.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\Alignment.cs">
+      <Link>Utils\TextObjectModel\Alignment.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\TextObjectModel\AsciiDocument.cs">
+      <Link>Utils\MemoryView\TextObjectModel\AsciiDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\TextObjectModel\BytesDocument.cs">
+      <Link>Utils\MemoryView\TextObjectModel\BytesDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\GetRectEventArgs.cs">
+      <Link>Utils\TextObjectModel\GetRectEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\GetTextEventArgs.cs">
+      <Link>Utils\TextObjectModel\GetTextEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\TextObjectModel\IMemoryTextDocument.cs">
+      <Link>Utils\MemoryView\TextObjectModel\IMemoryTextDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\ITextDocument.cs">
+      <Link>Utils\TextObjectModel\ITextDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\ITextLine.cs">
+      <Link>Utils\TextObjectModel\ITextLine.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\ITextParagraph.cs">
+      <Link>Utils\TextObjectModel\ITextParagraph.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\ITextRange.cs">
+      <Link>Utils\TextObjectModel\ITextRange.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\ITextSelection.cs">
+      <Link>Utils\TextObjectModel\ITextSelection.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\ITextStoryRanges.cs">
+      <Link>Utils\TextObjectModel\ITextStoryRanges.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemoryView\TextObjectModel\MemoryTextDocument.cs">
+      <Link>Utils\MemoryView\TextObjectModel\MemoryTextDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\PointFlags.cs">
+      <Link>Utils\TextObjectModel\PointFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\StoryRanges.cs">
+      <Link>Utils\TextObjectModel\StoryRanges.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\StoryType.cs">
+      <Link>Utils\TextObjectModel\StoryType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\Style.cs">
+      <Link>Utils\TextObjectModel\Style.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\TextLine.cs">
+      <Link>Utils\TextObjectModel\TextLine.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\TextRange.cs">
+      <Link>Utils\TextObjectModel\TextRange.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\TextSelection.cs">
+      <Link>Utils\TextObjectModel\TextSelection.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\TextSelectionFlags.cs">
+      <Link>Utils\TextObjectModel\TextSelectionFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TextObjectModel\TextSelectionType.cs">
+      <Link>Utils\TextObjectModel\TextSelectionType.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\OneTimeThreadTimer.cs">
+      <Link>Utils\OneTimeThreadTimer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ProcessBinaryWriter.cs">
+      <Link>Utils\ProcessBinaryWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DoubleBufferedTreeView.cs">
+      <Link>Utils\DoubleBufferedTreeView.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Utils\DoubleBufferedPanel.cs">
+      <Link>Utils\DoubleBufferedPanel.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Utils\XPathExtensions.cs">
+      <Link>Utils\XPathExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\EnhancedScrollBar.cs">
+      <Link>Utils\EnhancedScrollBar.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Utils\HSLColor.cs">
+      <Link>Utils\HSLColor.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ListViewSorter.cs">
+      <Link>Utils\ListViewSorter.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Math.cs">
+      <Link>Utils\Math.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MemberSelectorEvaluator.cs">
+      <Link>Utils\MemberSelectorEvaluator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DateTimeExtensions.cs">
+      <Link>Utils\DateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\DisposableHandle.cs">
+      <Link>Utils\DisposableHandle.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ExpressionExtensions.cs">
+      <Link>Utils\ExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\FixedDictionary.cs">
+      <Link>Utils\FixedDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\FixedList.cs">
+      <Link>Utils\FixedList.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\FixedQueue.cs">
+      <Link>Utils\FixedQueue.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\GacUtil.cs">
+      <Link>Utils\GacUtil.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\GuidExtensions.cs">
+      <Link>Utils\GuidExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ImageExtensions.cs">
+      <Link>Utils\ImageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\Line.cs">
+      <Link>Utils\Line.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\MarshalExtensions.cs">
+      <Link>Utils\MarshalExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\LowHiWord.cs">
+      <Link>Utils\LowHiWord.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\HashGenerator.cs">
+      <Link>Utils\HashGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\NativeWindow.cs">
+      <Link>Utils\NativeWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\OSVersion.cs">
+      <Link>Utils\OSVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\PathExtensions.cs">
+      <Link>Utils\PathExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ProcessBinaryReader.cs">
+      <Link>Utils\ProcessBinaryReader.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ProcessBinaryReaderExtensions.cs">
+      <Link>Utils\ProcessBinaryReaderExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ProcessDiagnosticsWrapper.cs">
+      <Link>Utils\ProcessDiagnosticsWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ProcessStream.cs">
+      <Link>Utils\ProcessStream.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\RegistryKeyExtensions.cs">
+      <Link>Utils\RegistryKeyExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\RegistrySettingsBase.cs">
+      <Link>Utils\RegistrySettingsBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ResourceHelper.cs">
+      <Link>Utils\ResourceHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\RtfStringExtensions.cs">
+      <Link>Utils\RtfStringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\RunningObjectTable.cs">
+      <Link>Utils\RunningObjectTable.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\SecurityExtensions.cs">
+      <Link>Utils\SecurityExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\SeekOverunHandler.cs">
+      <Link>Utils\SeekOverunHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ShellExtensions.cs">
+      <Link>Utils\ShellExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\StatusEntry.cs">
+      <Link>Utils\StatusEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\StatusStripProperties.cs">
+      <Link>Utils\StatusStripProperties.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TabControlEx.cs">
+      <Link>Utils\TabControlEx.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Utils\TemplateEngineHost.cs">
+      <Link>Utils\TemplateEngineHost.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TitlePropertyGrid.cs">
+      <Link>Utils\TitlePropertyGrid.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\Utils\TitlePropertyGrid.Designer.cs">
+      <Link>Utils\TitlePropertyGrid.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ToolStripNumericUpDown.cs">
+      <Link>Utils\ToolStripNumericUpDown.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Utils\TipWindow.cs">
+      <Link>Utils\TipWindow.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Utils\TipWindow.Designer.cs">
+      <Link>Utils\TipWindow.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\ToolWindow.cs">
+      <Link>Utils\ToolWindow.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Utils\ToolWindow.Designer.cs">
+      <Link>Utils\ToolWindow.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\TupleExtensions.cs">
+      <Link>Utils\TupleExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\VirtualListView.cs">
+      <Link>Utils\VirtualListView.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Utils\WaitCursor.cs">
+      <Link>Utils\WaitCursor.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\WaitHandleExtensions.cs">
+      <Link>Utils\WaitHandleExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\WebExtensions.cs">
+      <Link>Utils\WebExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\WindowsHook.cs">
+      <Link>Utils\WindowsHook.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\WindowsSearch\Interfaces\ISearchCatalogManager.cs">
+      <Link>Utils\WindowsSearch\Interfaces\ISearchCatalogManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\WindowsSearch\Interfaces\ComInterface.cs">
+      <Link>Utils\WindowsSearch\Interfaces\ComInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\WindowsSearch\Interfaces\ISearchManager.cs">
+      <Link>Utils\WindowsSearch\Interfaces\ISearchManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\WindowsSearch\Interfaces\NativeMethods.cs">
+      <Link>Utils\WindowsSearch\Interfaces\NativeMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\WindowsSearch\Interfaces\ProxyAccess.cs">
+      <Link>Utils\WindowsSearch\Interfaces\ProxyAccess.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\WindowsSearch\SearchCatalog.cs">
+      <Link>Utils\WindowsSearch\SearchCatalog.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\WindowsSearch\SearchManager.cs">
+      <Link>Utils\WindowsSearch\SearchManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Utils\XmlExtensions.cs">
+      <Link>Utils\XmlExtensions.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- ColorMine -->
+  <ItemGroup>
+    <Compile Include="..\ColorMine\ColorSpaces\Comparisons\Cie1976Comparison.cs">
+      <Link>ColorMine\ColorSpaces\Comparisons\Cie1976Comparison.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Comparisons\Cie94Comparison.cs">
+      <Link>ColorMine\ColorSpaces\Comparisons\Cie94Comparison.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Comparisons\CieDe2000Comparison.cs">
+      <Link>ColorMine\ColorSpaces\Comparisons\CieDe2000Comparison.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Comparisons\CmcComparison.cs">
+      <Link>ColorMine\ColorSpaces\Comparisons\CmcComparison.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Comparisons\IColorSpaceComparison.cs">
+      <Link>ColorMine\ColorSpaces\Comparisons\IColorSpaceComparison.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Conversions\CmyConverter.cs">
+      <Link>ColorMine\ColorSpaces\Conversions\CmyConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Conversions\CmykConverter.cs">
+      <Link>ColorMine\ColorSpaces\Conversions\CmykConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Conversions\HsbConverter.cs">
+      <Link>ColorMine\ColorSpaces\Conversions\HsbConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Conversions\HslConverter.cs">
+      <Link>ColorMine\ColorSpaces\Conversions\HslConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Conversions\HsvConverter.cs">
+      <Link>ColorMine\ColorSpaces\Conversions\HsvConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Conversions\HunterLabConverter.cs">
+      <Link>ColorMine\ColorSpaces\Conversions\HunterLabConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Conversions\LabConverter.cs">
+      <Link>ColorMine\ColorSpaces\Conversions\LabConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Conversions\LchConverter.cs">
+      <Link>ColorMine\ColorSpaces\Conversions\LchConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Conversions\LuvConverter.cs">
+      <Link>ColorMine\ColorSpaces\Conversions\LuvConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Conversions\RgbConverter.cs">
+      <Link>ColorMine\ColorSpaces\Conversions\RgbConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Conversions\XyzConverter.cs">
+      <Link>ColorMine\ColorSpaces\Conversions\XyzConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Conversions\YxyConverter.cs">
+      <Link>ColorMine\ColorSpaces\Conversions\YxyConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Utility\DoubleExtension.cs">
+      <Link>ColorMine\ColorSpaces\Utility\DoubleExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\Utility\MathUtils.cs">
+      <Link>ColorMine\ColorSpaces\Utility\MathUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\Properties\AssemblyInfo.cs">
+      <Link>ColorMine\Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\ColorSpace.cs">
+      <Link>ColorMine\ColorSpaces\ColorSpace.cs</Link>
+    </Compile>
+    <Compile Include="..\ColorMine\ColorSpaces\ColorSpaces.cs">
+      <Link>ColorMine\ColorSpaces\ColorSpaces.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- CppParser -->
+  <ItemGroup>
+    <Compile Include="..\Parsers\CppParser\ASTConverter.cs">
+      <Link>CppParser\ASTConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\ASTContext.cs">
+      <Link>CppParser\AST\ASTContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\ASTVisitor.cs">
+      <Link>CppParser\AST\ASTVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Attribute.cs">
+      <Link>CppParser\AST\Attribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Class.cs">
+      <Link>CppParser\AST\Class.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\ClassExtensions.cs">
+      <Link>CppParser\AST\ClassExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\ClassLayout.cs">
+      <Link>CppParser\AST\ClassLayout.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Comment.cs">
+      <Link>CppParser\AST\Comment.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Conversions.cs">
+      <Link>CppParser\AST\Conversions.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\CppTypePrinter.cs">
+      <Link>CppParser\AST\CppTypePrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Declaration.cs">
+      <Link>CppParser\AST\Declaration.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\DeclIterator.cs">
+      <Link>CppParser\AST\DeclIterator.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Delegate.cs">
+      <Link>CppParser\AST\Delegate.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Enumeration.cs">
+      <Link>CppParser\AST\Enumeration.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Event.cs">
+      <Link>CppParser\AST\Event.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Expression.cs">
+      <Link>CppParser\AST\Expression.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Field.cs">
+      <Link>CppParser\AST\Field.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Friend.cs">
+      <Link>CppParser\AST\Friend.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Function.cs">
+      <Link>CppParser\AST\Function.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\FunctionExtensions.cs">
+      <Link>CppParser\AST\FunctionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\IExpressionPrinter.cs">
+      <Link>CppParser\AST\IExpressionPrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\ITypePrinter.cs">
+      <Link>CppParser\AST\ITypePrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\LayoutBase.cs">
+      <Link>CppParser\AST\LayoutBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\LayoutField.cs">
+      <Link>CppParser\AST\LayoutField.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Method.cs">
+      <Link>CppParser\AST\Method.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Module.cs">
+      <Link>CppParser\AST\Module.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Namespace.cs">
+      <Link>CppParser\AST\Namespace.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Preprocessor.cs">
+      <Link>CppParser\AST\Preprocessor.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Property.cs">
+      <Link>CppParser\AST\Property.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\PropertyExtensions.cs">
+      <Link>CppParser\AST\PropertyExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Reference.cs">
+      <Link>CppParser\AST\Reference.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\SourceLocation.cs">
+      <Link>CppParser\AST\SourceLocation.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Statement.cs">
+      <Link>CppParser\AST\Statement.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\SymbolContext.cs">
+      <Link>CppParser\AST\SymbolContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Template.cs">
+      <Link>CppParser\AST\Template.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\TranslationUnit.cs">
+      <Link>CppParser\AST\TranslationUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Type.cs">
+      <Link>CppParser\AST\Type.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\TypeExtensions.cs">
+      <Link>CppParser\AST\TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\AST\Variable.cs">
+      <Link>CppParser\AST\Variable.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Bindings\CSharp\i686-pc-win32-msvc\CppSharp.CppParser.cs">
+      <Link>CppParser\Bindings\CSharp\i686-pc-win32-msvc\CppSharp.CppParser.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Bindings\CSharp\i686-pc-win32-msvc\Std.cs">
+      <Link>CppParser\Bindings\CSharp\i686-pc-win32-msvc\Std.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Core\Diagnostics.cs">
+      <Link>CppParser\Core\Diagnostics.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Core\Platform.cs">
+      <Link>CppParser\Core\Platform.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Core\Toolchains\ManagedToolchain.cs">
+      <Link>CppParser\Core\Toolchains\ManagedToolchain.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Core\Toolchains\MSVCToolchain.cs">
+      <Link>CppParser\Core\Toolchains\MSVCToolchain.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Core\Toolchains\XcodeToolchain.cs">
+      <Link>CppParser\Core\Toolchains\XcodeToolchain.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\AST\ASTRecord.cs">
+      <Link>CppParser\Generator\AST\ASTRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\AST\Utils.cs">
+      <Link>CppParser\Generator\AST\Utils.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\AST\VTables.cs">
+      <Link>CppParser\Generator\AST\VTables.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\BindingContext.cs">
+      <Link>CppParser\Generator\BindingContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Driver.cs">
+      <Link>CppParser\Generator\Driver.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generator.cs">
+      <Link>CppParser\Generator\Generator.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CLI\CLIGenerator.cs">
+      <Link>CppParser\Generator\Generators\CLI\CLIGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CLI\CLIHeaders.cs">
+      <Link>CppParser\Generator\Generators\CLI\CLIHeaders.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CLI\CLIMarshal.cs">
+      <Link>CppParser\Generator\Generators\CLI\CLIMarshal.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CLI\CLISources.cs">
+      <Link>CppParser\Generator\Generators\CLI\CLISources.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CLI\CLITemplate.cs">
+      <Link>CppParser\Generator\Generators\CLI\CLITemplate.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CLI\CLITypePrinter.cs">
+      <Link>CppParser\Generator\Generators\CLI\CLITypePrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CLI\CLITypeReferences.cs">
+      <Link>CppParser\Generator\Generators\CLI\CLITypeReferences.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CSharp\CSharpCommentPrinter.cs">
+      <Link>CppParser\Generator\Generators\CSharp\CSharpCommentPrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CSharp\CSharpExpressionPrinter.cs">
+      <Link>CppParser\Generator\Generators\CSharp\CSharpExpressionPrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CSharp\CSharpGenerator.cs">
+      <Link>CppParser\Generator\Generators\CSharp\CSharpGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CSharp\CSharpMarshal.cs">
+      <Link>CppParser\Generator\Generators\CSharp\CSharpMarshal.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CSharp\CSharpSources.cs">
+      <Link>CppParser\Generator\Generators\CSharp\CSharpSources.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\CSharp\CSharpTypePrinter.cs">
+      <Link>CppParser\Generator\Generators\CSharp\CSharpTypePrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\ExtensionMethods.cs">
+      <Link>CppParser\Generator\Generators\ExtensionMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\Marshal.cs">
+      <Link>CppParser\Generator\Generators\Marshal.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Generators\Template.cs">
+      <Link>CppParser\Generator\Generators\Template.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Library.cs">
+      <Link>CppParser\Generator\Library.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Options.cs">
+      <Link>CppParser\Generator\Options.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\CheckAbiParameters.cs">
+      <Link>CppParser\Generator\Passes\CheckAbiParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\CheckAmbiguousFunctions.cs">
+      <Link>CppParser\Generator\Passes\CheckAmbiguousFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\CheckDuplicatedNamesPass.cs">
+      <Link>CppParser\Generator\Passes\CheckDuplicatedNamesPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\CheckFlagEnumsPass.cs">
+      <Link>CppParser\Generator\Passes\CheckFlagEnumsPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\CheckIgnoredDecls.cs">
+      <Link>CppParser\Generator\Passes\CheckIgnoredDecls.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\CheckMacrosPass.cs">
+      <Link>CppParser\Generator\Passes\CheckMacrosPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\CheckOperatorsOverloads.cs">
+      <Link>CppParser\Generator\Passes\CheckOperatorsOverloads.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\CheckStaticClass.cs">
+      <Link>CppParser\Generator\Passes\CheckStaticClass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\CheckVirtualOverrideReturnCovariance.cs">
+      <Link>CppParser\Generator\Passes\CheckVirtualOverrideReturnCovariance.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\CheckVTableComponentsPass.cs">
+      <Link>CppParser\Generator\Passes\CheckVTableComponentsPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\CleanInvalidDeclNamesPass.cs">
+      <Link>CppParser\Generator\Passes\CleanInvalidDeclNamesPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\CleanUnitPass.cs">
+      <Link>CppParser\Generator\Passes\CleanUnitPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\ConstructorToConversionOperatorPass.cs">
+      <Link>CppParser\Generator\Passes\ConstructorToConversionOperatorPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\DelegatesPass.cs">
+      <Link>CppParser\Generator\Passes\DelegatesPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\FieldToPropertyPass.cs">
+      <Link>CppParser\Generator\Passes\FieldToPropertyPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\FindSymbolsPass.cs">
+      <Link>CppParser\Generator\Passes\FindSymbolsPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\FixDefaultParamValuesOfOverridesPass.cs">
+      <Link>CppParser\Generator\Passes\FixDefaultParamValuesOfOverridesPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\FixParameterUsageFromComments.cs">
+      <Link>CppParser\Generator\Passes\FixParameterUsageFromComments.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\FunctionToInstanceMethodPass.cs">
+      <Link>CppParser\Generator\Passes\FunctionToInstanceMethodPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\FunctionToStaticMethodPass.cs">
+      <Link>CppParser\Generator\Passes\FunctionToStaticMethodPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\GenerateAbstractImplementationsPass.cs">
+      <Link>CppParser\Generator\Passes\GenerateAbstractImplementationsPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\GenerateAnonymousDelegatesPass.cs">
+      <Link>CppParser\Generator\Passes\GenerateAnonymousDelegatesPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\GenerateInlinesCodePass.cs">
+      <Link>CppParser\Generator\Passes\GenerateInlinesCodePass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\GenerateTemplatesCodePass.cs">
+      <Link>CppParser\Generator\Passes\GenerateTemplatesCodePass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\GetterSetterToPropertyAdvancedPass.cs">
+      <Link>CppParser\Generator\Passes\GetterSetterToPropertyAdvancedPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\GetterSetterToPropertyPass.cs">
+      <Link>CppParser\Generator\Passes\GetterSetterToPropertyPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\HandleDefaultParamValuesPass.cs">
+      <Link>CppParser\Generator\Passes\HandleDefaultParamValuesPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\IgnoreSystemDeclarationsPass.cs">
+      <Link>CppParser\Generator\Passes\IgnoreSystemDeclarationsPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\MarkSupportedClassTemplateSpecializationsPass.cs">
+      <Link>CppParser\Generator\Passes\MarkSupportedClassTemplateSpecializationsPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\MarshalPrimitivePointersAsRefTypePass.cs">
+      <Link>CppParser\Generator\Passes\MarshalPrimitivePointersAsRefTypePass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\MoveFunctionToClassPass.cs">
+      <Link>CppParser\Generator\Passes\MoveFunctionToClassPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\MoveOperatorToClassPass.cs">
+      <Link>CppParser\Generator\Passes\MoveOperatorToClassPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\MultipleInheritancePass.cs">
+      <Link>CppParser\Generator\Passes\MultipleInheritancePass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\ObjectOverridesPass.cs">
+      <Link>CppParser\Generator\Passes\ObjectOverridesPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\ParamTypeToInterfacePass.cs">
+      <Link>CppParser\Generator\Passes\ParamTypeToInterfacePass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\Pass.cs">
+      <Link>CppParser\Generator\Passes\Pass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\PassBuilder.cs">
+      <Link>CppParser\Generator\Passes\PassBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\RenamePass.cs">
+      <Link>CppParser\Generator\Passes\RenamePass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\ResolveIncompleteDeclsPass.cs">
+      <Link>CppParser\Generator\Passes\ResolveIncompleteDeclsPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\SortDeclarationsPass.cs">
+      <Link>CppParser\Generator\Passes\SortDeclarationsPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Passes\TrimSpecializationsPass.cs">
+      <Link>CppParser\Generator\Passes\TrimSpecializationsPass.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Types\Std\Stdlib.cs">
+      <Link>CppParser\Generator\Types\Std\Stdlib.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Types\TypeMap.cs">
+      <Link>CppParser\Generator\Types\TypeMap.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Types\Types.cs">
+      <Link>CppParser\Generator\Types\Types.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Utils\FileHashes.cs">
+      <Link>CppParser\Generator\Utils\FileHashes.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Utils\Glob.cs">
+      <Link>CppParser\Generator\Utils\Glob.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Utils\HtmlEncoder.cs">
+      <Link>CppParser\Generator\Utils\HtmlEncoder.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Utils\IEnumerableExtensions.cs">
+      <Link>CppParser\Generator\Utils\IEnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Utils\Options.cs">
+      <Link>CppParser\Generator\Utils\Options.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Utils\OrderedSet.cs">
+      <Link>CppParser\Generator\Utils\OrderedSet.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Utils\TextGenerator.cs">
+      <Link>CppParser\Generator\Utils\TextGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Generator\Utils\Utils.cs">
+      <Link>CppParser\Generator\Utils\Utils.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Parser.cs">
+      <Link>CppParser\Parser.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\ParserExtensions.cs">
+      <Link>CppParser\ParserExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\ParserOptions.cs">
+      <Link>CppParser\ParserOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Parsers\CppParser\Project.cs">
+      <Link>CppParser\Project.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- ProcessDiagnosticsLibrary -->
+  <ItemGroup>
+    <Compile Include="..\ProcessDiagnosticsLibrary\TestRegion.cs">
+      <Link>ProcessDiagnosticsLibrary\TestRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\ProcessDiagnosticsLibrary\TestProcess.cs">
+      <Link>ProcessDiagnosticsLibrary\TestProcess.cs</Link>
+    </Compile>
+    <Compile Include="..\ProcessDiagnosticsLibrary\IProcessDiagnostics.cs">
+      <Link>ProcessDiagnosticsLibrary\IProcessDiagnostics.cs</Link>
+    </Compile>
+    <Compile Include="..\ProcessDiagnosticsLibrary\IProcessDiagnosticsService.cs">
+      <Link>ProcessDiagnosticsLibrary\IProcessDiagnosticsService.cs</Link>
+    </Compile>
+    <Compile Include="..\ProcessDiagnosticsLibrary\ProcessDiagnostics.cs">
+      <Link>ProcessDiagnosticsLibrary\ProcessDiagnostics.cs</Link>
+    </Compile>
+    <Compile Include="..\ProcessDiagnosticsLibrary\TestModule.cs">
+      <Link>ProcessDiagnosticsLibrary\TestModule.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- SDKInterfaceLibrary.Entities -->
+  <ItemGroup>
+    <Compile Include="..\SDKInterfaceLibrary.Entities\SDKInterfaceLibrary.Entities.ObjectLayer.cs">
+      <Link>SDKInterfaceLibrary.Entities\SDKInterfaceLibrary.Entities.ObjectLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\SDKInterfaceLibrary.Entities\SDKInterfaceLibrary.Entities.Views.cs">
+      <Link>SDKInterfaceLibrary.Entities\SDKInterfaceLibrary.Entities.Views.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- Polenter.SharpSerializer -->
+  <ItemGroup>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\BinaryPropertyDeserializer.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\BinaryPropertyDeserializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\BinaryPropertySerializer.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\BinaryPropertySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\PropertyCache.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\PropertyCache.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\ArrayAnalyzer.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\ArrayAnalyzer.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\BinarySerializationMode.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\BinarySerializationMode.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\Binary\Elements.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\Binary\Elements.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\DefaultInitializer.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\DefaultInitializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\Binary\IndexGenerator.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\Binary\IndexGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\CreatingInstanceException.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\CreatingInstanceException.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\Xml\ISimpleValueConverter.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\Xml\ISimpleValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\Binary\BinaryReaderTools.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\Binary\BinaryReaderTools.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\Xml\IXmlReader.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\Xml\IXmlReader.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\SizeOptimizedBinaryReader.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\SizeOptimizedBinaryReader.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\BurstBinaryReader.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\BurstBinaryReader.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\Binary\BinaryWriterTools.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\Binary\BinaryWriterTools.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\BurstBinaryWriter.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\BurstBinaryWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\Binary\IBinaryReader.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\Binary\IBinaryReader.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\Binary\IBinaryWriter.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\Binary\IBinaryWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\Xml\IXmlWriter.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\Xml\IXmlWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\DeserializingException.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\DeserializingException.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Serializing\PropertyTypeInfo.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Serializing\PropertyTypeInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Serializing\TypeInfoCollection.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Serializing\TypeInfoCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\SharpSerializerBinarySettings.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\SharpSerializerBinarySettings.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\SharpSerializerXmlSettings.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\SharpSerializerXmlSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\Serializing\ITypeNameConverter.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\Serializing\ITypeNameConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\PropertyProvider.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\PropertyProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\DefaultXmlReader.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\DefaultXmlReader.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\XmlPropertyDeserializer.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\XmlPropertyDeserializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\XmlPropertySerializer.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\XmlPropertySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\SizeOptimizedBinaryWriter.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\SizeOptimizedBinaryWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\DefaultXmlWriter.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\DefaultXmlWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\TypeNameConverter.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\TypeNameConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\SimpleValueConverter.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\SimpleValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\Tools.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\Tools.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\Xml\Elements.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\Xml\Elements.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\Deserializing\IPropertyDeserializer.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\Deserializing\IPropertyDeserializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Deserializing\ObjectFactory.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Deserializing\ObjectFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\SimpleValueParsingException.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\SimpleValueParsingException.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\ExcludeFromSerializationAttribute.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\ExcludeFromSerializationAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\Property.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\Property.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\Serializing\IPropertySerializer.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\Serializing\IPropertySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Serializing\PropertyFactory.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Serializing\PropertyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Serializing\TypeInfo.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Serializing\TypeInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Advanced\Serializing\PropertySerializer.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Advanced\Serializing\PropertySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\SharpSerializer.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\SharpSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SharpSerializer\SharpSerializer.Library\Core\SharpSerializerSettings.cs">
+      <Link>SharpSerializer\SharpSerializer.Library\Core\SharpSerializerSettings.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- Itenso.Rtf.Converter.Html -->
+  <ItemGroup>
+    <Compile Include="..\Rtf2Html\Converter\Html\RtfEmptyHtmlStyleConverter.cs">
+      <Link>Rtf2Html\Converter\Html\RtfEmptyHtmlStyleConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\RtfHtmlSpecialCharCollection.cs">
+      <Link>Rtf2Html\Converter\Html\RtfHtmlSpecialCharCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\RtfHtmlStyleConverter.cs">
+      <Link>Rtf2Html\Converter\Html\RtfHtmlStyleConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\IRtfHtmlStyleConverter.cs">
+      <Link>Rtf2Html\Converter\Html\IRtfHtmlStyleConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\RtfHtmlConverter.cs">
+      <Link>Rtf2Html\Converter\Html\RtfHtmlConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\RtfHtmlConvertScope.cs">
+      <Link>Rtf2Html\Converter\Html\RtfHtmlConvertScope.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\RtfHtmlConvertSettings.cs">
+      <Link>Rtf2Html\Converter\Html\RtfHtmlConvertSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\RtfHtmlCssStyleCollection.cs">
+      <Link>Rtf2Html\Converter\Html\RtfHtmlCssStyleCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\RtfHtmlCssStyle.cs">
+      <Link>Rtf2Html\Converter\Html\RtfHtmlCssStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\RtfHtmlElementPath.cs">
+      <Link>Rtf2Html\Converter\Html\RtfHtmlElementPath.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\RtfHtmlStyle.cs">
+      <Link>Rtf2Html\Converter\Html\RtfHtmlStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\IRtfHtmlCssStyle.cs">
+      <Link>Rtf2Html\Converter\Html\IRtfHtmlCssStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\IRtfHtmlCssStyleCollection.cs">
+      <Link>Rtf2Html\Converter\Html\IRtfHtmlCssStyleCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Converter\Html\IRtfHtmlStyle.cs">
+      <Link>Rtf2Html\Converter\Html\IRtfHtmlStyle.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- Itenso.Rtf.Interpreter -->
+  <ItemGroup>
+    <Compile Include="..\Rtf2Html\Interpreter\Converter\Image\IRtfConvertedImageInfo.cs">
+      <Link>Rtf2Html\Interpreter\Converter\Image\IRtfConvertedImageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Converter\Image\IRtfConvertedImageInfoCollection.cs">
+      <Link>Rtf2Html\Interpreter\Converter\Image\IRtfConvertedImageInfoCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Converter\Image\IRtfVisualImageAdapter.cs">
+      <Link>Rtf2Html\Interpreter\Converter\Image\IRtfVisualImageAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Converter\Image\RtfConvertedImageInfo.cs">
+      <Link>Rtf2Html\Interpreter\Converter\Image\RtfConvertedImageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Converter\Image\RtfConvertedImageInfoCollection.cs">
+      <Link>Rtf2Html\Interpreter\Converter\Image\RtfConvertedImageInfoCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Converter\Image\RtfImageConverter.cs">
+      <Link>Rtf2Html\Interpreter\Converter\Image\RtfImageConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Converter\Image\RtfImageConvertSettings.cs">
+      <Link>Rtf2Html\Interpreter\Converter\Image\RtfImageConvertSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfInterpreterSettings.cs">
+      <Link>Rtf2Html\Interpreter\IRtfInterpreterSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfInterpreterSettings.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfInterpreterSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfColorException.cs">
+      <Link>Rtf2Html\Interpreter\RtfColorException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfInvalidDataException.cs">
+      <Link>Rtf2Html\Interpreter\RtfInvalidDataException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfUnsupportedStructureException.cs">
+      <Link>Rtf2Html\Interpreter\RtfUnsupportedStructureException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfFontTableFormatException.cs">
+      <Link>Rtf2Html\Interpreter\RtfFontTableFormatException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfUndefinedFontException.cs">
+      <Link>Rtf2Html\Interpreter\RtfUndefinedFontException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfColorTableFormatException.cs">
+      <Link>Rtf2Html\Interpreter\RtfColorTableFormatException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfUndefinedColorException.cs">
+      <Link>Rtf2Html\Interpreter\RtfUndefinedColorException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfInterpreterListenerFileLogger.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfInterpreterListenerFileLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfColorTableBuilder.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfColorTableBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfDocumentInfoBuilder.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfDocumentInfoBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfFontBuilder.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfFontBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfFontTableBuilder.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfFontTableBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfImageBuilder.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfImageBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfInterpreter.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfInterpreter.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfInterpreterBase.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfInterpreterBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfInterpreterContext.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfInterpreterContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfInterpreterListenerBase.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfInterpreterListenerBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfInterpreterListenerDocumentBuilder.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfInterpreterListenerDocumentBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfInterpreterListenerLogger.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfInterpreterListenerLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfInterpreterLoggerSettings.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfInterpreterLoggerSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfTextBuilder.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfTextBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Converter\Text\RtfTextConverter.cs">
+      <Link>Rtf2Html\Interpreter\Converter\Text\RtfTextConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Converter\Text\RtfTextConvertSettings.cs">
+      <Link>Rtf2Html\Interpreter\Converter\Text\RtfTextConvertSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfTimestampBuilder.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfTimestampBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Interpreter\RtfUserPropertyBuilder.cs">
+      <Link>Rtf2Html\Interpreter\Interpreter\RtfUserPropertyBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Converter\Image\RtfVisualImageAdapter.cs">
+      <Link>Rtf2Html\Interpreter\Converter\Image\RtfVisualImageAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfColor.cs">
+      <Link>Rtf2Html\Interpreter\IRtfColor.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfColorCollection.cs">
+      <Link>Rtf2Html\Interpreter\IRtfColorCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfDocument.cs">
+      <Link>Rtf2Html\Interpreter\IRtfDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfDocumentInfo.cs">
+      <Link>Rtf2Html\Interpreter\IRtfDocumentInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfDocumentProperty.cs">
+      <Link>Rtf2Html\Interpreter\IRtfDocumentProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfDocumentPropertyCollection.cs">
+      <Link>Rtf2Html\Interpreter\IRtfDocumentPropertyCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfFont.cs">
+      <Link>Rtf2Html\Interpreter\IRtfFont.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfFontCollection.cs">
+      <Link>Rtf2Html\Interpreter\IRtfFontCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfInterpreter.cs">
+      <Link>Rtf2Html\Interpreter\IRtfInterpreter.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfInterpreterContext.cs">
+      <Link>Rtf2Html\Interpreter\IRtfInterpreterContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfInterpreterListener.cs">
+      <Link>Rtf2Html\Interpreter\IRtfInterpreterListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfTextFormat.cs">
+      <Link>Rtf2Html\Interpreter\IRtfTextFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfTextFormatCollection.cs">
+      <Link>Rtf2Html\Interpreter\IRtfTextFormatCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfVisual.cs">
+      <Link>Rtf2Html\Interpreter\IRtfVisual.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfVisualBreak.cs">
+      <Link>Rtf2Html\Interpreter\IRtfVisualBreak.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfVisualCollection.cs">
+      <Link>Rtf2Html\Interpreter\IRtfVisualCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfVisualImage.cs">
+      <Link>Rtf2Html\Interpreter\IRtfVisualImage.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfVisualSpecialChar.cs">
+      <Link>Rtf2Html\Interpreter\IRtfVisualSpecialChar.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfVisualText.cs">
+      <Link>Rtf2Html\Interpreter\IRtfVisualText.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\IRtfVisualVisitor.cs">
+      <Link>Rtf2Html\Interpreter\IRtfVisualVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfColor.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfColor.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfColorCollection.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfColorCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfDocument.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfDocumentInfo.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfDocumentInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfDocumentProperty.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfDocumentProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfDocumentPropertyCollection.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfDocumentPropertyCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfFont.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfFont.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfFontCollection.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfFontCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfTextFormat.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfTextFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfTextFormatCollection.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfTextFormatCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfVisual.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfVisual.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfVisualBreak.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfVisualBreak.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfVisualCollection.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfVisualCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfVisualImage.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfVisualImage.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfVisualSpecialChar.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfVisualSpecialChar.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Model\RtfVisualText.cs">
+      <Link>Rtf2Html\Interpreter\Model\RtfVisualText.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfFontKind.cs">
+      <Link>Rtf2Html\Interpreter\RtfFontKind.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfFontPitch.cs">
+      <Link>Rtf2Html\Interpreter\RtfFontPitch.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfInterpreterState.cs">
+      <Link>Rtf2Html\Interpreter\RtfInterpreterState.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfInterpreterException.cs">
+      <Link>Rtf2Html\Interpreter\RtfInterpreterException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfPropertyKind.cs">
+      <Link>Rtf2Html\Interpreter\RtfPropertyKind.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfTextAlignment.cs">
+      <Link>Rtf2Html\Interpreter\RtfTextAlignment.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfVisualBreakKind.cs">
+      <Link>Rtf2Html\Interpreter\RtfVisualBreakKind.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfVisualImageFormat.cs">
+      <Link>Rtf2Html\Interpreter\RtfVisualImageFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfVisualKind.cs">
+      <Link>Rtf2Html\Interpreter\RtfVisualKind.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\RtfVisualSpecialCharKind.cs">
+      <Link>Rtf2Html\Interpreter\RtfVisualSpecialCharKind.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Strings.cs">
+      <Link>Rtf2Html\Interpreter\Strings.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Support\RtfElementVisitorBase.cs">
+      <Link>Rtf2Html\Interpreter\Support\RtfElementVisitorBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Support\RtfElementVisitorOrder.cs">
+      <Link>Rtf2Html\Interpreter\Support\RtfElementVisitorOrder.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Support\RtfInterpreterTool.cs">
+      <Link>Rtf2Html\Interpreter\Support\RtfInterpreterTool.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Interpreter\Support\RtfVisualVisitorBase.cs">
+      <Link>Rtf2Html\Interpreter\Support\RtfVisualVisitorBase.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- Itenso.Rtf.Parser -->
+  <ItemGroup>
+    <Compile Include="..\Rtf2Html\Parser\RtfMissingCharacterException.cs">
+      <Link>Rtf2Html\Parser\RtfMissingCharacterException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\RtfEmptyDocumentException.cs">
+      <Link>Rtf2Html\Parser\RtfEmptyDocumentException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\RtfBraceNestingException.cs">
+      <Link>Rtf2Html\Parser\RtfBraceNestingException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\RtfStructureException.cs">
+      <Link>Rtf2Html\Parser\RtfStructureException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\RtfMultiByteEncodingException.cs">
+      <Link>Rtf2Html\Parser\RtfMultiByteEncodingException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\RtfUnicodeEncodingException.cs">
+      <Link>Rtf2Html\Parser\RtfUnicodeEncodingException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\RtfHexEncodingException.cs">
+      <Link>Rtf2Html\Parser\RtfHexEncodingException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\RtfEncodingException.cs">
+      <Link>Rtf2Html\Parser\RtfEncodingException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\RtfParserException.cs">
+      <Link>Rtf2Html\Parser\RtfParserException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\IRtfElement.cs">
+      <Link>Rtf2Html\Parser\IRtfElement.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\IRtfElementCollection.cs">
+      <Link>Rtf2Html\Parser\IRtfElementCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\IRtfElementVisitor.cs">
+      <Link>Rtf2Html\Parser\IRtfElementVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\IRtfGroup.cs">
+      <Link>Rtf2Html\Parser\IRtfGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\IRtfParser.cs">
+      <Link>Rtf2Html\Parser\IRtfParser.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\IRtfParserListener.cs">
+      <Link>Rtf2Html\Parser\IRtfParserListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\IRtfSource.cs">
+      <Link>Rtf2Html\Parser\IRtfSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\IRtfTag.cs">
+      <Link>Rtf2Html\Parser\IRtfTag.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\IRtfText.cs">
+      <Link>Rtf2Html\Parser\IRtfText.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Model\ReadOnlyBaseCollection.cs">
+      <Link>Rtf2Html\Parser\Model\ReadOnlyBaseCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Model\RtfElement.cs">
+      <Link>Rtf2Html\Parser\Model\RtfElement.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Model\RtfElementCollection.cs">
+      <Link>Rtf2Html\Parser\Model\RtfElementCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Model\RtfGroup.cs">
+      <Link>Rtf2Html\Parser\Model\RtfGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Model\RtfTag.cs">
+      <Link>Rtf2Html\Parser\Model\RtfTag.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Model\RtfText.cs">
+      <Link>Rtf2Html\Parser\Model\RtfText.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Parser\RtfParserListenerFileLogger.cs">
+      <Link>Rtf2Html\Parser\Parser\RtfParserListenerFileLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Parser\RtfParserLoggerSettings.cs">
+      <Link>Rtf2Html\Parser\Parser\RtfParserLoggerSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Parser\RtfParser.cs">
+      <Link>Rtf2Html\Parser\Parser\RtfParser.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Parser\RtfParserBase.cs">
+      <Link>Rtf2Html\Parser\Parser\RtfParserBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Parser\RtfParserListenerBase.cs">
+      <Link>Rtf2Html\Parser\Parser\RtfParserListenerBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Parser\RtfParserListenerLogger.cs">
+      <Link>Rtf2Html\Parser\Parser\RtfParserListenerLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Parser\RtfParserListenerStructureBuilder.cs">
+      <Link>Rtf2Html\Parser\Parser\RtfParserListenerStructureBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\RtfElementKind.cs">
+      <Link>Rtf2Html\Parser\RtfElementKind.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\RtfException.cs">
+      <Link>Rtf2Html\Parser\RtfException.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Support\RtfParserTool.cs">
+      <Link>Rtf2Html\Parser\Support\RtfParserTool.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\Support\RtfSource.cs">
+      <Link>Rtf2Html\Parser\Support\RtfSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Parser\RtfSpec.cs">
+      <Link>Rtf2Html\Parser\RtfSpec.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- Rtf2Html -->
+  <ItemGroup>
+    <Compile Include="..\Rtf2Html\Rtf2Html\Converter.cs">
+      <Link>Rtf2Html\Rtf2Html\Converter.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Rtf2Html\ConverterSettings.cs">
+      <Link>Rtf2Html\Rtf2Html\ConverterSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Rtf2Html\RtfConverterDemo.cs">
+      <Link>Rtf2Html\Rtf2Html\RtfConverterDemo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- Itenso.Sys -->
+  <ItemGroup>
+    <Compile Include="..\Rtf2Html\Sys\Application\ApplicationInfo.cs">
+      <Link>Rtf2Html\Sys\Application\ApplicationInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Application\ApplicationArguments.cs">
+      <Link>Rtf2Html\Sys\Application\ApplicationArguments.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Application\Argument.cs">
+      <Link>Rtf2Html\Sys\Application\Argument.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Application\ArgumentCollection.cs">
+      <Link>Rtf2Html\Sys\Application\ArgumentCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Application\ArgumentType.cs">
+      <Link>Rtf2Html\Sys\Application\ArgumentType.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Application\NamedValueArgument.cs">
+      <Link>Rtf2Html\Sys\Application\NamedValueArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Application\HelpModeArgument.cs">
+      <Link>Rtf2Html\Sys\Application\HelpModeArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Application\ValueArgument.cs">
+      <Link>Rtf2Html\Sys\Application\ValueArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Application\IArgument.cs">
+      <Link>Rtf2Html\Sys\Application\IArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Application\ToggleArgument.cs">
+      <Link>Rtf2Html\Sys\Application\ToggleArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\ArgumentCheck.cs">
+      <Link>Rtf2Html\Sys\ArgumentCheck.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Collection\CollectionTool.cs">
+      <Link>Rtf2Html\Sys\Collection\CollectionTool.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Collection\IStringCollection.cs">
+      <Link>Rtf2Html\Sys\Collection\IStringCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Collection\StringCollection.cs">
+      <Link>Rtf2Html\Sys\Collection\StringCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\CompareTool.cs">
+      <Link>Rtf2Html\Sys\CompareTool.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\HashTool.cs">
+      <Link>Rtf2Html\Sys\HashTool.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\StringBuilderLogger.cs">
+      <Link>Rtf2Html\Sys\Logging\StringBuilderLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerImplBase.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerImplBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\ILogger.cs">
+      <Link>Rtf2Html\Sys\Logging\ILogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\ILoggerEvent.cs">
+      <Link>Rtf2Html\Sys\Logging\ILoggerEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\ILoggerListener.cs">
+      <Link>Rtf2Html\Sys\Logging\ILoggerListener.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\ILoggerMonitor.cs">
+      <Link>Rtf2Html\Sys\Logging\ILoggerMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\Logger.cs">
+      <Link>Rtf2Html\Sys\Logging\Logger.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerBase.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerContextDisposable.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerContextDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerEvent.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerFactory.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerFactoryBuilder.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerFactoryBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerFactoryLog4net.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerFactoryLog4net.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerFactoryNone.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerFactoryNone.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerFactoryTrace.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerFactoryTrace.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerLevel.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerLog4net.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerLog4net.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerMonitorAppender.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerMonitorAppender.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerMonitorLog4net.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerMonitorLog4net.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerMonitorNone.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerMonitorNone.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerNone.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerNone.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Logging\LoggerTrace.cs">
+      <Link>Rtf2Html\Sys\Logging\LoggerTrace.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Strings.cs">
+      <Link>Rtf2Html\Sys\Strings.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\StringsBase.cs">
+      <Link>Rtf2Html\Sys\StringsBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\StringTool.cs">
+      <Link>Rtf2Html\Sys\StringTool.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Test\ConsoleRunner.cs">
+      <Link>Rtf2Html\Sys\Test\ConsoleRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\Rtf2Html\Sys\Test\TestUnitBase.cs">
+      <Link>Rtf2Html\Sys\Test\TestUnitBase.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- NamedPipeWrapper -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\Rtf2Html\Parser\Strings.resx">
+      <Link>Rtf2Html\Parser\Parser\Strings.resx</Link>
+      <DependentUpon>Strings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utils\frmConsole.resx">
+      <Link>Utils\frmConsole.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utils\frmFloatingMessageBox.resx">
+      <Link>Utils\frmFloatingMessageBox.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Utils\Properties\Resources.resx">
+      <Link>Utils\Properties\Resources.resx</Link>
+      <CustomToolNamespace>Utils.Properties.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HydraDebugToolWindowControl.resx">
+      <DependentUpon>HydraDebugToolWindowControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

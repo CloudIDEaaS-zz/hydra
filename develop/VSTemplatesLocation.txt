@@ -1,3 +1,0 @@
-C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\ItemTemplates
-C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\Extensions\Microsoft\Web\Mvc\Scaffolding\Templates\MvcView
-TextTemplatingFileGenerator

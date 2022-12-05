@@ -1,0 +1,56 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX" #>
+<#@ output extension=".scss" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.String" name="PageName" #>
+ion-toolbar {
+  --background: transparent;
+  --border-color: transparent;
+}
+
+.slide-container {
+  display: block;
+}
+
+.swiper-slide {
+  display: block;
+}
+
+.slide-title {
+  margin-top: 2.8rem;
+  display: block;
+}
+
+.slide-image {
+  max-height: 50%;
+  max-width: 60%;
+  margin-top: 50px;
+  pointer-events: none;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+b {
+  font-weight: 500;
+}
+
+p {
+  display: block;
+  padding: 0 40px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ion-color-step-600, #60646b);
+
+  b {
+    color: var(--ion-text-color, #000000);
+  }
+}

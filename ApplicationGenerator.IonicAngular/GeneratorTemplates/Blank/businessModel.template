@@ -1,0 +1,4 @@
+Id	ParentId	Name	Description	SingularName	Level	ClassName	UserRoles	StakeholderKind	IsSystemRole	IsPseudoRole	PseudoRoles	ShadowItem	IsApp	IsDataItem	AppSettingsKind	IdentityKind	IsSystemTask	TaskCapabilities	ShowInUI	UIName	UIKind	UILoadKind
+1		[AppName] Business Model			business model	businessmodel																
+2	1	[OrganizationName] Internal			stakeholder	stakeholder		InternalRoot											TRUE			
+3	2	[AppName]	[AppDescription]		system	system							TRUE									

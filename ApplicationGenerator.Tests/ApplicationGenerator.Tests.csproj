@@ -54,17 +54,13 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utility\HydraInstaller.cs" />
+    <Compile Include="Utility\IHydraInstaller.cs" />
     <None Include="..\ApplicationGenerator\Properties\AssemblyInfo.cs">
       <Link>Utility\AssemblyInfo.cs</Link>
     </None>
     <Compile Include="..\ApplicationGenerator.IonicAngular\AppFolderStructureSurveyor.cs">
       <Link>Utility\AppFolderStructureSurveyor.cs</Link>
-    </Compile>
-    <Compile Include="..\Hydra.ReleaseManagement\HydraInstaller.cs">
-      <Link>Utility\HydraInstaller.cs</Link>
-    </Compile>
-    <Compile Include="..\Hydra.ReleaseManagement\IHydraInstaller.cs">
-      <Link>Utility\IHydraInstaller.cs</Link>
     </Compile>
     <Compile Include="GenerationTests.cs" />
     <Compile Include="BasicTests.cs" />

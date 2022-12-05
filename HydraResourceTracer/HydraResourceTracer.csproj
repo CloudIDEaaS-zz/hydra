@@ -14,6 +14,7 @@
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
     <AssemblyVersion>1.0.0.2051</AssemblyVersion>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

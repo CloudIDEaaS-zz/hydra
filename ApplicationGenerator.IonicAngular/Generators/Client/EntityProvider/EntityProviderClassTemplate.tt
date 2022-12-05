@@ -1,0 +1,241 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ import namespace="AbstraX" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.IEnumerable<ModuleImportDeclaration>" name="Imports" #>
+<#@ parameter type="System.Collections.Generic.List<ESModule>" name="Exports" #>
+<#@ parameter type="System.Collections.Generic.List<IDeclarable>" name="Declarations" #>
+<#@ parameter type="System.Collections.Generic.List<Provider>" name="Providers" #>
+<#@ parameter type="System.Collections.Generic.List<RelatedEntity>" name="RelatedEntities" #>
+<#@ parameter type="System.Collections.Generic.IEnumerable<AbstraX.QueryInfo>" name="CustomQueries" #>
+<#@ parameter type="System.String" name="ProviderName" #>
+<#@ parameter type="System.String" name="EntityName" #>
+<#@ parameter type="System.Boolean" name="IsIdentityEntity" #>
+<#@ parameter type="System.String" name="ClientId" #>
+<#@ parameter type="System.String" name="ClientSecret" #>
+<# 
+    var providerName = this.ProviderName.ToCamelCase();
+    var className = this.ProviderName + "Provider";
+    var provider = new EntityProvider(className);
+    var modelVariable = this.EntityName.ToCamelCase();
+    var modelVariablePlural = this.EntityName.Pluralize();
+    var lambdaParameter = modelVariable.Left(1);
+
+    this.Providers.Add(provider);
+
+    foreach (var import in this.Imports)
+    {
+        this.WriteLine(import.DeclarationCode);
+    }
+#>
+import 'rxjs/add/operator/toPromise';
+import { Injectable, Injector, ComponentFactoryResolver, Type } from '@angular/core';
+import { Api } from './api/api';
+import { AccessTokenInfo } from '../models/accesstokeninfo.model';
+import { ViewController, Nav } from '@ionic/angular';
+import { App } from '@ionic/angular/components/app/app';
+import { NavControllerBase } from '@ionic/angular/navigation/nav-controller-base';
+
+@Injectable()
+export class <#= className #> {
+  <#= modelVariable #>: <#= this.EntityName #>;
+<#
+    if (this.IsIdentityEntity)
+    {
+#>
+  clientId: string = "<#= this.ClientId #>";
+  clientSecret: string = "<#= this.ClientSecret #>";
+  public accessTokenInfo: AccessTokenInfo;
+  private navController : NavControllerBase;
+  private roles : List<string>;
+
+  constructor(public api: Api, private componentFactoryResolver: ComponentFactoryResolver, private injector: Injector)
+  {
+    this.roles = new List<string>();
+    this.roles.push("{00000000-0000-0000-0000-000000000000}");
+  }
+
+  login(accountInfo: { userName: string, password: string }) {
+    let authorizationBasic = btoa(this.clientId + ':' + this.clientSecret);
+    let seq = this.api.authenticate('oauth/token', accountInfo, authorizationBasic).share();
+
+    seq.subscribe((res: any) => {
+      if (res.access_token !== undefined || res.error !== undefined) {
+
+        this.loggedIn(res);
+      } else {
+      }
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+  }
+
+  register(accountInfo: any) {
+    let seq = this.api.post('register', accountInfo).share();
+
+    seq.subscribe((res: any) => {
+
+      if (res.status == 'success') {
+        this.loggedIn(res);
+      }
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+  }
+
+  logout() {
+    this.accessTokenInfo = null;
+    this.api.accessToken = null;
+  }
+
+  loggedIn(resp) {
+    let rolesString : string = resp.roles;
+
+    this.accessTokenInfo = new AccessTokenInfo(resp);
+    this.api.accessToken = this.accessTokenInfo.accessToken;
+    this.roles = new List<string>(rolesString.split(","));
+  }
+
+  public canView(component: Component): Promise<boolean> {
+
+    let name = component["name"];
+
+    try {
+      if (component["AuthorizedFor"]) {
+
+        let authorizedFor = new List<string>(component["AuthorizedFor"]);
+
+        if (authorizedFor.any(a => this.roles.any(r => r == a))) {
+          return Promise.resolve(true);
+        }
+        else {
+          throw `User not authorized for ${ name }`;
+        }
+      }
+    }
+    catch (e) {
+      console.error(e);
+      throw e;
+    }
+
+    return Promise.resolve(true);
+  }
+
+  public handleDefaultRoute(handler: (r: any) => string): string {
+      let role = this.roles.last();
+
+      return handler(role);
+  }
+
+<#
+    }
+    else
+    {
+#>
+
+  constructor(public api: Api)
+  {
+  }
+<#
+    }
+
+    if (this.CustomQueries != null)
+    {
+        foreach (var query in this.CustomQueries)
+        {
+            var queryModelVariable = query.QueryEntityName;
+            var queryLambdaParameter = modelVariable.Left(1);
+#>
+
+  <#= query.ClientProviderMethodName #>() {
+    let observable = this.api.get<<#= query.ClientProviderApiMethodReturnType #>>('<#= query.ClientProviderMethodName #>');
+
+<#
+            if (query.ReturnsSet)
+            {
+#>    
+    return observable.map(<#= queryLambdaParameter #> => <#= queryLambdaParameter #>.map(<#= queryLambdaParameter #>2 => new <#= query.QueryEntityName #>(<any><#= queryLambdaParameter #>2)));
+<#
+            }
+            else
+            {
+#>
+    return observable.map(<#= queryLambdaParameter #> => new <#= query.QueryEntityName #>(<any><#= queryLambdaParameter #>));  
+  }
+<#
+            }
+        }
+    }
+
+    foreach (var relatedEntity in this.RelatedEntities)
+    {
+        var property = relatedEntity.Name;
+        var propertyVariable = relatedEntity.Name.ToCamelCase();
+
+        if (relatedEntity.IsEntitySet)
+        {
+#>
+
+  get<#= property #>() {
+    let observable = this.api.get<<#= this.EntityName #>[]>('<#= propertyVariable #>');
+
+    return observable.map(<#= lambdaParameter #> => <#= lambdaParameter #>.map(<#= lambdaParameter #>2 => new <#= this.EntityName #>(<any><#= lambdaParameter #>2)));
+  }
+
+<#
+        }
+        else
+        {
+            var parentRefName = relatedEntity.EntityParentRef.Name;
+            var parentRefVariableName = parentRefName.ToCamelCase();
+            var propertyRefVariableName = relatedEntity.ThisPropertyRef.Name.ToCamelCase();
+            var scriptType = relatedEntity.ThisPropertyRefScriptType;
+            var shortType = relatedEntity.ThisPropertyRefShortType;
+            var containerSetName = relatedEntity.ContainerSet.Name;
+#>
+  get<#= property #>For<#= parentRefName #>(<#= propertyRefVariableName #> : <#= scriptType #>) {
+    let observable = this.api.get<<#= this.EntityName #>[]>(`<#= string.Format("{0}/${{{1}}}/{2}", containerSetName.ToCamelCase(), propertyRefVariableName, propertyVariable) #>`);
+
+    return observable.map(<#= lambdaParameter #> => <#= lambdaParameter #>.map(<#= lambdaParameter #>2 => new <#= this.EntityName #>(<any><#= lambdaParameter #>2)));
+  }
+
+<#
+        }
+    }
+#>
+  get<#= this.EntityName #>(id: string){
+    let observable = this.api.get<<#= this.EntityName #>>(`<#= this.EntityName.ToCamelCase() #>/${id}`);
+
+    return observable.map(<#= lambdaParameter #> => new <#= this.EntityName #>(<any><#= lambdaParameter #>));
+  }
+
+  create<#= this.EntityName #>(<#= modelVariable #>: <#= this.EntityName #>){
+    let observable = this.api.post('<#= modelVariable #>', <#= modelVariable #>);
+
+    return observable;
+  }
+
+  update<#= this.EntityName #>(<#= modelVariable #>: <#= this.EntityName #>) {
+    let observable = this.api.put('<#= modelVariable #>', <#= modelVariable #>);
+
+    return observable;
+  }
+
+  delete<#= this.EntityName #>(id: string): any {
+    let observable = this.api.delete('<#= modelVariable #>?id=' + id);
+
+    return observable;
+  }
+}

@@ -1,0 +1,148 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Boolean" name="HasIdentityProvider" #>
+
+<ion-app [class.dark-theme]="dark">
+  <ion-split-pane contentId="main-content">
+
+    <ion-menu contentId="main-content">
+      <ion-content>
+
+        <accordion [showArrows]="true" [closeOthers]="false" [expandAll]="true">
+          <accordion-group heading="Application">
+
+            <tree-view [nodes]="applicationMenuNodes" [configuration]="menuTreeConfiguration" padding="0px" [getNodeContent]="getNodeContentFunction">
+            </tree-view>
+
+            <ion-menu-toggle autoHide="false">
+              <ion-item routerLink="/app/main/about" routerLinkActive="active" routerDirection="root" detail="false">
+                <ion-icon slot="start" name="information-circle"></ion-icon>
+                <ion-label>
+                  About
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+          </accordion-group>
+
+<#  
+    if (this.HasIdentityProvider)
+    {
+#>
+          <accordion-group *ngIf="loggedIn" heading="Account">
+
+            <ion-menu-toggle autoHide="false">
+              <ion-item routerLink="/account" routerLinkActive="active" routerDirection="root" detail="false">
+                <ion-icon slot="start" name="person"></ion-icon>
+                <ion-label>
+                  Account
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+            <ion-menu-toggle autoHide="false">
+              <ion-item routerLink="/support" routerLinkActive="active" routerDirection="root" detail="false">
+                <ion-icon slot="start" name="help"></ion-icon>
+                <ion-label>
+                  Support
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+            <ion-menu-toggle autoHide="false">
+              <ion-item button (click)="logout()" detail="false">
+                <ion-icon slot="start" name="log-out"></ion-icon>
+                <ion-label>
+                  Logout
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+
+          </accordion-group>
+<#  
+    }
+#>
+
+          <accordion-group *ngIf="!loggedIn" heading="Account">
+
+<#  
+    if (this.HasIdentityProvider)
+    {
+#>
+            <ion-menu-toggle autoHide="false">
+              <ion-item routerLink="/login" routerLinkActive="active" routerDirection="root" detail="false">
+                <ion-icon slot="start" name="log-in"></ion-icon>
+                <ion-label>
+                  Login
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+<#  
+    }
+#>
+
+            <ion-menu-toggle autoHide="false">
+              <ion-item routerLink="/support" routerLinkActive="active" routerDirection="root" detail="false">
+                <ion-icon slot="start" name="help"></ion-icon>
+                <ion-label>
+                  Support
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+            <ion-menu-toggle autoHide="false">
+              <ion-item routerLink="/license" routerLinkActive="active" routerDirection="root" detail="false">
+                <ion-icon slot="start" name="key"></ion-icon>
+                <ion-label>
+                  License
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+<#  
+    if (this.HasIdentityProvider)
+    {
+#>
+            <ion-menu-toggle autoHide="false">
+              <ion-item routerLink="/signup" routerLinkActive="active" routerDirection="root" detail="false">
+                <ion-icon slot="start" name="person-add"></ion-icon>
+                <ion-label>
+                  Signup
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+<#  
+    }
+#>
+
+            <ion-item>
+              <ion-icon slot="start" name="moon-outline"></ion-icon>
+              <ion-label>
+                Dark Mode
+              </ion-label>
+              <ion-toggle [(ngModel)]="dark"></ion-toggle>
+            </ion-item>
+
+          </accordion-group>
+
+          <accordion-group heading="Home Page">
+            <ion-item button (click)="openHomePage()" detail="false">
+              <ion-icon slot="start" name="hammer"></ion-icon>
+              <ion-label>Show Home Page</ion-label>
+            </ion-item>
+          </accordion-group>
+        </accordion>
+      </ion-content>
+    </ion-menu>
+
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+
+  </ion-split-pane>
+
+</ion-app>

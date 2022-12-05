@@ -11,6 +11,15 @@ class Utils {
     static sleep(time) {
         return new Promise((resolve) => setTimeout(resolve, time));
     }
+    static pause(time) {
+        let start = Date.now();
+        while (true) {
+            let now = Date.now();
+            if (now - start >= time) {
+                break;
+            }
+        }
+    }
 }
 exports.Utils = Utils;
 //# sourceMappingURL=utils.js.map

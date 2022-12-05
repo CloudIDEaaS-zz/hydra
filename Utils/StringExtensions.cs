@@ -40,7 +40,7 @@ namespace Utils
     public static class StringExtensions
     {
         public const string REGEX_IDENTIFIER = @"^(?:(~?(?!\d)\w+(?:\.(?!\d)\w+)*)\.)?((?!\d)\w+)$";
-        public const string REGEX_IDENTIFIER_MIDSTRING = @"(?:(?(?!\d)\w+(?:\.(?!\d)\w+)*)\.)?((?!\d)\w+)";
+        public const string REGEX_IDENTIFIER_MIDSTRING = @"(?:(~?(?!\d)\w+(?:\.(?!\d)\w+)*)\.)?((?!\d)\w+)";
         public const string REGEX_IDENTIFIER_CHARS = @"[\w\d]";
         public const string REGEX_INTEGER_OR_DECIMAL_MIDSTRING = @"((\d+)((\.\d{1,2})?))";
 
@@ -180,6 +180,51 @@ namespace Utils
                     }
                 }
             }
+        }
+
+
+        public static string ReplaceLinesBetween(this string str, string replacement, int startLine, int endLine)
+        {
+            string str1;
+        
+            if (!str.IsNullOrEmpty())
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+
+                using (StringReader stringReader = new StringReader(str))
+                {
+                    using (StringWriter stringWriter = new StringWriter(stringBuilder))
+                    {
+                        int num = 1;
+                        bool flag = false;
+                        while (true)
+                        {
+                            string str2 = stringReader.ReadLine();
+                            string str3 = str2;
+                            if (str2 == null)
+                            {
+                                break;
+                            }
+                            if ((num < startLine ? true : num > endLine))
+                            {
+                                stringWriter.WriteLine(str3);
+                            }
+                            else if (!flag)
+                            {
+                                stringWriter.WriteLine(replacement);
+                                flag = true;
+                            }
+                            num++;
+                        }
+                    }
+                }
+                str1 = stringBuilder.ToString();
+            }
+            else
+            {
+                str1 = str;
+            }
+            return str1;
         }
 
         public static string DecryptString(string key, byte[] buffer)
@@ -1484,7 +1529,7 @@ namespace Utils
 
         public static bool IsUpperCase(this char ch)
         {
-            return ch.IsBetween('A', 'Z');
+            return ch.IsBetween('A', 'Z') || ch.IsOneOf("!@#$%^&*()_+{}|:\"<>?~".ToCharArray());
         }
 
         public static string[] RemoveInsignificantWords(this string[] words, IEnumerable<string> exclusions = null)

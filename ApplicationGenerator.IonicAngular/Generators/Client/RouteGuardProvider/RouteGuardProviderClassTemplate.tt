@@ -1,0 +1,67 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ import namespace="AbstraX" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.String" name="RouteName" #>
+<#@ parameter type="System.String" name="DefaultRouteVariable" #>
+<#@ parameter type="System.Boolean" name="CheckStorage" #>
+<#@ parameter type="System.String" name="StorageVariable" #>
+import { Injectable } from '@angular/core';
+import { CanLoad, Router } from '@angular/router';
+import { Storage } from '@ionic/storage';
+import { UserDataProvider } from './userdata.provider';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class Check<#= this.RouteName #> implements CanLoad {
+<#
+    if (this.CheckStorage)
+    {
+#>
+  constructor(private storage: Storage, private router: Router, private userData: UserDataProvider) {}
+
+  canLoad() {
+    return this.storage.get('<#= this.StorageVariable #>').then(res => {
+      if (res) {
+<#
+        if (this.DefaultRouteVariable != null)
+        {
+#>
+        this.userData.getDefaultRoute().then(r => {
+          this.router.navigateByUrl(r, { replaceUrl: true })
+        });
+<#
+        }
+        else
+        {
+#>
+        this.router.navigateByUrl('/login');
+<#
+        }
+#>
+        return false;
+      } 
+      else {
+        return true;
+      }
+    });
+  }
+<#
+    }
+    else
+    {
+        DebugUtils.Break();
+    }
+#>
+
+}

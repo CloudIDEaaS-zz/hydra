@@ -17,6 +17,7 @@
     <SccProvider>SAK</SccProvider>
     <TargetFrameworkProfile />
     <AssemblyVersion>1.0.0.5955</AssemblyVersion>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

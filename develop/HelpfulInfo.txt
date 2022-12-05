@@ -1,4 +1,0 @@
-Insert row in Excel
-
-Shift-Space
-Ctrl-Shift-Plus

@@ -1,0 +1,46 @@
+trigger:
+  paths:
+    include:
+     - Website
+
+  branches:
+    include:
+    - develop
+
+variables:
+
+  component: 'WebSite'
+  system.debug: true
+  vmImageName: 'ubuntu-latest'
+  pat: 'nke3wbdomvoxu23yxzm7boynui322gcbodjmscdj5jrq7yw6rexq'
+
+pool:
+  vmImage: $(vmImageName)
+
+stages:
+- stage: DeployDev
+  condition: true 
+  jobs:
+    - job: DeployWebSite
+      displayName: Deploy CloudIDEaaS Web Site
+      steps:
+      - checkout: none
+      - task: CmdLine@2 
+        displayName: Performing sparse checkout
+        inputs:
+          script: |
+            git init
+            git sparse-checkout init --cone
+            git sparse-checkout set Website
+            git remote add origin https://$(pat)@dev.azure.com/cloudideaas/Hydra/_git/Hydra
+            git pull --progress --verbose --depth=1 origin $(Build.SourceBranch)
+      - task: AzureStaticWebApp@0
+        displayName: Deploy site
+        inputs:
+          app_location: "/Website" # App source code path
+          api_location: "api" # Api source code path - optional
+          app_artifact_location: ""
+          skip_app_build: true
+          skip_api_build: true
+          is_static_export: false
+          azure_static_web_apps_api_token: 'c39e8255ef8caaed3b2af19d7ce70a5b3a1b59b5c60349e1961959cdb7b34eef0-59a822fd-e1e4-4a2f-a1c7-01b00db8927801e2843'

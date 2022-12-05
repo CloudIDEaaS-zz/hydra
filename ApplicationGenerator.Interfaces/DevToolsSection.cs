@@ -106,20 +106,20 @@ namespace AbstraX
 
         public object Create(object parent, object configContext, XmlNode section)
         {
-            var DevTools = new List<DevTool>();
+            var devTools = new List<DevTool>();
 
             foreach (XmlNode childNode in section.ChildNodes)
             {
                 var assemblyNode = childNode.ChildNodes.OfType<XmlElement>().Single();
 
-                DevTools.Add(new DevTool
+                devTools.Add(new DevTool
                 {
-                    DevToolType = childNode.Attributes["DevToolsType"].Value,
+                    DevToolType = childNode.Attributes["devToolType"].Value,
                     Assembly = new DevToolsAssembly() { name = assemblyNode.Attributes["name"].Value, version = assemblyNode.Attributes["version"].Value, publicKeyToken = assemblyNode.Attributes["publicKeyToken"].Value, culture = assemblyNode.Attributes["culture"].Value, }
                 });
             }
 
-            return DevTools;
+            return devTools;
         }
     }
 }

@@ -1,0 +1,54 @@
+EntityName	ParentDataItem	AttributeName	AttributeType	Property1	PropertyValue1	Property2	PropertyValue2			
+User	7									
+				IdentityEntity						
+						IdentityEntityKind	User			
+				DefaultSortBy	Last Name					
+		First Name	string							"Edit, Register, ProfilePreferences"
+				IdentityField						
+						UIHierarchyPath	*			
+						IdentityFieldKind	Client			
+				DisplayName	First Name					
+		Last Name	string							"Edit, Register, ProfilePreferences"
+				IdentityField						
+						UIHierarchyPath	*			
+						IdentityFieldKind	Client			
+				DisplayName	Last Name					
+		User Name	string							"Register, Login"
+				IdentityField						
+						UIHierarchyPath	*			
+						IdentityFieldKind	UserName			
+				DisplayName	User Name					
+				MinLength	8					
+				MaxLength	50					
+		Email Address	string							"Register, Login, ProfilePreferences"
+				DataType						
+						DataType	EmailAddress			
+				IdentityField						
+						UIHierarchyPath	*			
+						IdentityFieldKind	Client			
+				DisplayName	Email Address					
+		Password Hash	string							"Register, Login, ProfilePreferences"
+				IdentityField						
+						UIHierarchyPath	*			
+						IdentityFieldKind	PasswordHash			
+				DisplayName	Password					
+				MinLength	8					
+				MaxLength	50					
+		Enabled	bool							Edit
+		Role	related entity							
+				RelatedEntity						
+						RelationshipKind	ContainsManyToMany			
+								ExistingEntity	Role	
+								LookupOfAnotherEntity	TRUE	
+								ContainerName	User To Role	
+Role	*									
+				IdentityEntity						
+						IdentityEntityKind	Role			
+		Name	string							
+				IdentityField						
+						UIHierarchyPath	*			
+						IdentityFieldKind	RoleName			
+		Is Admin Role	bool							
+				IdentityField						
+						UIHierarchyPath	*			
+						IdentityFieldKind	IsAdminRole			

@@ -25,6 +25,7 @@ using HydraDebugAssistant;
 using System.Threading;
 using System.Runtime.InteropServices;
 using MailSlot;
+using System.Globalization;
 
 namespace AbstraX
 {
@@ -40,7 +41,7 @@ namespace AbstraX
         private static MailslotClient mailslotClient;
         private static Exception mailslotException;
         private static string currentWorkingDirectory;
-        private static bool runAsAutomated; 
+        private static bool runAsAutomated;
 
         /// <summary>   Main entry-point for this application. </summary>
         ///
@@ -69,9 +70,13 @@ namespace AbstraX
             var parentProcess = Process.GetCurrentProcess().GetParent();
             StandardStreamService streamService;
             IGeneratorHandler generatorHandler = null;
-            var parseResult = CommandLineParser.ParseArgs<ParseResult>(args, (result, arg) =>
+            ParseResult parseResult;
+
+            LocaleExtensions.LoadApplicationCulture();
+
+            parseResult = CommandLineParser.ParseArgs<ParseResult>(args, (result, arg) =>
             {
-            }, 
+            },
             (result, _switch, switchArg) =>
             {
                 switch (_switch)
@@ -109,6 +114,11 @@ namespace AbstraX
                 }
             });
 
+            if (debugAttach)
+            {
+                AbstraXExtensions.DebugAttach(!waitForInput);
+            }
+
             if (process != null)
             {
                 process.Kill();
@@ -126,11 +136,6 @@ namespace AbstraX
             if (runUnitTests)
             {
                 UnitTests.RunUnitTests();
-            }
-
-            if (debugAttach)
-            {
-                AbstraXExtensions.DebugAttach(!waitForInput);
             }
 
             if (testCrashAnalyzer)
@@ -213,7 +218,7 @@ namespace AbstraX
                 {
                     var type = typeof(GeneratorArgumentsKind);
 
-                    foreach (var kind in type.GetConstants().Select(f => (string) f.GetRawConstantValue()).Where(k => k != GeneratorArgumentsKind.GenerateHandlerArgumentInputs))
+                    foreach (var kind in type.GetConstants().Select(f => (string)f.GetRawConstantValue()).Where(k => k != GeneratorArgumentsKind.GenerateHandlerArgumentInputs))
                     {
                         var arguments = generatorOverrides.GetHandlerArguments(packageCachePath, kind, currentWorkingDirectory);
                         var json = arguments.ToJsonText();
@@ -343,7 +348,7 @@ namespace AbstraX
                 }
                 else
                 {
-                    Console.WriteLine("This program was not intended to be run directly");
+                    Console.WriteLine(Properties.ApplicationGenerator.This_program_was_not_intended_to_be_run);
                 }
             }
         }

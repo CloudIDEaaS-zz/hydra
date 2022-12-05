@@ -6,10 +6,14 @@ const { EOL } = require('os');
 const StringBuilder = require("string-builder");
 const baseThreadedService_1 = require("./baseThreadedService");
 class BaseStandardStreamService extends baseThreadedService_1.BaseThreadedService {
-    constructor() {
+    stdout;
+    stdin;
+    resourceManager;
+    constructor(resourceManager) {
         super(new timespan.fromMilliseconds(100));
         this.stdout = process.stdout;
         this.stdin = process.stdin;
+        this.resourceManager = resourceManager;
     }
     async DoWork(stopping) {
         try {
@@ -22,7 +26,7 @@ class BaseStandardStreamService extends baseThreadedService_1.BaseThreadedServic
         }
     }
     async readJsonCommand(socket) {
-        this.WriteLine("Waiting for json command");
+        this.WriteLine(this.resourceManager.HydraCli.Waiting_for_json_command);
         let jsonText = await this.readUntil(socket, EOL + EOL);
         let commandPacket = JSON.parse(jsonText);
         this.WriteLine(`Command retrieved. ${commandPacket.Command} `);

@@ -12,6 +12,14 @@ export const rendererServerCommands = {
   TERMINATE: "terminate",
 };
 
+export const generateFromDefinitions = [
+  {
+    name: "source",
+    type: String,
+    description: "The source for the generate from command."
+  },
+]
+
 export const generateTargetDefinitions = [
   {
     name: "app",
@@ -35,6 +43,13 @@ export const generateTargetDefinitions = [
     type: String,
     description:
       "Generates either an entities json file or if one exists, entity model classes in the workspace.",
+  },
+  {
+    name: "from",
+    type: String,
+    description:
+      "Generates from an external source.",
+    innerDefinitions: generateFromDefinitions,
   },
 ];
 
@@ -65,6 +80,12 @@ export const generateDefinitions = [
     defaultValue: 0,
     description: "Pauses to allow for debug attach.",
   },
+  {
+    name: "lang",
+    type: String,
+    defaultValue: "en-US",
+    description: "Specifies the language code to use for console input/output.",
+  },
   { name: "skipInstalls", type: Boolean, defaultValue: false },
   { name: "noFileCreation", type: Boolean, defaultValue: false },
   {
@@ -77,7 +98,7 @@ export const generateDefinitions = [
     name: "appDescription",
     type: String,
     defaultValue: "",
-    description: "The appplication description.",
+    description: "The application description.",
   },
   {
     name: "organizationName",
@@ -91,13 +112,6 @@ export const generateDefinitions = [
     defaultValue: "",
     description:
       "The starter template file for either the business model or entity domain model. For default template, specify 'default'",
-  },
-  {
-    name: "businessmodel",
-    type: String,
-    defaultValue: "",
-    description:
-      "The business model json input file for processing the entity domain model.",
   },
   {
     name: "json",
@@ -391,6 +405,12 @@ export const mainDefinitions = [
     type: Boolean,
     defaultValue: false,
     description: "Shows the version of Hydra.",
+  },
+  {
+    name: "lang",
+    type: String,
+    defaultValue: "en-US",
+    description: "Specifies the language code to use for console input/output.",
   },
   {
     name: "launchServices",

@@ -58,6 +58,7 @@ namespace Utils
         public event EventHandler OnSelectionChanged;
         public event EventHandler DocumentTextChanged;
         public event EventHandler DocumentLeave;
+        public event OnTextSelectedHandler OnTextSelected;
 
         /// <summary>   Default constructor. </summary>
         ///
@@ -85,7 +86,7 @@ namespace Utils
                 }
             }
 
-            ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+            ComponentInfo.SetLicense("DN-2022Oct27-ExAJJ1rqwZEFOjfKzhSiGwbbVXlMagUCD2aly1BBtm0/006lykvqazgKxg7QwBi3dtZoooFaxasoKmviJ9ffH0CZd7w==A");
 
             Application.AddMessageFilter(this);
         }
@@ -201,6 +202,22 @@ namespace Utils
             }
         }
 
+        public ToolStrip ToolStrip
+        {
+            get
+            {
+                return toolStrip;
+            }
+        }
+
+        public RichTextBox RichTextBox
+        {
+            get
+            {
+                return richTextBox;
+            }
+        }
+
         /// <summary>   Gets or sets the rich text. </summary>
         ///
         /// <value> The rich text. </value>
@@ -270,6 +287,7 @@ namespace Utils
             };
 
             if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            {
                 using (var stream = new MemoryStream())
                 {
                     // Save RichTextBox content to RTF stream.
@@ -281,6 +299,7 @@ namespace Utils
                     DocumentModel.Load(stream, LoadOptions.RtfDefault).Save(dialog.FileName);
                     Process.Start(dialog.FileName);
                 }
+            }
         }
 
         public void SaveAsRtf(string fileName)
@@ -545,7 +564,7 @@ namespace Utils
 
         /// <summary>   Executes the gem box copy operation. </summary>
         ///
-        /// <remarks>   CloudIDEaaS, 2/23/2021. </remarks>
+        /// <remarks>   CloudIDEaaS, 2/23/2021. </remarks>.0
 
         private void DoGemBoxCopy()
         {
@@ -607,7 +626,7 @@ namespace Utils
         ///
         /// <returns>   A FontStyle. </returns>
 
-        private FontStyle ToggleFontStyle(FontStyle item, FontStyle toggle)
+        public FontStyle ToggleFontStyle(FontStyle item, FontStyle toggle)
         {
             return item ^ toggle;
         }
@@ -760,6 +779,8 @@ namespace Utils
                 int endPosition;
                 string selectedRtf;
 
+                OnTextSelected?.Invoke(this, new OnTextSelectedEventArgs(richTextBox.SelectedText, selectionStart, selectionLength));
+
                 selectedWord = GetWordUnderCaret(selectionStart, out startPosition, out endPosition);
 
                 if (!selectedWord.IsNullOrEmpty())
@@ -873,9 +894,8 @@ namespace Utils
 
         private void richTextBox_Leave(object sender, EventArgs e)
         {
-            DocumentLeave(sender, e);
+            DocumentLeave?.Invoke(sender, e);
         }
-
 
         #region Imports and structs
 
@@ -1012,7 +1032,6 @@ namespace Utils
             [MarshalAs(UnmanagedType.IUnknown)] out object ppvObj);
 
         #endregion
-
 
         public void InsertOleObject(IOleObject oleObj)
         {
@@ -1404,6 +1423,20 @@ namespace Utils
         }
     }
 
+    public class OnTextSelectedEventArgs : EventArgs
+    {
+        public string Rtf { get; }
+        public int SelectionStart { get; }
+        public int SelectionLength { get; }
+
+        public OnTextSelectedEventArgs(string rtf, int selectionStart, int selectionLength)
+        {
+            this.Rtf = rtf;
+            this.SelectionStart = selectionStart;
+            this.SelectionLength = selectionLength;
+        }
+    }
+
     public class OnLinkSelectedEventArgs : EventArgs
     {
         public string Identifier { get; }
@@ -1434,4 +1467,5 @@ namespace Utils
     public delegate void OnImageSelectedHandler(object obj, OnImageSelectedEventArgs e);
     public delegate void OnLinkSelectedHandler(object obj, OnLinkSelectedEventArgs e);
     public delegate void OnLinkChangedHandler(object obj, OnLinkChangedEventArgs e);
+    public delegate void OnTextSelectedHandler(object obj, OnTextSelectedEventArgs e);
 }

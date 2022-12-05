@@ -163,6 +163,15 @@ namespace AbstraX.Handlers.OverrideHandlers
                     arguments.Remove("GeneratorKind");
                     arguments.Remove("GeneratorMode");
                 }
+                else if (argumentsKind == GeneratorArgumentsKind.GenerateWorkspaceFromHydraCLI)
+                {
+                    arguments = new Dictionary<string, object>();
+
+                    AugmentArguments(arguments, GeneratorArgumentsKind.GenerateWorkspace, workingDirectory);
+
+                    arguments.Add("ArgumentsKind", GeneratorArgumentsKind.GenerateWorkspace);
+                    arguments.Remove("GeneratorOptions");
+                }
                 else
                 {
                     AugmentArguments(arguments, argumentsKind, workingDirectory);
@@ -181,7 +190,6 @@ namespace AbstraX.Handlers.OverrideHandlers
             {
                 arguments = null;
             }
-
 
             return arguments;
         }

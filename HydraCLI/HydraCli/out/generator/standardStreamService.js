@@ -5,8 +5,10 @@ const baseStandardStreamService_1 = require("./baseStandardStreamService");
 const commandPacket_1 = require("./commandPacket");
 const commands_1 = require("./commands");
 class StandardStreamService extends baseStandardStreamService_1.BaseStandardStreamService {
-    constructor(renderer) {
-        super();
+    renderer;
+    client;
+    constructor(renderer, resourceManager) {
+        super(resourceManager);
         this.renderer = renderer;
         this.client = renderer.client;
     }

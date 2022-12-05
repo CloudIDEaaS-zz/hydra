@@ -1,6 +1,6 @@
 {
 	"name": "@cloudideaas/hydra",
-	"version": "1.0.76",
+	"version": "1.0.81",
 	"description": "Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful microservice layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, progressive web apps (PWA), Docker, Helm, Azure Devops, and Kubernetes.",
 	"displayName": "Hydra",
 	"repository": {
@@ -66,6 +66,7 @@
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
+		"build": "tsc -p ./",
 		"start": "electron ./",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile",
@@ -86,7 +87,6 @@
 		"mocha": "^6.2.3",
 		"spectron": "^15.0.0",
 		"tslint": "^5.20.1",
-		"typescript": "^3.9.10",
 		"vscode-test": "^1.6.1"
 	},
 	"dependencies": {
@@ -98,14 +98,16 @@
 		"cli-progress": "^3.8.2",
 		"colors": "^1.3.2",
 		"command-line-args": "^5.2.1",
-		"command-line-usage": "^6.1.1",
+		"command-line-usage": "^6.1.3",
 		"crypto-js": "^4.0.0",
 		"dateformat": "^4.4.1",
 		"dialog": "^0.3.1",
 		"electron": "^12.0.7",
 		"file-url": "^3.0.0",
+		"i18n": "^0.15.1",
 		"js-beautify": "^1.14.3",
 		"js-yaml": "^3.14.1",
+		"keyv": "^4.5.0",
 		"linq-javascript": "^1.0.249",
 		"node-cmd": "^3.0.0",
 		"node-ipc": "^9.1.4",
@@ -116,6 +118,7 @@
 		"readline": "^1.3.0",
 		"readline-sync": "^1.4.10",
 		"regedit": "^3.0.3",
+		"resx-json-typescript-converter": "^1.0.2",
 		"rimraf": "^2.6.2",
 		"serialize-error": "^8.0.1",
 		"shelljs": "^0.8.4",

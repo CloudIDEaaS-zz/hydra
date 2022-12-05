@@ -118,9 +118,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\RunDllExport\Commands.cs">
-      <Link>Utility\Commands.cs</Link>
-    </Compile>
     <Compile Include="..\Utils\BaseWindowsCommandHandler.cs">
       <Link>Utils\BaseWindowsCommandHandler.cs</Link>
     </Compile>
@@ -968,6 +965,7 @@
     <Compile Include="SignAssemblies.cs" />
     <Compile Include="UpdateInstaller.cs" />
     <Compile Include="UpdateExportedProjectTemplates.cs" />
+    <Compile Include="Utility\Commands.cs" />
     <Compile Include="Utility\DllExportCommandHandler.cs" />
     <Compile Include="ZipAppFiles.cs" />
     <Compile Include="InstallTemplates.cs" />

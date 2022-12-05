@@ -5,22 +5,22 @@
 
 namespace BTreeIndex.Collections.Generic.BTree
 {
-    using System;
-    using System.Collections;
-    using System.ComponentModel;
+	using System;
+	using System.Collections;
+	using System.ComponentModel;
 
-    /// <summary>
-    /// BTreeDictionary is a SortedDictionary that allows insertion of 
-    /// duplicate Keys and provides Iterator methods to iterate through
-    /// the set of records within the Dictionary.
-    /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    /// <typeparam name="TValue"></typeparam>
+	/// <summary>
+	/// BTreeDictionary is a SortedDictionary that allows insertion of 
+	/// duplicate Keys and provides Iterator methods to iterate through
+	/// the set of records within the Dictionary.
+	/// </summary>
+	/// <typeparam name="TKey"></typeparam>
+	/// <typeparam name="TValue"></typeparam>
 #if !DEVICE
-    [Serializable]
+	[Serializable]
 #endif
-    public class BTreeDictionary<TKey, TValue> : IBTreeDictionary<TKey, TValue>
-    {
+	public class BTreeDictionary<TKey, TValue> : IBTreeDictionary<TKey, TValue>
+	{
 		internal class BTreeEnumeratorValue : BTreeEnumerator<TValue>
 		{
 			/// <summary>
@@ -471,7 +471,7 @@ namespace BTreeIndex.Collections.Generic.BTree
 			if (enumerator == null || ((BTreeEnumeratorDefault)enumerator).BTree == null)
 			{
 				enumerator = (System.Collections.Generic.IEnumerator<System.Collections.Generic.KeyValuePair<TKey, TValue>>)
-				    new BTreeEnumeratorDefault(this);
+					new BTreeEnumeratorDefault(this);
 			}
 			return enumerator;
 		}

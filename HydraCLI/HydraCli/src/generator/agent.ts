@@ -6,6 +6,7 @@ import { Socket } from "net";
 import { EventEmitter } from "events";
 import { Api } from "./api/api";
 import { InstallsFromCacheStatus } from "./InstallFromCacheStatus";
+import resourceManager, { HydraCli } from "../resources/resourceManager"; 
 const fs = require("fs");
 const dateFormat = require("dateformat");
 
@@ -42,6 +43,7 @@ export class ApplicationGeneratorAgent {
   public connected: boolean;
   api: Api;
   logPath: string;
+  resourceManager: resourceManager;
 
   constructor() {
     this.stdout = <Socket>process.stdout;
@@ -69,7 +71,7 @@ export class ApplicationGeneratorAgent {
       "\\CloudIDEaaS\\Hydra\\ApplicationGenerator.exe"
     );
 
-    this.stdout.writeLine("Launching Hydra");
+    this.stdout.writeLine(this.resourceManager.HydraCli.Invoking_Hydra);
 
     if (!fs.existsSync(generatorApp)) {
       generatorApp = path.join(
@@ -79,8 +81,8 @@ export class ApplicationGeneratorAgent {
     }
 
     if (!fs.existsSync(generatorApp)) {
-      this.stdout.writeLine("You must install Hydra to run this command.");
-      throw new Error("Application not fully installed.");
+      this.stdout.writeLine(this.resourceManager.HydraCli.You_must_install + "Hydra" + this.resourceManager.HydraCli.to_run_this_command);
+      throw new Error(this.resourceManager.HydraCli.Application_not_fully_installed);
     }
 
     args = new Array<string>();
@@ -113,7 +115,7 @@ export class ApplicationGeneratorAgent {
   public launchCacheServer(listener: (response: string) => void) {
     var commandLine = "verdaccio";
 
-    this.stdout.writeLine("Launching Cache Server");
+    this.stdout.writeLine(this.resourceManager.HydraCli.Launching_Cache_Server);
     this.cacheServerProcess = execFile(commandLine);
 
     this.cacheServerProcess.stderr.on("data", (e) => {
@@ -127,7 +129,7 @@ export class ApplicationGeneratorAgent {
     this.cacheServerProcess.kill();
 
     this.cacheServerProcess.on("close", () => {
-      this.stdout.writeLine("Cache server shut down");
+      this.stdout.writeLine(this.resourceManager.HydraCli.Cache_server_shut_down);
     });
   }
 
@@ -169,10 +171,10 @@ export class ApplicationGeneratorAgent {
     ...args: { key: string; value: any }[]
   ) {
     if (this.generatorProcess.killed) {
-      this.stdout.writeLine("ApplicationGeneratorAgent process has exited!");
+      this.stdout.writeLine(this.resourceManager.HydraCli.ApplicationGeneratorAgent_process);
       listener(null);
 
-      throw new Error("ApplicationGeneratorAgent process has exited!");
+      throw new Error(this.resourceManager.HydraCli.ApplicationGeneratorAgent_process);
     }
 
     this.write(command, ...args);
@@ -332,6 +334,37 @@ export class ApplicationGeneratorAgent {
       "generate",
       [
         { Kind: "workspace" },
+        { GeneratorHandlerType: "Ionic/Angular" },
+        { AppName: appName },
+        { AppDescription: appDescription },
+        { OrganizationName: organizationName },
+        { GeneratorPass: generatorPass },
+        { NoFileCreation: noFileCreation },
+      ]
+    );
+
+    this.generatorProcess.stdin.writeJson(this.logPath, commandObject);
+
+    if (listener) {
+      this.textListener = listener;
+
+      this.readText(this.logPath, this.textListener);
+    }
+  }
+
+  public generateFrom(
+    appName: string,
+    appDescription: string,
+    organizationName: string,
+    noFileCreation: boolean,
+    generatorPass: "None" | "All" | "HierarchyOnly" | "Files",
+    listener: (response: string) => void = null
+  ) {
+    let commandObject: CommandPacket = new CommandPacket(
+      "request",
+      "generate",
+      [
+        { Kind: "from" },
         { GeneratorHandlerType: "Ionic/Angular" },
         { AppName: appName },
         { AppDescription: appDescription },

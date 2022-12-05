@@ -100,6 +100,17 @@ namespace Utils
             workerThread.Start();
         }
 
+        public virtual void Start(ApartmentState apartmentState)
+        {
+            workerThread = new Thread(WorkerThreadProc);
+
+            workerThread.SetApartmentState(apartmentState);
+            workerThread.Priority = threadPriority;
+            this.StartTime = DateTime.Now;
+
+            workerThread.Start();
+        }
+
         public void WorkerThreadProc()
         {
             var running = true;

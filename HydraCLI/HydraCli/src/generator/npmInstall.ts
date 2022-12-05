@@ -2,8 +2,8 @@ const Promise = require('bluebird');
 const exec = require('child_process').exec;
 const colors = require('colors/safe');
 const path = require('path');
-let npmPath = "C:/Program Files/nodejs/node_modules/npm";
-let cmd = <any> require(path.join(npmPath, "lib/install.js"));
+
+// see C:\Program Files\nodejs\node_modules\npm\lib\cli.js
 
 export class npm {
     static stdout: any;
@@ -12,82 +12,85 @@ export class npm {
 
     static getErrorHandler() : any
     {
-        var errorHandler = require(path.join(npmPath, "lib/utils/error-handler.js"));
+        // var errorHandler = require(path.join(npmPath, "lib/utils/error-handler.js"));
 
-        return errorHandler;
+        // return errorHandler;
     }
 
     static getLoaded() : boolean
     {
-        var npm = <any> require(path.join(npmPath, "lib/npm.js"));
+        // var npm = <any> require(path.join(npmPath, "lib/npm.js"));
 
-        return npm.config.loaded;
-    }
+        // return npm.config.loaded;
 
-    static install(packages, opts) {
-
-        var npm = <any> require(path.join(npmPath, "lib/npm.js"));
-        var npmconf = <any> require(path.join(npmPath, "lib/config/core.js"));
-        var args = [];
-        
-        var configDefs = npmconf.defs;
-        var shorthands = configDefs.shorthands;
-        var types = configDefs.types;
-
-        var nopt = require('nopt');
-
-        if (opts.lean) {
-            args = args.concat(["--no-optional"]);
-            args = args.concat(["--prod"]);
-            args = args.concat(["--no-progress"]);
-            args = args.concat(["-loglevel"], ["silent"]);
-            args = args.concat(["--prefer-offline"]);
-            args = args.concat(["--no-audit"]);
-            args = args.concat(["--no-fund"]);
-         }
-
-        var conf = nopt(types, shorthands, args);
-
-        return new Promise((resolve, reject) => {
-
-            npm.load(conf, (er) => {
-                        
-                if (er) {
-                    return reject(er);
-                }
-                    
-                if (packages.length === 0 || !packages || !packages.length) {
-                    return reject("No packages found");
-                }
-                if (typeof packages === "string") {
-                    packages = [packages];
-                }
-                if (!opts) {
-                    opts = {};
-                }
-
-                if (opts.global) { 
-                    npm.config.set('global', true);
-                }
-
-                if (opts.saveDev) {
-                    npm.config.set('save-dev', true);
-                }
-
-                cmd.call(npm, packages, (err) => {
-
-                    if (err) {
-                        return reject(err);
-                    }
-                    else {
-                        resolve(true);
-                    }
-                });
-            });
-        });
+        return false;
     }
 
     static install2(packages, opts) {
+
+        // var Npm = <any> require(path.join(npmPath, "lib/npm.js"));
+        // var npm = new Npm();
+        // var npmconf = <any> require(path.join(npmPath, "lib/utils/config/index.js"));
+        // var args = [];
+        
+        // var configDefs = npmconf.definitions;
+        // var shorthands = configDefs.shorthands;
+        // var types = configDefs.types;
+
+        // var nopt = require('nopt');
+
+        // if (opts.lean) {
+        //     args = args.concat(["--no-optional"]);
+        //     args = args.concat(["--prod"]);
+        //     args = args.concat(["--no-progress"]);
+        //     args = args.concat(["-loglevel"], ["silent"]);
+        //     args = args.concat(["--prefer-offline"]);
+        //     args = args.concat(["--no-audit"]);
+        //     args = args.concat(["--no-fund"]);
+        //  }
+
+        // var conf = nopt(types, shorthands, args);
+
+        // return new Promise((resolve, reject) => {
+
+        //     npm.load(conf, (er) => {
+                        
+        //         if (er) {
+        //             return reject(er);
+        //         }
+                    
+        //         if (packages.length === 0 || !packages || !packages.length) {
+        //             return reject("No packages found");
+        //         }
+        //         if (typeof packages === "string") {
+        //             packages = [packages];
+        //         }
+        //         if (!opts) {
+        //             opts = {};
+        //         }
+
+        //         if (opts.global) { 
+        //             npm.config.set('global', true);
+        //         }
+
+        //         if (opts.saveDev) {
+        //             npm.config.set('save-dev', true);
+        //         }
+
+        //         cmd.call(npm, packages, (err) => {
+
+        //             if (err) {
+        //                 return reject(err);
+        //             }
+        //             else {
+        //                 resolve(true);
+        //             }
+        //         });
+        //     });
+        // });
+    }
+
+    static install(packages, opts) {
 
         if (packages.length === 0 || !packages || !packages.length) {
             return Promise.reject("No packages found");

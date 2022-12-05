@@ -163,6 +163,16 @@
     <Compile Include="MarketingControls\UrlParts.cs" />
     <Compile Include="NamedBlob.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties\ApplicationGenerator.zh-CHS.Designer.cs">
+      <DependentUpon>ApplicationGenerator.zh-CHS.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\ApplicationGenerator.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApplicationGenerator.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceData.cs" />
     <Compile Include="ResourceManager.cs" />
@@ -207,12 +217,22 @@
     <EmbeddedResource Include="MarketingControls\frmUrlEditPopup.resx">
       <DependentUpon>frmUrlEditPopup.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\ApplicationGenerator.zh-CHS.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApplicationGenerator.zh-CHS.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\ApplicationGenerator.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApplicationGenerator.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Themes\Images\MapBrowser.png" />
     <EmbeddedResource Include="Themes\Images\HydraLogo.png" />
     <EmbeddedResource Include="Themes\Images\HydraIcon.png" />
     <EmbeddedResource Include="Themes\Images\BrowserBackdrop.png" />
     <None Include="app.manifest" />
     <None Include="ApplicationGenerator.ini" />
+    <None Include="Globalization\ApplicationGeneratorExtractor.lep" />
     <None Include="Images\ColorChooserIcon.png" />
     <Content Include="Images\AppDesigner\newToolStripButton.Image.png" />
     <Content Include="Images\AppDesigner\openToolStripButton.Image.png" />
@@ -405,6 +425,7 @@
     <None Include="ReleaseInfo.json" />
     <None Include="Scripts\GitSparse.cmd" />
     <None Include="Scripts\MsBuildSolution.cmd" />
+    <None Include="Scripts\Run.ps1" />
     <None Include="Scripts\RunGitSparse.ps1" />
     <None Include="Start Menu\HydraCommand.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

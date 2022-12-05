@@ -1,0 +1,65 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="AbstraX.TemplateObjects.EntityObject" name="EntityObject" #>
+<#@ parameter type="System.Collections.Generic.List<AbstraX.TemplateObjects.CustomQuery>" name="CustomQueries" #>
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using AbstraX;
+using AbstraX.DataAnnotations;
+using Utils;
+<#
+    var entityType = this.EntityObject.DynamicEntityType;
+#>
+
+namespace <#= entityType.Namespace #>
+{
+    public class AppResources : AppResourcesBase<<#= entityType.Name #>>
+    {
+        public override List<QueryInfo> GetQueries()
+        {
+            return new List<QueryInfo>
+            {
+                // put queries here, see example
+                // base.RegisterQuery("GetUserOrders", () => container.Users.Single(u => u.UserName == identity.Name).Orders)
+<#  foreach (var customQuery in this.CustomQueries)
+    {
+#>
+                base.RegisterQuery("<#= customQuery.ControllerMethodName #>", () => <#= customQuery.Expression #>),
+<#
+    }
+#>
+            };
+        }
+
+        public override dynamic GetResources(UIKind componentKind)
+        {
+            switch (componentKind)
+            {
+                case UIKind.LoginPage:
+                    return new
+                    {
+                        LOGIN_TITLE = "Login Page",
+                        LOGIN_BUTTON = "Login"
+                    };
+            }
+
+            throw new Exception($"Component kind resources not found for { componentKind }");
+        }
+    }
+}

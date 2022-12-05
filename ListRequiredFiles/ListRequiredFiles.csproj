@@ -46,14 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Hydra.ReleaseManagement.Entities\Models\ValueTypes\Folder.cs">
-      <Link>Folder.cs</Link>
-    </Compile>
-    <Compile Include="..\Hydra.ReleaseManagement.Entities\Models\ValueTypes\RequiredFiles.cs">
-      <Link>RequiredFiles.cs</Link>
-    </Compile>
+    <Compile Include="Folder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequiredFiles.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

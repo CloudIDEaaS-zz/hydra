@@ -1,0 +1,11 @@
+{
+  "TemplateData":
+  {
+    "Name": "Default Project",
+    "Description": "A project with basic user and profile management",
+    "ProjectType": "C#/Ionic/Angular",
+    "AppName": "DefaultApp",
+    "HandlerType": "Ionic/Angular",
+    "SortOrder": 2
+  }
+}

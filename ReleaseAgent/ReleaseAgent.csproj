@@ -47,11 +47,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Hydra.ReleaseManagement.Services\Models\ReleaseSubmission.cs">
-      <Link>ReleaseSubmission.cs</Link>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReleaseSubmission.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

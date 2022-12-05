@@ -3,27 +3,36 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Renderer = void 0;
 const utils_1 = require("../modules/utils/utils");
 const standardStreamService_1 = require("./standardStreamService");
-const commandLineArgs = require('command-line-args');
 const puppeteer_1 = require("puppeteer");
 const client_1 = require("./client");
+const commandLineArgs = require('command-line-args');
 const fs = require('fs');
 class Renderer {
+    stdout;
+    stderr;
+    static renderer;
+    standardStreamService;
+    browser;
+    page;
+    client;
+    resourceManager;
     constructor() {
         this.stdout = process.stdout;
         this.stderr = process.stderr;
     }
-    static launchRenderer() {
+    static launchRenderer(resourceManager) {
         let client;
         if (Renderer.renderer === undefined) {
             Renderer.renderer = new Renderer();
         }
         this.renderer = Renderer.renderer;
         this.renderer.client = client_1.ApplicationGeneratorClient.client;
+        this.renderer.resourceManager = resourceManager;
         this.renderer.launchRenderer();
     }
     launchRenderer() {
         this.client.writeLine("Initializing renderer. Starting standardStreamService");
-        this.standardStreamService = new standardStreamService_1.StandardStreamService(this);
+        this.standardStreamService = new standardStreamService_1.StandardStreamService(this, this.resourceManager);
         this.standardStreamService.Start();
         this.watchRenderer();
     }
@@ -45,7 +54,7 @@ class Renderer {
                 try {
                     let error;
                     this.client.writeLine("Launching headless browser");
-                    this.browser = await puppeteer_1.launch({ headless: headless, args: ['--disable-web-security'] });
+                    this.browser = await (0, puppeteer_1.launch)({ headless: headless, args: ['--disable-web-security'] });
                     this.page = await this.browser.newPage();
                     await this.page.setRequestInterception(true);
                     this.page.on("pageerror", (err) => {

@@ -820,6 +820,28 @@ namespace AbstraX
             LogFileSystem();
         }
 
+        /// <summary>   Handler, called when the get grunt command. </summary>
+        ///
+        /// <remarks>   CloudIDEaaS, 9/24/2022. </remarks>
+        ///
+        /// <returns>   The grunt command handler. </returns>
+
+        public GruntCommandHandler GetGruntCommandHandler()
+        {
+            return new GruntCommandHandler();
+        }
+
+        /// <summary>   Handler, called when the get git command. </summary>
+        ///
+        /// <remarks>   CloudIDEaaS, 9/24/2022. </remarks>
+        ///
+        /// <returns>   The git command handler. </returns>
+
+        public GitCommandHandler GetGitCommandHandler()
+        {
+            return new GitCommandHandler();
+        }
+
         private void CreateProcessingReportDocument()
         {
             var type = typeof(GeneratorConfiguration);
@@ -2316,28 +2338,6 @@ namespace AbstraX
         public NpmCommandHandler GetNpmCommandHandler()
         {
             return new NpmCommandHandler();
-        }
-
-        /// <summary>   Handler, called when the get grunt command. </summary>
-        ///
-        /// <remarks>   CloudIDEaaS, 6/28/2022. </remarks>
-        ///
-        /// <returns>   The grunt command handler. </returns>
-
-        public GruntCommandHandler GetGruntCommandHandler()
-        {
-            return new GruntCommandHandler();
-        }
-
-        /// <summary>   Handler, called when the get git command. </summary>
-        ///
-        /// <remarks>   CloudIDEaaS, 6/28/2022. </remarks>
-        ///
-        /// <returns>   The git command handler. </returns>
-
-        public GitCommandHandler GetGitCommandHandler()
-        {
-            return new GitCommandHandler();
         }
 
         /// <summary>   Handles the facets. </summary>

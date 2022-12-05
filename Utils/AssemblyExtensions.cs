@@ -516,10 +516,6 @@ namespace Utils
                 {
                     return assemblyNameParts.Version;
                 }
-                else
-                {
-                    return null;
-                }
             }
 
             return null;

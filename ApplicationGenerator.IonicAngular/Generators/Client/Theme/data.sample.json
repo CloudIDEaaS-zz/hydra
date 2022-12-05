@@ -1,0 +1,122 @@
+{
+  "welcome":
+  [
+    {
+      "page":
+      {
+        "pageTitle": "",
+        "metaDescription": "",
+        "metaKeywords": ""
+      },
+      "details":
+      {
+        "welcomeTitle": "",
+        "description": "",
+        "startAppTitle": "",
+        "splashScreenAlt": ""
+      }
+    }
+  ],
+  "about":
+  [
+    {
+      "page":
+      {
+        "pageTitle": "",
+        "metaDescription": "",
+        "metaKeywords": ""
+      },
+      "details":
+      {
+        "header":
+        {
+          "aboutBannerAlt": "",
+          "description": "",
+          "version": ""
+        },
+        "mainPageLinks":
+        [
+          {
+            "text": "",
+            "title": "",
+            "url": ""
+          }
+        ],
+        "socialLinks":
+        [
+          {
+            "text": "",
+            "title": "",
+            "icon": "",
+            "iconAlt": "",
+            "url": ""
+          }
+        ],
+        "sidelLinks":
+        [
+          {
+            "icon": "",
+            "url": "",
+            "title": ""
+          }
+        ]
+      }
+    }
+  ],
+  "license":
+  [
+    {
+      "page":
+      {
+        "pageTitle": "",
+        "metaDescription": "",
+        "metaKeywords": ""
+      },
+      "details":
+      {
+        "content": "",
+        "licenseUrl": "",
+        "licenseUrlTitle": "",
+        "questionsEmailAddress": "",
+        "questionsEmailAddressTitle": "",
+        "questionsMailingAddress": ""
+      }
+    }
+  ],
+  "support":
+  [
+    {
+      "page":
+      {
+        "pageTitle": "",
+        "metaDescription": "",
+        "metaKeywords": ""
+      },
+      "details":
+      {
+        "content": "",
+        "supportUrl": "",
+        "supportUrlTitle": "",
+        "supportEmailAddress": "",
+        "supportEmailAddressTitle": ""
+      }
+    }
+  ],
+  "pages":
+  [
+    {
+      "uiPath":  "",
+      "page":
+      {
+        "pageTitle": "",
+        "metaDescription": "",
+        "metaKeywords": ""
+      },
+      "details":
+      {
+      },
+      "content": "",
+      "menuIcon": ""
+    }
+  ]
+}

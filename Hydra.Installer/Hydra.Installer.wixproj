@@ -10,7 +10,7 @@
     <OutputType>Bundle</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <OutputPath>Installers\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
   </PropertyGroup>
@@ -46,12 +46,15 @@
     <Folder Include="res" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Installers\Debug\.gitattributes" />
+    <Content Include="Installers\Debug\Hydra.Installer.exe" />
     <Content Include="Installers\Debug\Hydra.InstallerStandalone.msi" />
     <Content Include="Installers\Debug\Hydra.InstallerStandalone.wixpdb" />
-    <Content Include="Installers\Debug\node-v16.15.1-x64.msi" />
+    <Content Include="Installers\Debug\node-v18.12.1-x64.msi" />
+    <Content Include="Installers\Release\.gitattributes" />
     <Content Include="Installers\Release\Hydra.InstallerStandalone.msi" />
     <Content Include="Installers\Release\Hydra.InstallerStandalone.wixpdb" />
-    <Content Include="Installers\Release\node-v16.15.1-x64.msi" />
+    <Content Include="Installers\Release\node-v18.12.1-x64.msi" />
     <Content Include="res\Hydra.ico" />
     <Content Include="res\HydraEULA.rtf" />
     <Content Include="res\HydraSplashSide.png" />

@@ -1,0 +1,284 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.Resources" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="AbstraX.IResourceData" name="ResourceData" #>
+<#@ parameter type="AbstraX.ObjectProperties.MarketingObjectProperties" name="MarketingObjectProperties" #>
+{
+  "welcome":
+  [
+    {
+      "page":
+      {
+        "pageTitle": "<#= this.ResourceData.AppName.NullToEmpty() #>",
+        "metaDescription": "",
+        "metaKeywords": ""
+      },
+      "details":
+      {
+        "welcomeTitle": "Welcome to <#= this.ResourceData.AppName.NullToEmpty() #>",
+        "description": "<#= this.ResourceData.AppDescription.NullToEmpty() #>",
+        "startAppUrlTitle": "Skip this intro and start utilizing the <#= this.ResourceData.AppName.NullToEmpty() #> right away",
+        "splashScreenAlt": "Splash screen for  <#= this.ResourceData.AppName.NullToEmpty() #>"
+      }
+    }
+  ],
+  "about":
+  [
+    {
+      "page":
+      {
+        "pageTitle": "About the <#= this.ResourceData.AppName.NullToEmpty() #>",
+        "metaDescription": "",
+        "metaKeywords": ""
+      },
+      "details":
+      {
+        "header":
+        {
+          "aboutBannerAlt": "Banner for the <#= this.ResourceData.AppName.NullToEmpty() #>",
+          "description": "<#= this.ResourceData.AppDescription.NullToEmpty() #>",
+          "version": "$version"
+        },
+<#
+    if (this.MarketingObjectProperties != null)
+    {
+        var other = this.MarketingObjectProperties.Other;
+        var rateUs = this.MarketingObjectProperties.RateUs;
+        var otherLinks = this.MarketingObjectProperties.OtherLinks;
+        SocialMediaEntry[] socialMedia = null;
+        AppStoreEntry[] appStores = null;
+
+        if (this.MarketingObjectProperties.SocialMedia != null)
+        {
+            socialMedia = this.MarketingObjectProperties.SocialMedia.SocialMedia;
+        }
+
+        if (this.MarketingObjectProperties.RateUs != null)
+        {
+            appStores = this.MarketingObjectProperties.RateUs.AppStores;
+        }
+
+#>
+        "mainPageLinks":
+        [
+<#
+        if (other != null)
+        {
+            if (other.AdvertisingLink != null)
+            {
+                var linkProperties = this.MarketingObjectProperties.GetLinkProperties("AdvertisingLink", other.AdvertisingLink);
+#>              
+            {
+                "title": "<#= linkProperties.LinkCallToAction #>",
+                "text": "<#= linkProperties.LinkCallToAction #>",
+                "url": "<#= other.AdvertisingLink #>"
+            },
+<#
+            }
+
+            if (other.ConnectWithUsLink != null)
+            {
+                var linkProperties = this.MarketingObjectProperties.GetLinkProperties("ConnectWithUsLink", other.ConnectWithUsLink);
+#>
+            {
+                "title": "<#= linkProperties.LinkCallToAction #>",
+                "text": "<#= linkProperties.LinkCallToAction #>",
+                "url": "<#= other.ConnectWithUsLink #>"
+            }
+<#
+            }
+
+        }
+#>
+        ],
+        "socialLinks":
+        [
+<#
+        if (other != null)
+        {
+            if (other.EmailUsLink != null)
+            {
+                var linkProperties = this.MarketingObjectProperties.GetLinkProperties("EmailUsLink", other.EmailUsLink);
+#>              
+            {
+                "visitTitle": "<#= linkProperties.LinkCallToAction #>",
+                "visitText": "<#= linkProperties.LinkCallToAction #>",
+                "tinyLogo": "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAK3RFWHRDcmVhdGlvbiBUaW1lAFN1biA3IE1hciAyMDIxIDE2OjQ4OjQ4IC0wNjAw6ip09QAAAAd0SU1FB+UDEBITBOTE/0sAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAAEZ0FNQQAAsY8L/GEFAAAAjklEQVR42mNgoCa4eOni1WtXsKLLly9BFTk5OT199uTf/79o6MWL525ublBF+/bt1dfX37t3D7KK/Qf2GxoaAqWgioBCQJMcHR2bm5v//vsDRK2tLU5OjhDjEYqA6Nfvn6VlpZ5enl5enkAGkAsRR1EERP///9uwYf2GjeuBDLgguiKsCKoIl/8hiKqhDQD+98Z2zQCS9QAAAABJRU5ErkJggg==",
+                "smallLogo": "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAB3RJTUUH5QMVEycZCvT6YAAAAAlwSFlzAAAewQAAHsEBw2lUUwAAAARnQU1BAACxjwv8YQUAAAB+UExURQD/AG9vb9fX1xgYGAAAAJSUlLy8vHd3d8XFxRQUFCQkJB8fH62trV1dXYKCgsTExGVlZRwcHE9PT93d3SUlJXx8fD4+PkFBQd/f3zExMU5OTtnZ2eDg4PX19TMzM/T09EdHR/j4+DAwMPLy8n19ffDw8EZGRktLS15eXvf390EMpAcAAAABdFJOUwBA5thmAAAAzUlEQVR42uWSzRaCIBCFRwIDG62kUtPK7P/9XzAINRVs1Tktmo2DfHfuMADwH8Eq+iGuOeBhHBFsx4AKhYgROckoqORGirtL/oiUEF75+eJXtjzRXzDLAE89H+1u1tD82pIibPdLSTZ1Cm9RdKx9BOu03QEQzXnKlMiY2gCi8skLROW+l4kF6H1VZs25dk/SbAAw7A8rlqsewPzhMBdk2QGiuT1sj4sWmHLXZZiqGvDIxHlZDA0QkBl1B4YacNc3s1N9wFj9po9fv/jvxBOhNA+9p30rowAAAABJRU5ErkJggg==",
+                "largeLogo": "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAAK3RFWHRDcmVhdGlvbiBUaW1lAFN1biA3IE1hciAyMDIxIDE2OjEwOjA2IC0wNjAwXN/t5AAAAAd0SU1FB+UDEBIMEURDFT4AAAAJcEhZcwAACxIAAAsSAdLdfvwAAAAEZ0FNQQAAsY8L/GEFAAAB0VBMVEUA/wC/v7+AgIBJSUklJSUGBgYBAQEDAwMhISFDQ0N4eHi1tbV0dHQeHh4CAgIYGBhoaGhra2sMDAwAAAAHBwdaWlqqqqoWFhYUFBSSkpJvb28FBQVXV1dTU1M/Pz9YWFgEBARAQECzs7OXl5ciIiIgICA9PT0+Pj43NzcTExN+fn4wMDDy8vL9/f3+/v78/Pybm5tdXV0SEhJsbGz09PT////19fX7+/vX19eMjIxtbW3b29vg4OD4+PhQUFCjo6Pa2toxMTGPj4/n5+f5+flmZmZRUVEZGRmHh4fq6upycnJCQkK6urp3d3c8PDzu7u42Njbs7Ox7e3tpaWlxcXFBQUHx8fGampotLS3i4uL6+vpnZ2dLS0uvr68kJCQjIyMoKCj39/eEhIQ1NTXAwMDOzs5UVFRcXFyxsbEmJiYKCgpzc3Pw8PDMzMzz8/NWVlYLCwu3t7cnJyfPz8/t7e1kZGSysrIpKSmioqK4uLgfHx9iYmLc3NwNDQ1ERESWlpaBgYEPDw+5ubkrKyu+vr52dna0tLShoaEICAgqKirZ2dnr6+vU1NQcHBzR0dGkpKRlZWVHR0dFRUUuLi4ODg5SUlKoqKgyMjIRERFeXl6dnZ3DOIqjAAAAAXRSTlMAQObYZgAAAlpJREFUeNqF1elfEkEYB/BBczZUxgw6BCwqSQ1mVhLcxCArsCCL8CDKxDCPwCIMi4rQ7rL7sPOvbWYXZHfZpd+r/bBfltnneWYAQJGf4V+/IU15889foB/PFpQlH1zVZj8sUBVk1GBdW1AjLRNqdxBBzXCqh/ZCvaCk3H2D+kHfa+4LbBTH16r7bGsIIZqvwA5oy+snSysqOb/54yd3TjdrVg4GRViGk4TniU4w/oCgg7kmCAdzpQLv08x768g7DsIShZsQ+iNL+WisnhJ+PFNcZLCfQgeFmH9dNL0J8UTpYuG37W4ySqG5DWzQ3vl9Pux++my9gIn8cc8zL17S7zIIX4ESFCGlT7rLU3FSpSQ+k40m2JUI18Uu+6VbwoOi6aEgUoIfpYoL0qpF+Bjc24Y0iQmLscAqtXY/v5KofChCBFJymBtbvpu3RsiqMzk3y8uhWQ5JYGk5LdzKmDzZldt3egxYAW/U1pj22NP0Z73zNxcwwQbnIq5BCKarkFybuT4kvQjPykRmU6P8NpwDkxWIQ1PTCUXB8ZXkVVYCETaDAQkS4eKlmKqDePhyvArpJrMxSPD5vkhdq4XoBW+lM+MAnGaQP+M6Wz86JBQeC4i9PkeHYpjBEddJrSEjgeApBlEnG8jjcJBgL9GEZEggJzhpcMEx6HJj/QHnBzjkkTZND3Ie7dVNn4Xrr+zCw//ZrtyR6sZu5VADh+yyI8rRQB6SHz7dnK47oDzOrHrrtANV9u7TYvu7NM7czt1mFbPs0Tns202ypaKOXQ3+FwxNzTtaaOV2GlvblHf+AYs3zFP1X7jmAAAAAElFTkSuQmCC",
+                "logoAlt": "Email us",
+                "accountUrl": "<#= other.EmailUsLink #>",
+                "shareUrl": "<#= other.EmailUsLink #>"
+            },
+<#
+            }
+        }
+
+        if (socialMedia != null)
+        {
+            var socialMediaState = socialMedia.WithState();
+
+            foreach (var entry in socialMediaState)
+            {
+#>
+            {
+                "visitTitle": "<#= entry.VisitCallToAction #>",
+                "visitText": "<#= entry.VisitCallToAction #>",
+                "shareTitle": "<#= entry.ShareCallToAction #>",
+                "shareText": "<#= entry.ShareCallToAction #>",
+                "tinyLogo": "<#= entry.TinyLogo #>",
+                "smallLogo": "<#= entry.SmallLogo #>",
+                "largeLogo": "<#= entry.LargeLogo #>",
+                "logoAlt": "<#= entry.Name #>",
+                "accountUrl": "<#= entry.AccountUrl #>",
+                "shareUrl": "<#= entry.ShareUrl #>",
+                "enable": "<#= entry.Enable.ToString().LowerCase() #>"
+            }<#= socialMediaState.IsLast ? string.Empty : "," #>
+<#
+            }                                             
+        }
+
+#>
+        ],
+        "appStoreLinks":
+        [
+<#
+        if (appStores != null)
+        {
+            var appStoresState = appStores.WithState();
+
+            foreach (var appStore in appStoresState)
+            {
+#>
+            {
+                "name": "<#= appStore.Name #>",
+                "text": "<#= appStore.CallToAction #>",
+                "title": "<#= appStore.CallToAction #>",
+                "tinyLogo": "<#= appStore.TinyLogo #>",
+                "smallLogo": "<#= appStore.SmallLogo #>",
+                "largeLogo": "<#= appStore.LargeLogo #>",
+                "logoAlt": "<#= appStore.Name #>",
+                "accountUrl": "<#= appStore.AccountUrl #>",
+                "device": "<#= appStore.DeviceRatingsOs #>",
+                "allowRating": "<#= appStore.AllowRating.ToString().LowerCase() #>"
+            }<#= appStoresState.IsLast ? string.Empty : "," #>
+<#
+            }                                             
+        }
+#>
+        ],
+        "tellOthers":
+        [
+<#
+        if (other != null)
+        {
+            if (other.TellOthers != null)
+            {
+                var linkProperties = this.MarketingObjectProperties.GetLinkProperties("TellOthers", other.TellOthers.Url);
+#>
+            {
+                "visitTitle": "<#= linkProperties.LinkCallToAction #>",
+                "visitText": "<#= linkProperties.LinkCallToAction #>",
+                "smallLogo": "data:image/gif;base64,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",
+                "logoAlt": "Tell others",
+                "accountUrl": "<#= other.TellOthers.Url #>"
+            }
+<#
+            }
+        }
+#>
+        ],
+        "sidelLinks":
+        [
+<#
+        if (otherLinks != null)
+        {
+            var otherLinksState = otherLinks.WithState();
+
+            foreach (var link in otherLinksState)
+            {
+                var linkProperties = this.MarketingObjectProperties.GetLinkProperties("Other", link);
+#>
+            {
+                "title": "<#= linkProperties.LinkCallToAction #>",
+                "text": "<#= linkProperties.LinkCallToAction #>",
+                "url": "<#= link #>"
+            }<#= otherLinksState.IsLast ? string.Empty : "," #>
+<#
+            }
+        }
+#>
+        ]
+<#
+    }
+    else
+    {
+#>
+        "mainPageLinks":
+        [
+
+        ],
+        "socialLinks":
+        [
+        ],
+        "sidelLinks":
+        [
+        ]
+<#
+    }
+#>
+      }
+    }
+  ],
+  "license":
+  [
+    {
+      "page":
+      {
+        "pageTitle": "Licensing information for the <#= this.ResourceData.AppName.NullToEmpty() #>",
+        "metaDescription": "",
+        "metaKeywords": ""
+      },
+      "details":
+      {
+        "content": "<#= this.ResourceData.GetHtmlContent("EndUserLicense") #>",
+        "licenseUrl": "<#= this.ResourceData.EndUserLicenseUrl.NullToEmpty() #>",
+        "licenseUrlTitle": "This is the EULA (end user license agreement) for using of <#= this.ResourceData.AppName.NullToEmpty() #>",
+        "questionsEmailAddress": "<#= this.ResourceData.EndUserLicenseEmailAddress.NullToEmpty() #>",
+        "questionsEmailAddressTitle": "You can submit email questions regarding the usage of <#= this.ResourceData.AppName.NullToEmpty() #> by clicking this link",
+        "questionsMailingAddress": "<#= this.ResourceData.EndUserLicenseMailingAddress.NullToEmpty() #>"
+      }
+    }
+  ],
+  "support":
+  [
+    {
+      "page":
+      {
+        "pageTitle": "Support information for the <#= this.ResourceData.AppName.NullToEmpty() #>",
+        "metaDescription": "",
+        "metaKeywords": ""
+      },
+      "details":
+      {
+        "content": "<#= this.ResourceData.GetHtmlContent("SupportDetails") #>",
+        "supportUrl": "<#= this.ResourceData.SupportUrl.NullToEmpty() #>",
+        "supportUrlTitle": "This is the link for support details for usage of <#= this.ResourceData.AppName.NullToEmpty() #>",
+        "supportEmailAddress": "<#= this.ResourceData.SupportEmailAddress.NullToEmpty() #>",
+        "supportEmailAddressTitle": "You can submit email questions to retrieve support for the <#= this.ResourceData.AppName.NullToEmpty() #> by clicking this link"
+      }
+    }
+  ],
+  "pages":
+  [
+  ]
+}

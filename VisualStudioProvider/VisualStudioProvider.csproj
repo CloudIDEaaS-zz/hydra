@@ -350,6 +350,7 @@
     </Compile>
     <Compile Include="PDB\HeaderWhereClauseExtensions.cs" />
     <Compile Include="PDB\IProcedureBlock.cs" />
+    <Compile Include="PDB\raw\IDiaSession2.cs" />
     <Compile Include="PDB\SpecialFunction.cs" />
     <Compile Include="WPFExtensions\ControlExtensions.cs" />
     <Compile Include="WPFExtensions\Globals.cs" />
@@ -741,8 +742,8 @@
       <Project>{A1D569A5-690C-4479-93BC-795FE6EC3C88}</Project>
       <Name>CodeInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CppParser\CppParser.csproj">
-      <Project>{91b287fe-0858-444e-8e87-0f3d4783bbbc}</Project>
+    <ProjectReference Include="..\Parsers\CppParser\CppParser.csproj">
+      <Project>{4b634152-eb87-49fe-8d78-4a6e9a27c614}</Project>
       <Name>CppParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\SDKInterfaceLibrary.Entities\SDKInterfaceLibrary.Entities.csproj">
@@ -769,9 +770,6 @@
     <EmbeddedResource Include="MSBuild.Strings.shared.resources" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\..\Program Files %28x86%29\Microsoft Visual Studio 10.0\DIA SDK\include\dia2.h">
-      <Link>PDB\raw\dia2.h</Link>
-    </Content>
     <Content Include="DiaSymbol.cs.txt" />
     <Content Include="PDB\Headers\AccessSpecifierDecl.sql">
       <AutoGen>True</AutoGen>

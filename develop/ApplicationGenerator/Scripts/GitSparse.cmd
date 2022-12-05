@@ -1,8 +1,0 @@
-git init
-git sparse-checkout init --cone
-git sparse-checkout set ApplicationGenerator Documentation ApplicationGenerator.Interfaces Utils CodeInterfaces VisualStudioProvider ApplicationGenerator.Overrides Hydra.Installer Hydra.Extension Hydra.InstallerStandalone UtilsProjects ColorMine CppParser ProcessDiagnosticsLibrary SDKInterfaceLibrary.Entities SharpSerializer.Library Rtf2Html ConverterHtml2010 Interpreter2010 Parser2010 Rtf2Html2010 Sys2010 ApplicationGenerator.Data Utils.Core Binaries XPathParser TypeScriptAST ModuleImportsHelper PackageCacheStatus ApplicationGeneratorBuildTasks TestApplicationGeneratorBuildTasks Hydra.Interfaces NetCoreReflectionShim.Service NetCoreReflectionShim.Agent XPathParser.Core NetCoreReflectionShim.CodeGen NetCoreReflectionShim.Test NetCoreReflectionShim.TestProxy ApplicationGenerator.IonicAngular SassParser SassParser _Documentation DynamicTemplateEngine FindGenerators CreateSharedReferences NamedPipeWrapper RunCommandElevated HydraCrashAnalyzer CLIBuilderProcessor Hydra.Scanner DllExport.Metadata Hydra.Apps.Administration.ServicesClient.Test DllExport.MSBuild DllExport OutputSparseFolderList SharpSerializer Mailslot HydraDebugAssistant VU_MeterLibrary Wizard HydraResourceTracer AppStoreInterfaces SqlLocalDb HydraAppStore ApplicationGenerator.Tests Hydra.ReleaseManagement
-git remote add origin https://udu2eug4ja5ymzz6xqozwyietiudz7n6io3o4vlrkwgpnl2l52ea@dev.azure.com/cloudideaas/Hydra/_git/Hydra
-git pull --progress --verbose --depth=1 origin master
-msbuild /t:restore "ApplicationGenerator.sln"
-msbuild "ApplicationGenerator.sln" -property:Configuration=Release -property:HYDRASOLUTIONPATH=%cd%
-mstest /testcontainer:ApplicationGenerator.Tests\bin\Release\ApplicationGenerator.Tests.dll

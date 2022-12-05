@@ -23,6 +23,7 @@
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
     <AssemblyVersion>1.0.0.5659</AssemblyVersion>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -134,7 +135,7 @@
     <Content Include="AngularRouterPackage.txt">
       <DependentUpon>ModuleImports.tt</DependentUpon>
     </Content>
-    <Content Include="appConditional\edit-delete\edit-delete.html" />
+    <None Include="appConditional\edit-delete\edit-delete.html" />
     <Content Include="app\src\app\JasmineTests.html" />
     <Content Include="app\src\app\modules\components\hyper-link\hyper-link.html" />
     <Content Include="Defaults\AboutBanner.jpg">
@@ -246,6 +247,11 @@
       <DependentUpon>PackageWidgetXMLTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Generators\Client\Theme\HtmlIndexTemplate.cs">
+      <DependentUpon>HtmlIndexTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Generators\Client\Theme\ThemeGenerator.cs" />
@@ -409,6 +415,8 @@
       <DependentUpon>LicensePageTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Handlers\CommandHandlers\AppTargetsBuilder.cs" />
+    <Compile Include="Handlers\CommandHandlers\MsBuildCommandHandler.cs" />
+    <Compile Include="Handlers\CommandHandlers\TypescriptCommandHandler.cs" />
     <Compile Include="Handlers\CommandHandlers\VsCodeCommandHandler.cs" />
     <Compile Include="Handlers\CommandHandlers\DotNetTools\DotNetTool.cs" />
     <Compile Include="Handlers\CommandHandlers\DotNetTools\EntityFrameworkTool.cs" />
@@ -751,7 +759,9 @@
     <EmbeddedResource Include="WizardPages\ctrlWizardStepFoundation.resx">
       <DependentUpon>ctrlWizardStepFoundation.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="app.zip" />
     <None Include="appConditional\edit-delete\edit-delete.scss" />
+    <None Include="app\angular.json" />
     <None Include="app\src\app\modules\components\hyper-link\hyper-link.scss" />
     <None Include="Defaults\Dimensions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1010,6 +1020,11 @@
     <Content Include="Generators\Client\Config\PackageWidgetXMLTemplate.tt">
       <Generator>TextTemplatingFilePreProcessor</Generator>
       <LastGenOutput>PackageWidgetXMLTemplate.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Generators\Client\Theme\HtmlIndexTemplate.tt">
+      <Generator>TextTemplatingFilePreProcessor</Generator>
+      <LastGenOutput>HtmlIndexTemplate.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Generators\Client\Theme\DataJsonTemplate.tt">
@@ -1519,9 +1534,6 @@
     <None Include="app\src\app\modules\components\tree-view\tree-view.scss" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app\src\app\modules\components\tree-view\tree-view.spec.ts" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app\src\app\modules\components\tree-view\tree-view.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -1683,7 +1695,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ExportedProjectTemplates\%24specifiedsolutionname%24.Entities\%24specifiedsolutionname%24.Entities.csproj" />
-    <EmbeddedResource Include="app.zip" />
     <Content Include="app\src\app\app.scss" />
     <None Include="app\tsconfig.app.json" />
     <None Include="app\tsconfig.json" />
@@ -1799,12 +1810,11 @@
     <None Include="app\src\app\modules\utils\bindingParser.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="appConditional\edit-delete\edit-delete.module.ts" />
-    <TypeScriptCompile Include="appConditional\edit-delete\edit-delete.ts" />
-    <TypeScriptCompile Include="appConditional\edit-delete\index.ts" />
-    <TypeScriptCompile Include="app\src\app\modules\components\hyper-link\hyper-link.module.ts" />
-    <TypeScriptCompile Include="app\src\app\modules\components\hyper-link\hyper-link.spec.ts" />
-    <TypeScriptCompile Include="app\src\app\modules\components\hyper-link\hyper-link.ts" />
+    <None Include="appConditional\edit-delete\edit-delete.module.ts" />
+    <None Include="appConditional\edit-delete\edit-delete.ts" />
+    <None Include="appConditional\edit-delete\index.ts" />
+    <None Include="app\src\app\modules\components\hyper-link\hyper-link.module.ts" />
+    <None Include="app\src\app\modules\components\hyper-link\hyper-link.ts" />
   </ItemGroup>
   <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\..\Binaries\SolutionLibraries\ApplicationGeneratorBuildTasks.dll" TaskName="InstallTemplates" />
   <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\..\Binaries\SolutionLibraries\ApplicationGeneratorBuildTasks.dll" TaskName="ZipAppFiles" />

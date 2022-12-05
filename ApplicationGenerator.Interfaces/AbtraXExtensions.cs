@@ -808,7 +808,7 @@ namespace AbstraX
             {
                 var _devTool = devTools.Single(s => s.DevToolType == "DevIDE");
                 var appStoreAssembly = _devTool.Assembly;
-                var type = Assembly.Load(appStoreAssembly.AssemblyName).GetTypes().Single(t => !t.IsInterface && t.Implements<IAppStore>());
+                var type = Assembly.Load(appStoreAssembly.AssemblyName).GetTypes().Single(t => !t.IsInterface && t.Implements<IDevIDEInstance>());
                 var devIDE = (IDevIDEInstance)Activator.CreateInstance(type);
 
                 return devIDE;

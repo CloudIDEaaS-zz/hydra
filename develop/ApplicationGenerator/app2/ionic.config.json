@@ -1,7 +1,0 @@
-{
-  "name": "DataGrid",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "ionic-angular"
-}

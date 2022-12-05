@@ -5,6 +5,22 @@
 
 # Hydra-specific files
 Installers/
+_dotnetsdk/
+_downloads/
+_layout
+Installers/
+ContainerInstalls/
+TestOutput/
+runtimes/
+env/
+ApplicationGenerator/CrashAnalyzer/Fx4/
+ApplicationGenerator/NetCoreReflectionService/netcoreapp3/
+ApplicationGenerator/HydraDesktop/
+ApplicationGenerator/UserExperience/
+HydraCLI/HydraInstall/install/
+*.gz
+*.mmdb
+.npmrc
 
 # User-specific files
 *.rsuser
@@ -351,3 +367,20 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/ApplicationGenerator/HydraDesktop
+/ApplicationGenerator/CrashAnalyzer/Core/netcoreapp3.1
+/Binaries/SolutionLibraries/StrongNameSigner/unins000.exe
+/Binaries/SolutionLibraries/StrongNameSigner/unins000.dat
+/ApplicationGenerator/CrashAnalyzer/Fx4.6/Signed
+/ApplicationGenerator/NetCoreReflectionService/netcoreapp3.1/Signed
+CrashAnalyzer
+NetCoreReflectionService
+/HydraSpokeswoman/ContentPacks
+/HydraSpokeswoman/Jenny/Output Renders
+/HydraSpokeswoman/Jenny/ReferenceVideos
+/HydraSpokeswoman/Jenny/Scene
+/HydraSpokeswoman/Jenny/PoseLibrary
+/HydraSpokeswoman/Jenny/ShapeKeys
+/WordAnalysis/Services/GoogleAds/ClientLibrary
+/HydraCLI/TreeViewHost
+*.zip

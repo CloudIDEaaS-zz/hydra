@@ -11,4 +11,17 @@ export class Utils {
     public static sleep(time) : Promise<{}> {
         return new Promise((resolve) => setTimeout(resolve, time));
     }
+
+    public static pause(time : number) {
+        let start = Date.now();
+
+        while (true) {
+            
+            let now = Date.now();
+
+            if (now - start >= time) {
+                break;
+            }
+        }
+    }
 }

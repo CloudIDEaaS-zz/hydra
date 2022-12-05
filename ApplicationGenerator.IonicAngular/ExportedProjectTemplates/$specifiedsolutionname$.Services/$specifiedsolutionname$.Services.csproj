@@ -30,7 +30,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Hydra.Interfaces" Version="1.0.0.144" />
+		<PackageReference Include="Hydra.Interfaces" Version="1.0.0.483" />
 		<PackageReference Include="GoogleMeasurementProtocol" Version="2.1.0" />
 		<PackageReference Include="GraphQL" Version="2.4.0" />
 		<PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="3.4.0" />

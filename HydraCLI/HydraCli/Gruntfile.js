@@ -22,4 +22,13 @@ module.exports = function(grunt) {
         }
       },
     });
+
+    grunt.registerTask("convertResx", "Converts resx files to resourceManager", () => {
+
+      let resxConverter = require("resx-json-typescript-converter");
+
+      grunt.log.writeln("Converting language resources");
+     
+      resxConverter.convertResx(["./HydraCli.en-US.resx" /*, "HydraCli.zh-CHS.resx" */], "./src/resources", { defaultResxCulture: "HydraCli.en-US.resx", mergeCulturesToSingleFile: true, generateTypeScriptResourceManager: true, searchRecursive: true });
+    });
 }

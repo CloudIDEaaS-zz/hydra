@@ -314,59 +314,54 @@ namespace VisualStudioProvider.PDB.diaapi
         {
             get
             {
-                int hr;
-                string undecoratedSymbol;
+                string str;
+                string empty;
 
-                hr = symbol.get_undecoratedName(out undecoratedSymbol);
-
-                if (hr != VSConstants.S_OK)
+                if (this.symbol.get_undecoratedName(out str) != 0)
                 {
-                    return string.Empty;
+                    empty = string.Empty;
                 }
-
-                if (undecoratedSymbol == null)
+                else if (str != null)
                 {
-                    return null;
-                }
-
-                if (this.Name == undecoratedSymbol)
-                {
-                    var regex = new Regex(string.Format(@"_(?<name>{0})@(?<argbytes>\d+)", StringExtensions.REGEX_IDENTIFIER_MIDSTRING));
-
-                    if (regex.IsMatch(undecoratedSymbol))
+                    if (this.Name == str)
                     {
-                        string name;
-                        string argBytesString;
-                        ulong argBytes;
-                        var match = regex.Match(undecoratedSymbol);
+                        var regex = new Regex(string.Format("_(?<name>{0})@(?<argbytes>\\d+)", "(?:(?(?!\\d)\\w+(?:\\.(?!\\d)\\w+)*)\\.)?((?!\\d)\\w+)"));
 
-                        name = match.Groups["name"].Value;
-                        argBytesString = match.Groups["argbytes"].Value;
+                        if (!regex.IsMatch(str))
+                        {
+                            regex = new Regex(string.Format("(?<name>{0})@(?<argbytes>\\d+)", "(?:(?(?!\\d)\\w+(?:\\.(?!\\d)\\w+)*)\\.)?((?!\\d)\\w+)"));
 
-                        argBytes = ulong.Parse(argBytesString);
+                            if (regex.IsMatch(str))
+                            {
+                                var match = regex.Match(str);
+                                var value = match.Groups["name"].Value;
+                                var value1 = match.Groups["argbytes"].Value;
 
-                        return name;
+                                empty = value;
+
+                                return empty;
+                            }
+                        }
+                        else
+                        {
+                            var match1 = regex.Match(str);
+                            var str1 = match1.Groups["name"].Value;
+                            var value2 = match1.Groups["argbytes"].Value;
+
+                            empty = str1;
+
+                            return empty;
+                        }
                     }
-                    
-                    regex = new Regex(string.Format(@"(?<name>{0})@(?<argbytes>\d+)", StringExtensions.REGEX_IDENTIFIER_MIDSTRING));
 
-                    if (regex.IsMatch(undecoratedSymbol))
-                    {
-                        string name;
-                        string argBytesString;
-                        ulong argBytes;
-                        var match = regex.Match(undecoratedSymbol);
-
-                        name = match.Groups["name"].Value;
-                        argBytesString = match.Groups["argbytes"].Value;
-
-                        argBytes = ulong.Parse(argBytesString);
-
-                        return name;
-                    }
+                    empty = str;
+                }
+                else
+                {
+                    empty = null;
                 }
 
-                return undecoratedSymbol;
+                return empty;
             }
         }
 

@@ -6,10 +6,8 @@ const http = require("http");
  * Api is a generic REST Api handler. Set your API url first.
  */
 class Api {
-    constructor() {
-        this.baseUrl = "http://localhost:8043";
-        this.servicesUrl = this.baseUrl + "/api/Status";
-    }
+    baseUrl = "http://localhost:8043";
+    servicesUrl = this.baseUrl + "/api/Status";
     get(endpoint, ...params) {
         return new Promise((resolve, reject) => {
             let queryString = "";

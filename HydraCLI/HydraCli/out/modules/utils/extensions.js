@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const StringBuilder = require('stringbuilder');
+const fs = require('fs');
+const dateFormat = require('dateformat');
+const path = require("path");
+const { serializeError, deserializeError } = require('serialize-error');
+const beautify = require('js-beautify');
 let getEndingCount = function (ending) {
     let thisString = this;
     let length = thisString.length;
@@ -14,6 +19,12 @@ let getEndingCount = function (ending) {
     }
     return x;
 };
+let toJson = function () {
+    let error = this;
+    let json = "\r\n" + beautify(JSON.stringify(serializeError(error)), { indent_size: 2, space_in_empty_paren: true }).replace(/\\n/g, "\r\n") + "\r\n";
+    return json;
+};
+Error.prototype["toJson"] = toJson;
 String.prototype.getEndingCount = getEndingCount;
 let oneOf = function (...values) {
     let equals = false;
@@ -27,20 +38,60 @@ let oneOf = function (...values) {
 // Object.prototype.oneOf = oneOf;
 // Number.prototype.oneOf = oneOf;
 const stream_1 = require("stream");
-let readText = function (listener) {
+function writeLog(logPath, outgoing, contents) {
+    try {
+        let fileName = dateFormat(Date.now(), "yyyymmdd_HHMMss_l") + (outgoing ? "_HydraCLI_Out" : "_HydraCLI_In") + ".json";
+        let fullFileName = path.join(logPath, fileName);
+        if (!fs.existsSync(logPath)) {
+            fs.mkdirSync(logPath, { recursive: true });
+        }
+        fs.writeFileSync(fullFileName, contents, (err) => {
+            if (err) {
+                return console.log(err);
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+let readText = function (logPath = null, listener) {
     return this.on("data", listener);
 };
-let readJson = function (listener) {
+let readJson = function (logPath = null, listener) {
     let dataListener = null;
-    dataListener = (data) => {
-        var obj = JSON.parse(data);
-        listener(obj);
-        this.removeListener("data", dataListener);
+    let errorListener = null;
+    let incompleteData;
+    errorListener = (e) => {
+        listener(e);
+        this.removeListener("error", errorListener);
     };
+    dataListener = (data) => {
+        let obj;
+        if (incompleteData) {
+            data = incompleteData + data;
+        }
+        if (logPath) {
+            writeLog(logPath, false, data);
+        }
+        try {
+            obj = JSON.parse(data);
+            listener(obj);
+            this.removeListener("data", dataListener);
+            this.removeListener("error", errorListener);
+        }
+        catch (err) {
+            incompleteData = data;
+        }
+    };
+    this.on("error", errorListener);
     return this.on("data", dataListener);
 };
-let writeJson = function (obj) {
+let writeJson = function (logPath = null, obj) {
     let output = JSON.stringify(obj);
+    if (logPath) {
+        writeLog(logPath, true, output);
+    }
     this.write(output + "\r\n\r\n");
 };
 stream_1.Readable.prototype.readJson = readJson;

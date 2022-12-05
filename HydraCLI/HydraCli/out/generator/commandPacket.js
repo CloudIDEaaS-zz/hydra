@@ -2,6 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommandPacketResponse = exports.CommandPacket = void 0;
 class CommandPacket {
+    Type;
+    Command;
+    Arguments;
+    Response;
+    SentTimestamp;
+    IsChainedStream;
     constructor(Type, Command, Arguments) {
         this.Type = Type;
         this.Command = Command;

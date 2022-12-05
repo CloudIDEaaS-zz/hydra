@@ -126,7 +126,14 @@ namespace Utils
                 };
             }
 
-            return JsonConvert.DeserializeObject<T>(json, settings);
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(json, settings);
+            }
+            catch
+            {
+                return JsonConvert.DeserializeObject<T>(json.RemoveBOM(), settings);
+            }
         }
 
         public static string ToJsonDynamic(this object obj, bool prettyPrint = true)

@@ -1,4 +1,9 @@
 const StringBuilder = require('stringbuilder');
+const fs = require('fs');
+const dateFormat = require('dateformat');
+import * as path from "path";
+const {serializeError, deserializeError} = require('serialize-error');
+const beautify = require('js-beautify');
 
 declare global {
 
@@ -34,19 +39,31 @@ let getEndingCount = function(ending: string) {
   return x;
 };
 
+let toJson = function() {
+  let error = this;
+  let json = "\r\n" + beautify(JSON.stringify(serializeError(error)), { indent_size: 2, space_in_empty_paren: true }).replace(/\\n/g, "\r\n") + "\r\n";
+
+  return json;
+};
+
+Error.prototype["toJson"] = toJson;
+export interface Error {
+  toJson() : string;
+}
+
 String.prototype.getEndingCount = getEndingCount;
 
 let oneOf = function(...values) {
 
-  let equals: boolean = false;
+let equals: boolean = false;
 
-  values.forEach(v => {
-    if (this === v) {
-      equals = true;
-    }
-  });
+values.forEach(v => {
+  if (this === v) {
+    equals = true;
+  }
+});
 
-  return equals;
+return equals;
 };
 
 // Object.prototype.oneOf = oneOf;
@@ -54,47 +71,100 @@ let oneOf = function(...values) {
 
 import { Readable, Writable, Duplex } from "stream";
 
-declare module "stream" {
+function writeLog(logPath: string, outgoing: boolean, contents: string) {
+
+  try {
+    let fileName = dateFormat(Date.now(), "yyyymmdd_HHMMss_l") + (outgoing ? "_HydraCLI_Out" : "_HydraCLI_In") + ".json";
+    let fullFileName = path.join(logPath, fileName);
   
-  interface Readable {
-    readJson<T>(listener: (T) => void);
-    readText(listener: (response : string) => void);
+    if (!fs.existsSync(logPath)){
+      fs.mkdirSync(logPath, { recursive: true });
+    }
+  
+    fs.writeFileSync(fullFileName, contents, (err) => {
+        
+      if (err) {
+       return console.log(err);
+      }
+    });
   }
-
-  interface Writable {
-    writeJson(obj : any);
-  }
-
-  interface Duplex {
-    readJson<T>(listener: (T) => void);
-    readText(listener: (response : string) => void);
-    writeJson(obj : any);
+  catch (err) {
+    console.log(err);
   }
 }
 
-let readText = function(listener: (response : string) => void) {
+declare module "stream" {
+
+  interface Readable {
+    readJson<T>(logPath: string, listener: (T) => void);
+    readText(logPath: string, listener: (response : string) => void);
+  }
+
+  interface Writable {
+    writeJson(logPath: string, obj : any);
+  }
+
+  interface Duplex {
+    readJson<T>(logPath: string, listener: (T) => void);
+    readText(logPath: string, listener: (response : string) => void);
+    writeJson(logPath: string, obj : any);
+  }
+}
+
+let readText = function(logPath: string = null, listener: (response : string) => void) {
   return this.on("data", listener);
 };
 
-let readJson = function(listener: (T) => void) { 
+let readJson = function(logPath: string = null, listener: (T) => void) { 
 
   let dataListener : (data : string) => void = null;
+  let errorListener : (e : Error) => void = null;
+  let incompleteData: string;
+
+  errorListener = (e : Error) => {
+    listener(e);
+    this.removeListener("error", errorListener);
+  };
 
   dataListener = (data : string) => {
 
-    var obj = JSON.parse(data);
+    let obj;
 
-    listener(obj);
-    this.removeListener("data", dataListener);
-    
+    if (incompleteData) {
+      data = incompleteData + data;
+    }
+
+    if (logPath) {
+      writeLog(logPath, false, data);
+    }
+
+    try {
+      
+      obj = JSON.parse(data);
+  
+      listener(obj);
+      
+      this.removeListener("data", dataListener);
+      this.removeListener("error", errorListener);
+    }
+    catch (err) {
+      incompleteData = data;
+    }
   };
+
+  this.on("error", errorListener);
 
   return this.on("data", dataListener);
 };
 
-let writeJson = function(obj : any) {
+let writeJson = function(logPath: string = null, obj : any) {
 
   let output: string = JSON.stringify(obj);
+
+  if (logPath) {
+    writeLog(logPath, true, output);
+  }
+  
   this.write(output + "\r\n\r\n");
   
 };

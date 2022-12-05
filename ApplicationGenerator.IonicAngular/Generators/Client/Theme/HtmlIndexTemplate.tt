@@ -1,0 +1,58 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX.Resources" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="AbstraX.IResourceData" name="ResourceData" #>
+<#@ parameter type="System.String" name="AppName" #>
+<#@ parameter type="System.String" name="Description" #>
+<#@ parameter type="System.String" name="AuthorName" #>
+<#@ parameter type="System.String" name="ThemeColor" #>
+<#@ parameter type="AbstraX.ObjectProperties.MarketingObjectProperties" name="MarketingObjectProperties" #>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title><#= this.AppName #></title>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.css">
+
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="author" content="<#= this.AuthorName #>">
+  <meta name="description" content="<#= this.Description #>">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="generator" content="CloudIDEaaS Inc, Copyright © 2020 - Hydra Powered App">
+  <meta name="generatorUrl" content="https://www.cloudideaas.com/hydra/index.htm">
+  <meta name="theme-color" content="<#= this.ThemeColor #>">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <base href="/">
+
+  <link rel="icon" type="image/x-icon" href="assets/img/appicon.png">
+
+  <link rel="apple-touch-icon" href="assets/img/appicon.png">
+
+  <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+
+  <app-root></app-root>
+
+  <!-- Replace the API key with your own, see:
+    https://developers.google.com/maps/documentation/javascript/get-api-key -->
+  <!-- <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8pf6ZdFQj5qw7rc_HSGrhUwQKfIe9ICw"></script> -->
+
+  <noscript>Please enable JavaScript to continue using this application.</noscript>
+</body>
+
+</html>

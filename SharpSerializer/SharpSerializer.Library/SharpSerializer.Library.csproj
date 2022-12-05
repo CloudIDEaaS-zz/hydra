@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Polenter.Serialization</RootNamespace>
     <AssemblyName>Polenter.SharpSerializer</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>SharpSerializer.ico</ApplicationIcon>
     <SignAssembly>true</SignAssembly>
@@ -19,7 +19,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>publish\</PublishUrl> 
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -39,6 +39,7 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <TargetFrameworkProfile />
+    <AssemblyVersion>2.18.0.114</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -108,6 +109,8 @@
     <Compile Include="Advanced\BinaryPropertyDeserializer.cs" />
     <Compile Include="Advanced\BinaryPropertySerializer.cs" />
     <Compile Include="Advanced\PropertyCache.cs" />
+    <Compile Include="Advanced\XmlObjectNamingPropertySerializer.cs" />
+    <Compile Include="Advanced\Xml\IComplexValueConverter.cs" />
     <Compile Include="Core\ArrayAnalyzer.cs" />
     <Compile Include="BinarySerializationMode.cs" />
     <Compile Include="Core\Binary\Elements.cs" />

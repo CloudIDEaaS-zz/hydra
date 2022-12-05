@@ -1,0 +1,140 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.DataAnnotations" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.IEnumerable<AbstraX.ModuleImportDeclaration>" name="Imports" #>
+<#@ parameter type="System.Collections.Generic.IEnumerable<AbstraX.Angular.Page>" name="Pages" #>
+<#@ parameter type="System.String" name="AppName" #>
+<#@ parameter type="System.String" name="IdentityProvider" #>
+<#@ parameter type="System.String" name="InitApp" #>
+<#@ parameter type="System.String" name="InitUser" #>
+import { Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
+import { MenuController, Platform, ToastController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
+import { UserDataProvider } from './providers/userdata.provider';
+import { Guid } from "guid-typescript";
+import { List } from 'linq-collections';
+import { Router } from '@angular/router';
+import { UserProvider } from './providers/user.provider';
+<# 
+    foreach (var import in this.Imports)
+    {
+        this.WriteLine(import.DeclarationCode);
+    }
+#>
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
+})
+export class AppComponent implements OnInit {
+  menuTreeConfiguration = {
+    childNodesMember : "subMenus",
+    titleProperty: "title",
+    iconProperty: "icon",
+    isExpandedProperty: "isExpanded"
+  };
+  applicationMenuNodes = [];
+  loggedIn = false;
+  dark = false;
+  getNodeContentFunction: (node: any) => string;
+
+  constructor(
+    private injector: Injector,
+    private menu: MenuController,
+    private platform: Platform,
+    private router: Router,
+    private storage: Storage,
+    private userData: UserDataProvider,
+    private toastCtrl: ToastController
+  ) {
+    this.initializeApp();
+    this.getNodeContentFunction = (node: any) => this.getNodeContent(node);
+  }
+
+  getNodeContent(node: any): string {
+    return `<hyper-link class="menuitem item sc-ion-label-md-h" route="/app/main/about">
+      ${ node.title }
+    </hyper-link>`;
+  }
+
+  async ngOnInit() {
+    this.checkLoginStatus();
+    this.listenForLoginEvents();
+  }
+
+  initializeApp() {
+    this.platform.ready().then(() => {
+    });
+
+    this.initApp();
+  }
+
+  initApp() {
+<#= this.InitApp #>
+  }
+
+  initUser() {
+<#= this.InitUser #>
+  }
+
+  checkLoginStatus() {
+    return this.userData.isLoggedIn().then(loggedIn => {
+      return this.updateLoggedInStatus(loggedIn);
+    });
+  }
+
+  updateLoggedInStatus(loggedIn: boolean) {
+    setTimeout(() => {
+      this.loggedIn = loggedIn;
+    }, 300);
+    this.initUser();
+  }
+
+  listenForLoginEvents() {
+    window.addEventListener('user:login', () => {
+      this.updateLoggedInStatus(true);
+    });
+
+    window.addEventListener('user:signup', () => {
+      this.updateLoggedInStatus(true);
+    });
+
+    window.addEventListener('user:logout', () => {
+      this.updateLoggedInStatus(false);
+    });
+  }
+
+  logout() {
+    this.userData.logout().then(() => {
+      return this.router.navigateByUrl('/login');
+    });
+  }
+
+  openHomePage() {
+    this.menu.enable(false);
+    this.storage.set('ion_did_homepage', false);
+    this.router.navigateByUrl('/welcome');
+  }
+
+  getAllModules() {
+    return new Promise((resolve) => {
+      const id = Guid.create().toString();
+      window['webpackJsonp'](
+        [],
+        {[id]: function(module, exports, __webpack_require__) {
+          resolve(__webpack_require__.c);
+        }},
+        [id]
+      );
+    });
+  }
+}

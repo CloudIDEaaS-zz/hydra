@@ -5,32 +5,37 @@
 ![npm](https://img.shields.io/npm/dt/@cloudideaas/hydra)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/cloudideaas/hydra)
 
-Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes.
+Hydra is an app generator designed to put app development in the hands of everyone.
 
 ![Hydra Splash](https://www.cloudideaas.com/images/HydraSplashNarrow.png)
+
+## Description
+
+Hydra is a app generation tool with resulting source code. Generated front-end support for Ionic/Angular. Restful service layer support for .NET Core. Back-end support for SQL Server. Other supported technologies coming soon as Hydra is highly extensible. Also includes support for mobile capability, Docker, Helm, Azure Devops, and Kubernetes.
+It serves as app generator for those who want to own and control the source locally.
 
 ## Current Features
 
 - Generates a Visual Studio boiler plate solution:
- ```
-hydra generate workspace
- ```
+     ```
+    hydra generate workspace
+    ```
 - Generates a Business Model and Entity Domain Model, respectively:
- ```
-hydra generate businessmodel
-hydra generate entities
- ```
+    ```
+    hydra generate businessmodel
+    hydra generate entities
+    ```
 - Generates front-end framework (i.e. Ionic) and resulting application:
- ```
-hydra generate start
-hydra generate app
- ```
+    ```
+    hydra generate start
+    hydra generate app
+    ```
 
 ## How it Works
 
 Most everything in life is naturally hierarchical, your family, your work organization, data relationships, 
 user interfaces, security models, etc. Hydra starts with what is called a "business model".  Business models are broken 
-into the following levels: stakeholders, organizational units, roles (people and systems), responsibilities (or features - for systems),
+into the following levels: stakeholders, organizational units, roles (people and systems), responsibilities (or features - for systems), 
 tasks, and data items.  Once you get to the data item level, then you can define the detail that results in properties of entity models, 
 columns in database tables, and elements on a screen.
 
@@ -64,6 +69,29 @@ dull, and drone.  It does this while at the same time, allowing for creativity a
     - [ApplicationFolderHierarchy](http://www.cloudideaas.com/hydra/_5vp12pqzx.htm)
     - [Generator Configuration](http://www.cloudideaas.com/hydra/_5vp12q8tf.htm)
     - [AbstraX Model](http://www.cloudideaas.com/hydra/_5vp12qvvq.htm)
+    - [HydraDesigner.Shell](http://www.cloudideaas.com/hydra/_6hg0rl5gi.htm)
+      - [EnvironmentDevTools](http://www.cloudideaas.com/hydra/_6hk0l21tj.htm)
+        - [Extensibility](http://www.cloudideaas.com/hydra/_6hk0rmka4.htm)
+        - [Window](http://www.cloudideaas.com/hydra/_6hk0u8p4x.htm)
+          - [Activate](http://www.cloudideaas.com/hydra/_6hk0vtlyp.htm)
+          - [Attach](http://www.cloudideaas.com/hydra/_6hk0vqg5n.htm)
+          - [Close](http://www.cloudideaas.com/hydra/_6hk0vxaym.htm)
+          - [Detach](http://www.cloudideaas.com/hydra/_6hk0vnocf.htm)
+          - [SetFocus](http://www.cloudideaas.com/hydra/_6hk0vgcfy.htm)
+          - [SetKind](http://www.cloudideaas.com/hydra/_6hk0vi8uj.htm)
+          - [SetSelectionContainer](http://www.cloudideaas.com/hydra/_6hk0w0n1j.htm)
+          - [SetTabPicture](http://www.cloudideaas.com/hydra/_6hk0w5dwv.htm)
+          - [Collection](http://www.cloudideaas.com/hydra/_6hk0wbh3b.htm)
+          - [Height](http://www.cloudideaas.com/hydra/_6hk0wkk0i.htm)
+          - [HWnd](http://www.cloudideaas.com/hydra/_6hk0xfp85.htm)
+          - [Left](http://www.cloudideaas.com/hydra/_6hk0wg1vf.htm)
+          - [LinkedWindowFrame](http://www.cloudideaas.com/hydra/_6hk0xd4ut.htm)
+          - [LinkedWindows](http://www.cloudideaas.com/hydra/_6hk0x9rmf.htm)
+          - [Top](http://www.cloudideaas.com/hydra/_6hk0wjpfo.htm)
+          - [Type](http://www.cloudideaas.com/hydra/_6hk0wpzrm.htm)
+          - [Visible](http://www.cloudideaas.com/hydra/_6hk0wdd59.htm)
+          - [Width](http://www.cloudideaas.com/hydra/_6hk0wk9ew.htm)
+          - [WindowState](http://www.cloudideaas.com/hydra/_6hk0wn2kc.htm)
     - [AbstraX Providers](http://www.cloudideaas.com/hydra/_5vp12sw1i.htm)
       - [Facets](http://www.cloudideaas.com/hydra/_5vp12tbhd.htm)
       - [Facet Handlers](http://www.cloudideaas.com/hydra/_5vp12tjjq.htm)
@@ -73,7 +101,7 @@ dull, and drone.  It does this while at the same time, allowing for creativity a
 
 [//]: # (END HELP)
 
-## Requirements
+## System Requirements
 
 - Windows 10 or higher
 - NodeJs (for npm)
@@ -82,8 +110,6 @@ dull, and drone.  It does this while at the same time, allowing for creativity a
 - Preferred though not required: Visual Studio or VS Code
 
 ### Razor Syntax
-
-![Razor Syntax](https://www.cloudideaas.com/images/RazorSyntax.png)
 
 ```cs
 @using Ripley.Entities
@@ -153,7 +179,13 @@ dull, and drone.  It does this while at the same time, allowing for creativity a
 
 Hydra is a "work in progress".  Please be patient as stability evolves.
 
-### For more information
+## Installation Instructions
+
+Please visit the installation page here:
+[Installation](http://www.cloudideaas.com/hydra/_5v00t4esm.htm)
+
+
+### Related Resources
 
 Visit: http://www.cloudideaas.com/hydra
 

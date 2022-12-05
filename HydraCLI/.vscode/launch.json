@@ -137,15 +137,19 @@
             "type": "node",
             "request": "launch",
             "preLaunchTask": "build",
-            "cwd": "d:\\Users\\Ken\\Documents\\HydraProjects\\MyApp\\MyApp.Web\\MyApp",
+            "cwd": "C:\\Users\\kenln\\Documents\\HydraProjects\\MyApp",
             "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
                 "generate",
                 "app",
-                "--logToConsole",
-                "--debug"
-            ]
+                "--logToConsole"
+            ],
+            "presentation": {
+                "reveal": "silent",
+                "revealProblems": "onProblem",
+                "close": true            
+            }
         },
         {
             "name": "Debug Hydra Cli - install",
@@ -210,7 +214,7 @@
             "type": "node",
             "request": "launch",
             "preLaunchTask": "build",
-            "cwd": "d:\\Users\\Ken\\Documents\\HydraProjects\\MyApp",
+            "cwd": "C:\\Users\\kenln\\Documents\\HydraProjects\\MyApp",
             "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
@@ -237,6 +241,50 @@
             "args": [
                 "generate",
                 "workspace"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - generate from Infopath file",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "C:\\Users\\kenln\\Documents\\HydraProjects\\MyApp",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "generate",
+                "from",
+                "C:\\CloudIDEaaS\\develop\\InfoPath\\Form1.xsn",
+                "--logToConsole",
+                "--debug",
+                "--appName",
+                "MyApp",
+                "--appDescription",
+                "MyApp app",
+                "--organizationName",
+                "MyApp organization"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - generate from Infopath multiple files",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "C:\\Users\\kenln\\Documents\\HydraProjects\\MyApp",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "generate",
+                "from",
+                "C:\\CloudIDEaaS\\develop\\InfoPath\\Multiple",
+                "--logToConsole",
+                "--debug",
+                "--appName",
+                "MyApp",
+                "--appDescription",
+                "MyApp app",
+                "--organizationName",
+                "MyApp organization"
             ]
         },
         {
@@ -343,7 +391,23 @@
             "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [
-                "--version"
+                "--version",
+                "--debug"
+            ]
+        },
+        {
+            "name": "Debug Hydra Cli - version - Chinese",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/GenOutput/sample",
+            "program": "${workspaceFolder}/HydraCli/out/cli",
+            "console": "externalTerminal",
+            "args": [
+                "--version",
+                "--lang",
+                "--debug",
+                "zh-CHS"
             ]
         },
         {
@@ -416,7 +480,7 @@
             "type": "node",
             "request": "launch",
             "preLaunchTask": "build",
-            "cwd": "d:\\Users\\Ken\\Documents\\HydraProjects\\MyApp\\MyApp.Web",
+            "cwd": "C:\\Users\\kenln\\Documents\\HydraProjects\\MyApp\\MyApp.Web",
             "program": "${workspaceFolder}/HydraCli/out/cli",
             "console": "externalTerminal",
             "args": [

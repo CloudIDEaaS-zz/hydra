@@ -1,4 +1,5 @@
-﻿using Microsoft.CSharp.RuntimeBinder;
+﻿using HtmlAgilityPack;
+using Microsoft.CSharp.RuntimeBinder;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,12 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
+using System.Windows.Forms;
 using Binder = Microsoft.CSharp.RuntimeBinder.Binder;
+using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 
 namespace Utils
 {
@@ -284,6 +288,107 @@ namespace Utils
                 var results = new StreamReader(resp.GetResponseStream()).ReadToEnd();
 
                 return JsonDecode(results);
+            }
+        }
+
+        public static HtmlNode NextElement(this HtmlNode htmlNode)
+        {
+            var nextSibling = htmlNode.NextSibling;
+
+            while (nextSibling != null)
+            {
+                if (nextSibling.NodeType == HtmlNodeType.Element)
+                {
+                    return nextSibling;
+                }
+
+                nextSibling = nextSibling.NextSibling;
+            }
+
+            return null;
+        }
+
+        public static bool DownloadPage(this Uri uri, out HtmlDocument document)
+        {
+            HttpWebRequest request;
+            HttpWebResponse response;
+            Stream responseStream;
+
+            request = (HttpWebRequest)HttpWebRequest.Create(uri);
+            request.Method = "GET";
+            request.Headers.Clear();
+
+            request.UserAgent = Assembly.GetExecutingAssembly().FullName;
+
+            try
+            {
+                response = (HttpWebResponse)request.GetResponse();
+
+                responseStream = response.GetResponseStream();
+
+                using (var reader = new StreamReader(responseStream))
+                {
+                    var source = reader.ReadToEnd();
+
+                    document = new HtmlDocument();
+                    document.LoadHtml(source);
+                }
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new HttpException((int)response.StatusCode, response.StatusDescription);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public static async Task<(bool, Exception, HtmlDocument)> DownloadPageAsync(this Uri uri)
+        {
+            HttpWebRequest request;
+            HttpWebResponse response;
+            Stream responseStream;
+            HtmlDocument document;
+
+            request = (HttpWebRequest)HttpWebRequest.Create(uri);
+            request.Method = "GET";
+            request.Headers.Clear();
+
+            request.UserAgent = Assembly.GetExecutingAssembly().FullName;
+
+            try
+            {
+                response = (HttpWebResponse)request.GetResponse();
+
+                responseStream = response.GetResponseStream();
+
+                using (var reader = new StreamReader(responseStream))
+                {
+                    var source = await reader.ReadToEndAsync();
+
+                    document = new HtmlDocument();
+                    document.LoadHtml(source);
+                }
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    return (response.StatusCode == HttpStatusCode.OK, null, document);
+                }
+                else
+                {
+                    throw new HttpException((int) response.StatusCode, response.StatusDescription);
+                }
+            }
+            catch (Exception ex)
+            {
+                document = null;
+                return (false, ex, document);
             }
         }
     }

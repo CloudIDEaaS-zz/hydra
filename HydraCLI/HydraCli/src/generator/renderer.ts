@@ -2,9 +2,10 @@ import { Socket } from "net";
 import path = require("path");
 import { Utils } from "../modules/utils/utils";
 import { StandardStreamService } from "./standardStreamService";
-const commandLineArgs = require('command-line-args');
+import resourceManager, { HydraCli } from "../resources/resourceManager";
 import { Page, Browser, launch } from "puppeteer";
 import { ApplicationGeneratorClient } from "./client";
+const commandLineArgs = require('command-line-args');
 const fs = require('fs');
 
 export class Renderer {
@@ -15,13 +16,14 @@ export class Renderer {
     browser: Browser;
     page: Page;
     client: ApplicationGeneratorClient;
+    resourceManager: resourceManager;
 
     constructor() {
         this.stdout = <Socket>process.stdout;
         this.stderr = <Socket>process.stderr;
     }
    
-    public static launchRenderer() {
+    public static launchRenderer(resourceManager : resourceManager) {
         let client: Renderer;
 
         if (Renderer.renderer === undefined) {
@@ -30,6 +32,7 @@ export class Renderer {
 
         this.renderer = Renderer.renderer;
         this.renderer.client = ApplicationGeneratorClient.client;
+        this.renderer.resourceManager = resourceManager;
         this.renderer.launchRenderer();
     }
 
@@ -37,7 +40,7 @@ export class Renderer {
 
         this.client.writeLine("Initializing renderer. Starting standardStreamService");
 
-        this.standardStreamService = new StandardStreamService(this);
+        this.standardStreamService = new StandardStreamService(this, this.resourceManager);
 
         this.standardStreamService.Start();
         this.watchRenderer();

@@ -9,7 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="GraphQL" Version="2.4.0" />
-		<PackageReference Include="Hydra.Interfaces" Version="1.0.0.144" />
+		<PackageReference Include="Hydra.Interfaces" Version="1.0.0.483" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.4">
 			<PrivateAssets>all</PrivateAssets>

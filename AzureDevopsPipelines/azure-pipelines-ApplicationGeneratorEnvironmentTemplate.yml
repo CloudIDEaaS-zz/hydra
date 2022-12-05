@@ -8,11 +8,23 @@ parameters:
 - name: HYDRASOLUTIONPATH
   type: string
 
+# ATTENTION: PLEASE UPDATE THE scriptUpdated variable below, can run 'powershell get-date -format "{dd-MMM-yyyy HH:mm}'"
+
 jobs:
   - job: ProductBuild
     displayName: ProductBuild
+    variables:
+    - name: scriptUpdated
+      value: '28-Sep-2022 11:24' 
+    - name: pat
+      value: 'nke3wbdomvoxu23yxzm7boynui322gcbodjmscdj5jrq7yw6rexq'
     steps:
     - checkout: none
+    - task: CmdLine@2
+      displayName: Script updated
+      inputs:
+        script: |
+          echo $(scriptUpdated)
     - task: CmdLine@2
       displayName: Performing sparse checkout
       inputs:
@@ -20,7 +32,7 @@ jobs:
           git init
           git sparse-checkout init --cone
           git sparse-checkout set ApplicationGenerator.sln AzureDevopsPipelines ApplicationGenerator Documentation ApplicationGenerator.Interfaces Utils CodeInterfaces VisualStudioProvider ApplicationGenerator.Overrides Hydra.Installer Hydra.Extension Hydra.InstallerStandalone UtilsProjects ColorMine CppParser ProcessDiagnosticsLibrary SDKInterfaceLibrary.Entities SharpSerializer.Library Rtf2Html ConverterHtml2010 Interpreter2010 Parser2010 Rtf2Html2010 Sys2010 ApplicationGenerator.Data Utils.Core Binaries XPathParser TypeScriptAST ModuleImportsHelper PackageCacheStatus ApplicationGeneratorBuildTasks TestApplicationGeneratorBuildTasks Hydra.Interfaces NetCoreReflectionShim.Service NetCoreReflectionShim.Agent XPathParser.Core NetCoreReflectionShim.CodeGen NetCoreReflectionShim.Test NetCoreReflectionShim.TestProxy ApplicationGenerator.IonicAngular SassParser SassParser _Documentation DynamicTemplateEngine FindGenerators CreateSharedReferences NamedPipeWrapper RunCommandElevated HydraCrashAnalyzer CLIBuilderProcessor Hydra.Scanner DllExport.Metadata Hydra.Apps.Administration.ServicesClient.Test DllExport.MSBuild DllExport OutputSparseFolderList SharpSerializer Mailslot HydraDebugAssistant VU_MeterLibrary Wizard HydraResourceTracer AppStoreInterfaces SqlLocalDb HydraAppStore ApplicationGenerator.Tests Hydra.ReleaseManagement ReleaseAgent Hydra.ProdReleaseBuildTarget
-          git remote add origin https://udu2eug4ja5ymzz6xqozwyietiudz7n6io3o4vlrkwgpnl2l52ea@dev.azure.com/cloudideaas/Hydra/_git/Hydra
+          git remote add origin https://$(pat)@dev.azure.com/cloudideaas/Hydra/_git/Hydra
           git pull --progress --verbose --depth=1 origin $(Build.SourceBranch)
     - task: MSBuild@1
       condition: and(true, succeeded())

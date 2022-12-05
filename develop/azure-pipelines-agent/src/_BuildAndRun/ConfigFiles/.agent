@@ -1,8 +1,0 @@
-﻿{
-  "agentId": 38,
-  "agentName": "KEN-DESKTOP",
-  "poolId": 1,
-  "poolName": "Default",
-  "serverUrl": "https://dev.azure.com/cloudideaas/",
-  "workFolder": "_work"
-}

@@ -1,0 +1,113 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ import namespace="AbstraX" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.IEnumerable<ModuleImportDeclaration>" name="Imports" #>
+<#@ parameter type="AbstraX.Angular.AngularModule" name="AngularModule" #>
+<#@ parameter type="System.String" name="AppName" #>
+<#@ parameter type="System.String" name="ModuleName" #>
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { IonicModule } from '@ionic/angular';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
+import { UserProvider } from './providers/user.provider';
+import { AppDataProvider } from './providers/appdata.provider';
+<# 
+    var className = this.ModuleName;
+    var builder = new StringBuilder();
+    var indent4 = this.GetIndent(4);
+
+    foreach (var import in this.Imports)
+    {
+        this.WriteLine(import.DeclarationCode);
+    }
+
+    // TODO - add module specific imports below this block
+#>
+import { FormsModule } from '@angular/forms';
+import { AccordionModule } from '@cloudideaas/ngx-accordion';
+import { TreeViewModule } from '../app/modules/components/tree-view/tree-view.module';
+import { DynamicHooksModule, HookParserEntry } from 'ngx-dynamic-hooks';
+import { HyperLink } from './modules/components/hyper-link/hyper-link';
+import { HyperLinkModule } from './modules/components/hyper-link/hyper-link.module';
+import { Api } from './providers/api/api';
+import { Storage, IonicStorageModule } from '@ionic/storage';
+import { Settings } from './providers/settings/settings';
+import { RouterModule, Routes } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+
+// This automatically creates SelectorHookParsers for each listed component:
+const componentParsers: Array<HookParserEntry> = [
+  { component: HyperLink },
+];
+
+export function provideSettings(storage: Storage) {
+  return new Settings(storage);
+}
+
+@NgModule({
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    AccordionModule,
+    TreeViewModule,
+    HyperLinkModule,
+    IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
+    DynamicHooksModule.forRoot({
+      globalParsers: componentParsers
+    }),
+    TranslateModule.forRoot(),
+    RouterModule.forRoot([]),
+<#  
+    builder = new StringBuilder();
+
+    if (this.AngularModule.Imports.Count > 0)
+    {
+        foreach (var import in this.AngularModule.Imports)
+        {
+            builder.AppendWithLeadingIfLength(",\r\n", indent4 + import.Name);
+        }
+
+        this.WriteLine(builder.ToString());
+    }
+#>  ],
+  declarations: [AppComponent],
+  entryComponents: [HyperLink],
+  bootstrap: [AppComponent],
+  providers: [
+<#
+    if (this.AngularModule.Providers.Count > 0)
+    {
+        builder = new StringBuilder();
+
+        foreach (var provider in this.AngularModule.Providers)
+        {
+            builder.AppendWithLeadingIfLength(",\r\n", indent4 + provider.Name);
+        }
+
+        this.WriteLine(builder.ToString() + ",");
+    }
+#>
+    Api,
+    UserProvider,
+    AppDataProvider,
+    { provide: Settings, useFactory: provideSettings, deps: [Storage] }]
+})
+export class <#= className #> {
+  public static GetApp() {
+    return AppComponent;
+  }
+}

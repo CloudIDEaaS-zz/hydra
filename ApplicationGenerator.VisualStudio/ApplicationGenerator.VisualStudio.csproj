@@ -107,4 +107,12 @@
     </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <Target Name="HydraAfterBuild" AfterTargets="AfterBuild">
+        <ItemGroup>
+            <BinFiles Include="$(TargetDir)\**\*.*" />
+        </ItemGroup>
+        <Message Importance="high" Text="Copying the following files:" />
+        <Message Importance="high" Text="BinFiles: @(BinFiles)" />
+        <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(HYDRASOLUTIONPATH)\ApplicationGenerator\bin\$(Configuration)\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    </Target>    
 </Project>

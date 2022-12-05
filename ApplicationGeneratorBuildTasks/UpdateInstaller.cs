@@ -206,7 +206,9 @@ namespace BuildTasks
             string shimServiceExePath;
             string crashAnalyzerExePath;
             string userExperienceExePath;
-            XElement parentElement;
+            string appGenIonicAngular;
+            string appGenOverrides;
+            string appGenVisualStudio; XElement parentElement;
             XNamespace _namespace = "http://schemas.microsoft.com/wix/2006/wi";
             List<FileInfo> utilityExeFiles;
 
@@ -217,12 +219,18 @@ namespace BuildTasks
             shimServiceExePath = Path.GetFullPath(Path.Combine(originalBinariesPath, elementShimServiceExePath.Attribute("value").Value));
             crashAnalyzerExePath = Path.GetFullPath(Path.Combine(originalBinariesPath, elementCrashAnalyzerExePath.Attribute("value").Value));
             userExperienceExePath = Path.GetFullPath(Path.Combine(originalBinariesPath, elementUserExperienceExePath.Attribute("value").Value));
+            appGenIonicAngular = Path.GetFullPath(Path.Combine(originalBinariesPath, "ApplicationGenerator.IonicAngular.dll"));
+            appGenOverrides = Path.GetFullPath(Path.Combine(originalBinariesPath, "ApplicationGenerator.Overrides.dll"));
+            appGenVisualStudio = Path.GetFullPath(Path.Combine(originalBinariesPath, "ApplicationGenerator.VisualStudio.dll"));
 
             utilityExeFiles = new List<FileInfo>
             {
                 new FileInfo(crashAnalyzerExePath),
                 new FileInfo(shimServiceExePath),
-                new FileInfo(userExperienceExePath)
+                new FileInfo(userExperienceExePath),
+                new FileInfo(appGenIonicAngular),
+                new FileInfo(appGenOverrides),
+                new FileInfo(appGenVisualStudio)
             };
 
             foreach (var utilityExeFile in utilityExeFiles)

@@ -1,0 +1,57 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.String" name="PageName" #>
+<#@ parameter type="System.String" name="EntityName" #>
+<#@ parameter type="System.String" name="AppName" #>
+<#@ parameter type="System.String" name="AppDescription" #>
+<#@ parameter type="System.Boolean" name="UsesAboutThisImage" #>
+<#@ parameter type="System.String" name="AnchorHref" #>
+<#@ parameter type="System.String" name="AnchorTitle" #>
+<#@ parameter type="System.String" name="SlideImageUrl" #>
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color='primary' (click)="startApp()" [hidden]="!showSkip">Continue</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-slides #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager="false">
+    <ion-slide>
+      <div *ngIf="welcomeData" class="slide-container">
+<#
+    if (this.UsesAboutThisImage)
+    {
+#>
+    <a href="<#= this.AnchorHref #>" title="<#= this.AnchorTitle #>">
+        <img src="<#= this.SlideImageUrl #>" class="slide-image" />
+    </a>
+<#
+    }
+    else
+    {
+#>
+        <img src="<#= this.SlideImageUrl #>" class="slide-image" />
+<#
+    }
+#>
+        <h2 class="slide-title">
+          <b>
+            {{ welcomeData.details.welcomeTitle }}
+          </b>
+        </h2>
+        <p>
+            {{ welcomeData.details.description }}
+        </p>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

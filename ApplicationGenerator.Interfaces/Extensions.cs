@@ -4883,7 +4883,7 @@ namespace AbstraX
         /// An enumerator that allows foreach to be used to process all types in this collection.
         /// </returns>
 
-        public static IEnumerable<Type> GetAllTypes(this Assembly generatorAssembly, NetCoreReflectionAgent netCoreReflectionAgent, Assembly metadataAssembly = null)
+        public static IEnumerable<Type> GetAllTypes(this Assembly generatorAssembly, NetCoreReflectionAgent netCoreReflectionAgent = null, Assembly metadataAssembly = null)
         {
             var isCore = false;
 
@@ -4903,7 +4903,7 @@ namespace AbstraX
 
                 foreach (var assemblyName in metadataAssembly.GetReferencedAssemblies())
                 {
-                    if (isCore)
+                    if (isCore && netCoreReflectionAgent != null)
                     {
                         var refAssembly = netCoreReflectionAgent.LoadCoreAssembly(assemblyName, netCoreReflectionAgent.RedirectedNamespaces);
 
@@ -4929,56 +4929,6 @@ namespace AbstraX
                     }
                 }
             }
-
-            foreach (var type in generatorAssembly.GetTypes().Concat(generatorAssembly.GetExportedTypes()).Distinct())
-            {
-                yield return type;
-            }
-
-            foreach (var assemblyName in generatorAssembly.GetReferencedAssemblies().Where(a => a.Name == "ApplicationGenerator.Interfaces"))
-            {
-                var refAssembly = Assembly.Load(assemblyName);
-
-                foreach (var assemblyName2 in generatorAssembly.GetReferencedAssemblies().Where(a => a.Name == "System.ComponentModel.DataAnnotations" || a.Name == "System"))
-                {
-                    var refAssembly2 = Assembly.Load(assemblyName2);
-
-                    foreach (var type in refAssembly2.GetTypes().Concat(refAssembly2.GetExportedTypes()).Distinct())
-                    {
-                        yield return type;
-                    }
-                }
-
-                foreach (var type in refAssembly.GetTypes().Concat(refAssembly.GetExportedTypes()).Distinct())
-                {
-                    yield return type;
-                }
-            }
-
-            foreach (var assemblyName in generatorAssembly.GetReferencedAssemblies().Where(a => a.Name == "EntityFramework"))
-            {
-                var refAssembly = Assembly.Load(assemblyName);
-
-                foreach (var type in refAssembly.GetTypes().Concat(refAssembly.GetExportedTypes()).Distinct())
-                {
-                    yield return type;
-                }
-            }
-        }
-
-        /// <summary>   Gets all types in this collection. </summary>
-        ///
-        /// <remarks>   CloudIDEaaS, 6/28/2022. </remarks>
-        ///
-        /// <param name="generatorAssembly">    The assembly to act on. </param>
-        ///
-        /// <returns>
-        /// An enumerator that allows foreach to be used to process all types in this collection.
-        /// </returns>
-
-        public static IEnumerable<Type> GetAllTypes(this Assembly generatorAssembly)
-        {
-            AppDomain.CurrentDomain.AssemblyResolve += AssemblyExtensions.AssemblyResolve;
 
             foreach (var type in generatorAssembly.GetTypes().Concat(generatorAssembly.GetExportedTypes()).Distinct())
             {

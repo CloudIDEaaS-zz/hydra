@@ -15,10 +15,12 @@ namespace VisualStudioProvider.PDB.diaapi
 {
     public unsafe class DiaDataSource
     {
-        private static Guid CLSID_DiaSource = Guid.Parse("B86AE24D-BF2F-4ac9-B5A2-34B14E4CE11D");
-        private static Guid IID_IDiaSource = Guid.Parse("79F1BB5F-B66E-48e5-B6A9-1545C323CA3D");
+        private Guid CLSID_DiaSource64 = Guid.Parse("E6756135-1E65-4D17-8576-610761398C3C");
+        private Guid CLSID_DiaSource32 = Guid.Parse("B86AE24D-BF2F-4ac9-B5A2-34B14E4CE11D");
+        private Guid IID_IDiaDataSource = Guid.Parse("79F1BB5F-B66E-48e5-B6A9-1545C323CA3D");
+        private Guid IID_IDiaDataSource8 = Guid.Parse("D808F8D0-0F8D-4CA7-8A05-8963F7D5F9F1");
         private IDiaDataSource dataSource;
-        private IDiaSession session;
+        private IDiaSession2 session;
         public string Version { get; private set; }
         public string GlobalName { get; private set; }
         public DiaSymbol GlobalScope { get; private set; }
@@ -27,15 +29,11 @@ namespace VisualStudioProvider.PDB.diaapi
         public DiaDataSource()
         {
             int hr;
-            var regKey = Registry.ClassesRoot.OpenSubKey(string.Format(@"CLSID\{{{0}}}", CLSID_DiaSource.ToString())).Enumerate();
-            var value = (string)regKey.Single(k => k.SubName == "InprocServer32").Default;
-            var fileInfo = new FileInfo(value);
-            var details = fileInfo.GetDetails();
             IntPtr pUnk;
 
             try
             {
-                hr = NativeMethods.CoCreateInstance(CLSID_DiaSource, IntPtr.Zero, 1, IID_IDiaSource, out pUnk);
+                hr = NativeMethods.CoCreateInstance(CLSID_DiaSource64, IntPtr.Zero, 1, IID_IDiaDataSource8, out pUnk);
 
                 if (hr != VSConstants.S_OK)
                 {

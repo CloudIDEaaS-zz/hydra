@@ -1,0 +1,94 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" inherits="AbstraX.Generators.Base.TemplateBase"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Utils" #>
+<#@ import namespace="AbstraX.Generators" #>
+<#@ import namespace="AbstraX.Angular" #>
+<#@ output extension=".html" #>
+<#@ parameter type="System.EventHandler" name="DebugCallback" #>
+<#@ parameter type="System.Collections.Generic.IEnumerable<ModuleImportDeclaration>" name="Imports" #>
+<#@ parameter type="System.Collections.Generic.List<ESModule>" name="Exports" #>
+<#@ parameter type="System.Collections.Generic.List<IDeclarable>" name="Declarations" #>
+<#@ parameter type="AbstraX.DataAnnotations.UILoadKind" name="UILoadKind" #>
+<#@ parameter type="AbstraX.DataAnnotations.UIKind" name="UIKind" #>
+<#@ parameter type="System.String" name="PageName" #>
+<#@ parameter type="System.String" name="Authorize" #>
+<# 
+    var pageName = this.PageName.ToCamelCase();
+    var className = this.PageName + "Page";
+    var component = new Page(className, this.UILoadKind, this.UIKind);
+
+    this.Declarations.Add(component);
+    this.Exports.Add(component);
+
+    foreach (var import in this.Imports)
+    {
+        this.WriteLine(import.DeclarationCode);
+    }
+#>
+import { Storage } from '@ionic/storage';
+import { IonSlides, MenuController } from '@ionic/angular';
+import { UserDataProvider } from '../../providers/userdata.provider';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AppDataProvider, WelcomeData } from '../../providers/appdata.provider';
+
+@Component({
+  selector: 'page-<#= pageName #>',
+  templateUrl: '<#= pageName #>.html'
+})
+export class <#= className #> {
+  public showSkip = true;
+  public welcomeData: WelcomeData;
+
+  @ViewChild('slides', { static: true }) slides: IonSlides;
+
+  constructor(
+    public http: HttpClient,
+    public menu: MenuController,
+    public router: Router,
+    public storage: Storage,
+    public app: AppDataProvider,
+    private userData: UserDataProvider
+  ) {
+  }
+
+  startApp() {
+    this.userData.getDefaultRoute().then(r =>
+    {
+      this.router.navigateByUrl(r, { replaceUrl: true })
+      .then(() => this.storage.set('ion_did_homepage', true));
+    });
+  }
+
+  onSlideChangeStart(event) {
+    event.target.isEnd().then(isEnd => {
+      this.showSkip = !isEnd;
+    });
+  }
+
+  ionViewWillEnter() {
+    this.storage.get('ion_did_homepage').then(res => {
+      if (res === true) {
+        this.router.navigateByUrl('/app/main/about', { replaceUrl: true });
+      }
+    });
+
+    this.menu.enable(false);
+  }
+
+  ionViewDidEnter() {
+    this.app.getWelcomeData().subscribe((welcomeData: WelcomeData) => {
+      this.welcomeData = welcomeData;
+    });
+  }
+
+  ionViewDidLeave() {
+    // enable the root left menu when leaving the home page
+    this.menu.enable(true);
+  }
+}

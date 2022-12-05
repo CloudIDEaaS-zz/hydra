@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConnectPromise = void 0;
 class ConnectPromise {
+    value;
+    successFunction;
+    error;
+    failFunction;
     resolve(value) {
         this.value = value;
         if (this.successFunction) {

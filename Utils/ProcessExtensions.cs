@@ -668,9 +668,9 @@ namespace Utils
 			}
 		}
 
-		public static void Kill(this Process[] processes, string name, bool throwExceptions = false)
+		public static void Kill(this Process currentProcess, string name, bool throwExceptions = false)
 		{
-			processes = Process.GetProcessesByName(name);
+			var processes = Process.GetProcessesByName(name);
 
 			foreach (var process in processes)
 			{

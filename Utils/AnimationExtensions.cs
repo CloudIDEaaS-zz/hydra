@@ -16,14 +16,16 @@ namespace Utils
         private int currentFrame;
         public bool Stopped { get; private set; }
         public bool Started { get; private set; }
-
-        private int frames;
+        public int Frames { get; private set; }
         private int totalTime;
         private int startingTick;
+        private bool autoStop;
         private Form form;
         private Timer timer;
+        private int lastFrame;
         private int lastTick;
         public event OnFrameHandler OnFrame;
+        public event EventHandler OnStop;
 
         public Animation(Form form, int delay)
         {
@@ -64,7 +66,7 @@ namespace Utils
             this.Started = false;
         }
 
-        public void Start(int frames)
+        public void Start(int frames, bool autoStop = false)
         {
             if (!useCustomTimer)
             {
@@ -76,9 +78,11 @@ namespace Utils
             }
 
             this.Started = true;
-            this.frames = frames;
+            this.Frames = frames;
+
             totalTime = frames * delay;
             startingTick = Environment.TickCount;
+            this.autoStop = autoStop;
         }
 
         public void Tick()
@@ -87,13 +91,22 @@ namespace Utils
             var time = tick % Math.Max(1, totalTime);
             var percentOfTime = ((float)time) / ((float)totalTime);
 
-            currentFrame = (int)Math.Round(Lerp(1, frames, percentOfTime), 0);
+            currentFrame = (int)Math.Round(Lerp(1, Frames, percentOfTime), 0);
+
+            // Debug.WriteLine("curentFrame: {0}, percentOfTime: {1}", currentFrame, percentOfTime);
 
             if (OnFrame != null)
             {
                 OnFrame(currentFrame);
             }
 
+            if (this.autoStop && currentFrame < lastFrame)
+            {
+                this.Stop();
+                OnStop?.Invoke(this, EventArgs.Empty);
+            }
+
+            lastFrame = currentFrame;
             lastTick = tick;
         }
 

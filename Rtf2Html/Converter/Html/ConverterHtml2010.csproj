@@ -11,7 +11,7 @@
     <RootNamespace>Itenso.Rtf.Converter.Html</RootNamespace>
     <AssemblyName>Itenso.Rtf.Converter.Html</AssemblyName>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
     <FileUpgradeFlags>
