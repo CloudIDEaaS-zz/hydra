@@ -145,8 +145,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationGenerator.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReleaseAgent", "ReleaseAgent\ReleaseAgent.csproj", "{D0891052-06D1-469F-9144-F2E419DC4A57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureDevopsPipelines", "AzureDevopsPipelines\AzureDevopsPipelines.csproj", "{26E2783D-579D-4943-B7BE-EC35612D6602}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "D2DLib", "D2DLib", "{632530DF-0E41-4F35-B6F6-16A6F822FF0C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d2dlib", "d2dlib-master\src\d2dlib\d2dlib.vcxproj", "{E0A71FCE-69DD-40A6-87FB-2D63AB5D25C9}"
@@ -1171,22 +1169,6 @@ Global
 		{D0891052-06D1-469F-9144-F2E419DC4A57}.Release|x64.Build.0 = Release|Any CPU
 		{D0891052-06D1-469F-9144-F2E419DC4A57}.Release|x86.ActiveCfg = Release|Any CPU
 		{D0891052-06D1-469F-9144-F2E419DC4A57}.Release|x86.Build.0 = Release|Any CPU
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.ApplicationGenerator|Any CPU.ActiveCfg = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.ApplicationGenerator|Any CPU.Build.0 = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.ApplicationGenerator|x64.ActiveCfg = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.ApplicationGenerator|x64.Build.0 = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.ApplicationGenerator|x86.ActiveCfg = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.ApplicationGenerator|x86.Build.0 = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.Debug|x64.ActiveCfg = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.Debug|x86.ActiveCfg = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.Debug|x86.Build.0 = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.Release|Any CPU.ActiveCfg = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.Release|Any CPU.Build.0 = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.Release|x64.ActiveCfg = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.Release|x64.Build.0 = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.Release|x86.ActiveCfg = Debug|x86
-		{26E2783D-579D-4943-B7BE-EC35612D6602}.Release|x86.Build.0 = Debug|x86
 		{E0A71FCE-69DD-40A6-87FB-2D63AB5D25C9}.ApplicationGenerator|Any CPU.ActiveCfg = Release|x64
 		{E0A71FCE-69DD-40A6-87FB-2D63AB5D25C9}.ApplicationGenerator|Any CPU.Build.0 = Release|x64
 		{E0A71FCE-69DD-40A6-87FB-2D63AB5D25C9}.ApplicationGenerator|x64.ActiveCfg = Release|x64
