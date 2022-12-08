@@ -94,8 +94,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SassParser", "SassParser", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SassParser", "SassParser\SassParser.csproj", "{EBE6B74C-5C12-47A0-A8DE-C51D3A88649D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Documentation", "Documentation\_Documentation.csproj", "{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindGenerators", "FindGenerators\FindGenerators.csproj", "{CFB034F7-965C-4A84-9F4F-0843BED35A53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateSharedReferences", "CreateSharedReferences\CreateSharedReferences.csproj", "{EFF2EBDB-12CD-46CF-A713-370C4AD1EF0F}"
@@ -849,22 +847,6 @@ Global
 		{EBE6B74C-5C12-47A0-A8DE-C51D3A88649D}.Release|x64.Build.0 = Release|Any CPU
 		{EBE6B74C-5C12-47A0-A8DE-C51D3A88649D}.Release|x86.ActiveCfg = Release|Any CPU
 		{EBE6B74C-5C12-47A0-A8DE-C51D3A88649D}.Release|x86.Build.0 = Release|Any CPU
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.ApplicationGenerator|Any CPU.ActiveCfg = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.ApplicationGenerator|Any CPU.Build.0 = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.ApplicationGenerator|x64.ActiveCfg = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.ApplicationGenerator|x64.Build.0 = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.ApplicationGenerator|x86.ActiveCfg = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.ApplicationGenerator|x86.Build.0 = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.Debug|x64.ActiveCfg = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.Debug|x86.ActiveCfg = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.Debug|x86.Build.0 = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.Release|Any CPU.ActiveCfg = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.Release|Any CPU.Build.0 = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.Release|x64.ActiveCfg = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.Release|x64.Build.0 = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.Release|x86.ActiveCfg = Debug|x86
-		{6B3B6BD6-2E6C-4B70-AD42-A3C45F3FBD0D}.Release|x86.Build.0 = Debug|x86
 		{CFB034F7-965C-4A84-9F4F-0843BED35A53}.ApplicationGenerator|Any CPU.ActiveCfg = Release|Any CPU
 		{CFB034F7-965C-4A84-9F4F-0843BED35A53}.ApplicationGenerator|Any CPU.Build.0 = Release|Any CPU
 		{CFB034F7-965C-4A84-9F4F-0843BED35A53}.ApplicationGenerator|x64.ActiveCfg = Release|Any CPU
